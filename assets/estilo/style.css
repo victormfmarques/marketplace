@@ -187,3 +187,17 @@ p {
     left: 50%;
     transform: translateX(-50%);
 }
+
+h4 {
+    color: var(--cor-fonte-corpo);
+    font-weight: normal;
+}
+
+.col-4 p {
+    font-size: 14px;
+}
+
+.classificacao {
+    color: var(--cor-padrao);
+}
+
