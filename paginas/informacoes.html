@@ -6,34 +6,173 @@
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
     <title>EcoMarket-SAMAVI</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: black url(img/fundo.png) no-repeat center center /cover fixed;
         }
 
         header {
             margin: 0;
-            padding: 0;
-            background-color: #F8F8F8;
+            padding: 10px;
+            background-image: linear-gradient(-45deg, #597729, #a6ee31fb);
+            text-align: center;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
+            position: relative;
+        }
+
+        header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        header ul {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            list-style-type: none;
+            font-weight: bolder;
+        }
+
+        header ul li {
+            color: white;
+        }
+
+        header a {
+            text-decoration: none;
+            padding: 5px;
+            display: inline-block;
+        }
+
+        header a:hover {
+            background-color: black;
+            transition: 0.5s;
+            padding: 8px;
+            border-radius: 20px;
+        }
+
+        header a:visited {
+            color: white;
         }
 
         main {
-            padding-top: 50px;
+            margin: 0px auto;
+            max-width: 900px;
+            width: 95%;
+            padding: 20px;
             line-height: 1.3em;
+            background-color: white;
+        }
+
+        main ul {
+            padding-left: 20px;
+        }
+
+        main p {
+            padding: 10px 0;
+        }
+
+        main h2 {
+            margin: 10px 0;
+            padding: 10px;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.315);
+        }
+
+        main img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         p {
-            padding: 2px;
+            text-indent: 10px;
+            text-align: justify;
+            margin: 10px 0;
         }
 
-        #lata {
-            margin: auto;
-            width: 60%;
+        h3 {
+            margin: 10px 0;
+        }
+
+        #img-1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Media Queries para responsividade */
+        @media (max-width: 768px) {
+            header ul {
+                position: static;
+                text-align: center;
+                margin-top: 10px;
+            }
+            
+            header a {
+                padding: 5px 10px;
+            }
+            
+            main {
+                width: 100%;
+                padding: 15px;
+                margin: 10px 0;
+            }
+            
+            main h2 {
+                font-size: 1.3em;
+                padding: 8px;
+            }
+            
+            p {
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 5px;
+            }
+            
+            header ul {
+                display: flex;
+                justify-content: center;
+                margin-top: 5px;
+            }
+            
+            main {
+                padding: 10px;
+            }
+            
+            main h1 {
+                font-size: 1.5em;
+            }
+            
+            main h2 {
+                font-size: 1.2em;
+                padding: 5px;
+            }
+            
+            p, li {
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="../assets/img/verde-300.png" alt="">
+        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+        </ul>
     </header>
     <main>
         <h1>Lata de lixo reciclável: Significado das cores</h1>
@@ -42,9 +181,11 @@
             A gestão de resíduos é um dos principais desafios ambientais que enfrentamos no mundo moderno. Em meio a esse cenário, a reciclagem se destaca como uma prática fundamental para reduzir o impacto ambiental. Parte dessa prática envolve a utilização de lixeiras coloridas, cada uma com uma função específica. Mas você sabe o que significa cada cor? vamos explorar detalhadamente o significado das cores das latas de lixo reciclável e a importância de utilizá-las corretamente.
         </p>
 
-        <img src="img/lata.jpg"  id="lata" alt="">
+        <div id="img-1">
+            <img src="img/lata.jpg" alt="Latas de lixo coloridas para reciclagem">
+        </div>
 
-        <h2>A Importância da Reciclagem</h2>
+        <h2 style="color: black; box-shadow:none">A Importância da Reciclagem</h2>
 
         <p>
             Reciclar não é apenas um ato de consciência ambiental; é uma necessidade urgente para a preservação dos recursos naturais e a redução da poluição. Através da reciclagem, materiais que poderiam se tornar resíduos prejudiciais são reaproveitados, reduzindo a necessidade de extração de matérias-primas e economizando energia.
@@ -54,13 +195,7 @@
             Reciclar ajuda a diminuir a quantidade de lixo enviado para aterros sanitários, o que, por sua vez, reduz a emissão de gases de efeito estufa. Além disso, a reciclagem cria empregos e impulsiona economias locais
         </p>
 
-        <h2>Como Funciona o Sistema de Cores das Lixeiras</h2>
-
-        <p>
-            As lixeiras de cores diferentes têm como objetivo facilitar a separação dos resíduos, incentivando a reciclagem correta. Cada cor representa um tipo específico de material, garantindo que os resíduos sejam encaminhados corretamente para a reciclagem. Isso não só melhora a eficiência do processo, mas também evita a contaminação de materiais recicláveis, que pode ocorrer quando os resíduos são misturados de forma inadequada.
-        </p>
-
-        <h2 style="color: green;">Cor Verde: Vidro</h2>
+        <h2 style="background-image: linear-gradient( to right, green, white);">Cor Verde: Vidro</h2>
 
         <p>
             A cor verde nas lixeiras recicláveis é destinada ao vidro. Vidros de garrafas, potes, frascos e copos devem ser depositados nessa lixeira. É importante que os itens sejam limpos antes de serem descartados, evitando a contaminação de outros materiais.    
@@ -78,7 +213,7 @@
             <li>Vidros de janela (sem contaminação)</li>
         </ul>
 
-        <h2 style="color: blue;">Cor Azul: Papel e Papelão
+        <h2 style="background-image: linear-gradient(to right, blue, white);">Cor Azul: Papel e Papelão
         </h2>
 
         <p>
@@ -98,7 +233,7 @@
             <li>Cartolinas</li>
         </ul>
 
-        <h2 style="color: yellow;">Cor Amarela: Metal</h2>
+        <h2 style="background-image: linear-gradient(to right, rgb(189, 189, 6), white);">Cor Amarela: Metal</h2>
 
         <p>
             O metal é um material valioso que pode ser reciclado muitas vezes. A lixeira amarela é dedicada ao descarte de metais, como latas de alumínio, pregos, parafusos, e tampas de garrafas. Assim como os outros materiais, é essencial que os metais estejam limpos para evitar a contaminação.
@@ -117,7 +252,7 @@
             <li>Fios de cobre</li>
         </ul>
 
-        <h2 style="color: red;">Cor Vermelha: Plástico</h2>
+        <h2 style="background-image: linear-gradient(to right, red, white);">Cor Vermelha: Plástico</h2>
 
         <p>
             O plástico, um dos materiais mais utilizados no mundo, é também um dos que mais causam danos ao meio ambiente se não for descartado corretamente. A lixeira vermelha é destinada ao plástico, como garrafas PET, sacolas plásticas, e potes de iogurte.
@@ -137,7 +272,7 @@
             <li>Embalagens de produtos de limpeza</li>
         </ul>
 
-        <h2 style="color:brown ;">Cor Marrom: Orgânicos</h2>
+        <h2 style="background-image: linear-gradient(to right, saddlebrown, white);">Cor Marrom: Orgânicos</h2>
 
         <p>
             A lixeira marrom é destinada aos resíduos orgânicos, como restos de comida, cascas de frutas e legumes, folhas secas, e borra de café. Esses materiais são biodegradáveis e podem ser transformados em adubo através do processo de compostagem.
@@ -156,7 +291,7 @@
             <li>Borra de café</li>
         </ul>
 
-        <h2 style="color: orange;">Cor Laranja: Resíduos Perigosos</h2>
+        <h2 style="background-image: linear-gradient(to right, orange, white);">Cor Laranja: Resíduos Perigosos</h2>
 
         <p>
             Resíduos perigosos, como pilhas, baterias, lâmpadas fluorescentes e produtos químicos, devem ser descartados na lixeira laranja. Esses materiais contêm substâncias tóxicas que podem contaminar o solo e a água, se não forem tratados adequadamente.
@@ -175,7 +310,7 @@
             <li>Termômetros</li>
         </ul>
 
-        <h2>Cor Preta: Resíduos Não Recicláveis</h2>
+        <h2 style="background-image: linear-gradient(to right, black, white);">Cor Preta: Resíduos Não Recicláveis</h2>
 
         <p>
             A lixeira preta é utilizada para resíduos não recicláveis, ou seja, materiais que não podem ser reaproveitados. Isso inclui itens como fraldas descartáveis, esponjas, papel higiênico, e outros materiais que não se enquadram nas categorias de recicláveis.
@@ -194,7 +329,7 @@
             <li>Embalagens metalizadas</li>
         </ul>
 
-        <h2>Como Praticar a Reciclagem em Casa</h2>
+        <h2 style="color: black; box-shadow: none ">Como Praticar a Reciclagem em Casa</h2>
 
         <p>
             Agora que você já conhece o significado das cores das lixeiras, o próximo passo é implementar a reciclagem na sua rotina diária. Uma das formas mais eficazes de começar é separar os resíduos em casa, utilizando lixeiras diferentes para cada tipo de material. Também é importante lavar e secar os materiais recicláveis antes de descartá-los, garantindo que estejam limpos e prontos para a reciclagem.
