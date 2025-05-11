@@ -404,12 +404,13 @@
    @media only screen and (max-width: 800px) {
        nav ul {
            position: absolute;
-           top: 70px;
+           top: 60px;
            left: 0;
-           background: var(--cor-btn-fonte);
+           background: rgba(0, 0, 0, 0.329);
            width: 100%;
            overflow: hidden;
            transition: max-height 0.5s ease;
+           border-radius: 0px 0px 10px 10px;
        }
    
        nav ul li {
