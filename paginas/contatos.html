@@ -3,30 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Contatos</title>
     <style>
         body {
-        background-color: #f0f0f0;
-        padding: 40px;
-        font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
         }
 
         header {
             background: linear-gradient(to right, #597729, #83c716);
             color: white;
             margin: auto;
-            width: 430px;
+            max-width: 430px;
+            height: 40px;
             padding: 20px;
             text-align: center;
             position: relative;
             border-radius: 10px;
-        }
-
-        header img {
-            max-width: 10%;
-            height: auto;
-            margin-left: -90%;
-            margin-top: -1%;
+            display: flex;
+            justify-content: center;
         }
 
         header ul {
@@ -57,42 +53,53 @@
             color: white;
         }
 
-        .caixa {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 12px;
-        max-width: 400px;
-        margin: auto;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        main {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            flex-flow: column wrap;
+            margin: auto;
+        }
+
+        main img {
+            width: 150px;
+            height: auto;
+            align-self: center;
         }
 
         h1 {
-        text-align: center;
-        color: #563434;
+            text-align: center;
+            color: #563434;
         }
 
         h2 {
-        font-size: 1.1em;
-        color: #555;
-        margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 10px;
         }
-  </style>
+    </style>
 </head>
+
 <body>
     <header>
-        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
-            <ul>
-                <li><a href="../index.html"><ion-icon name="home-outline"></ion-icon></a></li>
-            </ul>
+        <ul>
+            <li><a href="../index.html"><ion-icon name="home-outline"></ion-icon></a></li>
+        </ul>
     </header>
-  <div class="caixa">
-    <h1>Contatos</h1>
-    <h2>Nome: EcoMarket-Samavi</h2>
-    <h2>Telefone: (77) 99191-7432</h2>
-    <h2>Gmail: RafaOliveira84555@gmail.com</h2>
-  </div>
-  
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <main>
+        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+        <h1>Contatos</h1>
+        <h2>Nome: EcoMarket-Samavi</h2>
+        <h2>Telefone: (77) 99191-7432</h2>
+        <h2>Gmail: RafaOliveira84555@gmail.com</h2>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>
