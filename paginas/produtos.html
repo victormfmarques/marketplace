@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMarket/Produtos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --cor-padrao: #83c716;
+            --cor-padrao-hover: #597729;
+            --cor-btn: #83c716;
+            --cor-btn-hover: #597729;
+            --cor-btn-fonte: #fff;
+            --cor-fonte-corpo: #333;
+        }
+
+        header {
+            background-image: linear-gradient(#597729, #83c716);
+            border-radius: 0px 0px 10px 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        header h1 {
+            color: black;
+            text-shadow: 1px 1px 1px #272727;
+            text-align: center;
+            font-size: 45px;
+            padding-top: 20px;
+        }
+
+        header img {
+            width: 73px;
+            height: auto;
+            position: absolute;
+            top: 5px;
+            left: 20px;
+        }
+
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-controls ul {
+            list-style-type: none;
+            font-weight: bolder;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-controls ul li {
+            color: white;
+        }
+
+        .header-controls a {
+            font-size: 30px;
+            padding: 5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-controls a:hover {
+            background-color: black;
+            transition: 0.5s;
+            padding: 8px;
+            border-radius: 20px;
+        }
+
+        #subtitulo {
+            position: relative;
+            line-height: 60px;
+            margin: 0 auto 80px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.856);
+            font-size: 34px;
+            margin-bottom: 0px;
+        }
+
+        #subtitulo::after {
+            content: '';
+            background-color: #83c716;
+            width: 80px;
+            height: 5px;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        main {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+        }
+
+        main aside {
+            padding: 30px;
+            text-align: center;
+        }
+
+        main aside h2 {
+            color: #272727;
+            font-size: 34px;
+            text-align: center;
+        }
+
+        main aside p {
+            text-align: center;
+        }
+
+        .classificacao {
+            color: #83c716;
+        }
+
+        .produto-img {
+            border-radius: 5px;
+            width: 150px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .produto-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .carrinho-icone img {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            cursor: pointer;
+            top: -1px;
+            left: -1px;
+        }
+
+        #contador-carrinho {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--cor-btn);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .carrinho-dropdown {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .carrinho-dropdown.show {
+            display: block;
+        }
+
+        #lista-carrinho {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .item-carrinho {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px -1px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-carrinho img {
+            width: 60px;
+            height: 60px;
+            padding-right: 10px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .item-info p {
+            margin: 3px 0;
+            font-size: 14px;
+            color: var(--cor-fonte-corpo);
+        }
+
+        .item-info p strong {
+            color: var(--cor-btn-fonte);
+        }
+
+        .remover-item {
+            background: none;
+            border: none;
+            color: #ff4444;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .carrinho-total {
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .carrinho-botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-finalizar {
+            width: 100%;
+            padding: 10px;
+            background: var(--cor-padrao);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-finalizar:hover {
+            background: var(--cor-padrao-hover);
+        }
+
+        .btn-limpar {
+            width: 100%;
+            padding: 10px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-limpar:hover {
+            background: #e60000;
+        }
+
+        .feedback {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--cor-padrao);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateY(-100px);
+            transition: transform 0.3s ease;
+        }
+
+        .feedback.show {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>PRODUTOS</h1>
+        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+        <div class="header-controls">
+            <ul>
+                <li><a href="../index.html"><ion-icon name="home-outline"></ion-icon></a></li>
+            </ul>
+            <div class="carrinho-icone" id="carrinho-icone">
+                <img src="../assets/img/carrinho.png" alt="Carrinho de Compras">
+                <span id="contador-carrinho">0</span>
+                <div class="carrinho-dropdown" id="carrinho-dropdown">
+                    <div id="lista-carrinho"></div>
+                    <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+                    <div class="carrinho-botoes">
+                        <button class="btn-limpar" onclick="limparCarrinho()">Limpar Carrinho</button>
+                        <button class="btn-finalizar">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <h2 id="subtitulo">CATEGORIAS</h2>
+
+    <main>
+        <aside>
+            <h2>Higiene Pessoal</h2>
+
+            <img src="../assets/img/produto-1.jpg" alt="Shampoo Orgânico" class="produto-img" onclick="adicionarAoCarrinho('Shampoo Orgânico', 25.75, '../assets/img/produto-1.jpg')">
+            <h4>Shampoo Orgânico</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-10.jpg" alt="Toalha de Rosto" class="produto-img" onclick="adicionarAoCarrinho('Toalha de Rosto', 25.75, '../assets/img/produto-10.jpg')">
+            <h4>Toalha de Rosto</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-4.jpg" alt="Escova de Dentes" class="produto-img" onclick="adicionarAoCarrinho('Escova de Dentes', 25.75, '../assets/img/produto-4.jpg')">
+            <h4>Escova de Dentes</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+        </aside>
+
+        <aside>
+            <h2>Moda Sustentável</h2>
+
+            <img src="../assets/img/produto-6.jpg" alt="Bolsa Reciclável" class="produto-img" onclick="adicionarAoCarrinho('Bolsa Reciclável', 25.75, '../assets/img/produto-6.jpg')">
+            <h4>Bolsa Reciclável</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-5.jpg" alt="Camiseta de Algodão" class="produto-img" onclick="adicionarAoCarrinho('Camiseta de Algodão', 25.75, '../assets/img/produto-5.jpg')">
+            <h4>Camiseta de Algodão</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-7.jpg" alt="Pulseira de Sementes" class="produto-img" onclick="adicionarAoCarrinho('Pulseira de Sementes', 25.75, '../assets/img/produto-7.jpg')">
+            <h4>Pulseira de Sementes</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+        </aside>
+
+        <aside>
+            <h2>Casa e Decoração</h2>
+
+            <img src="../assets/img/produto-11.jpg" alt="Jarra de Vidro Reciclado" class="produto-img" onclick="adicionarAoCarrinho('Jarra de Vidro Reciclado', 25.75, '../assets/img/produto-11.jpg')">
+            <h4>Jarra de Vidro Reciclado</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-8.jpg" alt="Copo de Bambu" class="produto-img" onclick="adicionarAoCarrinho('Copo de Bambu', 25.75, '../assets/img/produto-8.jpg')">
+            <h4>Copo de Bambu</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+
+            <img src="../assets/img/produto-9.jpg" alt="Vela de Soja" class="produto-img" onclick="adicionarAoCarrinho('Vela de Soja', 25.75, '../assets/img/produto-9.jpg')">
+            <h4>Vela de Soja</h4>
+            <p>R$ 25,75</p>
+            <div class="classificacao" aria-label="5 estrelas">
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+            </div>
+        </aside>
+    </main>
+    
+    <div id="feedback" class="feedback"></div>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        // Variável para controle de clicks rápidos
+        let ultimoClick = 0;
+        
+        // Inicializa o carrinho quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarCarrinho();
+            
+            // Configura o toggle do carrinho dropdown
+            const carrinhoIcone = document.getElementById('carrinho-icone');
+            const carrinhoDropdown = document.getElementById('carrinho-dropdown');
+            
+            carrinhoIcone.addEventListener('click', function(e) {
+                e.stopPropagation();
+                carrinhoDropdown.classList.toggle('show');
+            });
+            
+            // Fecha o dropdown quando clicar fora
+            document.addEventListener('click', function() {
+                carrinhoDropdown.classList.remove('show');
+            });
+        });
+
+        // =============================================
+        // FUNÇÕES DO CARRINHO
+        // =============================================
+
+        // Função principal para atualizar a exibição do carrinho
+        function atualizarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const listaCarrinho = document.getElementById('lista-carrinho');
+            const totalCarrinho = document.getElementById('total-carrinho');
+            const contador = document.getElementById('contador-carrinho');
+            const botoesCarrinho = document.querySelector('.carrinho-botoes');
+
+            // Atualiza contador
+            contador.textContent = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
+
+            // Limpa e recria a lista
+            listaCarrinho.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach((item, index) => {
+                total += item.preco * (item.quantidade || 1);
+
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item-carrinho';
+                itemElement.innerHTML = `
+                    <img src="${item.imagem}" alt="${item.nome}">
+                    <div class="item-info">
+                        <h4>${item.nome} ${item.quantidade > 1 ? `(${item.quantidade}x)` : ''}</h4>
+                        <p><strong>Preço:</strong> R$ ${item.preco.toFixed(2)}</p>
+                        <p><strong>Subtotal:</strong> R$ ${(item.preco * (item.quantidade || 1)).toFixed(2)}</p>
+                    </div>
+                    <button class="remover-item" onclick="removerDoCarrinho(${index})">×</button>
+                `;
+                listaCarrinho.appendChild(itemElement);
+            });
+
+            // Atualiza totais e visibilidade dos botões
+            if (totalCarrinho) {
+                totalCarrinho.textContent = `Total: R$ ${total.toFixed(2)}`;
+            }
+            if (botoesCarrinho) {
+                botoesCarrinho.style.display = carrinho.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Função para adicionar itens ao carrinho com debounce
+        function adicionarAoCarrinho(nome, preco, imagem) {
+            const agora = Date.now();
+            if (agora - ultimoClick < 500) return;
+            ultimoClick = agora;
+
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const itemExistente = carrinho.find(item => item.nome === nome && item.preco === preco);
+
+            if (itemExistente) {
+                itemExistente.quantidade = (itemExistente.quantidade || 1) + 1;
+            } else {
+                carrinho.push({ nome, preco, imagem, quantidade: 1 });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            mostrarFeedback(`${nome} adicionado ao carrinho!`);
+        }
+
+        // Função para remover itens do carrinho
+        function removerDoCarrinho(index) {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            mostrarFeedback('Item removido do carrinho', 'aviso');
+        }
+
+        // Função para limpar todo o carrinho
+        function limparCarrinho() {
+            if (confirm('Tem certeza que deseja remover todos os itens do carrinho?')) {
+                localStorage.removeItem('carrinho');
+                atualizarCarrinho();
+                mostrarFeedback('Carrinho limpo com sucesso! 🌿', 'sucesso');
+            }
+        }
+
+        // Função para mostrar feedback visual
+        function mostrarFeedback(mensagem, tipo = 'sucesso') {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = mensagem;
+            feedback.className = 'feedback show';
+            
+            if (tipo === 'sucesso') {
+                feedback.style.background = 'var(--cor-padrao)';
+            } else if (tipo === 'aviso') {
+                feedback.style.background = '#ff9800';
+            } else {
+                feedback.style.background = '#f44336';
+            }
+            
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
