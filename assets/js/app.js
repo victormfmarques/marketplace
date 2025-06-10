@@ -99,6 +99,20 @@ function limparCarrinho() {
     }
 }
 
+// Função para finalizar compra
+function finalizarCompra() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    if (carrinho.length === 0) {
+        mostrarFeedback('Seu carrinho está vazio! 🛒', 'info');
+        return;
+    }
+
+    localStorage.removeItem('carrinho');
+    atualizarCarrinho();
+    mostrarFeedback('Compra finalizada com sucesso! ✅', 'sucesso');
+}
+
 // =============================================
 // FUNÇÕES AUXILIARES
 // =============================================
@@ -149,4 +163,11 @@ document.addEventListener('click', () => {
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     atualizarCarrinho();
+});
+
+// Configura evento do botão de finalizar compra
+document.getElementById('finalizar-compra')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    finalizarCompra();
 });
