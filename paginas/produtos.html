@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -138,7 +139,7 @@
         .produto-img:hover {
             transform: scale(1.05);
         }
-        
+
         .carrinho-icone img {
             width: 30px;
             height: 30px;
@@ -304,7 +305,7 @@
             }
         }
 
-        @media screen and (max-width:640px ) {
+        @media screen and (max-width:640px) {
             header h1 {
                 font-size: 30px;
             }
@@ -336,7 +337,7 @@
                     <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
                     <div class="carrinho-botoes">
                         <button class="btn-limpar" onclick="limparCarrinho()">Limpar Carrinho</button>
-                        <button class="btn-finalizar">Finalizar Compra</button>
+                        <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
                     </div>
                 </div>
             </div>
@@ -349,7 +350,8 @@
         <aside>
             <h2>Higiene Pessoal</h2>
 
-            <img src="../assets/img/produto-1.jpg" alt="Shampoo Orgânico" class="produto-img" onclick="adicionarAoCarrinho('Shampoo Orgânico', 18.99, '../assets/img/produto-1.jpg')">
+            <img src="../assets/img/produto-1.jpg" alt="Shampoo Orgânico" class="produto-img"
+                onclick="adicionarAoCarrinho('Shampoo Orgânico', 18.99, '../assets/img/produto-1.jpg')">
             <h4>Shampoo Orgânico</h4>
             <p>R$ 18,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -360,7 +362,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-10.jpg" alt="Toalha de Rosto" class="produto-img" onclick="adicionarAoCarrinho('Toalha de Rosto', 25.99, '../assets/img/produto-10.jpg')">
+            <img src="../assets/img/produto-10.jpg" alt="Toalha de Rosto" class="produto-img"
+                onclick="adicionarAoCarrinho('Toalha de Rosto', 25.99, '../assets/img/produto-10.jpg')">
             <h4>Toalha de Rosto</h4>
             <p>R$ 25,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -371,7 +374,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-4.jpg" alt="Escova de Dentes" class="produto-img" onclick="adicionarAoCarrinho('Escova de Dentes', 15.99, '../assets/img/produto-4.jpg')">
+            <img src="../assets/img/produto-4.jpg" alt="Escova de Dentes" class="produto-img"
+                onclick="adicionarAoCarrinho('Escova de Dentes', 15.99, '../assets/img/produto-4.jpg')">
             <h4>Escova de Dentes</h4>
             <p>R$ 15,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -386,7 +390,8 @@
         <aside>
             <h2>Moda Sustentável</h2>
 
-            <img src="../assets/img/produto-6.jpg" alt="Bolsa Reciclável" class="produto-img" onclick="adicionarAoCarrinho('Bolsa Reciclável', 25.99, '../assets/img/produto-6.jpg')">
+            <img src="../assets/img/produto-6.jpg" alt="Bolsa Reciclável" class="produto-img"
+                onclick="adicionarAoCarrinho('Bolsa Reciclável', 25.99, '../assets/img/produto-6.jpg')">
             <h4>Bolsa Reciclável</h4>
             <p>R$ 25,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -397,7 +402,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-5.jpg" alt="Camiseta de Algodão" class="produto-img" onclick="adicionarAoCarrinho('Camiseta de Algodão', 18.99, '../assets/img/produto-5.jpg')">
+            <img src="../assets/img/produto-5.jpg" alt="Camiseta de Algodão" class="produto-img"
+                onclick="adicionarAoCarrinho('Camiseta de Algodão', 18.99, '../assets/img/produto-5.jpg')">
             <h4>Camiseta de Algodão</h4>
             <p>R$ 18,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -408,7 +414,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-7.jpg" alt="Pulseira de Sementes" class="produto-img" onclick="adicionarAoCarrinho('Pulseira de Sementes', 27.99, '../assets/img/produto-7.jpg')">
+            <img src="../assets/img/produto-7.jpg" alt="Pulseira de Sementes" class="produto-img"
+                onclick="adicionarAoCarrinho('Pulseira de Sementes', 27.99, '../assets/img/produto-7.jpg')">
             <h4>Pulseira de Sementes</h4>
             <p>R$ 27,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -423,7 +430,8 @@
         <aside>
             <h2>Casa e Decoração</h2>
 
-            <img src="../assets/img/produto-11.jpg" alt="Jarra de Vidro Reciclado" class="produto-img" onclick="adicionarAoCarrinho('Jarra de Vidro Reciclado', 27.99, '../assets/img/produto-11.jpg')">
+            <img src="../assets/img/produto-11.jpg" alt="Jarra de Vidro Reciclado" class="produto-img"
+                onclick="adicionarAoCarrinho('Jarra de Vidro Reciclado', 27.99, '../assets/img/produto-11.jpg')">
             <h4>Jarra de Vidro Reciclado</h4>
             <p>R$ 27,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -434,7 +442,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-8.jpg" alt="Copo de Bambu" class="produto-img" onclick="adicionarAoCarrinho('Copo de Bambu', 15.99, '../assets/img/produto-8.jpg')">
+            <img src="../assets/img/produto-8.jpg" alt="Copo de Bambu" class="produto-img"
+                onclick="adicionarAoCarrinho('Copo de Bambu', 15.99, '../assets/img/produto-8.jpg')">
             <h4>Copo de Bambu</h4>
             <p>R$ 15,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -445,7 +454,8 @@
                 <ion-icon name="star"></ion-icon>
             </div>
 
-            <img src="../assets/img/produto-9.jpg" alt="Vela de Soja" class="produto-img" onclick="adicionarAoCarrinho('Vela de Soja', 18.99, '../assets/img/produto-9.jpg')">
+            <img src="../assets/img/produto-9.jpg" alt="Vela de Soja" class="produto-img"
+                onclick="adicionarAoCarrinho('Vela de Soja', 18.99, '../assets/img/produto-9.jpg')">
             <h4>Vela de Soja</h4>
             <p>R$ 18,99</p>
             <div class="classificacao" aria-label="5 estrelas">
@@ -457,31 +467,31 @@
             </div>
         </aside>
     </main>
-    
+
     <div id="feedback" class="feedback"></div>
-    
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <script>
         // Variável para controle de clicks rápidos
         let ultimoClick = 0;
-        
+
         // Inicializa o carrinho quando a página carrega
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             atualizarCarrinho();
-            
+
             // Configura o toggle do carrinho dropdown
             const carrinhoIcone = document.getElementById('carrinho-icone');
             const carrinhoDropdown = document.getElementById('carrinho-dropdown');
-            
-            carrinhoIcone.addEventListener('click', function(e) {
+
+            carrinhoIcone.addEventListener('click', function (e) {
                 e.stopPropagation();
                 carrinhoDropdown.classList.toggle('show');
             });
-            
+
             // Fecha o dropdown quando clicar fora
-            document.addEventListener('click', function() {
+            document.addEventListener('click', function () {
                 carrinhoDropdown.classList.remove('show');
             });
         });
@@ -574,7 +584,7 @@
             const feedback = document.getElementById('feedback');
             feedback.textContent = mensagem;
             feedback.className = 'feedback show';
-            
+
             if (tipo === 'sucesso') {
                 feedback.style.background = 'var(--cor-padrao)';
             } else if (tipo === 'aviso') {
@@ -582,11 +592,34 @@
             } else {
                 feedback.style.background = '#f44336';
             }
-            
+
             setTimeout(() => {
                 feedback.classList.remove('show');
             }, 3000);
         }
+
+        // Função para finalizar compra
+        function finalizarCompra() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+            if (carrinho.length === 0) {
+                mostrarFeedback('Seu carrinho está vazio! 🛒', 'info');
+                return;
+            }
+
+            localStorage.removeItem('carrinho');
+            atualizarCarrinho();
+            mostrarFeedback('Compra finalizada com sucesso! ✅', 'sucesso');
+        }
+
+        // Configura evento do botão de finalizar compra
+        document.getElementById('finalizar-compra')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            finalizarCompra();
+        });
+
     </script>
 </body>
+
 </html>
