@@ -13,7 +13,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
   const data = await response.json();
   if (response.ok) {
     localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-    window.location.href = 'index.html';  // Redireciona para o perfil
+    window.location.href = '/index.html';  // Redireciona para o perfil
   } else {
     alert(data.message);
   }
