@@ -251,6 +251,7 @@
 
   <header>
     <h1>Perfil</h1>
+     <p id="saudacao"></p>
     <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
     <ul>
       <li><a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a></li>
@@ -445,6 +446,18 @@
 
     window.onload = carregarPergunta;
   </script>
+  <script>
+        // Verifica se o usuário está logado
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if (usuarioLogado) {
+            // Exemplo: Mostrar nome do usuário em um elemento com ID "saudacao"
+            const saudacaoElement = document.getElementById('saudacao');
+            if (saudacaoElement) {
+                saudacaoElement.textContent = `Olá, ${usuarioLogado.nome}!`;
+            }
+        }
+    </script>
 </body>
 
 </html>
