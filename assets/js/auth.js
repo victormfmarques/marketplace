@@ -1,65 +1,34 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const formLogin = document.getElementById('form-login');
+document.getElementById('form-login').addEventListener('submit', async function(e) {
+  e.preventDefault();
   
-  if (formLogin) {
-    formLogin.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      console.log('[DEBUG] Formulário submetido');
-
-      // Encontre o botão corretamente pelo seletor CSS
-      const btn = formLogin.querySelector('input[type="submit"], button[type="submit"]');
-      
-      if (!btn) {
-        console.error('[ERRO] Botão de submit não encontrado');
-        return;
-      }
-
-      const originalValue = btn.value || btn.textContent;
-      btn.disabled = true;
-      
-      // Atualize o texto do botão de forma segura
-      if ('value' in btn) {
-        btn.value = 'Autenticando...';
-      } else {
-        btn.textContent = 'Autenticando...';
-      }
-
-      try {
-        const formData = {
-          email: document.getElementById('iemail').value,
-          senha: document.getElementById('isenha').value
-        };
-        console.log('[DEBUG] Dados:', formData);
-
-        const response = await fetch('https://ecomarket-samavi.vercel.app/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-        console.log('[DEBUG] Resposta:', result);
-
-        if (result.success) {
-          localStorage.setItem('usuarioLogado', JSON.stringify(result.usuario));
-          window.location.href = result.redirect || '/paginas/home.html';
-        } else {
-          alert(result.message || 'Erro no login');
-        }
-      } catch (error) {
-        console.error('[ERRO]', error);
-        alert('Falha na conexão com o servidor');
-      } finally {
-        btn.disabled = false;
-        if ('value' in btn) {
-          btn.value = originalValue;
-        } else {
-          btn.textContent = originalValue;
-        }
-      }
+  try {
+    const response = await fetch('https://ecomarket-samavi.vercel.app/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: document.getElementById('iemail').value,
+        senha: document.getElementById('isenha').value
+      })
     });
-  } else {
-    console.error('[ERRO] Formulário de login não encontrado');
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (data.success) {
+      localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+      window.location.href = data.redirect || '/paginas/home.html';
+    } else {
+      alert(data.message || 'Login falhou');
+    }
+  } catch (error) {
+    console.error('Erro completo:', error);
+    alert('Erro ao conectar com o servidor. Verifique o console para detalhes.');
   }
 });
 // // Registro - Adaptado para seu formulário
