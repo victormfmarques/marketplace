@@ -21,6 +21,16 @@ export default async function handler(req, res) {
       const novoUsuario = { nome, email, senha: senhaCriptografada };
       await db.collection('usuarios').insertOne(novoUsuario);
 
+      // Remove a senha antes de enviar os dados do usuário
+      const { senha: _, ...usuarioSemSenha } = usuario;
+      
+      res.status(200).json({ 
+        success: true,
+        message: 'Registro bem-sucedido!',
+        usuario: usuarioSemSenha,
+        redirect: '/paginas/home.html'
+      });
+
       res.status(201).json({ message: 'Usuário registrado com sucesso!' });
     } catch (error) {
       res.status(500).json({ message: 'Erro no servidor', error: error.message });
