@@ -1,43 +1,53 @@
-// Versão robusta e testada para auth.js
-document.getElementById('form-login').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  console.log('Submit do formulário detectado'); // Debug 1
-  
-  const btnSubmit = e.target.querySelector('[type="submit"]');
-  btnSubmit.disabled = true;
-  btnSubmit.value = 'Autenticando...';
+// Código garantido para auth.js
+const formLogin = document.getElementById('form-login');
 
-  try {
-    console.log('Enviando requisição...'); // Debug 2
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+if (formLogin) {
+  formLogin.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    console.log('[DEBUG] Formulário submetido');
+    
+    const btn = formLogin.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Processando...';
+
+    try {
+      // 1. Captura dos dados
+      const formData = {
         email: document.getElementById('iemail').value,
         senha: document.getElementById('isenha').value
-      })
-    });
+      };
+      console.log('[DEBUG] Dados:', formData);
 
-    const data = await response.json();
-    console.log('Resposta recebida:', data); // Debug 3
-
-    if (data.success) {
-      console.log('Login válido, armazenando dados...'); // Debug 4
-      localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+      // 2. Envio para API
+      const response = await fetch('https://ecomarket-samavi.vercel.app/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
       
-      console.log('Redirecionando para:', data.redirect); // Debug 5
-      window.location.href = data.redirect;
-    } else {
-      alert(data.message || 'Erro no login');
+      // 3. Processamento da resposta
+      const result = await response.json();
+      console.log('[DEBUG] Resposta:', result);
+
+      if (result.success) {
+        // 4. Armazenamento e redirecionamento
+        localStorage.setItem('usuarioLogado', JSON.stringify(result.usuario));
+        window.location.href = result.redirect || '/paginas/home.html';
+      } else {
+        alert(result.message || 'Erro no login');
+      }
+    } catch (error) {
+      console.error('[ERRO]', error);
+      alert('Falha na conexão');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
-  } catch (error) {
-    console.error('Erro completo:', error);
-    alert('Falha na conexão com o servidor');
-  } finally {
-    btnSubmit.disabled = false;
-    btnSubmit.value = 'Entrar';
-  }
-});
+  });
+} else {
+  console.error('[ERRO] Formulário não encontrado');
+}
 // // Registro - Adaptado para seu formulário
 // document.querySelector('.content')?.addEventListener('submit', async (e) => {
 //   e.preventDefault();
