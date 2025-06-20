@@ -129,7 +129,7 @@ form > a.botao {
     margin-top: 5px;
     padding-top: 5px;
     border-radius: 5px;
-    color: var(--cor1);
+    color: #597729;
     border: 1px solid var(--cor1);
     background-color: white;
 }
