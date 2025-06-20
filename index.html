@@ -25,6 +25,7 @@
                         <li><a href="paginas/contatos.html">Contatos</a></li>
                         <li><a href="paginas/conta.html">Minha Conta</a></li>
                     </ul>
+                    <p id="saudacao"></p>
                 </nav>
 
                 <!-- CARRINHO DE COMPRAS -->
@@ -277,5 +278,17 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="assets/js/app.js"></script>
+    <script>
+        // Verifica se o usuário está logado
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if (usuarioLogado) {
+            // Exemplo: Mostrar nome do usuário em um elemento com ID "saudacao"
+            const saudacaoElement = document.getElementById('saudacao');
+            if (saudacaoElement) {
+                saudacaoElement.textContent = `Olá, ${usuarioLogado.nome}!`;
+            }
+        }
+    </script>
 </body>
 </html>
