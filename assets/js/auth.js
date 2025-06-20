@@ -28,7 +28,7 @@ document.getElementById('form-login').addEventListener('submit', async function(
     }
   } catch (error) {
     console.error('Erro completo:', error);
-    alert('Erro ao conectar com o servidor. Verifique o console para detalhes.');
+    alert('Email e senha incorretos ou conta inexistente');
   }
 });
 // // Registro - Adaptado para seu formulário
