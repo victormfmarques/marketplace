@@ -22,7 +22,7 @@ document.getElementById('form-login').addEventListener('submit', async (e) => {
       console.log('Redirecionando para:', data.redirect);
       
       // 3. Força o redirecionamento
-      window.location.href = data.redirect;
+      window.location.href = data.redirect || '/index.html';
     } else {
       alert(data.message);
     }
