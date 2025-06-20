@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+    <title>EcoMarket/Conta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(to right, #597729, #83c716);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header img {
+            max-width: 10%;
+            height: auto;
+            margin-left: -90%;
+            margin-top: -3%;
+        }
+
+        .profile-pic {
+            color: white;
+            width: 100px;
+            height: 100px;
+            background: #eee;
+            border-radius: 50%;
+            margin: 10px auto 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 75px;
+            border: 3px solid white;
+        }
+
+        .content {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        input {
+            border-radius: 3px;
+            border: 1px solid black;
+            padding: 3px;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        #enviar {
+            background-color: #83c716;
+            border-radius: 10px;
+            padding: 6px;
+            border: 0px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        #limpar {
+            background-color: rgb(221, 48, 48);
+            border-radius: 10px;
+            padding: 6px;
+            border: 0px;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item span {
+            color: #666;
+        }
+
+        .verify {
+            color: green;
+            font-weight: bold;
+        }
+
+        .verify-link {
+            color: #f4511e;
+            cursor: pointer;
+        }
+
+        /* Estilos do Quiz */
+        .educacao-ambiental {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz {
+            margin-top: 20px;
+        }
+
+        #pergunta-quiz {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        #opcoes-quiz {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #opcoes-quiz button {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        #opcoes-quiz button:hover {
+            border-color: #83c716;
+            background-color: rgba(131, 199, 22, 0.1);
+        }
+
+        #opcoes-quiz button.correta {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        #opcoes-quiz button.incorreta {
+            border-color: #f44336;
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+
+        #pontuacao {
+            font-weight: bold;
+            color: #597729;
+        }
+
+        .feedback {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.correta {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            display: block;
+        }
+
+        .feedback.incorreta {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-left: 4px solid #f44336;
+            display: block;
+        }
+
+        .conquistas {
+            margin-top: 30px;
+        }
+
+        #badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .badge {
+            width: 60px;
+            height: 60px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        /* Responsividade */
+        @media (min-width: 600px) {
+            #opcoes-quiz {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .content,.educacao-ambiental {
+                max-width: 600px;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Perfil</h1>
+        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+    </header>
+
+    <div class="profile-pic"><ion-icon name="person-outline"></ion-icon></div>
+
+    <form class="content" action="../api/cadastro.js" method="post">
+        <p>
+            <label for="inome">Nome</label>
+            <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
+        </p>
+        <p>
+            <input type="radio" name="sexo" id="imas"> <label for="imas">Masculino</label>
+            <input type="radio" name="sexo" id="ifem"> <label for="ifem">Feminino</label>
+        </p>
+        <p>
+            <label for="idat">Data de Nascimento</label>
+            <input type="date" name="dat" id="idat">
+        </p>
+        <p>
+            <label for="itel">Telefone</label>
+            <input type="tel" name="tel" id="itel" required autocomplete="tel" pattern="^\(\d{2})\d{4,5}-\d{4}$"
+                placeholder="(XX)XXXXX-XXXX">
+        </p>
+        <p>
+            <label for="iemail">Email</label>
+            <input type="email" name="email" id="iemail" autocomplete="email" required placeholder="seuemail@gmail.com">
+        </p>
+        <p>
+            <input id="enviar" type="submit" value="Enviar">
+            <input id="limpar" type="reset" value="Limpar">
+        </p>
+    </form>
+
+    <div class="educacao-ambiental">
+        <h2>🎓 Seu Progresso de Aprendizado</h2>
+
+        <div class="quiz">
+            <h3>Teste seus conhecimentos ambientais</h3>
+            <div id="pergunta-quiz"></div>
+            <div id="opcoes-quiz"></div>
+            <div id="feedback" class="feedback"></div>
+            <p>Pontuação: <span id="pontuacao">0</span></p>
+        </div>
+
+        <div class="conquistas">
+            <h3>🏆 Conquistas</h3>
+            <div id="badges"></div>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        const quiz = [
+            {
+                pergunta: "Qual destes materiais demora mais para se decompor na natureza?",
+                opcoes: ["Papel (2-6 semanas)", "Casca de banana (2 anos)", "Vidro (1 milhão de anos)", "Folhas secas (6 meses)"],
+                resposta: 2,
+                explicacao: "O vidro pode levar até 1 milhão de anos para se decompor completamente na natureza!"
+            },
+            {
+                pergunta: "Qual destas ações economiza mais água?",
+                opcoes: ["Tomar banhos curtos", "Fechar a torneira ao escovar os dentes", "Consertar vazamentos", "Reutilizar água da chuva"],
+                resposta: 2,
+                explicacao: "Um simples vazamento pode desperdiçar até 20.000 litros de água por ano!"
+            },
+            {
+                pergunta: "O que significa a sigla '3R' em sustentabilidade?",
+                opcoes: ["Reciclagem de Papel e Alumínio", "Resíduos Perigosos Ambientais", "Redução, Reuso e Reciclagem", "Responsabilidade Pública Ambiental"],
+                resposta: 2,
+                explicacao: "Os 3 Rs da sustentabilidade são: Reduzir, Reutilizar e Reciclar, nessa ordem de importância."
+            },
+            {
+                pergunta: "Qual destas energias é considerada renovável?",
+                opcoes: ["Energia nuclear", "Energia de carvão", "Energia eólica", "Energia de gás natural"],
+                resposta: 2,
+                explicacao: "A energia eólica é renovável pois utiliza o vento, um recurso natural inesgotável."
+            },
+            {
+                pergunta: "Qual o maior benefício da compostagem?",
+                opcoes: ["Reduz o lixo orgânico em aterros", "Produz adubo natural", "Diminui emissão de metano", "Todos os anteriores"],
+                resposta: 3,
+                explicacao: "A compostagem traz todos esses benefícios, ajudando a fechar o ciclo dos nutrientes."
+            }
+        ];
+
+        let perguntaAtual = 0;
+        let pontuacao = 0;
+        let respostasCorretas = 0;
+
+        function carregarPergunta() {
+            const q = quiz[perguntaAtual];
+            document.getElementById('pergunta-quiz').textContent = q.pergunta;
+
+            const opcoesDiv = document.getElementById('opcoes-quiz');
+            opcoesDiv.innerHTML = q.opcoes.map((opcao, index) =>
+                `<button onclick="responder(${index})">${opcao}</button>`
+            ).join('');
+
+            document.getElementById('feedback').className = 'feedback';
+        }
+
+        function responder(opcaoSelecionada) {
+            const q = quiz[perguntaAtual];
+            const botoes = document.querySelectorAll('#opcoes-quiz button');
+            const feedback = document.getElementById('feedback');
+
+            // Desabilita todos os botões
+            botoes.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+
+            // Marca a resposta correta
+            botoes[q.resposta].classList.add('correta');
+
+            // Verifica se acertou
+            if (opcaoSelecionada === q.resposta) {
+                pontuacao += 10;
+                respostasCorretas++;
+                feedback.textContent = "✅ Correto! " + q.explicacao;
+                feedback.className = 'feedback correta';
+            } else {
+                // Marca a resposta errada
+                botoes[opcaoSelecionada].classList.add('incorreta');
+                feedback.textContent = "❌ Incorreto. " + q.explicacao;
+                feedback.className = 'feedback incorreta';
+            }
+
+            document.getElementById('pontuacao').textContent = pontuacao;
+
+            // Atualiza conquistas
+            atualizarConquistas();
+
+            // Prepara próxima pergunta após 8 segundos
+            setTimeout(() => {
+                perguntaAtual = (perguntaAtual + 1) % quiz.length;
+                carregarPergunta();
+            }, 8000);
+        }
+
+        function atualizarConquistas() {
+            const badgesDiv = document.getElementById('badges');
+
+            if (respostasCorretas >= 1 && !document.getElementById('badge1')) {
+                badgesDiv.innerHTML += `<div class="badge" id="badge1">🌱</div>`;
+            }
+
+            if (respostasCorretas >= 3 && !document.getElementById('badge3')) {
+                badgesDiv.innerHTML += `<div class="badge" id="badge3">♻️</div>`;
+            }
+
+            if (respostasCorretas >= 5 && !document.getElementById('badge5')) {
+                badgesDiv.innerHTML += `<div class="badge" id="badge5">🏆</div>`;
+            }
+        }
+
+        window.onload = carregarPergunta;
+    </script>
+</body>
+</html>
