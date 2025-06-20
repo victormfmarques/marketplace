@@ -2,7 +2,7 @@ document.getElementById('form-login').addEventListener('submit', async function(
   e.preventDefault();
   
   try {
-    const response = await fetch('https://ecomarket-samavi.vercel.app/api/auth/login', {
+    const response = await fetch('https://ecomarket-samavi.vercel.app/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
