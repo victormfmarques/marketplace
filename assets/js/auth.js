@@ -14,7 +14,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     const data = await response.json();
     if (response.ok) {
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-      window.location.href = '/paginas/conta.html';  // Redireciona para a conta
+      window.location.href = '/paginas/home.html';  // Redireciona para a conta
     } else {
       alert(data.message || 'Erro no login');
     }
