@@ -1,10 +1,15 @@
-// Versão robusta do auth.js
-document.getElementById('form-login')?.addEventListener('submit', async (e) => {
+// Versão robusta e testada para auth.js
+document.getElementById('form-login').addEventListener('submit', async function(e) {
   e.preventDefault();
-  console.log('Evento de submit capturado'); // Debug 1
+  console.log('Submit do formulário detectado'); // Debug 1
   
+  const btnSubmit = e.target.querySelector('[type="submit"]');
+  btnSubmit.disabled = true;
+  btnSubmit.value = 'Autenticando...';
+
   try {
-    const response = await fetch('https://ecomarket-samnah.vercel.app/api/auth/login', {
+    console.log('Enviando requisição...'); // Debug 2
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -14,21 +19,25 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     });
 
     const data = await response.json();
-    console.log('Resposta da API:', data); // Debug 2
+    console.log('Resposta recebida:', data); // Debug 3
 
-    if (data.success && data.redirect) {
-      console.log('Redirecionando para:', data.redirect); // Debug 3
+    if (data.success) {
+      console.log('Login válido, armazenando dados...'); // Debug 4
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-      window.location.assign(data.redirect); // Usamos assign() em vez de href
+      
+      console.log('Redirecionando para:', data.redirect); // Debug 5
+      window.location.href = data.redirect;
     } else {
-      alert(data.message || 'Login falhou');
+      alert(data.message || 'Erro no login');
     }
   } catch (error) {
     console.error('Erro completo:', error);
     alert('Falha na conexão com o servidor');
+  } finally {
+    btnSubmit.disabled = false;
+    btnSubmit.value = 'Entrar';
   }
 });
-
 // // Registro - Adaptado para seu formulário
 // document.querySelector('.content')?.addEventListener('submit', async (e) => {
 //   e.preventDefault();
