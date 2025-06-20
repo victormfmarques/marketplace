@@ -3,14 +3,14 @@ document.getElementById('form-login').addEventListener('submit', async (e) => {
   e.preventDefault();
   
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch('/api/auth/login', {  // ← Adicione /auth
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email: document.getElementById('iemail').value,
-        senha: document.getElementById('isenha').value
-      })
-    });
+      email: document.getElementById('iemail').value,
+      senha: document.getElementById('isenha').value
+  })
+});
 
     const data = await response.json();
     
@@ -22,7 +22,7 @@ document.getElementById('form-login').addEventListener('submit', async (e) => {
       console.log('Redirecionando para:', data.redirect);
       
       // 3. Força o redirecionamento
-      window.location.href = data.redirect || '/index.html';
+      window.location.href = data.redirect || '/paginas/home.html';
     } else {
       alert(data.message);
     }
