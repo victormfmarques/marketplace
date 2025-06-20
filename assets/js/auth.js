@@ -1,26 +1,32 @@
 // Login
 document.getElementById('form-login')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = document.getElementById('iemail').value;  // ID atualizado para match com seu form
-  const senha = document.getElementById('isenha').value;  // Adicione este campo ao seu form de login
-
+  
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha }),
+      body: JSON.stringify({
+        email: document.getElementById('iemail').value,
+        senha: document.getElementById('isenha').value
+      })
     });
 
     const data = await response.json();
-    if (response.ok) {
+    console.log("Resposta da API:", data); // Para debug
+
+    if (data.success) {
+      // Armazena TODOS os dados do usuário (incluindo _id)
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-      window.location.href = '/paginas/conta.html';  // Redireciona para a conta
+      
+      // Redireciona conforme a API sugeriu
+      window.location.href = data.redirect || '/paginas/conta.html';
     } else {
-      alert(data.message || 'Erro no login');
+      alert(`${data.message}\n${data.suggestion || ''}`);
     }
   } catch (error) {
-    alert('Erro ao conectar com o servidor');
-    console.error(error);
+    console.error("Erro no login:", error);
+    alert("Erro ao conectar com o servidor");
   }
 });
 
@@ -34,7 +40,7 @@ document.querySelector('.content')?.addEventListener('submit', async (e) => {
     dataNascimento: document.getElementById('idat').value,
     telefone: document.getElementById('itel').value,
     email: document.getElementById('iemail').value,
-    senha: document.getElementById('isenha')?.value || ''  // Adicione este campo ao seu form
+    senha: document.getElementById('isenha')?.value || ''
   };
 
   try {
