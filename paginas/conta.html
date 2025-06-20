@@ -101,7 +101,7 @@
       margin-left: 10px;
     }
 
-    #limpar {
+    #btn-logout {
       background-color: rgb(221, 48, 48);
       border-radius: 10px;
       padding: 6px;
@@ -260,35 +260,7 @@
 
   <div class="profile-pic"><ion-icon name="person-outline"></ion-icon></div>
 
-  <!-- <div class="content">
-    <div class="item">
-      <span>Nome Completo</span>
-      <span>Juarez</span>
-    </div>
-    <div class="item">
-      <span>Bio</span>
-      
-      <span style="color: grey;">Definir agora</span>
-    </div>
-    <div class="item">
-      <span>Gênero</span>
-      <span>Masculino</span>
-    </div>
-    <div class="item">
-      <span>Identidade</span>
-      <span class="verify">Verificado</span>
-    </div>
-    <div class="item">
-      <span>Celular</span>
-      <span>(77)xxxxx-xxxx</span>
-    </div>
-    <div class="item">
-      <span>Email</span>
-      <span>jurandi@gmail.com</span>
-    </div>
-  </div> -->
-
-  <form class="content" action="../api/cadastro.js" method="post">
+  <form class="content" id="form-perfil" action="../api/cadastro.js" method="post">
     <p>
       <label for="inome">Nome</label>
       <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
@@ -315,8 +287,8 @@
       <input type="password" name="senha" id="isenha" required minlength="6">
     </p>
     <p>
-      <input id="enviar" type="submit" value="Enviar">
-      <input id="limpar" type="reset" value="Limpar">
+      <input id="enviar" type="submit" value="Atualizar Perfil">
+      <button type="button" id="btn-logout">Sair</button>
     </p>
   </form>
 
@@ -458,6 +430,7 @@
             }
         }
     </script>
+    <script src="../assets/js/perfil.js"></script>
 </body>
 
 </html>
