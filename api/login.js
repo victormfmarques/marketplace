@@ -27,15 +27,15 @@ export default async function handler(req, res) {
       if (isSenhaCriptografada) {
         senhaValida = await bcrypt.compare(senha, usuario.senha);
       } else {
-        // Compatibilidade com senhas não criptografadas (apenas para desenvolvimento)
-        senhaValida = senha === usuario.senha;
-      }
+      //   // Compatibilidade com senhas não criptografadas (apenas para desenvolvimento)
+      //   senhaValida = senha === usuario.senha;
+      // }
 
-      if (!senhaValida) {
-        return res.status(401).json({ 
-          message: 'Credenciais inválidas',
-          suggestion: 'Verifique sua senha'
-        });
+      // if (!senhaValida) {
+      //   return res.status(401).json({ 
+      //     message: 'Credenciais inválidas',
+      //     suggestion: 'Verifique sua senha'
+      //   });
       }
 
       // Remove a senha antes de enviar os dados do usuário
