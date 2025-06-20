@@ -14,21 +14,55 @@ export default async function handler(req, res) {
       const usuario = await db.collection('usuarios').findOne({ email });
 
       if (!usuario) {
-        return res.status(404).json({ message: 'Usuário não encontrado' });
+        return res.status(404).json({ 
+          message: 'Usuário não encontrado',
+          suggestion: 'Verifique o email ou cadastre-se'
+        });
       }
 
-      const senhaValida = await bcrypt.compare(senha, usuario.senha);
+      // Verifica se a senha está criptografada
+      const isSenhaCriptografada = usuario.senha.startsWith('$2a$');
+      let senhaValida = false;
+      
+      if (isSenhaCriptografada) {
+        senhaValida = await bcrypt.compare(senha, usuario.senha);
+      } else {
+        // Compatibilidade com senhas não criptografadas (apenas para desenvolvimento)
+        senhaValida = senha === usuario.senha;
+      }
+
       if (!senhaValida) {
-        return res.status(401).json({ message: 'Senha incorreta' });
+        return res.status(401).json({ 
+          message: 'Credenciais inválidas',
+          suggestion: 'Verifique sua senha'
+        });
       }
 
-      res.status(200).json({ message: 'Login bem-sucedido!', usuario: { nome: usuario.nome, email: usuario.email } });
+      // Remove a senha antes de enviar os dados do usuário
+      const { senha: _, ...usuarioSemSenha } = usuario;
+      
+      res.status(200).json({ 
+        success: true,
+        message: 'Login bem-sucedido!',
+        usuario: usuarioSemSenha,
+        redirect: '/paginas/conta.html'
+      });
+
     } catch (error) {
-      res.status(500).json({ message: 'Erro no servidor', error: error.message });
+      console.error('Erro no login:', error);
+      res.status(500).json({ 
+        message: 'Erro interno no servidor',
+        error: error.message,
+        code: 'LOGIN_ERROR'
+      });
     } finally {
       await client.close();
     }
   } else {
-    res.status(405).json({ message: 'Método não permitido' });
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ 
+      message: 'Método não permitido',
+      allowedMethods: ['POST']
+    });
   }
 }
