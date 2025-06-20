@@ -9,7 +9,15 @@
     <title>EcoMarket-SAMAVI</title>
 </head>
 <body>
-    
+    <script>
+        // Proteção de Rota (deve ser o PRIMEIRO script da página)
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if (!usuario || !usuario.email) { // Verifica tanto a existência quanto dados válidos
+        localStorage.removeItem('usuarioLogado'); // Limpa dados corrompidos
+        window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname);
+}
+</script>
     <!-- CABEÇALHO -->
     <header class="banner">
         <div class="container">
