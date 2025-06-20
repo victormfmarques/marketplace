@@ -1,5 +1,5 @@
 // Login
-document.getElementById('form-login')?.addEventListener('submit', async (e) => {
+document.getElementById('form-login').addEventListener('submit', async (e) => {
   e.preventDefault();
   
   try {
@@ -13,20 +13,22 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     });
 
     const data = await response.json();
-    console.log("Resposta da API:", data); // Para debug
-
+    
     if (data.success) {
-      // Armazena TODOS os dados do usuário (incluindo _id)
+      // 1. Armazena os dados do usuário
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
       
-      // Redireciona conforme a API sugeriu
-      window.location.href = data.redirect || 'index.html';
+      // 2. DEBUG: Mostra no console para verificação
+      console.log('Redirecionando para:', data.redirect);
+      
+      // 3. Força o redirecionamento
+      window.location.href = data.redirect;
     } else {
-      alert(`${data.message}\n${data.suggestion || ''}`);
+      alert(data.message);
     }
   } catch (error) {
-    console.error("Erro no login:", error);
-    alert("Erro ao conectar com o servidor");
+    console.error("Erro:", error);
+    alert("Erro durante o login");
   }
 });
 
