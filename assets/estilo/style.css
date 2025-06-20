@@ -126,6 +126,10 @@ nav ul li a:hover {
     color: var(--cor-fonte);
 }
 
+#saudação {
+    text-decoration: underline;    
+}
+
 /* =============================================
       SEÇÕES DE CONTEÚDO
       ============================================= */
