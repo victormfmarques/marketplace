@@ -20,7 +20,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
       
       // Redireciona conforme a API sugeriu
-      window.location.href = data.redirect || '/paginas/conta.html';
+      window.location.href = data.redirect || '../paginas/conta.html';
     } else {
       alert(`${data.message}\n${data.suggestion || ''}`);
     }
