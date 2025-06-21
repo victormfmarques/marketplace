@@ -48,7 +48,7 @@ document.querySelector('.content')?.addEventListener('submit', async (e) => {
     if (response.ok) {
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
       alert('Cadastro realizado com sucesso!');
-      window.location.href = '/paginas/home.html';  // Redireciona direto para a conta
+      window.location.href = '/paginas/home.html';  // Redireciona direto para a home
     } else {
       alert(data.message || 'Erro no cadastro');
     }
