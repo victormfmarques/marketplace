@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       }
 
       // Verifica se a senha está criptografada
-      const isSenhaCriptografada = usuario.senha.startsWith('$2a$');
+      const isSenhaCriptografada = email.senha.startsWith('$2a$');
       let senhaValida = false;
       
       if (isSenhaCriptografada) {
