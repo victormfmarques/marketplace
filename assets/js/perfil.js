@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Configura o logout
   document.getElementById('btn-logout').addEventListener('click', () => {
     localStorage.removeItem('usuarioLogado');
-    window.location.href = 'index.html';
+    window.location.href = '/index.html';
   });
 });
 
