@@ -38,7 +38,9 @@ export default async function handler(req, res) {
     // Prepara os dados para atualização
     const updateData = {
       nome: nome || usuario.nome,
-      sexo: sexo || usuario.sexo,
+      sexo: sexo === 'm' ? 'masculino' : 
+        sexo === 'f' ? 'feminino' : 
+        sexo || usuario.sexo,
       dataNascimento: dataNascimento || usuario.dataNascimento,
       telefone: telefone || usuario.telefone,
       email: email || usuario.email,

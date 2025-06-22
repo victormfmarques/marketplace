@@ -96,18 +96,23 @@ function preencherFormulario(usuario) {
   document.getElementById('itel').value = usuario.telefone || '';
   document.getElementById('iemail').value = usuario.email || '';
 
-  // Verifica o valor exato do gênero armazenado
-  console.log('Gênero do usuário:', usuario.sexo);
+  // Debug: verifique o valor exato no console
+  console.log('Valor do gênero no banco:', usuario.sexo);
   
-  // Remove seleção prévia
+  // Normaliza o valor do gênero para comparação
+  const genero = usuario.sexo?.toLowerCase().trim();
+  
+  // Remove seleções anteriores
   document.getElementById('imas').checked = false;
   document.getElementById('ifem').checked = false;
-  
-  // Marca o radio button correto (compatível com o banco)
-  if (usuario.sexo === 'masculino' || usuario.sexo === 'm') {
+
+  // Marca o radio button correto
+  if (genero === 'masculino' || genero === 'm' || genero === 'male') {
     document.getElementById('imas').checked = true;
-  } else if (usuario.sexo === 'feminino' || usuario.sexo === 'f') {
+  } else if (genero === 'feminino' || genero === 'f' || genero === 'female') {
     document.getElementById('ifem').checked = true;
+  } else {
+    console.warn('Valor de gênero não reconhecido:', usuario.sexo);
   }
 
   // Atualiza a saudação
