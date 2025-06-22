@@ -1,59 +1,61 @@
+import { MongoClient } from 'mongodb';
+import bcrypt from 'bcrypt';
+
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri);
+
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { email, senha } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Método não permitido' });
+  }
 
-    try {
-      await client.connect();
-      const db = client.db('marketplace');
-      const usuario = await db.collection('usuarios').findOne({ email });
+  // Verifica se email e senha foram enviados
+  const { email, senha } = req.body;
+  if (!email || !senha) {
+    return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+  }
 
-      if (!usuario) {
-        return res.status(404).json({ 
-          message: 'Usuário não encontrado',
-          suggestion: 'Verifique o email ou cadastre-se'
-        });
-      }
+  try {
+    await client.connect();
+    const db = client.db('marketplace');
+    const usuario = await db.collection('usuarios').findOne({ email });
 
-      // Debug: Mostrar informações importantes
-      console.log('Senha digitada:', senha);
-      console.log('Hash armazenado:', usuario.senha);
-
-      // Verificação correta do hash
-      const senhaValida = await bcrypt.compare(senha, usuario.senha);
-
-      console.log('Resultado da comparação:', senhaValida);
-
-      if (!senhaValida) {
-        return res.status(401).json({ 
-          message: 'Credenciais inválidas',
-          suggestion: 'Verifique sua senha'
-        });
-      }
-
-      const { senha: _, ...usuarioSemSenha } = usuario;
-      
-      res.status(200).json({ 
-        success: true,
-        message: 'Login bem-sucedido!',
-        usuario: usuarioSemSenha,
-        redirect: '/paginas/home.html'
+    // Verifica se o usuário existe
+    if (!usuario) {
+      return res.status(404).json({ 
+        message: 'Usuário não encontrado',
+        suggestion: 'Verifique o email ou cadastre-se'
       });
-
-    } catch (error) {
-      console.error('Erro no login:', error);
-      res.status(500).json({ 
-        message: 'Erro interno no servidor',
-        error: error.message,
-        code: 'LOGIN_ERROR'
-      });
-    } finally {
-      await client.close();
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ 
-      message: 'Método não permitido',
-      allowedMethods: ['POST']
+
+    // Verifica se a senha está correta
+    const senhaValida = await bcrypt.compare(senha, usuario.senha);
+    if (!senhaValida) {
+      return res.status(401).json({ 
+        message: 'Senha incorreta',
+        suggestion: 'Tente novamente ou redefina sua senha'
+      });
+    }
+
+    // Remove a senha antes de enviar a resposta
+    const { senha: _, ...usuarioSemSenha } = usuario;
+
+    // Login bem-sucedido
+    res.status(200).json({ 
+      success: true,
+      message: 'Login realizado com sucesso!',
+      usuario: usuarioSemSenha,
+      redirect: '/paginas/home.html'
     });
+
+  } catch (error) {
+    console.error('🔴 ERRO NO LOGIN:', error);
+    res.status(500).json({ 
+      message: 'Erro interno no servidor',
+      error: error.message,
+      code: 'LOGIN_FAILED'
+    });
+  } finally {
+    await client.close();
   }
 }
