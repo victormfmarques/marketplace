@@ -21,8 +21,7 @@ export default async function handler(req, res) {
       }
 
       // Verifica se a senha no banco está criptografada
-      const isSenhaCriptografada = usuario.senha.startsWith('$2a$');
-      let senhaValida = false;
+      const senhaValida = await bcrypt.compare(senhaDigitadaNoLogin, hashArmazenadoNoBanco);
       
       if (isSenhaCriptografada) {
         // Compara a senha fornecida com o hash no banco
