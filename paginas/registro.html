@@ -223,6 +223,17 @@
             font-size: 24px;
         }
 
+        .error-border {
+            border: 1px solid red !important;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         /* Responsividade */
         @media (min-width: 600px) {
             #opcoes-quiz {
@@ -272,10 +283,12 @@
         <p>
             <label for="isenha">Senha</label>
             <input type="password" name="senha" id="isenha" required minlength="6">
+            <small class="error-message" style="color: red; display: none;"></small>
         </p>
         <p>
             <label for="iconfirmasenha">Confirme a Senha</label>
-            <input type="password" id="iconfirmasenha" minlength="6">
+            <input type="password" id="iconfirmasenha" required minlength="6">
+            <small class="error-message" style="color: red; display: none;"></small>
         </p>
         <p>
             <input id="enviar" type="submit" value="Enviar">

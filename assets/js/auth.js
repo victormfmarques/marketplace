@@ -104,6 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('A senha deve ter pelo menos 8 caracteres');
       }
 
+      // Validação da confirmação de senha
+      if (senha !== confirmacaoSenha) {
+        throw new Error('A senha e a confirmação não coincidem');
+      }
+
       // Requisição
       const response = await fetch('/api/cadastro', {
         method: 'POST',
@@ -132,4 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  // Validação em tempo real da confirmação de senha
+    document.getElementById('iconfirmasenha')?.addEventListener('input', function() {
+      const senha = document.getElementById('isenha').value;
+      const confirmacao = this.value;
+      
+      if (senha && confirmacao && senha !== confirmacao) {
+        this.classList.add('error-border');
+        document.getElementById('isenha').classList.add('error-border');
+      } else {
+        this.classList.remove('error-border');
+        document.getElementById('isenha').classList.remove('error-border');
+      }
+    });
 });
