@@ -10,22 +10,21 @@ export default async function handler(req, res) {
       await client.connect();
       const db = client.db('marketplace');
       
-      // COLOQUE O CÓDIGO NOVO AQUI (começa aqui ▼)
       const { email, ...updateData } = req.body;
 
-      // Tratamento de campos vazios
-      updateData.telefone = updateData.telefone === "" ? null : updateData.telefone;
-      updateData.dataNascimento = updateData.dataNascimento 
-        ? new Date(updateData.dataNascimento) 
-        : null;
-      // termina aqui ▲
+// VALIDAÇÃO DE DATAS
+const validarData = (dataString) => {
+  const data = new Date(dataString);
+  return !isNaN(data.getTime()) && data.getFullYear() > 1900;
+};
 
-      // O resto do seu código continua igual daqui pra baixo...
-      if (updateData.senha) {
-        updateData.senha = await bcrypt.hash(updateData.senha, 10);
-      } else {
-        delete updateData.senha;
-      }
+if (updateData.dataNascimento && !validarData(updateData.dataNascimento)) {
+  delete updateData.dataNascimento; // Remove se for inválida
+}
+if (updateData.telefone === "") {
+  updateData.telefone = null; // Garante null explícito
+}
+
 
       const usuarioAtualizado = await db.collection('usuarios').findOne({ email });
       const { senha, ...usuarioSemSenha } = usuarioAtualizado;

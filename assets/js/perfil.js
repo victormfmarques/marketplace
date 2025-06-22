@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
           nome: document.getElementById('inome').value,
           sexo: document.querySelector('input[name="sexo"]:checked')?.value,
           dataNascimento: document.getElementById('idat').value || null,
-          telefone: document.getElementById('itel').value.trim() || null,
+          telefone: document.getElementById('itel').value || null,
           email: document.getElementById('iemail').value,
           senha: document.getElementById('isenha').value || undefined
         })
