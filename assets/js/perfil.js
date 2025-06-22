@@ -1,11 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // 1. Recupera os dados do usuário
-  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  // 1. Limpe o localStorage se os dados estiverem corrompidos
+  localStorage.removeItem('usuarioLogado-corrupto'); // Backup opcional
   
-  if (!usuario) {
-    window.location.href = '/login.html';
+  // 2. Recupere os dados com validação FORTE
+  let usuario;
+  try {
+    usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuario || !usuario.email) throw new Error('Dados inválidos');
+  } catch (error) {
+    console.error("Dados corrompidos:", error);
+    window.location.href = '/login.html?error=session_expired';
     return;
   }
+
+  // ... restante do código .
 
   // 2. Preenche o formulário com os dados
   document.getElementById('inome').value = usuario.nome || '';
