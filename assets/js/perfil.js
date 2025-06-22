@@ -96,10 +96,17 @@ function preencherFormulario(usuario) {
   document.getElementById('itel').value = usuario.telefone || '';
   document.getElementById('iemail').value = usuario.email || '';
 
-  // Marca o sexo correto
-  if (usuario.sexo === 'masculino') {
+  // Verifica o valor exato do gênero armazenado
+  console.log('Gênero do usuário:', usuario.sexo);
+  
+  // Remove seleção prévia
+  document.getElementById('imas').checked = false;
+  document.getElementById('ifem').checked = false;
+  
+  // Marca o radio button correto (compatível com o banco)
+  if (usuario.sexo === 'masculino' || usuario.sexo === 'm') {
     document.getElementById('imas').checked = true;
-  } else if (usuario.sexo === 'feminino') {
+  } else if (usuario.sexo === 'feminino' || usuario.sexo === 'f') {
     document.getElementById('ifem').checked = true;
   }
 
