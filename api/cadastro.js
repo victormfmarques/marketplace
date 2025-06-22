@@ -6,32 +6,44 @@ const client = new MongoClient(uri);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, sexo, dataNascimento, telefone } = req.body;
 
     try {
       await client.connect();
       const db = client.db('marketplace');
-      const usuarioExistente = await db.collection('usuarios').findOne({ email });
 
+      // Verifica se email já existe
+      const usuarioExistente = await db.collection('usuarios').findOne({ email });
       if (usuarioExistente) {
         return res.status(400).json({ message: 'Email já cadastrado' });
       }
 
+      // Criptografa a senha
       const senhaCriptografada = await bcrypt.hash(senha, 10);
-      const novoUsuario = { nome, email, senha: senhaCriptografada };
-      await db.collection('usuarios').insertOne(novoUsuario);
 
-      // // Remove a senha antes de enviar os dados do usuário
-      // const { senha: _, ...usuarioSemSenha } = usuario;
-      
-      // res.status(200).json({ 
-      //   success: true,
-      //   message: 'Registro bem-sucedido!',
-      //   usuario: usuarioSemSenha,
-      //   redirect: '/paginas/home.html'
-      // });
+      // Insere com TODOS os campos
+      const result = await db.collection('usuarios').insertOne({
+        nome,
+        email,
+        senha: senhaCriptografada,
+        sexo,
+        dataNascimento: new Date(dataNascimento), // Converte para Date
+        telefone,
+        dataCadastro: new Date()
+      });
 
-      res.status(201).json({ message: 'Usuário registrado com sucesso!' });
+      res.status(201).json({ 
+        message: 'Usuário registrado com sucesso!',
+        usuario: {
+          _id: result.insertedId,
+          nome,
+          email,
+          sexo,
+          dataNascimento,
+          telefone
+        }
+      });
+
     } catch (error) {
       res.status(500).json({ message: 'Erro no servidor', error: error.message });
     } finally {
