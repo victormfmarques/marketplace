@@ -10,22 +10,21 @@ export default async function handler(req, res) {
       await client.connect();
       const db = client.db('marketplace');
       
+      // COLOQUE O CÓDIGO NOVO AQUI (começa aqui ▼)
       const { email, ...updateData } = req.body;
-      
-      // Se senha foi enviada, criptografa
+
+      // Tratamento de campos vazios
+      updateData.telefone = updateData.telefone === "" ? null : updateData.telefone;
+      updateData.dataNascimento = updateData.dataNascimento 
+        ? new Date(updateData.dataNascimento) 
+        : null;
+      // termina aqui ▲
+
+      // O resto do seu código continua igual daqui pra baixo...
       if (updateData.senha) {
         updateData.senha = await bcrypt.hash(updateData.senha, 10);
       } else {
         delete updateData.senha;
-      }
-
-      const result = await db.collection('usuarios').updateOne(
-        { email },
-        { $set: updateData }
-      );
-
-      if (result.modifiedCount === 0) {
-        return res.status(400).json({ message: 'Nenhum dado foi alterado' });
       }
 
       const usuarioAtualizado = await db.collection('usuarios').findOne({ email });
