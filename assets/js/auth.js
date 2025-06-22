@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========== LOGIN ==========
   document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const btnLogin = document.getElementById('btn-login');
     const emailInput = document.getElementById('iemail');
     const senhaInput = document.getElementById('isenha');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Validação básica
       const email = emailInput.value.trim();
       const senha = senhaInput.value;
-      
+
       if (!email || !senha) {
         throw new Error('Por favor, preencha todos os campos');
       }
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Tratamento da resposta
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Erro no servidor durante o login');
       }
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error('Erro no login:', error);
       alert(error.message || 'Falha na autenticação. Tente novamente.');
-      
+
       // Foca no campo problemático
       if (error.message.includes('email')) {
         emailInput.focus();
@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========== CADASTRO ==========
   document.getElementById('form-cadastro')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const btnCadastro = document.querySelector('#form-cadastro button[type="submit"]');
-    
+
     try {
       // Estado de loading
       if (btnCadastro) {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       // Validação básica
-      if (!usuario.email || !usuario.senha) {
+      if (!usuario.email || !usuario.senha || !confirmacaoSenha) {
         throw new Error('Email e senha são obrigatórios');
       }
 
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Erro no cadastro');
       }
@@ -129,6 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } catch (error) {
       console.error('Erro no cadastro:', error);
+
+      // Destaca os campos com erro
+      if (error.message.includes('não coincidem')) {
+        document.getElementById('isenha').style.border = '1px solid red';
+        document.getElementById('iconfirmasenha').style.border = '1px solid red';
+      }
+
       alert(error.message || 'Falha no cadastro. Verifique os dados e tente novamente.');
     } finally {
       if (btnCadastro) {
@@ -139,16 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Validação em tempo real da confirmação de senha
-    document.getElementById('iconfirmasenha')?.addEventListener('input', function() {
-      const senha = document.getElementById('isenha').value;
-      const confirmacao = this.value;
-      
-      if (senha && confirmacao && senha !== confirmacao) {
-        this.classList.add('error-border');
-        document.getElementById('isenha').classList.add('error-border');
-      } else {
-        this.classList.remove('error-border');
-        document.getElementById('isenha').classList.remove('error-border');
-      }
-    });
+  document.getElementById('iconfirmasenha')?.addEventListener('input', function () {
+    const senha = document.getElementById('isenha').value;
+    const confirmacao = this.value;
+
+    if (senha && confirmacao && senha !== confirmacao) {
+      this.classList.add('error-border');
+      document.getElementById('isenha').classList.add('error-border');
+    } else {
+      this.classList.remove('error-border');
+      document.getElementById('isenha').classList.remove('error-border');
+    }
+  });
 });
