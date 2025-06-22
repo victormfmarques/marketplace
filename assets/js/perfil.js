@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify({
           nome: document.getElementById('inome').value,
           sexo: document.querySelector('input[name="sexo"]:checked')?.value,
-          dataNascimento: document.getElementById('idat').value,
-          telefone: document.getElementById('itel').value,
+          dataNascimento: document.getElementById('idat').value || null,
+          telefone: document.getElementById('itel').value.trim() || null,
           email: document.getElementById('iemail').value,
           senha: document.getElementById('isenha').value || undefined
         })
