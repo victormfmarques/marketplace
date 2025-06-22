@@ -25,7 +25,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 });
 
 // Registro - Adaptado para seu formulário
-document.querySelector('.content')?.addEventListener('submit', async (e) => {
+document.getElementById('form-cadastro')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   
   const usuario = {
