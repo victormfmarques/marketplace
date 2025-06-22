@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         senhaValida = await bcrypt.compare(senha, email.senha);
       } else {
       // Compatibilidade com senhas não criptografadas (apenas para desenvolvimento)
-         senhaValida = senha === usuario.senha;
+         senhaValida = senha === email.senha;
        }
 
        if (!senhaValida) {
