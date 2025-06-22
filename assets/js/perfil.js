@@ -66,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Perfil atualizado com sucesso!');
 
       // Limpa os campos de senha se existirem
-      if (document.getElementById('isenha-atual')) {
-        document.getElementById('isenha-atual').value = '';
+      if (document.getElementById('isenha')) {
+        document.getElementById('isenha').value = '';
       }
-      if (document.getElementById('isenha-nova')) {
-        document.getElementById('isenha-nova').value = '';
+      if (document.getElementById('insenha')) {
+        document.getElementById('insenha').value = '';
       }
 
     } catch (error) {
