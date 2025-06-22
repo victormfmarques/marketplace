@@ -28,7 +28,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 document.querySelector('.content')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  const formData = {
+  const usuario = {
     nome: document.getElementById('inome').value,
     sexo: document.querySelector('input[name="sexo"]:checked')?.value || '',
     dataNascimento: document.getElementById('idat').value,
@@ -41,7 +41,7 @@ document.querySelector('.content')?.addEventListener('submit', async (e) => {
     const response = await fetch('/api/cadastro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(usuario),
     });
 
     const data = await response.json();
