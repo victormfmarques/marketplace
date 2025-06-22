@@ -40,7 +40,7 @@ export default async function handler(req, res) {
           email,
           sexo,
           dataNascimento,
-          telefone
+          telefone,
         },
         redirect: '/paginas/home.html'
       });
