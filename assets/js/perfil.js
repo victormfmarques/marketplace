@@ -72,6 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // 4. Botão de logout
   document.getElementById('btn-logout').addEventListener('click', function() {
     localStorage.removeItem('usuarioLogado');
-    window.location.href = '/login.html';
+    window.location.href = '/index.html';
   });
 });

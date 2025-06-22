@@ -35,7 +35,6 @@
                         <li><a href="../paginas/contatos.html">Contatos</a></li>
                         <li><a href="../paginas/conta.html">Minha Conta</a></li>
                     </ul>
-                    <button onclick="logout()">Sair</button>
                 </nav>
 
                 <!-- CARRINHO DE COMPRAS -->
@@ -299,12 +298,6 @@
                 saudacaoElement.textContent = `Olá, ${usuarioLogado.nome}!`;
             }
         }
-    </script>
-    <script>
-    function logout() {
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = '/index.html';
-    }
     </script>
 </body>
 </html>
