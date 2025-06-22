@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         telefone: document.getElementById('itel').value,
         email: document.getElementById('iemail').value,
         senha: document.getElementById('isenha').value,
-        novaSenha: document.getElementById('inova-senha').value || null // Só envia se foi preenchida
+        nsenha: document.getElementById('insenha').value || null // Só envia se foi preenchida
       };
 
       // Validação básica
