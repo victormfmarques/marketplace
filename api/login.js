@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
       // Verifica se a senha está criptografada
       const isSenhaCriptografada = email.senha.startsWith('$2a$');
-      let senhaValida = false;
+      let senhaValida = true;
       
       if (isSenhaCriptografada) {
         senhaValida = await bcrypt.compare(senha, email.senha);
