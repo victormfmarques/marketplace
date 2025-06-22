@@ -41,7 +41,8 @@ export default async function handler(req, res) {
           sexo,
           dataNascimento,
           telefone
-        }
+        },
+        redirect: '/paginas/home.html'
       });
 
     } catch (error) {
