@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCadastro.textContent = 'Registrando...';
       }
 
+      // Primeiro obtenha todos os valores necessários
+      const senha = document.getElementById('isenha')?.value;
+      const confirmacaoSenha = document.getElementById('iconfirmasenha')?.value;
+
+      
       // Validação dos dados
       const usuario = {
         nome: document.getElementById('inome')?.value.trim(),
@@ -92,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dataNascimento: document.getElementById('idat')?.value,
         telefone: document.getElementById('itel')?.value.replace(/\D/g, ''),
         email: document.getElementById('iemail')?.value.trim(),
-        senha: document.getElementById('isenha')?.value
+        senha: senha // Use a variável que acabamos de definir
       };
 
       // Validação básica
