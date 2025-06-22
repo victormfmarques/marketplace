@@ -12,17 +12,23 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('iemail').value = usuario.email || '';
   
   // Preenche gênero
-  if (usuario.sexo) {
-    document.getElementById(usuario.sexo === 'masculino' ? 'imas' : 'ifem').checked = true;
-  }
+  if (usuario.sexo === 'masculino' || usuario.sexo === 'on') {  // "on" é o valor padrão de radio buttons
+  document.getElementById('imas').checked = true;
+} else if (usuario.sexo === 'feminino') {
+  document.getElementById('ifem').checked = true;
+}
   
   // Preenche data (formato YYYY-MM-DD)
-  if (usuario.dataNascimento) {
-    const data = new Date(usuario.dataNascimento);
-    document.getElementById('idat').value = data.toISOString().split('T')[0];
-  }
+ if (usuario.dataNascimento && !usuario.dataNascimento.includes('1970')) {  // Ignora datas padrão
+  const data = new Date(usuario.dataNascimento);
+  document.getElementById('idat').value = data.toISOString().split('T')[0];
+} else {
+  document.getElementById('idat').value = '';  // Deixa vazio se for data inválida
+}
   
-  document.getElementById('itel').value = usuario.telefone || '';
+  document.getElementById('itel').value = usuario.telefone && usuario.telefone !== 'null' 
+  ? usuario.telefone 
+  : '';
 
   // 3. Configura o envio do formulário
   document.getElementById('form-perfil').addEventListener('submit', async function(e) {
