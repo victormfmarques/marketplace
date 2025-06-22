@@ -44,7 +44,8 @@ export default async function handler(req, res) {
         sexoNormalizado = 'masculino'; // valor padrão
       }
 
-
+    console.log('Sexo recebido:', sexo, 'Normalizado:', sexoNormalizado);
+    
     // Prepara os dados para atualização
     const updateData = {
       nome: nome || usuario.nome,
