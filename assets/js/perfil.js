@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Envia para a API
-      const response = await fetch('/api/perfil', {
+      const response = await fetch('/api/atualizar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
