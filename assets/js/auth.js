@@ -96,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       // Validação básica
-      if (!usuario.email || !usuario.senha || !confirmacaoSenha) {
+      if (!usuario.email || !senha || !confirmacaoSenha) {
         throw new Error('Email e senha são obrigatórios');
       }
 
-      if (usuario.senha.length < 8) {
+      if (senha.length < 8) {
         throw new Error('A senha deve ter pelo menos 8 caracteres');
       }
 
