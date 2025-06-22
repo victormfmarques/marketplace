@@ -40,9 +40,8 @@ export default async function handler(req, res) {
           email,
           sexo,
           dataNascimento,
-          telefone,
-        },
-        redirect: '/paginas/home.html'
+          telefone
+        }
       });
 
     } catch (error) {
