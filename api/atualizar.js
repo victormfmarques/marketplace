@@ -47,6 +47,8 @@ export default async function handler(req, res) {
       ultimaAtualizacao: new Date()
     };
 
+    console.log('Sexo recebido para atualização:', sexo);
+
     // Se houver nova senha, criptografa e adiciona
     if (nsenha) {
       updateData.senha = await bcrypt.hash(nsenha, 10);
