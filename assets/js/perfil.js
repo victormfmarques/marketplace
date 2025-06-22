@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/auth/atualizar', {
+      const response = await fetch('/api/atualizar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
