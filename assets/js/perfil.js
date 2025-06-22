@@ -24,11 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
       btnLogout.disabled = true;
       btnSubmit.value = 'Atualizando...';
 
+    const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;  
+
       // Obtém os dados do formulário
       const formData = {
         userId: usuarioLogado._id,
         nome: document.getElementById('inome').value,
-        sexo: document.querySelector('input[name="sexo"]:checked')?.value,
+        sexo: sexoSelecionado, // Isso agora vai capturar "masculino" ou "feminino"
         dataNascimento: document.getElementById('idat').value,
         telefone: document.getElementById('itel').value,
         email: document.getElementById('iemail').value,
@@ -96,24 +98,17 @@ function preencherFormulario(usuario) {
   document.getElementById('itel').value = usuario.telefone || '';
   document.getElementById('iemail').value = usuario.email || '';
 
-  // Debug: verifique o valor exato no console
-  console.log('Valor do gênero no banco:', usuario.sexo);
+  // Corrige para lidar com o valor "on" incorreto
+  const generoCorrigido = usuario.sexo === 'on' ? 
+                         (usuario.genero || 'masculino') : // fallback caso exista outro campo
+                         usuario.sexo;
   
-  // Normaliza o valor do gênero para comparação
-  const genero = usuario.sexo?.toLowerCase().trim();
+  // Normaliza o valor
+  const genero = generoCorrigido.toLowerCase().trim();
   
-  // Remove seleções anteriores
-  document.getElementById('imas').checked = false;
-  document.getElementById('ifem').checked = false;
-
   // Marca o radio button correto
-  if (genero === 'masculino' || genero === 'm' || genero === 'male') {
-    document.getElementById('imas').checked = true;
-  } else if (genero === 'feminino' || genero === 'f' || genero === 'female') {
-    document.getElementById('ifem').checked = true;
-  } else {
-    console.warn('Valor de gênero não reconhecido:', usuario.sexo);
-  }
+  document.getElementById('imas').checked = genero.includes('masc');
+  document.getElementById('ifem').checked = genero.includes('fem');
 
   // Atualiza a saudação
   document.getElementById('saudacao').textContent = `Olá, ${usuario.nome}!`;

@@ -35,12 +35,20 @@ export default async function handler(req, res) {
       }
     }
 
+    let sexoNormalizado = sexo;
+
+      if (sexo === 'on') {
+        // Corrige o valor "on" incorreto
+        sexoNormalizado = 'masculino'; // ou feminino, conforme padrão desejado
+      } else if (!['masculino', 'feminino', 'm', 'f'].includes(sexo.toLowerCase())) {
+        sexoNormalizado = 'masculino'; // valor padrão
+      }
+
+
     // Prepara os dados para atualização
     const updateData = {
       nome: nome || usuario.nome,
-      sexo: sexo === 'm' ? 'masculino' : 
-        sexo === 'f' ? 'feminino' : 
-        sexo || usuario.sexo,
+      sexo: sexoNormalizado,
       dataNascimento: dataNascimento || usuario.dataNascimento,
       telefone: telefone || usuario.telefone,
       email: email || usuario.email,
