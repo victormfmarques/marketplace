@@ -251,6 +251,21 @@
       font-size: 24px;
     }
 
+    #btn-excluir-conta {
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    #btn-excluir-conta:hover {
+      background-color: #cc0000;
+    }
+
     /* Responsividade */
     @media (min-width: 600px) {
       #opcoes-quiz {
@@ -313,6 +328,7 @@
       <input id="enviar" type="submit" value="Atualizar Perfil">
       <button type="button" id="btn-logout">Sair</button>
     </p>
+    <button type="button" id="btn-excluir-conta" style="background-color: #ff4444; color: white; margin-top: 20px;">Excluir Minha Conta Permanentemente</button>
   </form>
 
   <div class="educacao-ambiental">

@@ -113,3 +113,54 @@ function preencherFormulario(usuario) {
   // Atualiza a saudação
   document.getElementById('saudacao').textContent = `Olá, ${usuario.nome}!`;
 }
+
+function configurarExclusaoConta() {
+  const btnExcluir = document.getElementById('btn-excluir-conta');
+  
+  btnExcluir?.addEventListener('click', async () => {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    
+    if (!usuarioLogado) {
+      alert('Faça login para acessar esta função');
+      return;
+    }
+
+    const senha = prompt('Para confirmar a exclusão da sua conta, digite sua senha:');
+    
+    if (!senha) return;
+
+    try {
+      if (!confirm('ATENÇÃO: Todos seus dados serão permanentemente apagados. Deseja continuar?')) {
+        return;
+      }
+
+      const response = await fetch('/api/excluirConta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: usuarioLogado._id,
+          senha: senha
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao excluir conta');
+      }
+
+      alert(data.message || 'Conta excluída com sucesso!');
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = '/index.html';
+
+    } catch (error) {
+      console.error('Erro ao excluir conta:', error);
+      alert(error.message || 'Falha ao excluir conta');
+    }
+  });
+}
+
+// Chame esta função no DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  configurarExclusaoConta();
+});
