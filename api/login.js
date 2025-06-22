@@ -1,9 +1,3 @@
-import { MongoClient } from 'mongodb';
-import bcrypt from 'bcrypt';
-
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { email, senha } = req.body;
@@ -20,16 +14,14 @@ export default async function handler(req, res) {
         });
       }
 
-      // Verifica se a senha no banco está criptografada
-      const senhaValida = await bcrypt.compare(senhaDigitadaNoLogin, hashArmazenadoNoBanco);
-      
-      if (isSenhaCriptografada) {
-        // Compara a senha fornecida com o hash no banco
-        senhaValida = await bcrypt.compare(senha, usuario.senha);
-      } else {
-        // Compatibilidade com senhas não criptografadas (apenas para desenvolvimento)
-        senhaValida = senha === usuario.senha;
-      }
+      // Debug: Mostrar informações importantes
+      console.log('Senha digitada:', senha);
+      console.log('Hash armazenado:', usuario.senha);
+
+      // Verificação correta do hash
+      const senhaValida = await bcrypt.compare(senha, usuario.senha);
+
+      console.log('Resultado da comparação:', senhaValida);
 
       if (!senhaValida) {
         return res.status(401).json({ 
@@ -38,7 +30,6 @@ export default async function handler(req, res) {
         });
       }
 
-      // Remove a senha antes de enviar os dados do usuário
       const { senha: _, ...usuarioSemSenha } = usuario;
       
       res.status(200).json({ 
