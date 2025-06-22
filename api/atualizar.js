@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   // Verifica se o usuário está autenticado via token ou session
-  const { userId, nome, sexo, dataNascimento, telefone, email, senhaAtual, novaSenha } = req.body;
+  const { userId, nome, sexo, dataNascimento, telefone, email, senha, nsenha } = req.body;
 
   if (!userId) {
     return res.status(401).json({ message: 'Não autorizado' });
@@ -28,8 +28,8 @@ export default async function handler(req, res) {
     }
 
     // Verifica se a senha atual está correta (se for alteração de senha)
-    if (novaSenha) {
-      const senhaValida = await bcrypt.compare(senhaAtual, usuario.senha);
+    if (nsenha) {
+      const senhaValida = await bcrypt.compare(senha, usuario.senha);
       if (!senhaValida) {
         return res.status(401).json({ message: 'Senha atual incorreta' });
       }
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
     };
 
     // Se houver nova senha, criptografa e adiciona
-    if (novaSenha) {
-      updateData.senha = await bcrypt.hash(novaSenha, 10);
+    if (nsenha) {
+      updateData.senha = await bcrypt.hash(nsenha, 10);
     }
 
     // Atualiza no banco de dados
