@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Se nova senha foi informada, verifica se a atual foi fornecida
-      if (formData.novaSenha && !formData.senha) {
+      if (formData.nsenha && !formData.senha) {
         throw new Error('Para alterar a senha, informe a senha atual');
       }
 
