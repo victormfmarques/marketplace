@@ -32,6 +32,15 @@ export default async function handler(req, res) {
   try {
     const database = await connectToDatabase();
     
+    // Converte todos os preços para número se forem strings
+    if (Array.isArray(produtos)) {
+    produtos.forEach(p => {
+        if (typeof p.preco === 'string') {
+        p.preco = parseFloat(p.preco.replace(',', '.')) || 0;
+        }
+    });
+    }
+
     // Configuração base da query
     let query = { status: 'ativo' };
     let sort = { dataCadastro: -1 };
@@ -92,6 +101,12 @@ export default async function handler(req, res) {
     produtosEncontrados: produtos.length,
     primeiroProduto: produtos[0]
     });
+    console.log('DEBUG - Pré-conversão:', {
+    id: produto._id,
+    precoOriginal: produto.preco,
+    precoConvertido: preco,
+    tipoOriginal: typeof produto.preco
+    });
     res.status(200).json({
       success: true,
       data: {
@@ -129,14 +144,17 @@ export default async function handler(req, res) {
 
 // Função auxiliar para formatação consistente
 function formatarProduto(produto) {
-  // Conversão segura do preço - versão corrigida
+  // Conversão robusta para o formato brasileiro
   let preco = 0;
   try {
-    // Corrige: usa produto.preco diretamente (não produto.price)
-    const precoString = (produto.preco || '0').replace(',', '.');
+    // Remove todos os caracteres não numéricos exceto vírgula e ponto
+    const precoString = (produto.preco || '0')
+      .toString()
+      .replace(/[^\d,]/g, '') // Mantém apenas dígitos e vírgula
+      .replace(',', '.');      // Converte vírgula para ponto
+    
     preco = parseFloat(precoString);
     
-    // Verifica se é um número válido
     if (isNaN(preco)) {
       console.error(`Preço inválido para produto ${produto._id}:`, produto.preco);
       preco = 0;
@@ -147,10 +165,10 @@ function formatarProduto(produto) {
   
   return {
     _id: produto._id,
-    nome: produto.nome || 'Produto sem nome', // Removido produto.name
-    descricao: produto.descricao || '', // Removido produto.describe
+    nome: produto.nome || 'Produto sem nome',
+    descricao: produto.descricao || '',
     preco: preco,
-    categoria: produto.categoria || 'outros', // Removido produto.categoría
+    categoria: produto.categoria || 'outros',
     fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
     usuarioId: produto.usuarioId || null,
     dataCadastro: produto.dataCadastro || new Date(),
