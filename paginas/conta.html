@@ -53,10 +53,6 @@
       border-radius: 20px;
     }
 
-    header a:visited {
-      color: white;
-    }
-
     .profile-pic {
       color: white;
       width: 100px;
@@ -72,9 +68,12 @@
     }
 
     .content {
+      display: flex;
+      flex-flow: column nowrap;
       background: white;
       padding: 20px;
       margin: 10px;
+      border: black 2px solid ;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       text-align: left;
@@ -82,14 +81,12 @@
 
     input {
       border-radius: 5px;
-      border: 1px solid black;
       padding: 4px;
-      font-weight: bold;
     }
 
     input[type=text] {
-      padding: 10px;
-      font-size: 18px;
+      padding: 8px;
+      font-size: 15px;
       width: 50%;
       height: 10px;
     }
@@ -111,22 +108,56 @@
       font-weight: bold;
     }
 
+    #botoes-container {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+    }
+
     #enviar {
       background-color: #83c716e0;
       border-radius: 10px;
       padding: 10px;
-      border: 0px;
+      border: none;
+      cursor: pointer;
       font-weight: bold;
       margin-left: 10px;
+      transition: background-color 0.3s;
+    }
+
+    #enviar:hover {
+      background-color: #83c716b6;
     }
 
     #btn-logout {
       background-color: rgba(221, 48, 48, 0.911);
       border-radius: 10px;
       padding: 10px;
-      border: 0px;
+      border: none;
+      cursor: pointer;
       font-weight: bold;
       margin-left: 4px;
+      transition: background-color 0.3s;
+    }
+
+    #btn-logout:hover {
+      background-color: rgba(221, 48, 48, 0.603);
+    }
+
+    #btn-excluir-conta {
+      background-color: rgba(221, 48, 48, 0.911);
+      margin-left: auto;
+      color: black;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    #btn-excluir-conta:hover {
+      background-color: rgba(221, 48, 48, 0.603);
     }
 
     .item {
@@ -159,6 +190,7 @@
       background: white;
       padding: 20px;
       margin: 10px;
+      border: 2px solid black;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
@@ -251,21 +283,6 @@
       font-size: 24px;
     }
 
-    #btn-excluir-conta {
-      background-color: #ff4444;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.3s;
-    }
-
-    #btn-excluir-conta:hover {
-      background-color: #cc0000;
-    }
-
     /* Responsividade */
     @media (min-width: 600px) {
       #opcoes-quiz {
@@ -324,11 +341,11 @@
       <label for="insenha">Nova Senha (opcional)</label>
       <input type="password" name="nsenha" id="insenha" placeholder="Nova senha">
     </p>
-    <p>
-      <input id="enviar" type="submit" value="Atualizar Perfil">
-      <button type="button" id="btn-logout">Sair</button>
-    </p>
-    <button type="button" id="btn-excluir-conta" style="background-color: #ff4444; color: white; margin-top: 20px;">Excluir Minha Conta Permanentemente</button>
+    <div id="botoes-container">
+        <input id="enviar" type="submit" value="Atualizar Perfil">
+        <button type="button" id="btn-logout">Sair</button>
+        <button type="button" id="btn-excluir-conta">Excluir Conta</button>
+    </div>
   </form>
 
   <div class="educacao-ambiental">
