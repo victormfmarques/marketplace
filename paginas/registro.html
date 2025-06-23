@@ -26,13 +26,13 @@
             max-width: 10%;
             height: auto;
             margin-left: -90%;
-            margin-top: -3%;
+            margin-top: -4%;
         }
 
         .profile-pic {
             color: white;
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             background: #eee;
             border-radius: 50%;
             margin: 10px auto 10px;
@@ -44,6 +44,8 @@
         }
 
         .content {
+            display: flex;
+            flex-flow: column nowrap;
             background: white;
             padding: 20px;
             margin: 10px;
@@ -54,14 +56,12 @@
 
         input {
             border-radius: 5px;
-            border: 1px solid black;
             padding: 4px;
-            font-weight: bold;
         }
 
         input[type=text] {
-            padding: 10px;
-            font-size: 18px;
+            padding: 8px;
+            font-size: 15px;
             width: 50%;
             height: 10px;
         }
@@ -84,22 +84,34 @@
         }
 
         #enviar {
-            background-color: #83c716;
+            background-color: #83c716e0;
             border-radius: 10px;
             padding: 10px;
-            border: 0px;
+            border: none;
+            cursor: pointer;
             font-weight: bold;
-            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        #enviar:hover {
+            background-color: #689e12;
         }
 
         #limpar {
-            background-color: rgb(221, 48, 48);
+            background-color: rgb(216, 45, 45);
             border-radius: 10px;
             padding: 10px;
-            border: 0px;
+            border: none;
+            cursor: pointer;
             font-weight: bold;
             margin-left: 4px;
+            transition: background-color 0.3s;
         }
+
+        #limpar:hover {
+            background-color: rgb(180, 37, 37);
+        }
+
 
         .item {
             display: flex;
@@ -227,11 +239,21 @@
             border: 1px solid red !important;
             animation: shake 0.5s;
         }
-        
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
         }
 
         /* Responsividade */
