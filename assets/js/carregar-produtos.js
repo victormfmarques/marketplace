@@ -12,19 +12,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       throw new Error(data.error || 'Resposta inválida da API');
     }
 
-    if (data.produtos.length === 0) {
+    if (data.produtos.length === 0) {  // Corrigido para data.produtos
       container.innerHTML = '<p class="no-products">Nenhum produto disponível</p>';
       return;
     }
 
-    container.innerHTML = produtos.map(produto => `
+    // Corrigido: usar data.produtos em vez de produtos
+    container.innerHTML = data.produtos.map(produto => `
       <div class="produto-card" data-id="${produto._id}">
         <a href="/paginas/detalhes-produto.html?id=${produto._id}">
-          <img src="${produto.fotos[0]}" alt="${produto.nome}">
+          <img src="${produto.fotos[0] || 'placeholder.jpg'}" 
+               alt="${produto.nome}"
+               onerror="this.src='placeholder.jpg'">
         </a>
         <h3>${produto.nome}</h3>
-        <p>${produto.descricao}</p>
-        <span class="preco">R$ ${produto.preco.toFixed(2)}</span>
+        <p>${produto.descricao || 'Sem descrição'}</p>
+        <span class="preco">R$ ${produto.preco?.toFixed(2) || '0,00'}</span>
         
         ${usuarioLogado && usuarioLogado._id === produto.usuarioId ? `
           <div class="produto-acoes">
