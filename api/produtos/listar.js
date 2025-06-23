@@ -85,6 +85,8 @@ export default async function handler(req, res) {
     // Resposta padronizada
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+    console.log('DEBUG - Produtos encontrados:', produtosFormatados);
+    console.log('DEBUG - Query executada:', query);
     res.status(200).json({
       success: true,
       data: {
