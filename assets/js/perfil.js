@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!usuarioLogado) {
     alert('Por favor, faça login para acessar esta página');
-    window.location.href = 'index.html';
+    window.location.href = '/index.html';
     return;
   }
 
