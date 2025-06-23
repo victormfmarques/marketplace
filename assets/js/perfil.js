@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btnLogout.disabled = true;
       btnSubmit.value = 'Atualizando...';
 
-    const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;
+      const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;
 
-    // Obtém e formata o telefone antes de enviar
-    const telefoneInput = document.getElementById('itel').value;
-    const telefoneFormatado = formatarTelefone(telefoneInput);
+      // Obtém e formata o telefone antes de enviar
+      const telefoneInput = document.getElementById('itel').value;
+      const telefoneFormatado = formatarTelefone(telefoneInput);
 
       // Obtém os dados do formulário
       const formData = {
@@ -104,13 +104,13 @@ function preencherFormulario(usuario) {
   document.getElementById('iemail').value = usuario.email || '';
 
   // Corrige para lidar com o valor "on" incorreto
-  const generoCorrigido = usuario.sexo === 'on' ? 
-                         (usuario.genero || 'masculino') : // fallback caso exista outro campo
-                         usuario.sexo;
-  
+  const generoCorrigido = usuario.sexo === 'on' ?
+    (usuario.genero || 'masculino') : // fallback caso exista outro campo
+    usuario.sexo;
+
   // Normaliza o valor
   const genero = generoCorrigido.toLowerCase().trim();
-  
+
   // Marca o radio button correto
   document.getElementById('imas').checked = genero.includes('masc');
   document.getElementById('ifem').checked = genero.includes('fem');
@@ -121,17 +121,17 @@ function preencherFormulario(usuario) {
 
 function configurarExclusaoConta() {
   const btnExcluir = document.getElementById('btn-excluir-conta');
-  
+
   btnExcluir?.addEventListener('click', async () => {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    
+
     if (!usuarioLogado) {
       alert('Faça login para acessar esta função');
       return;
     }
 
     const senha = prompt('Para confirmar a exclusão da sua conta, digite sua senha:');
-    
+
     if (!senha) return;
 
     try {
@@ -173,14 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function formatarTelefone(telefone) {
   // Remove tudo que não é dígito
   const apenasNumeros = telefone.replace(/\D/g, '');
-  
+
   // Aplica a formatação (XX) XXXX-XXXX ou (XX) XXXXX-XXXX
   if (apenasNumeros.length === 10) {
     return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 6)}-${apenasNumeros.substring(6)}`;
   } else if (apenasNumeros.length === 11) {
     return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 7)}-${apenasNumeros.substring(7)}`;
   }
-  
+
   // Retorna sem formatação se não tiver tamanho adequado
   return telefone;
 }
@@ -190,12 +190,12 @@ const telefoneFormatado = formatarTelefone('11987654321');
 console.log(telefoneFormatado); // (11) 98765-4321
 
 // Adicione isso no DOMContentLoaded
-document.getElementById('itel')?.addEventListener('input', function(e) {
+document.getElementById('itel')?.addEventListener('input', function (e) {
   // Obtém a posição do cursor
   const cursorPosition = e.target.selectionStart;
   const input = e.target;
   let value = input.value.replace(/\D/g, '');
-  
+
   // Formatação dinâmica
   if (value.length > 0) {
     value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
@@ -203,7 +203,7 @@ document.getElementById('itel')?.addEventListener('input', function(e) {
   if (value.length > 10) {
     value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
   }
-  
+
   input.value = value;
-  
+
 });
