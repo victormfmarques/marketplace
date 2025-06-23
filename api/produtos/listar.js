@@ -8,24 +8,32 @@ export default async function handler(req, res) {
     await client.connect();
     const db = client.db('marketplace');
     
+    let query = { status: 'ativo' };
+    
+    // Adiciona busca textual se existir
+    if (req.query.search) {
+      query.$text = { $search: req.query.search };
+    }
+    
+    // Adiciona filtro por categoria se existir
+    if (req.query.categoria) {
+      query.categoria = req.query.categoria;
+    }
+
     const produtos = await db.collection('produtos')
-      .find({ status: 'ativo' })
+      .find(query)
       .sort({ dataCadastro: -1 })
       .toArray();
 
     res.status(200).json({ produtos });
+    
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Erro no listar.js:', error);
+    res.status(500).json({ 
+      error: 'Erro interno no servidor',
+      details: error.message 
+    });
   } finally {
     await client.close();
   }
-}
-
-if (req.query.search) {
-  produtos = await db.collection('produtos')
-    .find({ 
-      status: 'ativo',
-      $text: { $search: req.query.search } 
-    })
-    .toArray();
 }
