@@ -1,21 +1,44 @@
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+const options = {
+  maxPoolSize: 5, // Conexões simultâneas
+  connectTimeoutMS: 5000,
+  socketTimeoutMS: 30000,
+};
+
+let cachedClient = null;
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
+
+  const client = await MongoClient.connect(uri, options);
+  const db = client.db('marketplace');
+
+  cachedClient = client;
+  cachedDb = db;
+
+  return { client, db };
+}
 
 export default async function handler(req, res) {
+  let client;
+  
   try {
-    await client.connect();
+    ({ client } = await connectToDatabase());
     const db = client.db('marketplace');
     
     let query = { status: 'ativo' };
     
-    // Adiciona busca textual se existir
     if (req.query.search) {
       query.$text = { $search: req.query.search };
+      // Certifique-se de ter criado o índice de texto no MongoDB:
+      // db.produtos.createIndex({ nome: "text", descricao: "text" })
     }
     
-    // Adiciona filtro por categoria se existir
     if (req.query.categoria) {
       query.categoria = req.query.categoria;
     }
@@ -31,9 +54,7 @@ export default async function handler(req, res) {
     console.error('Erro no listar.js:', error);
     res.status(500).json({ 
       error: 'Erro interno no servidor',
-      details: error.message 
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
-  } finally {
-    await client.close();
   }
 }
