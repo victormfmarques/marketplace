@@ -44,11 +44,19 @@ export default async function handler(req, res) {
     }
 
     const produtos = await db.collection('produtos')
-      .find(query)
-      .sort({ dataCadastro: -1 })
-      .toArray();
+  .find(query)
+  .sort({ dataCadastro: -1 })
+  .map(produto => ({
+    nome: produto.name,          // padroniza para 'nome'
+    descricao: produto.describe, // padroniza para 'descricao'
+    preco: parseFloat(produto.price.replace(',', '')), // corrige preço
+    categoria: produto.categoría.replace(',', ''),     // remove vírgula
+    fotos: produto.fotos,
+    _id: produto._id
+  }))
+  .toArray();
 
-    res.status(200).json({ produtos });
+res.status(200).json({ produtos });
     
   } catch (error) {
     console.error('Erro no listar.js:', error);
