@@ -9,7 +9,7 @@ cloudinary.config({
   secure: true
 });
 
-const uri = process.env.MONGODB_URI || 'mongodb+srv://victor:manoelvictor14@marketplace.msyyxna.mongodb.net/?retryWrites=true&w=majority&appName=marketplace';
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
   connectTimeoutMS: 5000,
   serverSelectionTimeoutMS: 5000
