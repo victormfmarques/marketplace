@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btnLogout.disabled = true;
       btnSubmit.value = 'Atualizando...';
 
-    const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;  
+    const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;
+
+    // Obtém e formata o telefone antes de enviar
+    const telefoneInput = document.getElementById('itel').value;
+    const telefoneFormatado = formatarTelefone(telefoneInput);
 
       // Obtém os dados do formulário
       const formData = {
@@ -32,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nome: document.getElementById('inome').value,
         sexo: sexoSelecionado, // Isso agora vai capturar "masculino" ou "feminino"
         dataNascimento: document.getElementById('idat').value,
-        telefone: document.getElementById('itel').value,
+        telefone: telefoneFormatado, // Usa o telefone formatado
         email: document.getElementById('iemail').value,
         senha: document.getElementById('isenha').value,
         nsenha: document.getElementById('insenha').value || null // Só envia se foi preenchida
@@ -95,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function preencherFormulario(usuario) {
   document.getElementById('inome').value = usuario.nome || '';
   document.getElementById('idat').value = usuario.dataNascimento?.split('T')[0] || '';
-  document.getElementById('itel').value = usuario.telefone || '';
+  // Aplica a formatação ao telefone ao preencher o formulário
+  document.getElementById('itel').value = formatarTelefone(usuario.telefone || '');
   document.getElementById('iemail').value = usuario.email || '';
 
   // Corrige para lidar com o valor "on" incorreto
@@ -183,3 +188,30 @@ function formatarTelefone(telefone) {
 // Exemplo de uso:
 const telefoneFormatado = formatarTelefone('11987654321');
 console.log(telefoneFormatado); // (11) 98765-4321
+
+// Adicione isso no DOMContentLoaded
+document.getElementById('itel')?.addEventListener('input', function(e) {
+  // Obtém a posição do cursor
+  const cursorPosition = e.target.selectionStart;
+  const input = e.target;
+  let value = input.value.replace(/\D/g, '');
+  
+  // Formatação dinâmica
+  if (value.length > 0) {
+    value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
+  }
+  if (value.length > 10) {
+    value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+  }
+  
+  input.value = value;
+  
+  // Mantém a posição do cursor
+  if (cursorPosition === 1 && value.length === 1) {
+    input.setSelectionRange(2, 2);
+  } else if (cursorPosition === 3 && value.length === 3) {
+    input.setSelectionRange(4, 4);
+  } else {
+    input.setSelectionRange(cursorPosition, cursorPosition);
+  }
+});
