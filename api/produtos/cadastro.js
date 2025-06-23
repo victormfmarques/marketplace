@@ -22,14 +22,7 @@ const uploadResult = await cloudinary.uploader.upload(fotoBase64, {
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      // --- TESTE DE UPLOAD (TEMPORÁRIO) ---
-      const testUpload = await cloudinary.uploader.upload(
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-        { folder: 'testes-eco-marketplace' }
-      );
-      console.log('✅ Upload de teste bem-sucedido:', testUpload.secure_url);
-      // --- FIM DO TESTE ---
-
+      
       await client.connect();
       const db = client.db('marketplace');
 
