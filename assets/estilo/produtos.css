@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --cor-padrao: #83c716;
+    --cor-padrao-hover: #597729;
+    --cor-btn: #563434;
+    --cor-btn-hover: #597729;
+    --cor-btn-fonte: #fff;
+    --cor-fonte-corpo: #333;
+}
+
+header {
+    background-image: linear-gradient(#597729, #83c716);
+    border-radius: 0px 0px 10px 10px;
+    padding: 20px;
+    position: relative;
+}
+
+header h1 {
+    color: black;
+    text-shadow: 1px 1px 1px #272727;
+    text-align: center;
+    font-size: 45px;
+    padding-top: 20px;
+}
+
+header img {
+    width: 73px;
+    height: auto;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+}
+
+.header-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-controls ul {
+    list-style-type: none;
+    font-weight: bolder;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.header-controls ul li {
+    color: white;
+}
+
+.header-controls a {
+    font-size: 30px;
+    padding: 5px;
+    color: white;
+    text-decoration: none;
+}
+
+.header-controls a:hover {
+    background-color: black;
+    transition: 0.5s;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+#subtitulo {
+    position: relative;
+    line-height: 60px;
+    margin: 0 auto 80px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.856);
+    font-size: 34px;
+    margin-bottom: 0px;
+}
+
+#subtitulo::after {
+    content: '';
+    background-color: #83c716;
+    width: 80px;
+    height: 5px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+main aside {
+    padding: 30px;
+    text-align: center;
+}
+
+main aside h2 {
+    color: #272727;
+    font-size: 34px;
+    text-align: center;
+}
+
+main aside p {
+    text-align: center;
+}
+
+.classificacao {
+    color: #83c716;
+}
+
+.produto-img {
+    border-radius: 5px;
+    width: 150px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.produto-img:hover {
+    transform: scale(1.05);
+}
+
+.carrinho-icone img {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+    top: -1px;
+    left: -1px;
+}
+
+#contador-carrinho {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--cor-btn);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.carrinho-dropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+}
+
+.carrinho-dropdown.show {
+    display: block;
+}
+
+#lista-carrinho {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.item-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px -1px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-carrinho img {
+    width: 60px;
+    height: 60px;
+    padding-right: 10px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-info h4 {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.item-info p {
+    margin: 3px 0;
+    font-size: 14px;
+    color: var(--cor-fonte-corpo);
+}
+
+.item-info p strong {
+    color: var(--cor-btn-fonte);
+}
+
+.remover-item {
+    background: none;
+    border: none;
+    color: #ff4444;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.carrinho-total {
+    font-weight: bold;
+    margin: 15px 0;
+    text-align: right;
+}
+
+.carrinho-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-finalizar {
+    width: 100%;
+    padding: 10px;
+    background: var(--cor-padrao);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-finalizar:hover {
+    background: var(--cor-padrao-hover);
+}
+
+.btn-limpar {
+    width: 100%;
+    padding: 10px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-limpar:hover {
+    background: #e60000;
+}
+
+.feedback {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--cor-padrao);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transform: translateY(-100px);
+    transition: transform 0.3s ease;
+}
+
+.feedback.show {
+    transform: translateY(0);
+}
+
+@media screen and (min-width:481px) {
+    header h1 {
+        font-size: 30px;
+    }
+
+    #subtitulo {
+        font-size: 25px;
+    }
+
+    main aside h2 {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:640px) {
+    header h1 {
+        font-size: 30px;
+    }
+
+    #subtitulo {
+        font-size: 25px;
+    }
+
+    main aside h2 {
+        font-size: 20px;
+    }
+}
+
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.produto-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.produto-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.categoria {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-top: 10px;
+}
+
+.categoria.artesanal {
+    background-color: #ffeb3b;
+    color: #000;
+}
+
+.categoria.ecologico {
+    background-color: #4caf50;
+    color: white;
+}
+
+.categoria.sustentavel {
+    background-color: #2196f3;
+    color: white;
+}

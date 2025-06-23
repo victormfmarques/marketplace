@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
 
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/perfil/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Requisição
-      const response = await fetch('/api/cadastro', {
+      const response = await fetch('/api/perfil/cadastro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(usuario)

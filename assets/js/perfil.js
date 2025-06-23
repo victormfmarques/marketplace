@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Envia para a API
-      const response = await fetch('/api/atualizar', {
+      const response = await fetch('/api/perfil/atualizar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -139,7 +139,7 @@ function configurarExclusaoConta() {
         return;
       }
 
-      const response = await fetch('/api/excluirConta', {
+      const response = await fetch('/api/perfil/excluirConta', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
