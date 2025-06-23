@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/estilo/editar-produto.css">
+    <title>Editar Produto</title>
+</head>
+<body>
+    <form id="form-editar-produto">
+        <h1>Editar Produto</h1>
+        
+        <label>Nome:</label>
+        <input type="text" id="nome" required>
+        
+        <label>Descrição:</label>
+        <textarea id="descricao" required></textarea>
+        
+        <label>Preço:</label>
+        <input type="number" id="preco" step="0.01" required>
+        
+        <label>Categoria:</label>
+        <select id="categoria" required>
+            <option value="moda">Moda</option>
+            <option value="decoracao">Decoração</option>
+            <option value="beleza">Beleza</option>
+        </select>
+        
+        <label>Fotos:</label>
+        <input type="file" id="fotos" multiple accept="image/*">
+        <div id="preview-fotos"></div>
+        
+        <button type="submit">Salvar Alterações</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const produtoId = urlParams.get('id');
+            const form = document.getElementById('form-editar-produto');
+
+            try {
+                const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+                const produto = await response.json();
+
+                // Preenche o formulário
+                document.getElementById('nome').value = produto.nome;
+                document.getElementById('descricao').value = produto.descricao;
+                document.getElementById('preco').value = produto.preco;
+                document.getElementById('categoria').value = produto.categoria;
+
+                // Mostra preview das fotos existentes
+                const preview = document.getElementById('preview-fotos');
+                produto.fotos.forEach(foto => {
+                    const img = document.createElement('img');
+                    img.src = foto;
+                    preview.appendChild(img);
+                });
+
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                try {
+                    const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nome: document.getElementById('nome').value,
+                            descricao: document.getElementById('descricao').value,
+                            preco: parseFloat(document.getElementById('preco').value),
+                            categoria: document.getElementById('categoria').value
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Produto atualizado com sucesso!');
+                        window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`;
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

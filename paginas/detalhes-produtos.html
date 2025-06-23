@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/estilo/detalhes-produto.css">
+    <title>Detalhes do Produto</title>
+</head>
+<body>
+    <div id="produto-container">
+        <div id="produto-imagens"></div>
+        <div id="produto-info">
+            <h1 id="produto-nome"></h1>
+            <p id="produto-descricao"></p>
+            <span id="produto-preco"></span>
+            <div id="produto-vendedor"></div>
+            <button onclick="adicionarAoCarrinho()">Comprar</button>
+            
+            <div id="editar-container" style="display: none;">
+                <button onclick="editarProduto()">Editar Produto</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const produtoId = urlParams.get('id');
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+            try {
+                const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+                const produto = await response.json();
+
+                // Preenche os dados do produto
+                document.getElementById('produto-nome').textContent = produto.nome;
+                document.getElementById('produto-descricao').textContent = produto.descricao;
+                document.getElementById('produto-preco').textContent = `R$ ${produto.preco.toFixed(2)}`;
+
+                // Exibe as imagens
+                const imagensContainer = document.getElementById('produto-imagens');
+                produto.fotos.forEach(foto => {
+                    const img = document.createElement('img');
+                    img.src = foto;
+                    imagensContainer.appendChild(img);
+                });
+
+                // Mostra botão de edição se for o dono
+                if (usuarioLogado && usuarioLogado._id === produto.usuarioId) {
+                    document.getElementById('editar-container').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        });
+
+        function editarProduto() {
+            const produtoId = new URLSearchParams(window.location.search).get('id');
+            window.location.href = `/editar-produto.html?id=${produtoId}`;
+        }
+    </script>
+</body>
+</html>
