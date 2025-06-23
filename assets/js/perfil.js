@@ -189,29 +189,50 @@ function formatarTelefone(telefone) {
 const telefoneFormatado = formatarTelefone('11987654321');
 console.log(telefoneFormatado); // (11) 98765-4321
 
-// Adicione isso no DOMContentLoaded
+// Formatação de telefone com controle preciso do cursor
 document.getElementById('itel')?.addEventListener('input', function(e) {
-  // Obtém a posição do cursor
+  // Guarda a posição original do cursor
   const cursorPosition = e.target.selectionStart;
-  const input = e.target;
-  let value = input.value.replace(/\D/g, '');
+  const originalLength = this.value.length;
   
-  // Formatação dinâmica
+  // Remove tudo que não é dígito
+  let value = this.value.replace(/\D/g, '');
+  
+  // Aplica a formatação gradual
+  let formattedValue = '';
+  
   if (value.length > 0) {
-    value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
+    formattedValue = '(' + value.substring(0, 2);
   }
-  if (value.length > 10) {
-    value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+  if (value.length > 2) {
+    formattedValue += ') ' + value.substring(2, 7);
+  }
+  if (value.length > 7) {
+    formattedValue += '-' + value.substring(7, 11);
   }
   
-  input.value = value;
-  
-  // Mantém a posição do cursor
-  if (cursorPosition === 1 && value.length === 1) {
-    input.setSelectionRange(2, 2);
-  } else if (cursorPosition === 3 && value.length === 3) {
-    input.setSelectionRange(4, 4);
-  } else {
-    input.setSelectionRange(cursorPosition, cursorPosition);
+  // Atualiza o valor apenas se mudou
+  if (this.value !== formattedValue) {
+    this.value = formattedValue;
+    
+    // Calcula a nova posição do cursor
+    let newCursorPosition = cursorPosition;
+    
+    // Ajustes para quando estamos adicionando caracteres especiais
+    if (originalLength < this.value.length) {
+      // Se estava antes de um caractere especial que foi adicionado
+      if (cursorPosition === 1 && this.value.charAt(0) === '(') {
+        newCursorPosition = 2;
+      }
+      else if (cursorPosition === 3 && this.value.charAt(3) === ')') {
+        newCursorPosition = 5;
+      }
+      else if (cursorPosition === 9 && this.value.charAt(9) === '-') {
+        newCursorPosition = 10;
+      }
+    }
+    
+    // Mantém o cursor na posição correta
+    this.setSelectionRange(newCursorPosition, newCursorPosition);
   }
 });
