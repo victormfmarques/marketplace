@@ -3,13 +3,13 @@ import { MongoClient } from 'mongodb';
 
 // Configurações com fallback
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME || 'seu_cloud_name',
-  api_key: process.env.CLOUDINARY_KEY || 'sua_api_key',
-  api_secret: process.env.CLOUDINARY_SECRET || 'sua_api_secret',
+  cloud_name: process.env.CLOUDINARY_NAME || 'ddfacpcm5',
+  api_key: process.env.CLOUDINARY_KEY || '867436943594192',
+  api_secret: process.env.CLOUDINARY_SECRET || '0IQojHqri1h_Zq3Vd0B2ubmhBns',
   secure: true
 });
 
-const uri = process.env.MONGODB_URI || 'sua_uri_mongodb';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://victor:manoelvictor14@marketplace.msyyxna.mongodb.net/?retryWrites=true&w=majority&appName=marketplace';
 const client = new MongoClient(uri, {
   connectTimeoutMS: 5000,
   serverSelectionTimeoutMS: 5000
