@@ -85,8 +85,13 @@ export default async function handler(req, res) {
     // Resposta padronizada
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-    console.log('DEBUG - Produtos encontrados:', produtosFormatados);
-    console.log('DEBUG - Query executada:', query);
+    console.log('DEBUG - Produto formatado exemplo:', produtosFormatados[0]);
+    console.log('DEBUG - Estrutura completa:', {
+    query,
+    sort,
+    produtosEncontrados: produtos.length,
+    primeiroProduto: produtos[0]
+    });
     res.status(200).json({
       success: true,
       data: {
@@ -124,30 +129,29 @@ export default async function handler(req, res) {
 
 // Função auxiliar para formatação consistente
 function formatarProduto(produto) {
-  // Conversão segura do preço
+  // Conversão segura do preço - versão corrigida
   let preco = 0;
   try {
-    preco = parseFloat(
-      (produto.price || produto.preco || '0')
-        .toString()
-        .replace(',', '.')
-        .replace(/[^0-9.]/g, '')
-    );
+    // Corrige: usa produto.preco diretamente (não produto.price)
+    const precoString = (produto.preco || '0').replace(',', '.');
+    preco = parseFloat(precoString);
+    
+    // Verifica se é um número válido
+    if (isNaN(preco)) {
+      console.error(`Preço inválido para produto ${produto._id}:`, produto.preco);
+      preco = 0;
+    }
   } catch (e) {
     console.error(`Erro ao converter preço do produto ${produto._id}:`, e);
   }
   
   return {
     _id: produto._id,
-    nome: produto.name || produto.nome || 'Produto sem nome',
-    descricao: produto.describe || produto.descricao || '',
+    nome: produto.nome || 'Produto sem nome', // Removido produto.name
+    descricao: produto.descricao || '', // Removido produto.describe
     preco: preco,
-    categoria: (produto.categoría || produto.categoria || 'outros')
-               .replace(',', '')
-               .trim(),
-    fotos: Array.isArray(produto.fotos) ? 
-           produto.fotos.filter(foto => typeof foto === 'string') : 
-           [],
+    categoria: produto.categoria || 'outros', // Removido produto.categoría
+    fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
     usuarioId: produto.usuarioId || null,
     dataCadastro: produto.dataCadastro || new Date(),
     visualizacoes: produto.visualizacoes || 0,
