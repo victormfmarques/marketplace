@@ -1,14 +1,37 @@
-// detalhes.js
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+const options = {
+  maxPoolSize: 5,
+  connectTimeoutMS: 5000,
+  socketTimeoutMS: 30000
+};
+
+let cachedClient = null;
+
+async function connectToDatabase() {
+  if (cachedClient) {
+    return cachedClient;
+  }
+
+  const client = new MongoClient(uri, options);
+  await client.connect();
+  cachedClient = client;
+  return client;
+}
 
 export default async function handler(req, res) {
+  let client;
+  
   try {
-    await client.connect();
+    client = await connectToDatabase();
     const db = client.db('marketplace');
-    
+
+    // Verifica se o ID é válido
+    if (!ObjectId.isValid(req.query.id)) {
+      return res.status(400).json({ error: 'ID do produto inválido' });
+    }
+
     const produto = await db.collection('produtos')
       .findOne({ _id: new ObjectId(req.query.id) });
 
@@ -16,16 +39,32 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Produto não encontrado' });
     }
 
-    res.status(200).json({
-      ...produto,
-      nome: produto.name || produto.nome,
-      descricao: produto.describe || produto.descricao,
-      preco: parseFloat(produto.price || produto.preco)
-    });
+    // Formatação robusta dos dados
+    const produtoFormatado = {
+      _id: produto._id,
+      nome: produto.name || produto.nome || 'Produto sem nome',
+      descricao: produto.describe || produto.descricao || 'Sem descrição',
+      preco: parseFloat(
+        (produto.price || produto.preco || 0)
+          .toString()
+          .replace(',', '.')
+          .replace(/[^0-9.]/g, '')
+      ),
+      fotos: Array.isArray(produto.fotos) ? produto.fotos : ['/placeholder.jpg'],
+      usuarioId: produto.usuarioId || null,
+      categoria: produto.categoría || produto.categoria || 'geral'
+    };
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(200).json(produtoFormatado);
 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Erro na API detalhes:', error);
+    res.status(500).json({ 
+      error: 'Erro interno no servidor',
+      details: process.env.NODE_ENV === 'development' ? error.message : null
+    });
   } finally {
-    await client.close();
+    // Não fechamos a conexão para reutilização
   }
 }
