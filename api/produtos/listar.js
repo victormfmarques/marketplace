@@ -46,6 +46,7 @@ export default async function handler(req, res) {
       .toArray();
 
     // Formata os dados para o frontend
+    console.log('Dados recebidos:', data);
     const produtosFormatados = produtos.map(produto => ({
       nome: produto.name || produto.nome,
       descricao: produto.describe || produto.descricao,
