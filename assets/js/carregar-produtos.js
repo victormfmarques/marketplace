@@ -8,28 +8,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('/api/produtos/listar');
     const data = await response.json();
 
-    if (!response.ok || !data.produtos) {
+    // DEBUG: Verifique a resposta da API
+    console.log('Resposta da API:', data);
+
+    if (!response.ok || !data.success || !Array.isArray(data.produtos)) {
       throw new Error(data.error || 'Resposta inválida da API');
     }
 
-    if (data.produtos.length === 0) {  // Corrigido para data.produtos
+    if (data.produtos.length === 0) {
       container.innerHTML = '<p class="no-products">Nenhum produto disponível</p>';
       return;
     }
 
-    // Corrigido: usar data.produtos em vez de produtos
     container.innerHTML = data.produtos.map(produto => `
       <div class="produto-card" data-id="${produto._id}">
         <a href="/paginas/detalhes-produto.html?id=${produto._id}">
-          <img src="${produto.fotos[0] || 'placeholder.jpg'}" 
+          <img src="${produto.fotos[0] || '../assets/img/placeholder.jpg'}" 
                alt="${produto.nome}"
-               onerror="this.src='placeholder.jpg'">
+               onerror="this.src='../assets/img/placeholder.jpg'">
         </a>
         <h3>${produto.nome}</h3>
-        <p>${produto.descricao || 'Sem descrição'}</p>
-        <span class="preco">R$ ${produto.preco?.toFixed(2) || '0,00'}</span>
+        <p>${produto.descricao || 'Sem descrição disponível'}</p>
+        <span class="preco">R$ ${produto.preco.toFixed(2)}</span>
         
-        ${usuarioLogado && usuarioLogado._id === produto.usuarioId ? `
+        ${usuarioLogado && usuarioLogado._id && produto.usuarioId && usuarioLogado._id === produto.usuarioId ? `
           <div class="produto-acoes">
             <button onclick="editarProduto('${produto._id}')">Editar</button>
           </div>

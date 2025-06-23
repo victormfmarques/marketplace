@@ -45,30 +45,52 @@ export default async function handler(req, res) {
       .sort({ dataCadastro: -1 })
       .toArray();
 
-    // Formata os dados para o frontend
-    console.log('Dados recebidos:', data);
-    const produtosFormatados = produtos.map(produto => ({
-      nome: produto.name || produto.nome,
-      descricao: produto.describe || produto.descricao,
-      preco: parseFloat((produto.price || produto.preco).toString().replace(',', '')),
-      categoria: (produto.categoría || produto.categoria).replace(',', ''),
-      fotos: produto.fotos || [],
-      _id: produto._id
-    }));
+    // DEBUG: Verifique os dados brutos do MongoDB
+    console.log('Produtos do MongoDB:', produtos);
+
+    // Formatação robusta dos dados
+    const produtosFormatados = produtos.map(produto => {
+      // Verifica e converte o preço
+      let preco = 0;
+      try {
+        preco = parseFloat(
+          (produto.price || produto.preco || '0')
+            .toString()
+            .replace(',', '.')
+            .replace(/[^0-9.]/g, '')
+        );
+      } catch (e) {
+        console.error('Erro ao converter preço:', e);
+      }
+
+      return {
+        _id: produto._id,
+        nome: produto.name || produto.nome || 'Produto sem nome',
+        descricao: produto.describe || produto.descricao || '',
+        preco: preco,
+        categoria: (produto.categoría || produto.categoria || 'outros').replace(',', ''),
+        fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
+        usuarioId: produto.usuarioId || null
+      };
+    });
+
+    // DEBUG: Verifique os dados formatados
+    console.log('Produtos formatados:', produtosFormatados);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ produtos: produtosFormatados });
-    
-  } catch (error) {
-    console.error('Erro detalhado:', {
-      message: error.message,
-      stack: error.stack,
-      query: req.query
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({ 
+      success: true,
+      produtos: produtosFormatados 
     });
     
+  } catch (error) {
+    console.error('Erro detalhado:', error);
     res.status(500).json({ 
+      success: false,
       error: 'Erro interno no servidor',
-      details: process.env.NODE_ENV === 'development' ? error.message : null
+      details: process.env.NODE_ENV === 'development' ? error.message : null,
+      produtos: [] // Garante que sempre retorne um array
     });
   }
 }
