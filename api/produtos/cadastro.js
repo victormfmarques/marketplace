@@ -1,68 +1,74 @@
+import { v2 as cloudinary } from 'cloudinary';
 import { MongoClient } from 'mongodb';
-import { v2 as cloudinary } from 'cloudinary'; // Para upload de imagens
 
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
-// Configure o Cloudinary (serviço gratuito para imagens)
-cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_NAME, 
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET,
+// Configurações com fallback
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME || 'seu_cloud_name',
+  api_key: process.env.CLOUDINARY_KEY || 'sua_api_key',
+  api_secret: process.env.CLOUDINARY_SECRET || 'sua_api_secret',
   secure: true
 });
 
-// Exemplo de upload na rota
-const uploadResult = await cloudinary.uploader.upload(fotoBase64, {
-  folder: 'eco-marketplace',
-  resource_type: 'image',
-  quality: 'auto:good' // Otimiza automaticamente
+const uri = process.env.MONGODB_URI || 'sua_uri_mongodb';
+const client = new MongoClient(uri, {
+  connectTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 5000
 });
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    try {
-      
-      await client.connect();
-      const db = client.db('marketplace');
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método não permitido' });
+  }
 
-      const { usuarioId, nome, descricao, preco, categoria, fotosBase64 } = req.body;
+  try {
+    // Conexão com MongoDB
+    await client.connect();
+    const db = client.db('marketplace');
 
-      // 1. Upload das imagens para o Cloudinary
-      const fotosUrls = [];
-      for (const fotoBase64 of fotosBase64) {
-        const result = await cloudinary.uploader.upload(fotoBase64, {
-          folder: 'eco-marketplace'
+    // Upload para Cloudinary
+    const uploadPromises = req.body.fotosBase64.map(async (foto, index) => {
+      try {
+        return await cloudinary.uploader.upload(foto, {
+          folder: `eco-marketplace/${req.body.usuarioId}`,
+          public_id: `produto-${Date.now()}-${index}`,
+          quality: 'auto:good'
         });
-        fotosUrls.push(result.secure_url);
+      } catch (uploadError) {
+        console.error(`Erro no upload da foto ${index}:`, uploadError);
+        throw uploadError;
       }
+    });
 
-      // 2. Salva o produto no MongoDB
-      const produto = {
-        usuarioId,
-        nome,
-        descricao,
-        preco: parseFloat(preco),
-        categoria,
-        fotos: fotosUrls,
-        dataCadastro: new Date(),
-        status: 'ativo'
-      };
+    const uploadedPhotos = await Promise.all(uploadPromises);
+    const fotoUrls = uploadedPhotos.map(photo => photo.secure_url);
 
-      const result = await db.collection('produtos').insertOne(produto);
+    // Salva no MongoDB
+    const produto = {
+      ...req.body,
+      fotos: fotoUrls,
+      dataCadastro: new Date(),
+      status: 'ativo'
+    };
 
-      res.status(201).json({
-        success: true,
-        produto: { ...produto, _id: result.insertedId }
-      });
+    delete produto.fotosBase64; // Remove os dados brutos das fotos
 
-    } catch (error) {
-      console.error('Erro ao cadastrar produto:', error);
-      res.status(500).json({ success: false, error: error.message });
-    } finally {
-      await client.close();
-    }
-  } else {
-    res.status(405).json({ message: 'Método não permitido' });
+    const result = await db.collection('produtos').insertOne(produto);
+    
+    res.status(201).json({
+      success: true,
+      produtoId: result.insertedId
+    });
+
+  } catch (error) {
+    console.error('Erro completo:', error);
+    res.status(500).json({
+      error: error.message,
+      details: {
+        cloudinary: process.env.CLOUDINARY_NAME ? 'configurado' : 'faltando',
+        mongodb: process.env.MONGODB_URI ? 'configurado' : 'faltando'
+      }
+    });
+  } finally {
+    await client.close();
   }
 }
