@@ -188,3 +188,22 @@ function formatarTelefone(telefone) {
 // Exemplo de uso:
 const telefoneFormatado = formatarTelefone('11987654321');
 console.log(telefoneFormatado); // (11) 98765-4321
+
+// Adicione isso no DOMContentLoaded
+document.getElementById('itel')?.addEventListener('input', function(e) {
+  // Obtém a posição do cursor
+  const cursorPosition = e.target.selectionStart;
+  const input = e.target;
+  let value = input.value.replace(/\D/g, '');
+  
+  // Formatação dinâmica
+  if (value.length > 0) {
+    value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
+  }
+  if (value.length > 10) {
+    value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+  }
+  
+  input.value = value;
+  
+});

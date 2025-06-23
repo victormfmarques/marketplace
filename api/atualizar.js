@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       }
 
     console.log('Sexo recebido:', sexo, 'Normalizado:', sexoNormalizado);
-
+    
     // Prepara os dados para atualização
     const updateData = {
       nome: nome || usuario.nome,
@@ -93,20 +93,3 @@ export default async function handler(req, res) {
     await client.close();
   }
 }
-
-function formatarTelefone(telefone) {
-  if (!telefone) return null;
-  
-  const apenasNumeros = telefone.toString().replace(/\D/g, '');
-  
-  if (apenasNumeros.length === 10) {
-    return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 6)}-${apenasNumeros.substring(6)}`;
-  } else if (apenasNumeros.length === 11) {
-    return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 7)}-${apenasNumeros.substring(7)}`;
-  }
-  
-  return telefone;
-}
-
-// Uso no seu endpoint:
-const telefoneFormatado = formatarTelefone(req.body.telefone);
