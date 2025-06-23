@@ -165,6 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+function formatarTelefone(telefone) {
+  // Remove tudo que não é dígito
+  const apenasNumeros = telefone.replace(/\D/g, '');
+
+  // Aplica a formatação (XX) XXXX-XXXX ou (XX) XXXXX-XXXX
+  if (apenasNumeros.length === 10) {
+    return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 6)}-${apenasNumeros.substring(6)}`;
+  } else if (apenasNumeros.length === 11) {
+    return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 7)}-${apenasNumeros.substring(7)}`;
+  }
+
+  // Retorna sem formatação se não tiver tamanho adequado
+  return telefone;
+}
+
 // Exemplo de uso:
 const telefoneFormatado = formatarTelefone('11987654321');
 console.log(telefoneFormatado); // (11) 98765-4321
