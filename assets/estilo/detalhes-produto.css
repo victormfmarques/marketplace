@@ -83,3 +83,42 @@
         flex-direction: column;
     }
 }
+
+.produto-card {
+    position: relative;
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.produto-card button {
+    width: 100%;
+    padding: 8px 0;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.produto-card button:hover {
+    background: #45a049;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    grid-column: 1 / -1;
+}
+
+.error {
+    color: #d32f2f;
+    text-align: center;
+    padding: 20px;
+    grid-column: 1 / -1;
+}
