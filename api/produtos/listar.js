@@ -2,135 +2,106 @@ import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
 const options = {
-  maxPoolSize: 10, // Aumentado para melhor performance
+  maxPoolSize: 10,
   connectTimeoutMS: 10000,
   socketTimeoutMS: 30000,
   serverSelectionTimeoutMS: 10000
 };
 
-// Cache de conexão melhorado
 let client;
 let db;
 
 async function connectToDatabase() {
   if (db) return db;
   
-  client = new MongoClient(uri, options);
-  await client.connect();
-  db = client.db('marketplace');
-  
-  // Cria índices se não existirem
-  await db.collection('produtos').createIndex({ nome: "text", descricao: "text" });
-  await db.collection('produtos').createIndex({ status: 1 });
-  await db.collection('produtos').createIndex({ categoria: 1 });
-  await db.collection('produtos').createIndex({ dataCadastro: -1 });
-  
-  return db;
+  try {
+    client = new MongoClient(uri, options);
+    await client.connect();
+    db = client.db('marketplace');
+    
+    console.log('Conexão com o banco estabelecida com sucesso');
+    return db;
+  } catch (error) {
+    console.error('Erro ao conectar ao banco:', error);
+    throw new Error('Falha na conexão com o banco de dados');
+  }
 }
 
 export default async function handler(req, res) {
   try {
     const database = await connectToDatabase();
     
-    // Converte todos os preços para número se forem strings
-    if (Array.isArray(produtos)) {
-    produtos.forEach(p => {
-        if (typeof p.preco === 'string') {
-        p.preco = parseFloat(p.preco.replace(',', '.')) || 0;
+    // Query básica - versão simplificada para testes
+    const query = { status: 'ativo' };
+    console.log('Query sendo executada:', query);
+
+    const produtos = await database.collection('produtos')
+      .find(query)
+      .sort({ dataCadastro: -1 })
+      .limit(10)
+      .toArray();
+
+    console.log('Produtos encontrados (raw):', produtos);
+
+    if (!produtos || produtos.length === 0) {
+      return res.status(200).json({
+        success: true,
+        data: {
+          produtos: [],
+          message: 'Nenhum produto encontrado'
         }
-    });
+      });
     }
 
-    // Configuração base da query
-    let query = { status: 'ativo' };
-    let sort = { dataCadastro: -1 };
-    let limit = 0; // 0 = sem limite
-    let projection = {};
-    
-    // Filtros
-    if (req.query.search) {
-      query.$text = { $search: req.query.search };
-      projection.score = { $meta: "textScore" };
-      sort = { score: { $meta: "textScore" } };
-    }
-    
-    if (req.query.categoria) {
-      query.categoria = { $regex: new RegExp(req.query.categoria, 'i') };
-    }
-    
-    // Controle de paginação
-    const page = parseInt(req.query.page) || 1;
-    const perPage = parseInt(req.query.perPage) || 12;
-    const skip = (page - 1) * perPage;
-    
-    // Destaques (mais vendidos/visualizados)
-    if (req.query.destaque === 'true') {
-      sort = { visualizacoes: -1 };
-      limit = 4;
-    }
-    
-    // Novidades
-    if (req.query.novidades === 'true') {
-      sort = { dataCadastro: -1 };
-      limit = 8;
-    }
-    
-    // Consulta ao MongoDB
-    const [produtos, total] = await Promise.all([
-      database.collection('produtos')
-        .find(query, { projection })
-        .sort(sort)
-        .skip(skip)
-        .limit(limit || perPage)
-        .toArray(),
+    // Formatação segura dos produtos
+    const produtosFormatados = produtos.map(produto => {
+      let preco = 0;
+      
+      try {
+        // Converte tanto "15.99" quanto "15,99" para número
+        const precoString = String(produto.preco || '0')
+          .replace(/[^\d,.-]/g, '')  // Remove caracteres não numéricos
+          .replace(',', '.');        // Substitui vírgula por ponto
+
+        preco = parseFloat(precoString);
         
-      database.collection('produtos')
-        .countDocuments(query)
-    ]);
-    
-    // Formatação dos dados
-    const produtosFormatados = produtos.map(formatarProduto);
-    
-    // Resposta padronizada
+        if (isNaN(preco)) {
+          console.warn(`Preço inválido para produto ${produto._id}:`, produto.preco);
+          preco = 0;
+        }
+      } catch (e) {
+        console.error(`Erro ao converter preço:`, e);
+      }
+
+      return {
+        _id: produto._id,
+        nome: produto.nome || 'Sem nome',
+        descricao: produto.descricao || '',
+        preco: preco,
+        categoria: produto.categoria || 'geral',
+        fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
+        usuarioId: produto.usuarioId || null,
+        dataCadastro: produto.dataCadastro || new Date()
+      };
+    });
+
+    console.log('Produtos formatados:', produtosFormatados);
+
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-    console.log('DEBUG - Produto formatado exemplo:', produtosFormatados[0]);
-    console.log('DEBUG - Estrutura completa:', {
-    query,
-    sort,
-    produtosEncontrados: produtos.length,
-    primeiroProduto: produtos[0]
-    });
-    console.log('DEBUG - Pré-conversão:', {
-    id: produto._id,
-    precoOriginal: produto.preco,
-    precoConvertido: preco,
-    tipoOriginal: typeof produto.preco
-    });
     res.status(200).json({
       success: true,
       data: {
-        produtos: produtosFormatados,
-        paginacao: {
-          total,
-          paginaAtual: page,
-          porPagina: perPage,
-          totalPaginas: Math.ceil(total / perPage)
-        },
-        filtros: {
-          search: req.query.search,
-          categoria: req.query.categoria
-        }
+        produtos: produtosFormatados
       }
     });
-    
+
   } catch (error) {
-    console.error('Erro no listar.js:', {
+    console.error('Erro completo:', {
       message: error.message,
       stack: error.stack,
-      query: req.query
+      timestamp: new Date()
     });
-    
+
     res.status(500).json({
       success: false,
       error: 'Erro interno no servidor',
@@ -140,39 +111,4 @@ export default async function handler(req, res) {
       } : null
     });
   }
-}
-
-// Função auxiliar para formatação consistente
-function formatarProduto(produto) {
-  // Conversão robusta para o formato brasileiro
-  let preco = 0;
-  try {
-    // Remove todos os caracteres não numéricos exceto vírgula e ponto
-    const precoString = (produto.preco || '0')
-      .toString()
-      .replace(/[^\d,]/g, '') // Mantém apenas dígitos e vírgula
-      .replace(',', '.');      // Converte vírgula para ponto
-    
-    preco = parseFloat(precoString);
-    
-    if (isNaN(preco)) {
-      console.error(`Preço inválido para produto ${produto._id}:`, produto.preco);
-      preco = 0;
-    }
-  } catch (e) {
-    console.error(`Erro ao converter preço do produto ${produto._id}:`, e);
-  }
-  
-  return {
-    _id: produto._id,
-    nome: produto.nome || 'Produto sem nome',
-    descricao: produto.descricao || '',
-    preco: preco,
-    categoria: produto.categoria || 'outros',
-    fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
-    usuarioId: produto.usuarioId || null,
-    dataCadastro: produto.dataCadastro || new Date(),
-    visualizacoes: produto.visualizacoes || 0,
-    avaliacao: produto.avaliacao || 0
-  };
 }
