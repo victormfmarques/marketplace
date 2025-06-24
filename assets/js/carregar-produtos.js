@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     container.innerHTML = data.produtos.map(produto => `
       <div class="produto-card">
         <a href="/paginas/detalhes-produto.html?id=${produto._id}">
-          <img src="${produto.fotos[0] || '../assets/img/placeholder.jpg'}" 
+          <img src="${produto.fotos[0] || '../assets/img/placeholder.png'}" 
                alt="${produto.nome}"
                class="produto-imagem"
-               onerror="this.src='../assets/img/placeholder.jpg'">
+               onerror="this.src='../assets/img/placeholder.png'">
         </a>
         <div class="produto-info">
           <h3>${produto.nome}</h3>
