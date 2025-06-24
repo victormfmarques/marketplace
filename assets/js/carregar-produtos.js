@@ -1,37 +1,54 @@
 document.addEventListener('DOMContentLoaded', async function() {
+  // Só executa se estiver na página de produtos
   if (!document.getElementById('lista-produtos')) return;
 
   try {
     const response = await fetch('/api/produtos/listar');
     const data = await response.json();
     
-    if (!response.ok || !data.produtos) throw new Error('Resposta inválida');
+    if (!response.ok || !data.produtos) {
+      throw new Error(data.error || 'Resposta inválida da API');
+    }
 
+    // Armazena para uso no carrinho
     window.produtosCarregados = data.produtos;
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-    document.getElementById('lista-produtos').innerHTML = data.produtos.map(produto => `
+    const container = document.getElementById('lista-produtos');
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    
+    container.innerHTML = data.produtos.map(produto => `
       <div class="produto-card">
-        <img src="${produto.fotos[0]}" alt="${produto.nome}">
-        <h3>${produto.nome}</h3>
-        <p>${produto.descricao || 'Sem descrição'}</p>
-        <span>R$ ${produto.preco.toFixed(2)}</span>
-        <div class="produto-acoes">
+        <a href="/paginas/detalhes-produto.html?id=${produto._id}">
+          <img src="${produto.fotos[0] || '../assets/img/placeholder.jpg'}" 
+               alt="${produto.nome}"
+               class="produto-imagem"
+               onerror="this.src='../assets/img/placeholder.jpg'">
+        </a>
+        <div class="produto-info">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao || 'Sem descrição'}</p>
+          <span class="preco">R$ ${produto.preco.toFixed(2)}</span>
           <button onclick="adicionarAoCarrinho('${produto._id}', event)">Comprar</button>
-          ${usuario?._id === produto.usuarioId ? `
-            <button onclick="editarProduto('${produto._id}')" class="btn-editar">Editar</button>
+          
+          ${usuarioLogado?.id === produto.usuarioId ? `
+            <button onclick="editarProduto('${produto._id}')">Editar</button>
           ` : ''}
         </div>
       </div>
     `).join('');
 
   } catch (error) {
-    console.error('Erro:', error);
-    document.getElementById('lista-produtos').innerHTML = `
+    console.error('Erro ao carregar produtos:', error);
+    const container = document.getElementById('lista-produtos');
+    container.innerHTML = `
       <div class="error">
-        <p>Erro ao carregar produtos</p>
-        <button onclick="location.reload()">Tentar novamente</button>
+        <p>Falha ao carregar produtos</p>
+        <button onclick="window.location.reload()">Tentar novamente</button>
       </div>
     `;
   }
 });
+
+function editarProduto(id) {
+  window.location.href = `/paginas/editar-produto.html?id=${id}`;
+}
