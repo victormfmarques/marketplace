@@ -1,10 +1,9 @@
 import { MongoClient } from 'mongodb';
-import { v2 as cloudinary } from 'cloudinary'; // Para upload de imagens
+import { v2 as cloudinary } from 'cloudinary';
 
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
-// Configure o Cloudinary (serviço gratuito para imagens)
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_NAME, 
   api_key: process.env.CLOUDINARY_KEY,
@@ -12,65 +11,55 @@ cloudinary.config({
   secure: true
 });
 
-// Exemplo de upload na rota
-const uploadResult = await cloudinary.uploader.upload(fotoBase64, {
-  folder: 'eco-marketplace',
-  resource_type: 'image',
-  quality: 'auto:good' // Otimiza automaticamente
-});
-
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    try {
-      await client.connect();
-      const db = client.db('marketplace');
-      
-      // --- TESTE DE UPLOAD (TEMPORÁRIO) ---
-      const testUpload = await cloudinary.uploader.upload(
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-        { folder: 'testes-eco-marketplace' }
-      );
-      console.log('✅ Upload de teste bem-sucedido:', testUpload.secure_url);
-      // --- FIM DO TESTE ---
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Método não permitido' });
+  }
 
+  const { usuarioId, nome, descricao, preco, categoria, fotosBase64 } = req.body;
 
-      const { usuarioId, nome, descricao, preco, categoria, fotosBase64 } = req.body;
+  if (!usuarioId || !nome || !descricao || !preco || !categoria || !fotosBase64 || fotosBase64.length === 0) {
+    return res.status(400).json({ success: false, message: 'Preencha todos os campos e envie pelo menos uma foto.' });
+  }
 
-      // 1. Upload das imagens para o Cloudinary
-      const fotosUrls = [];
-      for (const fotoBase64 of fotosBase64) {
-        const result = await cloudinary.uploader.upload(fotoBase64, {
-          folder: 'eco-marketplace'
-        });
-        fotosUrls.push(result.secure_url);
-      }
+  try {
+    await client.connect();
+    const db = client.db('marketplace');
 
-      // 2. Salva o produto no MongoDB
-      const produto = {
-        usuarioId,
-        nome,
-        descricao,
-        preco: parseFloat(preco),
-        categoria,
-        fotos: fotosUrls,
-        dataCadastro: new Date(),
-        status: 'ativo'
-      };
-
-      const result = await db.collection('produtos').insertOne(produto);
-
-      res.status(201).json({
-        success: true,
-        produto: { ...produto, _id: result.insertedId }
+    // Upload das imagens para o Cloudinary
+    const fotosUrls = [];
+    for (const fotoBase64 of fotosBase64) {
+      const result = await cloudinary.uploader.upload(fotoBase64, {
+        folder: 'eco-marketplace',
+        resource_type: 'image',
+        quality: 'auto:good'
       });
-
-    } catch (error) {
-      console.error('Erro ao cadastrar produto:', error);
-      res.status(500).json({ success: false, error: error.message });
-    } finally {
-      await client.close();
+      fotosUrls.push(result.secure_url);
     }
-  } else {
-    res.status(405).json({ message: 'Método não permitido' });
+
+    // Cria o objeto do produto
+    const produto = {
+      usuarioId,
+      nome,
+      descricao,
+      preco: parseFloat(preco),
+      categoria,
+      fotos: fotosUrls,
+      dataCadastro: new Date(),
+      status: 'ativo'
+    };
+
+    const result = await db.collection('produtos').insertOne(produto);
+
+    res.status(201).json({
+      success: true,
+      produto: { ...produto, _id: result.insertedId }
+    });
+
+  } catch (error) {
+    console.error('❌ Erro ao cadastrar produto:', error);
+    res.status(500).json({ success: false, error: error.message });
+  } finally {
+    await client.close();
   }
 }

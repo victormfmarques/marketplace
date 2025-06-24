@@ -16,6 +16,7 @@
         <div class="header-controls">
             <ul>
                 <li><a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a></li>
+                <li><a href="adicionar-produto.html" class="btn">➕ Adicionar Produto</a></li>
             </ul>
             <div class="carrinho-icone" id="carrinho-icone">
                 <img src="../assets/img/carrinho.png" alt="Carrinho de Compras">
@@ -35,125 +36,6 @@
     <h2 id="subtitulo">CATEGORIAS</h2>
 
     <main id="lista-produtos" class="grid-produtos">
-        <aside>
-            <h2>Higiene Pessoal</h2>
-
-            <img src="../assets/img/produto-1.jpg" alt="Shampoo Orgânico" class="produto-img"
-                onclick="adicionarAoCarrinho('Shampoo Orgânico', 18.99, '../assets/img/produto-1.jpg')">
-            <h4>Shampoo Orgânico</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-10.jpg" alt="Toalha de Rosto" class="produto-img"
-                onclick="adicionarAoCarrinho('Toalha de Rosto', 25.99, '../assets/img/produto-10.jpg')">
-            <h4>Toalha de Rosto</h4>
-            <p>R$ 25,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-4.jpg" alt="Escova de Dentes" class="produto-img"
-                onclick="adicionarAoCarrinho('Escova de Dentes', 15.99, '../assets/img/produto-4.jpg')">
-            <h4>Escova de Dentes</h4>
-            <p>R$ 15,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside>
-
-        <aside>
-            <h2>Moda Sustentável</h2>
-
-            <img src="../assets/img/produto-6.jpg" alt="Bolsa Reciclável" class="produto-img"
-                onclick="adicionarAoCarrinho('Bolsa Reciclável', 25.99, '../assets/img/produto-6.jpg')">
-            <h4>Bolsa Reciclável</h4>
-            <p>R$ 25,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-5.jpg" alt="Camiseta de Algodão" class="produto-img"
-                onclick="adicionarAoCarrinho('Camiseta de Algodão', 18.99, '../assets/img/produto-5.jpg')">
-            <h4>Camiseta de Algodão</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-7.jpg" alt="Pulseira de Sementes" class="produto-img"
-                onclick="adicionarAoCarrinho('Pulseira de Sementes', 27.99, '../assets/img/produto-7.jpg')">
-            <h4>Pulseira de Sementes</h4>
-            <p>R$ 27,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside>
-
-        <aside>
-            <h2>Casa e Decoração</h2>
-
-            <img src="../assets/img/produto-11.jpg" alt="Jarra de Vidro Reciclado" class="produto-img"
-                onclick="adicionarAoCarrinho('Jarra de Vidro Reciclado', 27.99, '../assets/img/produto-11.jpg')">
-            <h4>Jarra de Vidro Reciclado</h4>
-            <p>R$ 27,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-8.jpg" alt="Copo de Bambu" class="produto-img"
-                onclick="adicionarAoCarrinho('Copo de Bambu', 15.99, '../assets/img/produto-8.jpg')">
-            <h4>Copo de Bambu</h4>
-            <p>R$ 15,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-9.jpg" alt="Vela de Soja" class="produto-img"
-                onclick="adicionarAoCarrinho('Vela de Soja', 18.99, '../assets/img/produto-9.jpg')">
-            <h4>Vela de Soja</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside>
     </main>
 
     <div id="feedback" class="feedback"></div>
