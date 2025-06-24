@@ -28,6 +28,13 @@ async function connectToDatabase() {
 
 export default async function handler(req, res) {
   try {
+    if (req.method !== 'GET') {
+    return res.status(405).json({ 
+        success: false,
+        error: 'Método não permitido' 
+    });
+}
+
     const { db } = await connectToDatabase();
     
     let query = { status: 'ativo' };
@@ -50,29 +57,34 @@ export default async function handler(req, res) {
 
     // Formatação robusta dos dados
     const produtosFormatados = produtos.map(produto => {
-      // Verifica e converte o preço
-      let preco = 0;
-      try {
-        preco = parseFloat(
-          (produto.price || produto.preco || '0')
-            .toString()
-            .replace(',', '.')
-            .replace(/[^0-9.]/g, '')
-        );
-      } catch (e) {
-        console.error('Erro ao converter preço:', e);
-      }
+    // Garante que sempre tenha pelo menos uma foto
+    const fotos = Array.isArray(produto.fotos) && produto.fotos.length ? 
+                 produto.fotos : ['/assets/img/placeholder.png'];
+    
+    // Garante que o preço seja um número válido
+    let preco = 0;
+    if (typeof produto.preco === 'number') {
+        preco = produto.preco;
+    } else if (typeof produto.price === 'number') {
+        preco = produto.price;
+    } else {
+        const precoString = (produto.preco || produto.price || '0').toString();
+        preco = parseFloat(precoString.replace(',', '.')) || 0;
+    }
 
-      return {
-        _id: produto._id,
-        nome: produto.name || produto.nome || 'Produto sem nome',
-        descricao: produto.describe || produto.descricao || '',
-        preco: preco,
-        categoria: (produto.categoría || produto.categoria || 'outros').replace(',', ''),
-        fotos: Array.isArray(produto.fotos) ? produto.fotos : [],
+    return {
+        _id: produto._id.toString(),
+        nome: produto.nome || produto.name || 'Produto sem nome',
+        descricao: produto.descricao || produto.describe || '',
+        preco: Math.max(0, preco), // Garante que não seja negativo
+        categoria: (produto.categoria || produto.categoría || 'outros')
+                   .toString()
+                   .toLowerCase()
+                   .trim(),
+        fotos: fotos,
         usuarioId: produto.usuarioId || null
-      };
-    });
+    };
+});
 
     // DEBUG: Verifique os dados formatados
     console.log('Produtos formatados:', produtosFormatados);

@@ -1,3 +1,10 @@
+const API_CONFIG = {
+    baseUrl: window.location.hostname === 'localhost' ? 
+            'http://localhost:3000/api' : 
+            '/api',
+    timeout: 5000
+};
+
 // Configurações globais
 const config = {
   apiBaseUrl: '/api/produtos/listar',
@@ -82,17 +89,41 @@ window.adicionarAoCarrinho = function(produtoId, event) {
 // ... (outras funções globais)
 
 async function carregarProdutosHome() {
-  try {
-    const [destaques, novidades] = await Promise.all([
-      fetch('/api/produtos/listar?destaque=true&limit=4').then(r => r.json()),
-      fetch('/api/produtos/listar?novidades=true&limit=8').then(r => r.json())
-    ]);
+    try {
+        const [destaques, novidades] = await Promise.all([
+            fetch(`${API_CONFIG.baseUrl}/api/produtos/listar?destaque=true&limit=4`, {
+                signal: AbortSignal.timeout(API_CONFIG.timeout)
+            }).then(handleResponse),
+            fetch(`${API_CONFIG.baseUrl}/api/produtos/listar?novidades=true&limit=8`, {
+                signal: AbortSignal.timeout(API_CONFIG.timeout)
+            }).then(handleResponse)
+        ]);
 
-    renderizarProdutos(destaques.produtos, 'produtos-destaque');
-    renderizarProdutos(novidades.produtos, 'produtos-novidades');
-  } catch (error) {
-    console.error('Erro ao carregar produtos da home:', error);
-  }
+        renderizarProdutos(destaques.produtos || [], 'produtos-destaque');
+        renderizarProdutos(novidades.produtos || [], 'produtos-novidades');
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        showError('produtos-destaque', error);
+        showError('produtos-novidades', error);
+    }
+}
+
+// Adicione estas funções auxiliares:
+function handleResponse(response) {
+    if (!response.ok) throw new Error(`Erro ${response.status}`);
+    return response.json();
+}
+
+function showError(containerId, error) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Erro ao carregar: ${error.message}</p>
+            </div>
+        `;
+    }
 }
 
 // Adicione esta função de renderização

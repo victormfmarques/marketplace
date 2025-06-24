@@ -1,4 +1,42 @@
 document.addEventListener('DOMContentLoaded', async function() {
+  const config = {
+    apiBaseUrl: window.location.hostname === 'localhost' ? 
+               'http://localhost:3000/api/produtos/listar' : 
+               '/api/produtos/listar'
+};
+
+// Modifique a função principal para:
+document.addEventListener('DOMContentLoaded', async function() {
+    const loadingElements = document.querySelectorAll('.loading');
+    loadingElements.forEach(el => {
+        el.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando produtos...';
+    });
+
+    try {
+        const response = await fetch(config.apiBaseUrl);
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        
+        // Restante do código permanece igual...
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        const container = document.getElementById('lista-produtos') || 
+                         document.getElementById('produtos-destaque') ||
+                         document.getElementById('produtos-novidades');
+        
+        if (container) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Não foi possível carregar os produtos</p>
+                    <button onclick="window.location.reload()" class="btn-retry">
+                        <i class="fas fa-sync-alt"></i> Tentar novamente
+                    </button>
+                </div>
+            `;
+        }
+    }
+});
+  
   // Só executa se estiver na página de produtos
   if (!document.getElementById('lista-produtos')) return;
 

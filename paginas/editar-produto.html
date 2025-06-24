@@ -34,57 +34,53 @@
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const produtoId = urlParams.get('id');
-            const form = document.getElementById('form-editar-produto');
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const produtoId = urlParams.get('id');
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        
+        if (!usuarioLogado) {
+            window.location.href = '/login.html';
+            return;
+        }
 
-            try {
-                const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
-                const produto = await response.json();
-
-                // Preenche o formulário
-                document.getElementById('nome').value = produto.nome;
-                document.getElementById('descricao').value = produto.descricao;
-                document.getElementById('preco').value = produto.preco;
-                document.getElementById('categoria').value = produto.categoria;
-
-                // Mostra preview das fotos existentes
-                const preview = document.getElementById('preview-fotos');
-                produto.fotos.forEach(foto => {
-                    const img = document.createElement('img');
-                    img.src = foto;
-                    preview.appendChild(img);
-                });
-
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+            if (!response.ok) throw new Error(`Erro ${response.status}`);
+            
+            const produto = await response.json();
+            
+            if (produto.usuarioId !== usuarioLogado._id) {
+                alert('Você não tem permissão para editar este produto');
+                window.location.href = '/paginas/produtos.html';
+                return;
             }
+            
+            preencherFormulario(produto);
+            
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Falha ao carregar produto: ' + error.message);
+            window.location.href = '/paginas/produtos.html';
+        }
+    });
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                try {
-                    const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            nome: document.getElementById('nome').value,
-                            descricao: document.getElementById('descricao').value,
-                            preco: parseFloat(document.getElementById('preco').value),
-                            categoria: document.getElementById('categoria').value
-                        })
-                    });
-
-                    if (response.ok) {
-                        alert('Produto atualizado com sucesso!');
-                        window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`;
-                    }
-                } catch (error) {
-                    console.error('Erro:', error);
-                }
-            });
+    function preencherFormulario(produto) {
+        document.getElementById('nome').value = produto.nome;
+        document.getElementById('descricao').value = produto.descricao;
+        document.getElementById('preco').value = produto.preco.toFixed(2);
+        document.getElementById('categoria').value = produto.categoria;
+        
+        const preview = document.getElementById('preview-fotos');
+        preview.innerHTML = '';
+        
+        produto.fotos.forEach(foto => {
+            const img = document.createElement('img');
+            img.src = foto;
+            img.onerror = () => img.src = '../assets/img/placeholder.png';
+            preview.appendChild(img);
         });
-    </script>
+    }
+</script>
 </body>
 </html>
