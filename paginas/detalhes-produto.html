@@ -68,14 +68,10 @@
                     imagensEl.appendChild(img);
                 });
                 
-            document.getElementById('btn-comprar').onclick = () => {
-                adicionarAoCarrinho(produto._id);
-            
-                const btnComprar = document.getElementById('btn-comprar');
+            const btnComprar = document.getElementById('btn-comprar');
     btnComprar.onclick = adicionarAoCarrinho;
     btnComprar.style.cursor = 'pointer';
 
-            };
         }
 
         function adicionarAoCarrinho() {
