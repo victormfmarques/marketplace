@@ -30,10 +30,11 @@
                 </div>
             </div>
         </div>
-        <a href="add-produto.html"><ion-icon name="add-circle-outline"></ion-icon></a>
+        <a href="add-produto.html">Adicione os produtos aqui</a>
     </header>
+    <h2 id="subtitulo">CATEGORIAS</h2>
     <main id="lista-produtos" class="grid-produtos">
-        <h2 id="subtitulo">CATEGORIAS</h2>
+        
     </main>
 
     <div id="feedback" class="feedback"></div>
@@ -42,5 +43,154 @@
     <script src="../assets/js/carregar-produtos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        // Variável para controle de clicks rápidos
+        let ultimoClick = 0;
+
+        // Inicializa o carrinho quando a página carrega
+        document.addEventListener('DOMContentLoaded', function () {
+            atualizarCarrinho();
+
+            // Configura o toggle do carrinho dropdown
+            const carrinhoIcone = document.getElementById('carrinho-icone');
+            const carrinhoDropdown = document.getElementById('carrinho-dropdown');
+
+            carrinhoIcone.addEventListener('click', function (e) {
+                e.stopPropagation();
+                carrinhoDropdown.classList.toggle('show');
+            });
+
+            // Fecha o dropdown quando clicar fora
+            document.addEventListener('click', function () {
+                carrinhoDropdown.classList.remove('show');
+            });
+        });
+
+        // =============================================
+        // FUNÇÕES DO CARRINHO
+        // =============================================
+
+        // Função principal para atualizar a exibição do carrinho
+        function atualizarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const listaCarrinho = document.getElementById('lista-carrinho');
+            const totalCarrinho = document.getElementById('total-carrinho');
+            const contador = document.getElementById('contador-carrinho');
+            const botoesCarrinho = document.querySelector('.carrinho-botoes');
+
+            // Atualiza contador
+            contador.textContent = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
+
+            // Limpa e recria a lista
+            listaCarrinho.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach((item, index) => {
+                total += item.preco * (item.quantidade || 1);
+
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item-carrinho';
+                itemElement.innerHTML = `
+                    <img src="${item.imagem}" alt="${item.nome}">
+                    <div class="item-info">
+                        <h4>${item.nome} ${item.quantidade > 1 ? `(${item.quantidade}x)` : ''}</h4>
+                        <p><strong>Preço:</strong> R$ ${item.preco.toFixed(2)}</p>
+                        <p><strong>Subtotal:</strong> R$ ${(item.preco * (item.quantidade || 1)).toFixed(2)}</p>
+                    </div>
+                    <button class="remover-item" onclick="removerDoCarrinho(${index})">×</button>
+                `;
+                listaCarrinho.appendChild(itemElement);
+            });
+
+            // Atualiza totais e visibilidade dos botões
+            if (totalCarrinho) {
+                totalCarrinho.textContent = `Total: R$ ${total.toFixed(2)}`;
+            }
+            if (botoesCarrinho) {
+                botoesCarrinho.style.display = carrinho.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Função para adicionar itens ao carrinho com debounce
+        function adicionarAoCarrinho(nome, preco, imagem) {
+            const agora = Date.now();
+            if (agora - ultimoClick < 500) return;
+            ultimoClick = agora;
+
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const itemExistente = carrinho.find(item => item.nome === nome && item.preco === preco);
+
+            if (itemExistente) {
+                itemExistente.quantidade = (itemExistente.quantidade || 1) + 1;
+            } else {
+                carrinho.push({ nome, preco, imagem, quantidade: 1 });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            mostrarFeedback(`${nome} adicionado ao carrinho!`);
+        }
+
+        // Função para remover itens do carrinho
+        function removerDoCarrinho(index) {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            mostrarFeedback('Item removido do carrinho', 'aviso');
+        }
+
+        // Função para limpar todo o carrinho
+        function limparCarrinho() {
+            if (confirm('Tem certeza que deseja remover todos os itens do carrinho?')) {
+                localStorage.removeItem('carrinho');
+                atualizarCarrinho();
+                mostrarFeedback('Carrinho limpo com sucesso! 🌿', 'sucesso');
+            }
+        }
+
+        // Função para mostrar feedback visual
+        function mostrarFeedback(mensagem, tipo = 'sucesso') {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = mensagem;
+            feedback.className = 'feedback show';
+
+            if (tipo === 'sucesso') {
+                feedback.style.background = 'var(--cor-padrao)';
+            } else if (tipo === 'aviso') {
+                feedback.style.background = '#ff9800';
+            } else {
+                feedback.style.background = '#f44336';
+            }
+
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 3000);
+        }
+
+        // Função para finalizar compra
+        function finalizarCompra() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+            if (carrinho.length === 0) {
+                mostrarFeedback('Seu carrinho está vazio! 🛒', 'info');
+                return;
+            }
+
+            localStorage.removeItem('carrinho');
+            atualizarCarrinho();
+            mostrarFeedback('Compra finalizada com sucesso! ✅', 'sucesso');
+        }
+
+        // Configura evento do botão de finalizar compra
+        document.getElementById('finalizar-compra')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            finalizarCompra();
+        });
+
+    </script>
 </body>
+
 </html>
