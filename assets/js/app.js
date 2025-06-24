@@ -9,7 +9,7 @@ let produtosCarregados = [];
 // Configurações globais
 const config = {
   apiBaseUrl: '/api/produtos/listar',
-  placeholderImage: '../assets/img/placeholder.jpg'
+  placeholderImage: '../assets/img/placeholder.png'
 };
 
 // =============================================
