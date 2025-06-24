@@ -193,7 +193,7 @@ main {
 }
 
 /* Cards de Produto */
-.produto-card {
+/* .produto-card {
     background: var(--branco);
     border-radius: 12px;
     overflow: hidden;
@@ -246,7 +246,7 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
-}
+} */
 
 /* Feedback */
 .feedback {
