@@ -1,173 +1,261 @@
-// =============================================
-// VARIÁVEIS GLOBAIS
-// =============================================
-const MenuItens = document.getElementById("MenuItens");
-let ultimoClick = 0;
+const API_CONFIG = {
+    baseUrl: window.location.hostname === 'localhost' ? 
+            'http://localhost:3000/api' : 
+            '/api',
+    timeout: 5000
+};
 
-// =============================================
-// FUNÇÕES DO MENU MOBILE
-// =============================================
-MenuItens.style.maxHeight = "0px";
+// Configurações globais
+const config = {
+    placeholderImage: '../assets/img/placeholder.png'
+};
 
-function menucelular() {
-    if (MenuItens.style.maxHeight == "0px") {
-        MenuItens.style.maxHeight = "200px";
-    } else {
-        MenuItens.style.maxHeight = "0px";
-    }
+// Variáveis globais
+let produtosCarregados = [];
+
+// Funções do Menu
+function setupMenuMobile() {
+    const MenuItens = document.getElementById("MenuItens");
+    if (!MenuItens) return;
+    
+    MenuItens.style.maxHeight = "0px";
+    document.querySelector('.menu-celular')?.addEventListener('click', function() {
+        MenuItens.style.maxHeight = MenuItens.style.maxHeight === "0px" ? "200px" : "0px";
+    });
 }
 
-// =============================================
-// FUNÇÕES DO CARRINHO
-// =============================================
+// Funções do Carrinho
+function setupCarrinho() {
+    const carrinhoIcone = document.querySelector('.carrinho-icone');
+    if (!carrinhoIcone) return;
 
-// Função principal para atualizar a exibição do carrinho
+    carrinhoIcone.addEventListener('click', toggleCarrinho);
+    document.addEventListener('click', fecharCarrinho);
+    document.getElementById('finalizar-compra')?.addEventListener('click', finalizarCompra);
+    
+    atualizarCarrinho();
+}
+
+function toggleCarrinho(e) {
+    e.stopPropagation();
+    const dropdown = document.getElementById('carrinho-dropdown');
+    if (dropdown) dropdown.classList.toggle('show');
+}
+
+function fecharCarrinho() {
+    const dropdown = document.getElementById('carrinho-dropdown');
+    if (dropdown) dropdown.classList.remove('show');
+}
+
 function atualizarCarrinho() {
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const listaCarrinho = document.getElementById('lista-carrinho');
-    const totalCarrinho = document.getElementById('total-carrinho');
     const contador = document.getElementById('contador-carrinho');
-    const botoesCarrinho = document.querySelector('.carrinho-botoes');
-
-    // Atualiza contador
-    contador.textContent = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
-
-    // Limpa e recria a lista
-    listaCarrinho.innerHTML = '';
-    let total = 0;
-
-    carrinho.forEach((item, index) => {
-        total += item.preco * (item.quantidade || 1);
-        
-        const itemElement = document.createElement('div');
-        itemElement.className = 'item-carrinho';
-        itemElement.innerHTML = `
-            <img src="${item.imagem}" alt="${item.nome}">
-            <div class="item-info">
-                <h4>${item.nome} ${item.quantidade > 1 ? `(${item.quantidade}x)` : ''}</h4>
-                <p><strong>Preço:</strong> R$ ${item.preco.toFixed(2)}</p>
-                <p><strong>Subtotal:</strong> R$ ${(item.preco * (item.quantidade || 1)).toFixed(2)}</p>
+    const lista = document.getElementById('lista-carrinho');
+    const total = document.getElementById('total-carrinho');
+    
+    if (contador) contador.textContent = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
+    
+    if (lista && total) {
+        lista.innerHTML = carrinho.map(item => `
+            <div class="item-carrinho">
+                <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='${config.placeholderImage}'">
+                <div class="item-info">
+                    <h4>${item.nome}</h4>
+                    <p>R$ ${item.preco.toFixed(2)} x ${item.quantidade}</p>
+                    <p><strong>R$ ${(item.preco * item.quantidade).toFixed(2)}</strong></p>
+                </div>
+                <button class="remover-item" onclick="removerDoCarrinho('${item._id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
-            <button class="remover-item" onclick="removerDoCarrinho(${index})">×</button>
-        `;
-        listaCarrinho.appendChild(itemElement);
-    });
-
-    // Atualiza totais e visibilidade dos botões
-    if (totalCarrinho) {
-        totalCarrinho.textContent = `Total: R$ ${total.toFixed(2)}`;
-    }
-    if (botoesCarrinho) {
-        botoesCarrinho.style.display = carrinho.length > 0 ? 'flex' : 'none';
+        `).join('');
+        
+        const totalCarrinho = carrinho.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
+        total.textContent = `Total: R$ ${totalCarrinho.toFixed(2)}`;
     }
 }
 
-// Função para adicionar itens ao carrinho com debounce
-function adicionarAoCarrinho(nome, preco, imagem) {
-    const agora = Date.now();
-    if (agora - ultimoClick < 500) return;
-    ultimoClick = agora;
-
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const itemExistente = carrinho.find(item => item.nome === nome && item.preco === preco);
-
-    if (itemExistente) {
-        itemExistente.quantidade = (itemExistente.quantidade || 1) + 1;
-    } else {
-        carrinho.push({ nome, preco, imagem, quantidade: 1 });
-    }
-
+function removerDoCarrinho(produtoId) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho = carrinho.filter(item => item._id !== produtoId);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
     atualizarCarrinho();
-    mostrarFeedback(`${nome} adicionado ao carrinho!`);
+    mostrarFeedback('Item removido do carrinho!');
 }
 
-// Função para remover itens do carrinho
-function removerDoCarrinho(index) {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    carrinho.splice(index, 1);
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    atualizarCarrinho();
-}
-
-// Função para limpar todo o carrinho
 function limparCarrinho() {
-    if (confirm('Tem certeza que deseja remover todos os itens do carrinho?')) {
-        localStorage.removeItem('carrinho');
-        atualizarCarrinho();
-        mostrarFeedback('Carrinho limpo com sucesso! 🌿', 'sucesso');
-    }
-}
-
-// Função para finalizar compra
-function finalizarCompra() {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-
-    if (carrinho.length === 0) {
-        mostrarFeedback('Seu carrinho está vazio! 🛒', 'info');
-        return;
-    }
-
     localStorage.removeItem('carrinho');
     atualizarCarrinho();
-    mostrarFeedback('Compra finalizada com sucesso! ✅', 'sucesso');
+    mostrarFeedback('Carrinho limpo com sucesso!', 'sucesso');
 }
 
-// =============================================
-// FUNÇÕES AUXILIARES
-// =============================================
+function finalizarCompra() {
+    mostrarFeedback('Compra finalizada com sucesso!', 'sucesso');
+    limparCarrinho();
+}
 
-// Mostra feedback visual ao usuário
+// Funções Globais
+window.adicionarAoCarrinho = function(produtoId, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const produto = window.produtosCarregados?.find(p => p._id === produtoId);
+    if (!produto) return;
+
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const itemExistente = carrinho.find(item => item._id === produtoId);
+
+    if (itemExistente) {
+        itemExistente.quantidade += 1;
+    } else {
+        carrinho.push({
+            _id: produto._id,
+            nome: produto.nome,
+            preco: produto.preco,
+            imagem: produto.fotos[0] || config.placeholderImage,
+            quantidade: 1
+        });
+    }
+
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    atualizarCarrinho();
+    mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
+};
+
 function mostrarFeedback(mensagem, tipo = 'info') {
-    const feedback = document.createElement('div');
-    feedback.className = `feedback-mensagem ${tipo}`;
-    feedback.textContent = mensagem;
-    document.body.appendChild(feedback);
+    const feedback = document.getElementById('feedback') || document.body;
+    const div = document.createElement('div');
+    div.className = `feedback-mensagem ${tipo}`;
+    div.innerHTML = `<p>${mensagem}</p>`;
+    feedback.appendChild(div);
     
     setTimeout(() => {
-        feedback.style.opacity = '0';
-        setTimeout(() => feedback.remove(), 300);
-    }, 2000);
+        div.remove();
+    }, 3000);
 }
 
-// =============================================
-// EVENT LISTENERS
-// =============================================
-
-// Configura eventos dos produtos
-document.querySelectorAll('.col-4').forEach(produto => {
-    produto.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remover-item') || 
-            e.target.tagName === 'BUTTON' || 
-            e.target.tagName === 'ION-ICON') return;
+// Funções de Produtos
+async function carregarProdutosHome() {
+    try {
+        console.log("Iniciando carregamento de produtos..."); // Debug
+        const response = await fetch(`${API_CONFIG.baseUrl}/produtos/listar?destaque=true&limit=4`);
         
-        const nome = this.querySelector('h4').textContent;
-        const precoTexto = this.querySelector('p').textContent;
-        const preco = parseFloat(precoTexto.replace('R$ ', '').replace(',', '.'));
-        const imagem = this.querySelector('img').src;
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("Dados recebidos:", data); // Debug
+        
+        if (!data.produtos || data.produtos.length === 0) {
+            throw new Error('Nenhum produto em destaque encontrado');
+        }
+        
+        renderizarProdutos(data.produtos, 'produtos-destaque');
+        
+        // Carrega novidades separadamente
+        const responseNovidades = await fetch(`${API_CONFIG.baseUrl}/produtos/listar?novidades=true&limit=8`);
+        const dataNovidades = await responseNovidades.json();
+        renderizarProdutos(dataNovidades.produtos, 'produtos-novidades');
+        
+    } catch (error) {
+        console.error("Erro detalhado:", error);
+        const containerDestaque = document.getElementById('produtos-destaque');
+        const containerNovidades = document.getElementById('produtos-novidades');
+        
+        if (containerDestaque) {
+            containerDestaque.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Não foi possível carregar os produtos em destaque</p>
+                </div>
+            `;
+        }
+        
+        if (containerNovidades) {
+            containerNovidades.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Não foi possível carregar as novidades</p>
+                </div>
+            `;
+        }
+    }
+}
 
-        adicionarAoCarrinho(nome, preco, imagem);
-    });
-});
+function handleResponse(response) {
+    if (!response.ok) throw new Error(`Erro ${response.status}`);
+    return response.json();
+}
 
-// Eventos do carrinho
-document.querySelector('.carrinho-icone')?.addEventListener('click', function(e) {
-    e.stopPropagation();
-    document.getElementById('carrinho-dropdown').classList.toggle('show');
-});
+function showError(containerId, error) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Erro ao carregar: ${error.message}</p>
+            </div>
+        `;
+    }
+}
 
-document.addEventListener('click', () => {
-    document.getElementById('carrinho-dropdown').classList.remove('show');
-});
+function renderizarProdutos(produtos, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || !produtos) return;
+
+    container.innerHTML = produtos.map(produto => `
+        <div class="produto-card">
+            <a href="/paginas/detalhes-produto.html?id=${produto._id}">
+                <img src="${produto.fotos[0] || config.placeholderImage}" 
+                     alt="${produto.nome}"
+                     onerror="this.src='${config.placeholderImage}'">
+            </a>
+            <h3>${produto.nome}</h3>
+            <p>R$ ${produto.preco.toFixed(2)}</p>
+            <button onclick="adicionarAoCarrinho('${produto._id}', event)">Comprar</button>
+        </div>
+    `).join('');
+}
+
+// Funções de Usuário
+function verificarUsuarioLogado() {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const saudacao = document.getElementById('saudacao');
+    const editarContainer = document.getElementById('editar-container');
+    
+    if (saudacao) {
+        saudacao.textContent = usuario ? `Olá, ${usuario.nome}` : '';
+    }
+    
+    if (editarContainer && usuario) {
+        editarContainer.style.display = 'block';
+    }
+}
 
 // Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarCarrinho();
-});
+function inicializar() {
+    setupMenuMobile();
+    setupCarrinho();
+    verificarUsuarioLogado();
+    
+    if (document.getElementById('produtos-destaque')) {
+        carregarProdutosHome();
+    }
+}
 
-// Configura evento do botão de finalizar compra
-document.getElementById('finalizar-compra')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    finalizarCompra();
+// Inicia quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    inicializar();
+    
+    if (document.getElementById('lista-produtos')) {
+        setTimeout(() => {
+            const event = new Event('DOMContentLoaded');
+            document.dispatchEvent(event);
+        }, 100);
+    }
+    
+    atualizarCarrinho();
 });

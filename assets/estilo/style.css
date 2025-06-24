@@ -504,3 +504,49 @@ h4 {
         right: -50px;
     }
 }
+
+/* Loading spinner */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #2e8b57;
+    font-size: 1.2rem;
+}
+
+.fa-spinner {
+    margin-right: 0.5rem;
+}
+
+/* Error messages */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    color: #d9534f;
+    background: #f8d7da;
+    border-radius: 5px;
+    margin: 1rem;
+}
+
+.error-message i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.btn-retry {
+    background: #2e8b57;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Product cards */
+.produto-card {
+    transition: transform 0.3s;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+}

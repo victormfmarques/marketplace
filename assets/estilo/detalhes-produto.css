@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* detalhes-produto.css */
+#produto-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 2rem auto;
+    gap: 3rem;
+    padding: 1rem;
+}
+
+#produto-imagens {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#produto-imagens img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+#produto-info {
+    flex: 1;
+    padding: 1rem;
+}
+
+#produto-nome {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#produto-descricao {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+#produto-preco {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #2e7d32;
+}
+
+#btn-comprar {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#btn-comprar:hover {
+    background-color: #1b5e20;
+}
+
+#editar-container {
+    margin-top: 2rem;
+}
+
+#editar-container button {
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #produto-container {
+        flex-direction: column;
+    }
+}
+
+.produto-card {
+    position: relative;
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.produto-card button {
+    width: 100%;
+    padding: 8px 0;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.produto-card button:hover {
+    background: #45a049;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    grid-column: 1 / -1;
+}
+
+.error {
+    color: #d32f2f;
+    text-align: center;
+    padding: 20px;
+    grid-column: 1 / -1;
+}
