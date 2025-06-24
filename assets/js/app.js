@@ -139,17 +139,49 @@ function mostrarFeedback(mensagem, tipo = 'info') {
 // Funções de Produtos
 async function carregarProdutosHome() {
     try {
-        const [destaques, novidades] = await Promise.all([
-            fetch(`${API_CONFIG.baseUrl}/produtos/listar?destaque=true&limit=4`).then(handleResponse),
-            fetch(`${API_CONFIG.baseUrl}/produtos/listar?novidades=true&limit=8`).then(handleResponse)
-        ]);
-
-        renderizarProdutos(destaques.produtos || [], 'produtos-destaque');
-        renderizarProdutos(novidades.produtos || [], 'produtos-novidades');
+        console.log("Iniciando carregamento de produtos..."); // Debug
+        const response = await fetch(`${API_CONFIG.baseUrl}/produtos/listar?destaque=true&limit=4`);
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("Dados recebidos:", data); // Debug
+        
+        if (!data.produtos || data.produtos.length === 0) {
+            throw new Error('Nenhum produto em destaque encontrado');
+        }
+        
+        renderizarProdutos(data.produtos, 'produtos-destaque');
+        
+        // Carrega novidades separadamente
+        const responseNovidades = await fetch(`${API_CONFIG.baseUrl}/produtos/listar?novidades=true&limit=8`);
+        const dataNovidades = await responseNovidades.json();
+        renderizarProdutos(dataNovidades.produtos, 'produtos-novidades');
+        
     } catch (error) {
-        console.error('Erro ao carregar produtos:', error);
-        showError('produtos-destaque', error);
-        showError('produtos-novidades', error);
+        console.error("Erro detalhado:", error);
+        const containerDestaque = document.getElementById('produtos-destaque');
+        const containerNovidades = document.getElementById('produtos-novidades');
+        
+        if (containerDestaque) {
+            containerDestaque.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Não foi possível carregar os produtos em destaque</p>
+                </div>
+            `;
+        }
+        
+        if (containerNovidades) {
+            containerNovidades.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Não foi possível carregar as novidades</p>
+                </div>
+            `;
+        }
     }
 }
 
