@@ -11,14 +11,19 @@
 
 <body>
     <header>
-        <h1>PRODUTOS</h1>
-        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+        <div class="logo-container">
+            <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+            <h1>EcoMarket</h1>
+        </div>
+        
         <div class="header-controls">
-            <ul>
-                <li><a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a></li>
+            <ul class="nav-list">
+                <li><a href="../paginas/home.html" class="nav-link" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a></li>
+                <li><a href="add-produto.html" class="nav-link" title="Adicionar Produto"><ion-icon name="add-circle-outline"></ion-icon></a></li>
             </ul>
-            <div class="carrinho-icone" id="carrinho-icone">
-                <img src="../assets/img/carrinho.png" alt="Carrinho de Compras">
+            
+            <div class="carrinho-icone" title="Carrinho de Compras">
+                <img src="../assets/img/carrinho.png" alt="Carrinho">
                 <span id="contador-carrinho">0</span>
                 <div class="carrinho-dropdown" id="carrinho-dropdown">
                     <div id="lista-carrinho"></div>
@@ -30,290 +35,20 @@
                 </div>
             </div>
         </div>
-        <a href="add-produto.html">Adicione os produtos aqui</a>
     </header>
-
-    <h2 id="subtitulo">CATEGORIAS</h2>
-
-    <!-- <div id="lista-produtos" class="grid-produtos">
-
-    </div>
-     -->
-    <main id="lista-produtos" class="grid-produtos">
-        <!-- <aside>
-            <h2>Higiene Pessoal</h2>
-
-            <img src="../assets/img/produto-1.jpg" alt="Shampoo Orgânico" class="produto-img"
-                onclick="adicionarAoCarrinho('Shampoo Orgânico', 18.99, '../assets/img/produto-1.jpg')">
-            <h4>Shampoo Orgânico</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-10.jpg" alt="Toalha de Rosto" class="produto-img"
-                onclick="adicionarAoCarrinho('Toalha de Rosto', 25.99, '../assets/img/produto-10.jpg')">
-            <h4>Toalha de Rosto</h4>
-            <p>R$ 25,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-4.jpg" alt="Escova de Dentes" class="produto-img"
-                onclick="adicionarAoCarrinho('Escova de Dentes', 15.99, '../assets/img/produto-4.jpg')">
-            <h4>Escova de Dentes</h4>
-            <p>R$ 15,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside>
-
-        <aside>
-            <h2>Moda Sustentável</h2>
-
-            <img src="../assets/img/produto-6.jpg" alt="Bolsa Reciclável" class="produto-img"
-                onclick="adicionarAoCarrinho('Bolsa Reciclável', 25.99, '../assets/img/produto-6.jpg')">
-            <h4>Bolsa Reciclável</h4>
-            <p>R$ 25,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-5.jpg" alt="Camiseta de Algodão" class="produto-img"
-                onclick="adicionarAoCarrinho('Camiseta de Algodão', 18.99, '../assets/img/produto-5.jpg')">
-            <h4>Camiseta de Algodão</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-7.jpg" alt="Pulseira de Sementes" class="produto-img"
-                onclick="adicionarAoCarrinho('Pulseira de Sementes', 27.99, '../assets/img/produto-7.jpg')">
-            <h4>Pulseira de Sementes</h4>
-            <p>R$ 27,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside>
-
-        <aside>
-            <h2>Casa e Decoração</h2>
-
-            <img src="../assets/img/produto-11.jpg" alt="Jarra de Vidro Reciclado" class="produto-img"
-                onclick="adicionarAoCarrinho('Jarra de Vidro Reciclado', 27.99, '../assets/img/produto-11.jpg')">
-            <h4>Jarra de Vidro Reciclado</h4>
-            <p>R$ 27,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-8.jpg" alt="Copo de Bambu" class="produto-img"
-                onclick="adicionarAoCarrinho('Copo de Bambu', 15.99, '../assets/img/produto-8.jpg')">
-            <h4>Copo de Bambu</h4>
-            <p>R$ 15,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-
-            <img src="../assets/img/produto-9.jpg" alt="Vela de Soja" class="produto-img"
-                onclick="adicionarAoCarrinho('Vela de Soja', 18.99, '../assets/img/produto-9.jpg')">
-            <h4>Vela de Soja</h4>
-            <p>R$ 18,99</p>
-            <div class="classificacao" aria-label="5 estrelas">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-            </div>
-        </aside> -->
+    
+    <main>
+        <h2 id="subtitulo">Nossos Produtos Sustentáveis</h2>
+        <div id="lista-produtos" class="grid-produtos">
+            <!-- Produtos serão carregados dinamicamente aqui -->
+        </div>
     </main>
 
     <div id="feedback" class="feedback"></div>
 
+    <script src="../assets/js/app.js"></script>
     <script src="../assets/js/carregar-produtos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <script>
-        // Variável para controle de clicks rápidos
-        let ultimoClick = 0;
-
-        // Inicializa o carrinho quando a página carrega
-        document.addEventListener('DOMContentLoaded', function () {
-            atualizarCarrinho();
-
-            // Configura o toggle do carrinho dropdown
-            const carrinhoIcone = document.getElementById('carrinho-icone');
-            const carrinhoDropdown = document.getElementById('carrinho-dropdown');
-
-            carrinhoIcone.addEventListener('click', function (e) {
-                e.stopPropagation();
-                carrinhoDropdown.classList.toggle('show');
-            });
-
-            // Fecha o dropdown quando clicar fora
-            document.addEventListener('click', function () {
-                carrinhoDropdown.classList.remove('show');
-            });
-        });
-
-        // =============================================
-        // FUNÇÕES DO CARRINHO
-        // =============================================
-
-        // Função principal para atualizar a exibição do carrinho
-        function atualizarCarrinho() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            const listaCarrinho = document.getElementById('lista-carrinho');
-            const totalCarrinho = document.getElementById('total-carrinho');
-            const contador = document.getElementById('contador-carrinho');
-            const botoesCarrinho = document.querySelector('.carrinho-botoes');
-
-            // Atualiza contador
-            contador.textContent = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
-
-            // Limpa e recria a lista
-            listaCarrinho.innerHTML = '';
-            let total = 0;
-
-            carrinho.forEach((item, index) => {
-                total += item.preco * (item.quantidade || 1);
-
-                const itemElement = document.createElement('div');
-                itemElement.className = 'item-carrinho';
-                itemElement.innerHTML = `
-                    <img src="${item.imagem}" alt="${item.nome}">
-                    <div class="item-info">
-                        <h4>${item.nome} ${item.quantidade > 1 ? `(${item.quantidade}x)` : ''}</h4>
-                        <p><strong>Preço:</strong> R$ ${item.preco.toFixed(2)}</p>
-                        <p><strong>Subtotal:</strong> R$ ${(item.preco * (item.quantidade || 1)).toFixed(2)}</p>
-                    </div>
-                    <button class="remover-item" onclick="removerDoCarrinho(${index})">×</button>
-                `;
-                listaCarrinho.appendChild(itemElement);
-            });
-
-            // Atualiza totais e visibilidade dos botões
-            if (totalCarrinho) {
-                totalCarrinho.textContent = `Total: R$ ${total.toFixed(2)}`;
-            }
-            if (botoesCarrinho) {
-                botoesCarrinho.style.display = carrinho.length > 0 ? 'flex' : 'none';
-            }
-        }
-
-        // Função para adicionar itens ao carrinho com debounce
-        function adicionarAoCarrinho(nome, preco, imagem) {
-            const agora = Date.now();
-            if (agora - ultimoClick < 500) return;
-            ultimoClick = agora;
-
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            const itemExistente = carrinho.find(item => item.nome === nome && item.preco === preco);
-
-            if (itemExistente) {
-                itemExistente.quantidade = (itemExistente.quantidade || 1) + 1;
-            } else {
-                carrinho.push({ nome, preco, imagem, quantidade: 1 });
-            }
-
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarCarrinho();
-            mostrarFeedback(`${nome} adicionado ao carrinho!`);
-        }
-
-        // Função para remover itens do carrinho
-        function removerDoCarrinho(index) {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            carrinho.splice(index, 1);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarCarrinho();
-            mostrarFeedback('Item removido do carrinho', 'aviso');
-        }
-
-        // Função para limpar todo o carrinho
-        function limparCarrinho() {
-            if (confirm('Tem certeza que deseja remover todos os itens do carrinho?')) {
-                localStorage.removeItem('carrinho');
-                atualizarCarrinho();
-                mostrarFeedback('Carrinho limpo com sucesso! 🌿', 'sucesso');
-            }
-        }
-
-        // Função para mostrar feedback visual
-        function mostrarFeedback(mensagem, tipo = 'sucesso') {
-            const feedback = document.getElementById('feedback');
-            feedback.textContent = mensagem;
-            feedback.className = 'feedback show';
-
-            if (tipo === 'sucesso') {
-                feedback.style.background = 'var(--cor-padrao)';
-            } else if (tipo === 'aviso') {
-                feedback.style.background = '#ff9800';
-            } else {
-                feedback.style.background = '#f44336';
-            }
-
-            setTimeout(() => {
-                feedback.classList.remove('show');
-            }, 3000);
-        }
-
-        // Função para finalizar compra
-        function finalizarCompra() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-
-            if (carrinho.length === 0) {
-                mostrarFeedback('Seu carrinho está vazio! 🛒', 'info');
-                return;
-            }
-
-            localStorage.removeItem('carrinho');
-            atualizarCarrinho();
-            mostrarFeedback('Compra finalizada com sucesso! ✅', 'sucesso');
-        }
-
-        // Configura evento do botão de finalizar compra
-        document.getElementById('finalizar-compra')?.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            finalizarCompra();
-        });
-
-    </script>
 </body>
-
 </html>

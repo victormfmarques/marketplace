@@ -55,7 +55,7 @@
                 produto.fotos.forEach(foto => {
                     const img = document.createElement('img');
                     img.src = foto;
-                    img.onerror = () => { img.src = '../assets/img/placeholder.jpg'; };
+                    img.onerror = () => { img.src = '../assets/img/placeholder.png'; };
                     imagensEl.appendChild(img);
                 });
 
@@ -63,7 +63,7 @@
                 btnComprar.onclick = () => adicionarAoCarrinho(
                     produto.nome,
                     produto.preco,
-                    produto.fotos[0] || '../assets/img/placeholder.jpg'
+                    produto.fotos[0] || '../assets/img/placeholder.png'
                 );
 
                 // Mostra botão de edição se for o dono
