@@ -43,15 +43,57 @@
       
       <div class="form-group">
         <label for="imagem-produto">Imagem do Produto:</label>
-        <input type="file" id="imagem-produto" name="imagem" accept="image/*" required>
+        <input type="file" id="imagem-produto" name="imagem" accept="image/*" >
       </div>
       
       <button type="submit">Cadastrar Produto</button>
     </form>
   </div>
   
-  <script src="../js/cadastro-produto.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script type="module">
+    import { cadastrarProduto } from '../assets/js/modules/produtos.js';
+
+      document.getElementById('form-produto').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+
+        const dados = {
+          usuarioId: 'usuario-teste', // Substitua pelo real depois
+          nome: form.nome.value,
+          descricao: form.descricao.value,
+          preco: form.preco.value,
+          categoria: form.categoria.value,
+          fotosBase64: []
+        };
+
+        const imagem = form['imagem-produto'].files[0];
+
+        if (imagem) {
+          const base64 = await toBase64(imagem);
+          dados.fotosBase64.push(base64);
+        }
+
+        try {
+          console.log("Enviando dados para cadastro:", dados);
+          await cadastrarProduto(dados);
+          alert('Produto cadastrado com sucesso!');
+          window.location.href = '../paginas/produtos.html';
+        } catch (err) {
+          alert('Erro: ' + err.message);
+        }
+      });
+
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+  </script>
 </body>
 </html>

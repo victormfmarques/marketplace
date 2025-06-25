@@ -41,7 +41,6 @@ export async function carregarProdutos(containerId, params = {}) {
       return;
     }
 
-    // Salva produtos globalmente para outras funções usarem
     window.produtosCarregados = result.data;
 
     container.innerHTML = renderizarProdutos(result.data);
@@ -54,7 +53,6 @@ export async function carregarProdutos(containerId, params = {}) {
   }
 }
 
-// Inicializa carregamento automático em containers específicos, se existirem
 export function inicializarProdutos() {
   if (document.getElementById('produtos-destaque')) {
     carregarProdutos('produtos-destaque', { limit: 4 });
@@ -65,7 +63,6 @@ export function inicializarProdutos() {
   }
 }
 
-// Adiciona produto ao carrinho localStorage
 export function adicionarAoCarrinho(produtoId, event) {
   if (event) {
     event.preventDefault();
@@ -94,11 +91,9 @@ export function adicionarAoCarrinho(produtoId, event) {
   }
 
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
-
   mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
 }
 
-// Renderiza HTML dos produtos
 function renderizarProdutos(produtos) {
   return produtos.map(produto => `
     <div class="produto-card" data-id="${produto.id}">
@@ -118,7 +113,6 @@ function renderizarProdutos(produtos) {
   `).join('');
 }
 
-// Configura os eventos de clique para os botões "Comprar"
 function configurarEventosProdutos() {
   document.querySelectorAll('.produto-btn-comprar').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -132,7 +126,6 @@ function configurarEventosProdutos() {
   });
 }
 
-// Retorna HTML para loader de carregamento
 function criarLoader() {
   return `
     <div class="loader-container" role="status" aria-live="polite">
@@ -142,7 +135,6 @@ function criarLoader() {
   `;
 }
 
-// Retorna HTML para mensagem de erro
 function criarMensagemErro(error) {
   return `
     <div class="error-container" role="alert">
@@ -158,7 +150,6 @@ function criarMensagemErro(error) {
   `;
 }
 
-// Retorna HTML para mensagens genéricas (info ou alerta)
 function criarMensagem(texto, tipo = 'info') {
   return `
     <div class="message-${tipo}" role="alert">
@@ -168,13 +159,10 @@ function criarMensagem(texto, tipo = 'info') {
   `;
 }
 
-// Placeholder para a função de feedback (implemente você mesmo ou remova)
 function mostrarFeedback(mensagem) {
-  // Exemplo simples: alert temporário
   alert(mensagem);
 }
 
-// Edita um produto no servidor
 export async function editarProduto(produtoId, dados, usuarioLogado) {
   if (!produtoId || !usuarioLogado) {
     throw new Error('ID do produto ou usuário não informado');
@@ -197,9 +185,25 @@ export async function editarProduto(produtoId, dados, usuarioLogado) {
   return await response.json();
 }
 
-// Exporta funções globais
+// ✅ NOVA FUNÇÃO: cadastrarProduto
+export async function cadastrarProduto(dados) {
+  const response = await fetch('/api/produtos/cadastro', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+  });
+
+  if (!response.ok) {
+    const erro = await response.json();
+    throw new Error(erro.error || 'Erro ao cadastrar produto');
+  }
+
+  return await response.json();
+}
+
+// Exports globais
 window.adicionarAoCarrinho = adicionarAoCarrinho;
 window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;
 window.editarProduto = editarProduto;
-
+window.cadastrarProduto = cadastrarProduto;

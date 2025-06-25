@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { MongoClient } from 'mongodb';
 import { v2 as cloudinary } from 'cloudinary'; // Para upload de imagens
 
