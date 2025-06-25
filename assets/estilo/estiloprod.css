@@ -1,33 +1,108 @@
 @charset "UTF-8";
 
-.produtos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
 }
 
+/* Estilo base */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+  margin: 0;
+  padding: 0;
+}
+
+/* Home */
+.home-page .produtos-section {
+  padding: 40px 20px;
+  background-color: var(--branco-neve);
+  border-top: 3px solid var(--verde-folha);
+  border-bottom: 3px solid var(--verde-folha);
+}
+
+.home-page .titulo {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 30px;
+  color: var(--verde-folha);
+}
+
+/* Produtos em grid (home e produtos) */
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+}
+
+/* Estilo dos cards de produto */
 .produto-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s;
+  background-color: var(--bege-areia);
+  border: 1px solid var(--verde-claro);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .produto-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .produto-card img {
-  width: 100%;
+  max-width: 100%;
   height: 180px;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.produto-info {
-  padding: 15px;
+.produto-card h3 {
+  font-size: 1.1em;
+  color: var(--verde-folha);
+  margin-bottom: 6px;
 }
+
+.produto-card p {
+  font-size: 0.95em;
+  color: var(--cinza-pedra);
+  margin-bottom: 8px;
+}
+
+.produto-card .preco {
+  font-weight: bold;
+  color: var(--marrom-terra);
+  font-size: 1.1em;
+}
+
+/* Página produtos */
+.produtos-page {
+  padding: 40px 20px;
+  background-color: var(--branco-neve);
+}
+
+.produtos-page #subtitulo {
+  text-align: center;
+  font-size: 2em;
+  color: var(--verde-folha);
+  margin-bottom: 30px;
+}
+
+/* Responsividade opcional */
+@media (max-width: 600px) {
+  .produtos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 .preco {
   font-weight: bold;

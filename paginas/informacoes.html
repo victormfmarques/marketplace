@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
-    <title>EcoMarket/Informações</title>
+    <title>EcoMarket - Informações</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --verde-folha: #3A6351;
+            --verde-claro: #A8C686;
+            --marrom-terra: #7B5E42;
+            --bege-areia: #F2E8CF;
+            --branco-neve: #FFFFFF;
+            --cinza-pedra: #4F4F4F;
+        }
 
         * {
             margin: 0;
@@ -16,13 +25,13 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: black url(../assets/img/fundo.png) no-repeat center center /cover fixed;
+            background: var(--cinza-pedra) url(../assets/img/fundo.png) no-repeat center center /cover fixed;
+            color: var(--cinza-pedra);
         }
 
         header {
-            margin: 0;
             padding: 10px;
-            background-image: linear-gradient(-45deg, #597729, #a6ee31fb);
+            background-image: linear-gradient(-45deg, var(--verde-folha), var(--verde-claro));
             text-align: center;
             box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
             position: relative;
@@ -42,13 +51,13 @@
         }
 
         header ul li {
-            color: white;
+            color: var(--branco-neve);
         }
 
         header a {
             font-size: 30px;
             padding: 5px;
-            color: white;
+            color: var(--branco-neve);
         }
 
         header a:hover {
@@ -59,44 +68,42 @@
         }
 
         main {
-            margin: 0px auto;
+            margin: 0 auto;
             max-width: 900px;
             width: 95%;
             padding: 20px;
-            line-height: 1.3em;
-            background-color: white;
+            line-height: 1.6em;
+            background-color: var(--bege-areia);
         }
 
         main h1 {
-            line-height: 30px;
-        }
-
-        main ul {
-            padding-left: 20px;
-        }
-
-        main p {
-            padding: 10px 0;
+            margin-bottom: 15px;
         }
 
         main h2 {
             margin: 10px 0;
             padding: 10px;
-            color: white;
             border-radius: 10px;
-            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.315);
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+            color: var(--branco-neve);
         }
 
-        main img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
+        h2.verde { background-image: linear-gradient(to right, green, white); color: var(--cinza-pedra); }
+        h2.azul { background-image: linear-gradient(to right, blue, white); color: var(--branco-neve); }
+        h2.amarela { background-image: linear-gradient(to right, gold, white); color: var(--cinza-pedra); }
+        h2.vermelha { background-image: linear-gradient(to right, red, white); color: var(--branco-neve); }
+        h2.marrom { background-image: linear-gradient(to right, saddlebrown, white); color: var(--branco-neve); }
+        h2.laranja { background-image: linear-gradient(to right, orange, white); color: var(--cinza-pedra); }
+        h2.preta { background-image: linear-gradient(to right, black, white); color: var(--branco-neve); }
 
-        p {
+        main p {
             text-indent: 10px;
             text-align: justify;
+            margin: 10px 0;
+        }
+
+        main ul {
+            padding-left: 20px;
             margin: 10px 0;
         }
 
@@ -104,72 +111,30 @@
             margin: 10px 0;
         }
 
-        #img-1 {
-            text-align: center;
-            margin: 20px 0;
+        main img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
         }
 
-        /* Media Queries para responsividade */
         @media (max-width: 768px) {
             header ul {
                 position: static;
                 text-align: center;
                 margin-top: 10px;
             }
-            
-            header a {
-                padding: 5px 10px;
-            }
-            
+
             main {
                 width: 100%;
                 padding: 15px;
-                margin: 10px 0;
-            }
-            
-            main h2 {
-                font-size: 1.3em;
-                padding: 8px;
-            }
-            
-            p {
-                font-size: 0.95em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 5px;
-            }
-            
-            header ul {
-                display: flex;
-                justify-content: center;
-                margin-top: 5px;
-            }
-            
-            main {
-                padding: 10px;
-            }
-            
-            main h1 {
-                font-size: 1.5em;
-            }
-            
-            main h2 {
-                font-size: 1.2em;
-                padding: 5px;
-            }
-            
-            p, li {
-                font-size: 0.9em;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="../assets/img/verde-300.png" alt="Logo EcoMarket">
+        <img src="../assets/img/logo.png" alt="Logo EcoMarket">
         <ul>
             <li><a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a></li>
         </ul>
