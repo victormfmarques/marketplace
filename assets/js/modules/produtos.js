@@ -1,6 +1,6 @@
 // assets/js/modules/produtos.js
 const produtoConfig = {
-  apiBaseUrl: 'http://localhost:3000/api/produtos',
+  apiBaseUrl: '/api/produtos',
   placeholderImage: '../assets/img/placeholder.png'
 };
 
