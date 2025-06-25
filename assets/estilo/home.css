@@ -454,6 +454,10 @@ nav ul li a:hover {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
+  max-width: 1200px;     /* largura máxima para centralizar */
+  margin: 0 auto;         /* centraliza horizontalmente */
+  padding: 20px;          /* espaçamento interno */
+  box-sizing: border-box; /* garante que padding não ultrapasse o limite */
 }
 
 .produto-card {

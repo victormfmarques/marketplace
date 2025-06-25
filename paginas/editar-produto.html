@@ -1,121 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/estilo/detalhes-produto.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-    <title>Editar Produto</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../assets/estilo/editprod.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
+  <title>Editar Produto</title>
 </head>
 <body>
-    <form id="form-editar-produto">
-        <h1>Editar Produto</h1>
-        
-        <label>Nome:</label>
-        <input type="text" id="nome" required>
-        
-        <label>Descrição:</label>
-        <textarea id="descricao" required></textarea>
-        
-        <label>Preço:</label>
-        <input type="number" id="preco" step="0.01" min="0" required>
-        
-        <label>Categoria:</label>
-        <select id="categoria" required>
-            <option value="higiene">Higiene Pessoal</option>
-            <option value="moda">Moda Sustentável</option>
-            <option value="decoracao">Decoração Ecológica</option>
-            <option value="outros">Outros</option>
-        </select>
-        
-        <label>Fotos:</label>
-        <input type="file" id="fotos" multiple accept="image/*">
-        <div id="preview-fotos"></div>
-        
-        <button type="submit">Salvar Alterações</button>
-    </form>
+  <form id="form-editar-produto">
+    <h1>Editar Produto</h1>
 
-    <div id="feedback"></div>
+    <label>Nome:</label>
+    <input type="text" id="nome" required />
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const produtoId = urlParams.get('id');
-            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-            
-            if (!usuarioLogado) {
-                window.location.href = '/login.html';
-                return;
-            }
+    <label>Descrição:</label>
+    <textarea id="descricao" required></textarea>
 
-            try {
-                const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
-                if (!response.ok) throw new Error(`Erro ${response.status}`);
-                
-                const produto = await response.json();
-                
-                if (produto.usuarioId !== usuarioLogado._id) {
-                    alert('Você não tem permissão para editar este produto');
-                    window.location.href = '/paginas/produtos.html';
-                    return;
-                }
-                
-                preencherFormulario(produto);
-                
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Falha ao carregar produto: ' + error.message);
-                window.location.href = '/paginas/produtos.html';
-            }
-        });
+    <label>Preço:</label>
+    <input type="number" id="preco" step="0.01" min="0" required />
 
-        function preencherFormulario(produto) {
-            document.getElementById('nome').value = produto.nome;
-            document.getElementById('descricao').value = produto.descricao;
-            document.getElementById('preco').value = produto.preco.toFixed(2);
-            document.getElementById('categoria').value = produto.categoria;
-            
-            const preview = document.getElementById('preview-fotos');
-            preview.innerHTML = '';
-            
-            produto.fotos.forEach(foto => {
-                const img = document.createElement('img');
-                img.src = foto;
-                img.onerror = () => img.src = '../assets/img/placeholder.png';
-                preview.appendChild(img);
-            });
+    <label>Categoria:</label>
+    <select id="categoria" required>
+      <option value="higiene">Higiene Pessoal</option>
+      <option value="moda">Moda Sustentável</option>
+      <option value="decoracao">Decoração Ecológica</option>
+      <option value="outros">Outros</option>
+    </select>
+
+    <label>Fotos:</label>
+    <input type="file" id="fotos" multiple accept="image/*" />
+    <div id="preview-fotos"></div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+
+  <div id="feedback"></div>
+
+  <script>
+    const produtoId = new URLSearchParams(window.location.search).get('id');
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+    if (!usuarioLogado) {
+      window.location.href = '/login.html';
+    }
+
+    // Carrega os dados do produto
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
+
+        const produto = await response.json();
+
+        if (produto.usuarioId !== usuarioLogado._id) {
+          alert('Você não tem permissão para editar este produto');
+          window.location.href = '/paginas/produtos.html';
+          return;
         }
 
-        document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const produtoId = new URLSearchParams(window.location.search).get('id');
-            const formData = {
-                nome: document.getElementById('nome').value,
-                descricao: document.getElementById('descricao').value,
-                preco: parseFloat(document.getElementById('preco').value),
-                categoria: document.getElementById('categoria').value
-            };
+        preencherFormulario(produto);
+      } catch (error) {
+        console.error('Erro ao carregar produto:', error);
+        alert('Falha ao carregar produto: ' + error.message);
+        window.location.href = '/paginas/produtos.html';
+      }
+    });
 
-            try {
-                const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+    // Preenche os campos do formulário
+    function preencherFormulario(produto) {
+      document.getElementById('nome').value = produto.nome;
+      document.getElementById('descricao').value = produto.descricao;
+      document.getElementById('preco').value = produto.preco.toFixed(2);
+      document.getElementById('categoria').value = produto.categoria;
 
-                if (response.ok) {
-                    alert('Produto atualizado com sucesso!');
-                    window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`;
-                } else {
-                    throw new Error('Falha ao atualizar produto');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao atualizar produto: ' + error.message);
-            }
+      const preview = document.getElementById('preview-fotos');
+      preview.innerHTML = '';
+
+      if (produto.fotos && Array.isArray(produto.fotos)) {
+        produto.fotos.forEach(foto => {
+          const img = document.createElement('img');
+          img.src = foto;
+          img.onerror = () => img.src = '../assets/img/placeholder.png';
+          img.style.maxWidth = '120px';
+          img.style.margin = '5px';
+          preview.appendChild(img);
         });
-    </script>
+      }
+    }
+
+    // Envia atualização
+    document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        nome: document.getElementById('nome').value,
+        descricao: document.getElementById('descricao').value,
+        preco: parseFloat(document.getElementById('preco').value),
+        categoria: document.getElementById('categoria').value
+      };
+
+      try {
+        await editarProduto(produtoId, formData, usuarioLogado);
+        alert('Produto atualizado com sucesso!');
+        window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`;
+      } catch (error) {
+        console.error('Erro ao editar produto:', error);
+        alert('Erro ao atualizar produto: ' + error.message);
+      }
+    });
+
+    // Função utilitária para enviar PUT à API
+    async function editarProduto(id, dados, usuario) {
+      if (!id || !usuario) throw new Error('ID ou usuário ausente');
+
+      const response = await fetch(`/api/produtos/editar?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-usuario': JSON.stringify(usuario)
+        },
+        body: JSON.stringify(dados)
+      });
+
+      if (!response.ok) {
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.error || 'Erro ao editar produto');
+      }
+
+      return await response.json();
+    }
+  </script>
 </body>
 </html>

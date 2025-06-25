@@ -73,15 +73,20 @@ header {
 .header-controls ul li a {
   color: var(--branco-neve);
   text-decoration: none;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
+  font-size: 30px;
+  transition: background 0.8s ease;
 }
 
 .header-controls ul li a:hover,
 .header-controls ul li a:focus {
-  color: var(--verde-claro);
+  padding: 5px;
+  border-radius: 10px;
+  background-color: var(--marrom-terra);
 }
 
+#home-p {
+  margin-bottom: -3px;
+}
 
 /* Botão adicionar produto */
 .btn {

@@ -1,10 +1,11 @@
 // assets/js/modules/produtos.js
+
 const produtoConfig = {
   apiBaseUrl: '/api/produtos',
   placeholderImage: '../assets/img/placeholder.png'
 };
 
-// Função principal para carregar produtos
+// Função principal para carregar produtos no container indicado
 export async function carregarProdutos(containerId, params = {}) {
   const container = document.getElementById(containerId);
   if (!container) {
@@ -14,22 +15,23 @@ export async function carregarProdutos(containerId, params = {}) {
 
   try {
     container.innerHTML = criarLoader();
-    
-    params._ = new Date().getTime(); // Cache buster
+
+    // Adiciona timestamp para evitar cache da requisição
+    params._ = new Date().getTime();
     const queryString = new URLSearchParams(params).toString();
     const url = `${produtoConfig.apiBaseUrl}/listar?${queryString}`;
-    
+
     console.log('Fetching:', url);
 
     const response = await fetch(url);
-    
+
     if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
+      throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
     }
 
     const result = await response.json();
     console.log('API Response:', result);
-    
+
     if (!result.success) {
       throw new Error(result.message || 'Erro na resposta da API');
     }
@@ -39,28 +41,31 @@ export async function carregarProdutos(containerId, params = {}) {
       return;
     }
 
+    // Salva produtos globalmente para outras funções usarem
     window.produtosCarregados = result.data;
+
     container.innerHTML = renderizarProdutos(result.data);
+
     configurarEventosProdutos();
 
   } catch (error) {
-    console.error('Erro completo:', error);
+    console.error('Erro ao carregar produtos:', error);
     container.innerHTML = criarMensagemErro(error);
   }
 }
 
-// Função para inicialização automática
+// Inicializa carregamento automático em containers específicos, se existirem
 export function inicializarProdutos() {
   if (document.getElementById('produtos-destaque')) {
     carregarProdutos('produtos-destaque', { limit: 4 });
   }
-  
+
   if (document.getElementById('produtos-lista')) {
     carregarProdutos('produtos-lista');
   }
 }
 
-// Função para adicionar ao carrinho (usada nos eventos)
+// Adiciona produto ao carrinho localStorage
 export function adicionarAoCarrinho(produtoId, event) {
   if (event) {
     event.preventDefault();
@@ -68,7 +73,10 @@ export function adicionarAoCarrinho(produtoId, event) {
   }
 
   const produto = window.produtosCarregados?.find(p => p.id === produtoId);
-  if (!produto) return;
+  if (!produto) {
+    console.warn(`Produto com id ${produtoId} não encontrado para adicionar ao carrinho.`);
+    return;
+  }
 
   const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   const itemExistente = carrinho.find(item => item.id === produtoId);
@@ -86,14 +94,15 @@ export function adicionarAoCarrinho(produtoId, event) {
   }
 
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
   mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
 }
 
-// Funções auxiliares
+// Renderiza HTML dos produtos
 function renderizarProdutos(produtos) {
   return produtos.map(produto => `
     <div class="produto-card" data-id="${produto.id}">
-      <a href="detalhes-produto.html?id=${produto.id}" class="produto-link">
+      <a href="detalhes-produto.html?id=${produto.id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
         <img src="${produto.foto || produtoConfig.placeholderImage}" 
              alt="${produto.nome}"
              onerror="this.src='${produtoConfig.placeholderImage}'">
@@ -101,7 +110,7 @@ function renderizarProdutos(produtos) {
       <div class="produto-info">
         <h3>${produto.nome}</h3>
         <p class="produto-preco">R$ ${produto.preco.toFixed(2)}</p>
-        <button class="produto-btn-comprar" data-id="${produto.id}">
+        <button class="produto-btn-comprar" data-id="${produto.id}" aria-label="Comprar ${produto.nome}">
           Comprar
         </button>
       </div>
@@ -109,6 +118,7 @@ function renderizarProdutos(produtos) {
   `).join('');
 }
 
+// Configura os eventos de clique para os botões "Comprar"
 function configurarEventosProdutos() {
   document.querySelectorAll('.produto-btn-comprar').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -118,38 +128,74 @@ function configurarEventosProdutos() {
   });
 }
 
+// Retorna HTML para loader de carregamento
 function criarLoader() {
   return `
-    <div class="loader-container">
+    <div class="loader-container" role="status" aria-live="polite">
       <div class="loader-spinner"></div>
       <p class="loader-text">Carregando produtos...</p>
     </div>
   `;
 }
 
+// Retorna HTML para mensagem de erro
 function criarMensagemErro(error) {
   return `
-    <div class="error-container">
-      <i class="fas fa-exclamation-triangle"></i>
+    <div class="error-container" role="alert">
+      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
       <h3>Não foi possível carregar os produtos</h3>
       <p class="error-detail">${error.message}</p>
       <div class="error-actions">
-        <button class="btn-tentar" onclick="window.location.reload()">
-          <i class="fas fa-sync-alt"></i> Tentar novamente
+        <button class="btn-tentar" onclick="window.location.reload()" aria-label="Tentar novamente">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i> Tentar novamente
         </button>
       </div>
     </div>
   `;
 }
 
+// Retorna HTML para mensagens genéricas (info ou alerta)
 function criarMensagem(texto, tipo = 'info') {
   return `
-    <div class="message-${tipo}">
-      <i class="fas fa-${tipo === 'info' ? 'info-circle' : 'exclamation-circle'}"></i>
+    <div class="message-${tipo}" role="alert">
+      <i class="fas fa-${tipo === 'info' ? 'info-circle' : 'exclamation-circle'}" aria-hidden="true"></i>
       <p>${texto}</p>
     </div>
   `;
 }
 
-// Exporta funções que precisam ser acessíveis globalmente (para HTML)
+// Placeholder para a função de feedback (implemente você mesmo ou remova)
+function mostrarFeedback(mensagem) {
+  // Exemplo simples: alert temporário
+  alert(mensagem);
+}
+
+// Edita um produto no servidor
+export async function editarProduto(produtoId, dados, usuarioLogado) {
+  if (!produtoId || !usuarioLogado) {
+    throw new Error('ID do produto ou usuário não informado');
+  }
+
+  const response = await fetch(`${produtoConfig.apiBaseUrl}/editar?id=${produtoId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-usuario': JSON.stringify(usuarioLogado)
+    },
+    body: JSON.stringify(dados)
+  });
+
+  if (!response.ok) {
+    const erro = await response.json().catch(() => ({}));
+    throw new Error(erro.error || 'Erro ao editar produto');
+  }
+
+  return await response.json();
+}
+
+// Exporta funções globais
 window.adicionarAoCarrinho = adicionarAoCarrinho;
+window.carregarProdutos = carregarProdutos;
+window.inicializarProdutos = inicializarProdutos;
+window.editarProduto = editarProduto;
+
