@@ -14,12 +14,13 @@
 <body>
     <header>
         <div class="logo-container">
+            <h1>EcoMarket-SAMAVI</h1>
             <img src="../assets/img/logo.png" alt="Logo EcoMarket">
         </div>
 
         <div class="header-controls">
             <ul>
-                <li><a href="../paginas/home.html"><ion-icon name="home-outline" id="home-p"></ion-icon></a></li>
+                <li><a href="../paginas/home.html"><ion-icon title="Voltar à página Home" name="home-outline" id="home-p"></ion-icon></a></li>
                 <li><a href="add-produto.html" class="nav-link" title="Adicionar Produto"><i class="fas fa-plus-circle"></i></a></li>
             </ul>
 
@@ -31,7 +32,7 @@
                     <div id="lista-carrinho"></div>
                     <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
                     <div class="carrinho-botoes">
-                        <button class="btn-limpar" onclick="limparCarrinho()">Limpar Carrinho</button>
+                        <button class="btn-limpar">Limpar Carrinho</button>
                         <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
                     </div>
                 </div>
@@ -45,7 +46,7 @@
 
     <div id="feedback"></div>
 
-    <script type="module" src="/js/modules/config.js"></script>
+    <script type="module" src="../assets/js/modules/config.js"></script>
     <script type="module" src="../assets/js/main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

@@ -123,7 +123,11 @@ function configurarEventosProdutos() {
   document.querySelectorAll('.produto-btn-comprar').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const produtoId = e.target.dataset.id;
-      adicionarAoCarrinho(produtoId, e);
+      if (window.adicionarAoCarrinho) {
+        window.adicionarAoCarrinho(produtoId, e);
+      } else {
+        console.error('Função adicionarAoCarrinho não está disponível');
+      }
     });
   });
 }

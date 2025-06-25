@@ -8,12 +8,14 @@ let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 // Inicialização do carrinho
 export function setupCarrinho() {
   atualizarCarrinhoUI();
+
   document.querySelector('.carrinho-icone')?.addEventListener('click', toggleCarrinho);
   document.addEventListener('click', fecharCarrinho);
   document.getElementById('finalizar-compra')?.addEventListener('click', finalizarCompra);
+  document.querySelector('.btn-limpar')?.addEventListener('click', limparCarrinho);
 }
 
-// Adicionar produto ao carrinho (versão melhorada)
+// Adicionar produto ao carrinho
 export function adicionarAoCarrinho(produtoId, event) {
   event?.preventDefault();
   event?.stopPropagation();
@@ -55,21 +57,22 @@ function updateListaItens() {
   const lista = document.getElementById('lista-carrinho');
   if (!lista) return;
 
-  lista.innerHTML = carrinho.map((item, index) => `
+  lista.innerHTML = carrinho.map((item) => `
     <div class="item-carrinho">
-      <img src="${item.imagem}" alt="${item.nome}">
+      <img src="${item.imagem}" alt="${item.nome}" ">
       <div>
         <h4>${item.nome}</h4>
         <p>${item.quantidade}x R$ ${item.preco.toFixed(2)}</p>
-        <button class="btn-remover" data-index="${index}">Remover</button>
+        <button class="btn-remover" title="Remover produto" data-id="${item.id}">Remover</button>
       </div>
     </div>
   `).join('');
 
-  // Adiciona eventos aos novos botões
+  // Evento de remover uma unidade
   document.querySelectorAll('.btn-remover').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      removerDoCarrinho(parseInt(e.target.dataset.index));
+      const id = e.target.dataset.id;
+      removerUmaUnidade(id);
     });
   });
 }
@@ -91,17 +94,30 @@ function updateContador() {
   }
 }
 
-// Funções públicas adicionais
-export function removerDoCarrinho(index) {
-  if (index >= 0 && index < carrinho.length) {
-    carrinho.splice(index, 1);
+// Remover 1 unidade de um produto
+export function removerUmaUnidade(produtoId) {
+  const index = carrinho.findIndex(item => item.id === produtoId);
+  if (index !== -1) {
+    if (carrinho[index].quantidade > 1) {
+      carrinho[index].quantidade -= 1;
+    } else {
+      carrinho.splice(index, 1);
+    }
     persistirCarrinho();
   }
 }
 
+// Limpar carrinho inteiro
+export function limparCarrinho() {
+  carrinho = [];
+  persistirCarrinho();
+  mostrarFeedback('Carrinho limpo com sucesso!');
+}
+
+// Finalizar compra
 export function finalizarCompra() {
   if (carrinho.length === 0) return;
-  
+
   if (confirm('Tem certeza que deseja finalizar a compra?')) {
     carrinho = [];
     persistirCarrinho();
@@ -112,14 +128,16 @@ export function finalizarCompra() {
 // Funções de UI
 function toggleCarrinho(e) {
   e.stopPropagation();
-  document.getElementById('carrinho-dropdown').classList.toggle('show');
+  document.getElementById('carrinho-dropdown')?.classList.toggle('show');
 }
 
 function fecharCarrinho(e) {
   const dropdown = document.getElementById('carrinho-dropdown');
   const clicouNoCarrinho = e.target.closest('.carrinho-dropdown, .carrinho-icone');
-  
   if (dropdown && !clicouNoCarrinho) {
     dropdown.classList.remove('show');
   }
 }
+
+// Expondo para uso global se necessário
+window.adicionarAoCarrinho = adicionarAoCarrinho;
