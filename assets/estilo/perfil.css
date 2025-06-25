@@ -1,0 +1,282 @@
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+header {
+  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  color: var(--branco-neve);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  height: 160px;
+}
+
+header img {
+  max-width: 10%;
+  height: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+header ul {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  list-style-type: none;
+  font-weight: bolder;
+}
+
+header ul li {
+  color: var(--branco-neve);
+}
+
+header a {
+  color: var(--branco-neve);
+  font-size: 30px;
+  padding: 5px;
+}
+
+header a:hover {
+  background-color: var(--marrom-terra);
+  transition: 0.5s;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.profile-pic {
+  color: var(--branco-neve);
+  width: 150px;
+  height: 150px;
+  background: #ddd;
+  border-radius: 50%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75px;
+  border: 3px solid var(--branco-neve);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  background: var(--branco-neve);
+  padding: 20px;
+  margin: 10px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+input {
+  border-radius: 5px;
+  padding: 4px;
+  border: 1px solid var(--verde-claro);
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+  padding: 8px;
+  font-size: 15px;
+  width: 50%;
+}
+
+input[type="tel"] {
+  font-family: monospace;
+}
+
+label {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+#botoes-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#enviar {
+  background-color: var(--verde-claro);
+  color: var(--cinza-pedra);
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#enviar:hover {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+}
+
+#btn-logout,
+#btn-excluir-conta {
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 4px;
+  transition: background-color 0.3s;
+}
+
+#btn-logout:hover,
+#btn-excluir-conta:hover {
+  background-color: #5a422c;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item span {
+  color: #666;
+}
+
+.verify {
+  color: var(--verde-folha);
+  font-weight: bold;
+}
+
+.verify-link {
+  color: #bb5e00;
+  cursor: pointer;
+}
+
+.educacao-ambiental {
+  background: var(--branco-neve);
+  padding: 20px;
+  margin: 10px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quiz {
+  margin-top: 20px;
+}
+
+#pergunta-quiz {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+#opcoes-quiz {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#opcoes-quiz button {
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background: var(--branco-neve);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+#opcoes-quiz button:hover {
+  border-color: var(--verde-claro);
+  background-color: rgba(168, 198, 134, 0.1);
+}
+
+#opcoes-quiz button.correta {
+  border-color: #4CAF50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+#opcoes-quiz button.incorreta {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+#pontuacao {
+  font-weight: bold;
+  color: var(--verde-folha);
+}
+
+.feedback {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: none;
+}
+
+.feedback.correta {
+  background-color: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid #4CAF50;
+  display: block;
+}
+
+.feedback.incorreta {
+  background-color: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid #f44336;
+  display: block;
+}
+
+.conquistas {
+  margin-top: 30px;
+}
+
+#badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.badge {
+  width: 60px;
+  height: 60px;
+  background: var(--bege-areia);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+@media (min-width: 600px) {
+  #opcoes-quiz {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .content,
+  .educacao-ambiental {
+    max-width: 600px;
+    margin: 10px auto;
+  }
+}
