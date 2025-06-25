@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.produto-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.produto-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.produto-info {
+  padding: 15px;
+}
+
+.preco {
+  font-weight: bold;
+  color: #2a7ae2;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  grid-column: 1 / -1;
+}

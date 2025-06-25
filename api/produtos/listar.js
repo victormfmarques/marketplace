@@ -1,113 +1,52 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI;
-const options = {
-    maxPoolSize: 5,
-    connectTimeoutMS: 5000,
-    socketTimeoutMS: 30000,
-    serverSelectionTimeoutMS: 5000
-};
-
-let cachedClient = null;
-let cachedDb = null;
-
-async function connectToDatabase() {
-    if (cachedClient && cachedDb) {
-        return { client: cachedClient, db: cachedDb };
-    }
-
-    const client = new MongoClient(uri, options);
-    await client.connect();
-    const db = client.db('marketplace');
-
-    cachedClient = client;
-    cachedDb = db;
-
-    return { client, db };
-}
+const uri = "mongodb+srv://victor:manoelvictor14@marketplace.msyyxna.mongodb.net/marketplace?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  connectTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 5000
+});
 
 export default async function handler(req, res) {
-    if (req.method !== 'GET') {
-        return res.status(405).json({ 
-            success: false,
-            error: 'Método não permitido' 
-        });
-    }
+  try {
+    await client.connect();
+    const db = client.db('marketplace');
+    const collection = db.collection('produtos');
 
-    try {
-        const { db } = await connectToDatabase();
-        
-        let query = { status: 'ativo' };
-        
-        if (req.query.search) {
-            query.$text = { $search: req.query.search };
-        }
-        
-        if (req.query.categoria) {
-            query.categoria = req.query.categoria;
-        }
+    // Filtros
+    let query = { status: 'ativo' };
+    if (req.query.destaque) query.destaque = true;
+    if (req.query.categoria) query.categoria = req.query.categoria;
 
-        if (req.query.destaque) {
-            query.destaque = true;
-        }
+    // Ordenação e limite
+    const produtos = await collection.find(query)
+      .sort({ dataCadastro: -1 })
+      .limit(req.query.limit ? parseInt(req.query.limit) : 0)
+      .toArray();
 
-        if (req.query.novidades) {
-            query.dataCadastro = { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) };
-        }
+    // Formatação segura
+    const produtosFormatados = produtos.map(p => ({
+      id: p._id.toString(),
+      nome: p.nome,
+      descricao: p.descricao,
+      preco: p.preco?.$numberDecimal ? parseFloat(p.preco.$numberDecimal) : parseFloat(p.preco || 0),
+      categoria: p.categoria,
+      foto: p.fotos?.[0] || '/sem-imagem.jpg',
+      usuarioId: p.usuarioId
+    }));
 
-        const limit = parseInt(req.query.limit) || 20;
-        const produtos = await db.collection('produtos')
-            .find(query)
-            .sort({ dataCadastro: -1 })
-            .limit(limit)
-            .toArray();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(200).json({ 
+      success: true,
+      data: produtosFormatados 
+    });
 
-        const produtosFormatados = produtos.map(produto => {
-            const fotos = Array.isArray(produto.fotos) && produto.fotos.length ? 
-                produto.fotos.map(foto => {
-                    if (foto.startsWith('http')) return foto;
-                    return `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${foto}`;
-                }) : 
-                ['/assets/img/placeholder.png'];
-            
-            let preco = 0;
-            if (typeof produto.preco === 'number') {
-                preco = produto.preco;
-            } else if (typeof produto.price === 'number') {
-                preco = produto.price;
-            } else {
-                const precoString = (produto.preco || produto.price || '0').toString();
-                preco = parseFloat(precoString.replace(',', '.')) || 0;
-            }
-
-            return {
-                _id: produto._id.toString(),
-                nome: produto.nome || produto.name || 'Produto sem nome',
-                descricao: produto.descricao || produto.describe || '',
-                preco: Math.max(0, preco),
-                categoria: (produto.categoria || produto.categoría || 'outros')
-                           .toString()
-                           .toLowerCase()
-                           .trim(),
-                fotos: fotos,
-                usuarioId: produto.usuarioId || null
-            };
-        });
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json({ 
-            success: true,
-            produtos: produtosFormatados 
-        });
-        
-    } catch (error) {
-        console.error('Erro detalhado:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Erro interno no servidor',
-            details: process.env.NODE_ENV === 'development' ? error.message : null,
-            produtos: []
-        });
-    }
+  } catch (error) {
+    console.error('Erro:', error);
+    res.status(500).json({ 
+      success: false,
+      error: 'Erro interno' 
+    });
+  } finally {
+    await client.close();
+  }
 }

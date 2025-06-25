@@ -56,7 +56,7 @@
             document.getElementById('produto-nome').textContent = produto.nome;
             document.getElementById('produto-descricao').textContent = produto.descricao;
             document.getElementById('produto-preco').textContent = `R$ ${produto.preco.toFixed(2)}`;
-            
+            window.produtoAtual = produto;
             const imagensEl = document.getElementById('produto-imagens');
             imagensEl.innerHTML = '';
             
@@ -68,21 +68,47 @@
                     imagensEl.appendChild(img);
                 });
                 
-            document.getElementById('btn-comprar').onclick = () => {
-                adicionarAoCarrinho(produto._id);
-            };
+            const btnComprar = document.getElementById('btn-comprar');
+    btnComprar.onclick = adicionarAoCarrinho;
+    btnComprar.style.cursor = 'pointer';
+
         }
 
-        function adicionarAoCarrinho(produtoId) {
-            if (!produtoId && window.produtoAtual) {
-                produtoId = window.produtoAtual._id;
-            }
+        function adicionarAoCarrinho() {
+    const produtoId = new URLSearchParams(window.location.search).get('id');
+    
+    if (!produtoId && window.produtoAtual) {
+        produtoId = window.produtoAtual._id;
+    }
+
+    if (produtoId) {
+        // Cria um evento de clique simulado
+        const event = {
+            preventDefault: () => {},
+            stopPropagation: () => {}
+        };
+        
+        // Chama a função global do carrinho
+        if (typeof window.adicionarAoCarrinho === 'function') {
+            window.adicionarAoCarrinho(produtoId, event);
             
-            if (produtoId) {
-                const event = new Event('click');
-                window.adicionarAoCarrinho(produtoId, event);
-            }
+            // Feedback visual
+            const btn = document.getElementById('btn-comprar');
+            btn.textContent = 'Adicionado!';
+            btn.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                btn.textContent = 'Comprar';
+                btn.style.backgroundColor = '';
+            }, 2000);
+        } else {
+            console.error('Função adicionarAoCarrinho não encontrada');
         }
+    } else {
+        console.error('ID do produto não encontrado');
+    }
+}
+
 
         function editarProduto() {
             const produtoId = new URLSearchParams(window.location.search).get('id');

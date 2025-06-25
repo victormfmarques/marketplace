@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="EcoMarket - Produtos ecológicos e sustentáveis">
-    <link rel="stylesheet" href="../assets/estilo/style.css">
-    <link rel="stylesheet" href="../assets/estilo/detalhes-produto.css">
     <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>EcoMarket-SAMAVI</title>
+    <link rel="stylesheet" href="../assets/estilo/home.css">
+    <title>EcoMarket - Home</title>
 </head>
 <body>
     <script>
@@ -26,7 +25,7 @@
             <!-- BARRA DE NAVEGAÇÃO -->
             <nav class="navbar">
                 <div class="logo">
-                    <img src="../assets/img/verde-300.png" alt="Logo EcoMarket" width="125">
+                    <img src="../assets/img/logo.png" alt="Logo EcoMarket" width="200">
                 </div>
 
                 <!-- MENU PRINCIPAL -->
@@ -47,14 +46,13 @@
                         <div id="lista-carrinho"></div>
                         <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
                         <div class="carrinho-botoes">
-                            <button class="btn-limpar" onclick="limparCarrinho()">Limpar Carrinho</button>
+                            <button class="btn-remover" data-index="${index}">Remover</button>
                             <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- MENU MOBILE -->
-                <img src="../assets/img/menu.png" alt="Menu Mobile" class="menu-celular" onclick="menucelular()">
+               
             </nav>
 
             <!-- HERO BANNER -->
@@ -93,13 +91,11 @@
     </section>
 
     <!-- PRODUTOS EM DESTAQUE -->
-<main class="corpo-categorias">
+<main class="home-page">
     <section class="produtos-section">
     <h2 class="titulo">Produtos em Destaque</h2>
     <div class="linha" id="produtos-destaque">
-        <div class="loading">
-            <i class="fas fa-spinner fa-spin"></i> Carregando produtos...
-        </div>
+        <div class="produtos-grid" id="produtos-destaque"></div>
     </div>
 </section>
 </main>
@@ -115,8 +111,8 @@
     </section>
 
     <!-- SCRIPTS -->
-     <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/carregar-produtos.js"></script>
+
+    <script type="module" src="../assets/js/main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
