@@ -210,3 +210,4 @@ window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;
 window.editarProduto = editarProduto;
 window.cadastrarProduto = cadastrarProduto;
+export { renderizarProdutos, configurarEventosProdutos };
