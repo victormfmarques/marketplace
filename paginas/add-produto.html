@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Adicionar Novo Produto</h1>
+    <h1>Adicionar <br>Novo Produto</h1>
     <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
   <ion-icon name="storefront-outline"></ion-icon>
 </a>
@@ -34,9 +34,12 @@
         <label for="categoria">Categoria:</label>
         <select id="categoria" name="categoria" required>
           <option value="selecione">Selecione...</option>
-          <option value="artesanal">Artesanal</option>
-          <option value="ecologico">Ecológico</option>
-          <option value="sustentavel">Sustentável</option>
+          <option value="artesanal">Artesanato</option>
+          <option value="natural">Beleza Natural</option>
+          <option value="moda">Moda Consciente</option>
+          <option value="higiene">Higiene Pessoal Sustentável</option>
+          <option value="decoracao">Decoração Sustentável</option>
+          <option value="kit">Presentes Sustentáveis</option>
           <option value="outro">Outro</option>
         </select>
       </div>
@@ -53,47 +56,57 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script type="module">
-    import { cadastrarProduto } from '../assets/js/modules/produtos.js';
+  import { cadastrarProduto } from '../assets/js/modules/produtos.js';
 
-      document.getElementById('form-produto').addEventListener('submit', async function (e) {
-        e.preventDefault();
+  document.addEventListener('DOMContentLoaded', () => {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-        const form = e.target;
+    if (!usuarioLogado || !usuarioLogado._id) {
+      alert('Você precisa estar logado para cadastrar produtos');
+      window.location.href = '/index.html'; // ou a página de login
+      return;
+    }
 
-        const dados = {
-          usuarioId: 'usuario-teste', // Substitua pelo real depois
-          nome: form.nome.value,
-          descricao: form.descricao.value,
-          preco: form.preco.value,
-          categoria: form.categoria.value,
-          fotosBase64: []
-        };
+    document.getElementById('form-produto').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-        const imagem = form['imagem-produto'].files[0];
+      const form = e.target;
 
-        if (imagem) {
-          const base64 = await toBase64(imagem);
-          dados.fotosBase64.push(base64);
-        }
+      const dados = {
+        usuarioId: usuarioLogado._id,
+        nome: form.nome.value,
+        descricao: form.descricao.value,
+        preco: form.preco.value,
+        categoria: form.categoria.value,
+        fotosBase64: []
+      };
 
-        try {
-          console.log("Enviando dados para cadastro:", dados);
-          await cadastrarProduto(dados);
-          alert('Produto cadastrado com sucesso!');
-          window.location.href = '../paginas/produtos.html';
-        } catch (err) {
-          alert('Erro: ' + err.message);
-        }
-      });
+      const imagem = form['imagem-produto'].files[0];
 
-      function toBase64(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
-        });
+      if (imagem) {
+        const base64 = await toBase64(imagem);
+        dados.fotosBase64.push(base64);
       }
-  </script>
+
+      try {
+        console.log("Enviando dados para cadastro:", dados);
+        await cadastrarProduto(dados);
+        alert('Produto cadastrado com sucesso!');
+        window.location.href = '../paginas/produtos.html';
+      } catch (err) {
+        alert('Erro: ' + err.message);
+      }
+    });
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+  });
+</script>
 </body>
 </html>

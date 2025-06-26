@@ -69,7 +69,14 @@ export function adicionarAoCarrinho(produtoId, event) {
     event.stopPropagation();
   }
 
-  const produto = window.produtosCarregados?.find(p => p.id === produtoId);
+  // Tenta encontrar o produto na lista geral
+  let produto = window.produtosCarregados?.find(p => p.id === produtoId);
+
+  // Se não encontrar na lista, tenta usar o produtoAtual da página detalhes
+  if (!produto && window.produtoAtual && window.produtoAtual.id === produtoId) {
+    produto = window.produtoAtual;
+  }
+
   if (!produto) {
     console.warn(`Produto com id ${produtoId} não encontrado para adicionar ao carrinho.`);
     return;

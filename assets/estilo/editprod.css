@@ -1,3 +1,5 @@
+/* Seu CSS atual */
+
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -14,7 +16,14 @@ body {
   padding: 2rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
 }
 
 form#form-editar-produto {
@@ -28,13 +37,7 @@ form#form-editar-produto {
   flex-direction: column;
   gap: 1rem;
   border: 1px solid var(--verde-claro);
-}
-
-form h1 {
-  color: var(--verde-folha);
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
 label {
@@ -52,7 +55,7 @@ textarea {
   font-size: 1rem;
   background-color: #fdfdfd;
   color: var(--cinza-pedra);
-  width: 100%;
+  max-width: 100%;
   resize: vertical;
   transition: border-color 0.3s;
 }
@@ -101,12 +104,13 @@ button[type="submit"] {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
-  background-color: var(--verde-claro);
-  color: var(--cinza-pedra);
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
 }
 
 #feedback {
@@ -114,4 +118,90 @@ button[type="submit"]:hover {
   text-align: center;
   font-weight: bold;
   color: var(--marrom-terra);
+}
+
+input[type="number"] {
+  width: 59px;
+}
+
+.btn-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-home:hover,
+.btn-home:focus {
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+  transform: scale(1.1);
+}
+
+.titulo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 10px;
+}
+
+.titulo h1 {
+  color: var(--verde-folha);
+  text-align: center;
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* --- Novas regras para responsividade --- */
+@media (max-width: 520px) {
+  body {
+    padding: 1rem;
+  }
+
+  form#form-editar-produto {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  button[type="submit"] {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  /* Ajusta preview das fotos para ocupar melhor espaço */
+  #preview-fotos img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Ajusta título e botão para ficarem empilhados no celular */
+  .titulo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .titulo h1 {
+    font-size: 1.5rem;
+  }
+
+  .btn-home {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  input[type="number"] {
+    width: 45px;
+  }
+
+  #preco {
+    width: 55px;
+  }
 }

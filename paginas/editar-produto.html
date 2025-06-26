@@ -3,41 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="../assets/estilo/editprod.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../assets/estilo/editprod.css"/>
   <title>Editar Produto</title>
 </head>
 <body>
-  <form id="form-editar-produto">
-    <h1>Editar Produto</h1>
+  <main class="container">
+    <div class="titulo">
+      <h1>Editar Produto</h1>
+      <a href="../paginas/home.html" class="btn-home" title="Voltar para a página inicial">
+      <ion-icon name="home-outline"></ion-icon>
+      </a>
+    </div>
+    <form id="form-editar-produto">
+      <label>Nome:</label>
+      <input type="text" id="nome" required />
+      <label>Descrição:</label>
+      <textarea id="descricao" required></textarea>
+      <label>Preço:</label>
+      <input type="number" id="preco" step="0.01" min="0" required />
+      <label>Categoria:</label>
+      <select id="categoria" name="categoria" required>
+            <option value="selecione">Selecione...</option>
+            <option value="artesanal">Artesanato</option>
+            <option value="natural">Beleza Natural</option>
+            <option value="moda">Moda Consciente</option>
+            <option value="higiene">Higiene Pessoal Sustentável</option>
+            <option value="decoracao">Decoração Sustentável</option>
+            <option value="kit">Presentes Sustentáveis</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      <label>Fotos:</label>
+      <input type="file" id="fotos" multiple accept="image/*" />
+      <div id="preview-fotos"></div>
+      <button type="submit">Salvar Alterações</button>
+    </form>
+    <div id="feedback"></div>
+  </main>
 
-    <label>Nome:</label>
-    <input type="text" id="nome" required />
-
-    <label>Descrição:</label>
-    <textarea id="descricao" required></textarea>
-
-    <label>Preço:</label>
-    <input type="number" id="preco" step="0.01" min="0" required />
-
-    <label>Categoria:</label>
-    <select id="categoria" required>
-      <option value="higiene">Higiene Pessoal</option>
-      <option value="moda">Moda Sustentável</option>
-      <option value="decoracao">Decoração Ecológica</option>
-      <option value="outros">Outros</option>
-    </select>
-
-    <label>Fotos:</label>
-    <input type="file" id="fotos" multiple accept="image/*" />
-    <div id="preview-fotos"></div>
-
-    <button type="submit">Salvar Alterações</button>
-  </form>
-
-  <div id="feedback"></div>
-
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script>
     const produtoId = new URLSearchParams(window.location.search).get('id');
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));

@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Paleta Eco */
 :root {
   --verde-folha: #3A6351;
@@ -8,6 +10,10 @@
   --bege-areia: #F2E8CF;
   --branco-neve: #FFFFFF;
   --cinza-pedra: #4F4F4F;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Container principal */
@@ -76,17 +82,18 @@
   font-size: 1.2rem;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
 #btn-comprar:hover {
-  background-color: var(--verde-claro);
-  color: var(--cinza-pedra);
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
 }
 
 /* Botões de edição */
 #editar-container {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 #editar-container button {
@@ -96,6 +103,8 @@
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
   cursor: pointer;
+  width: 130px;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
@@ -162,7 +171,7 @@
 }
 
 /* Botão estilo link para home */
-.btn-home {
+.btn-home, .btn-voltar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -176,10 +185,10 @@
   transition: background-color 0.3s ease;
 }
 
-.btn-home:hover {
-  background-color: var(--verde-claro);
+.btn-home:hover, .btn-voltar:hover {
+  background-color: var(--marrom-terra);
 }
 
-.btn-home ion-icon {
+.btn-home,.btn-voltar ion-icon {
   font-size: 1.5rem;
 }

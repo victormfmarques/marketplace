@@ -75,7 +75,7 @@ header {
   gap: 1rem;
 } 
 
-.header-controls ul li a {
+.header-controls ul li a,#home-p   {
   color: var(--branco-neve);
   text-decoration: none;
   font-size: 30px;
@@ -84,13 +84,13 @@ header {
   transition: background 0.8s ease, padding 0.3ms ease;
 }
 
-.header-controls ul li a:hover,
-.header-controls ul li a:focus {
+#home-p:hover,
+#home-p:focus {
   background-color: var(--marrom-terra);
 }
 
 #home-p {
-  margin-bottom: -3px;
+  margin-bottom: -9px;
 }
 
 /* =============================================
@@ -239,18 +239,25 @@ header {
 }
 
 /* Feedback */
-#feedback {
-  margin: 2rem auto;
-  width: 90%;
-  max-width: 600px;
-  min-height: 50px;
-  background-color: var(--verde-claro);
-  color: var(--verde-folha);
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  box-shadow: 0 0 10px var(--verde-claro);
-  display: none; /* mostrar com JS quando necessário */
+.feedback {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background: var(--verde-folha);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
 }
+
+.feedback.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
 
 .produtos-grid {
   display: grid;

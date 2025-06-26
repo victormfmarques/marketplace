@@ -98,11 +98,16 @@ function updateContador() {
 export function removerUmaUnidade(produtoId) {
   const index = carrinho.findIndex(item => item.id === produtoId);
   if (index !== -1) {
-    if (carrinho[index].quantidade > 1) {
-      carrinho[index].quantidade -= 1;
+    const produto = carrinho[index];
+
+    if (produto.quantidade > 1) {
+      produto.quantidade -= 1;
+      mostrarFeedback(`1 unidade de ${produto.nome} removida do carrinho.`);
     } else {
       carrinho.splice(index, 1);
+      mostrarFeedback(`${produto.nome} removido do carrinho.`);
     }
+
     persistirCarrinho();
   }
 }

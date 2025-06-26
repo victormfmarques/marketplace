@@ -1,9 +1,12 @@
 // /js/main.js
-import { config } from './modules/config.js'; // Caminho relativo corrigido
+import { config } from './modules/config.js';
 import { inicializarProdutos } from './modules/produtos.js';
 import { setupCarrinho } from './modules/carrinho.js';
+import { mostrarFeedback } from './modules/feedback.js'; // ✅ Novo import
 
-// Funções globais (se necessário)
+// Torna a função global para uso em outros módulos
+window.mostrarFeedback = mostrarFeedback;
+
 window.adicionarAoCarrinho = window.adicionarAoCarrinho || function() {
   console.error('Função não carregada!');
 };
@@ -11,5 +14,5 @@ window.adicionarAoCarrinho = window.adicionarAoCarrinho || function() {
 document.addEventListener('DOMContentLoaded', () => {
   inicializarProdutos();
   setupCarrinho();
-  console.log('Config:', config); // Verifique se carregou
+  console.log('Config:', config);
 });

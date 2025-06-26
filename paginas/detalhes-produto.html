@@ -1,136 +1,141 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/estilo/detalhes-produto.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-    <title>Detalhes do Produto</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../assets/estilo/detalhes-produto.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <link
+    rel="shortcut icon"
+    href="../assets/img/favicon.ico"
+    type="image/x-icon"
+  />
+  <title>Detalhes do Produto</title>
 </head>
 <body>
-    <div id="produto-container">
-        <div id="produto-imagens"></div>
-        <div id="produto-info">
-            <h1 id="produto-nome">Carregando...</h1>
-            <p id="produto-descricao"></p>
-            <span id="produto-preco"></span>
-            <button id="btn-comprar" onclick="adicionarAoCarrinho()">Comprar</button>
-            
-            <div id="editar-container" style="display: none;">
-                <button class="btn-editar" onclick="editarProduto()">
-                    <i class="fas fa-edit"></i> Editar Produto
-                </button>
-            </div>
-            <a href="../paginas/home.html" class="btn-home">
-                <ion-icon name="home-outline"></ion-icon>
-            </a>
-        </div>
+  <div id="produto-container">
+    <div id="produto-imagens"></div>
+    <div id="produto-info">
+      <h1 id="produto-nome">Carregando...</h1>
+      <p id="produto-descricao"></p>
+      <span id="produto-preco"></span>
+      <button id="btn-comprar">Comprar</button>
+
+      <div id="editar-container" style="display: none;">
+        <button class="btn-editar" onclick="editarProduto()">
+          <i class="fas fa-edit"></i> Editar Produto
+        </button>
+      </div>
+      <a href="../paginas/home.html" class="btn-home">
+        <ion-icon name="home-outline"></ion-icon>
+      </a>
+      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
+        <ion-icon name="storefront-outline"></ion-icon>
+      </a>
     </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const produtoId = urlParams.get('id');
-            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-            
-            if (!produtoId) {
-                showError('ID do produto não especificado');
-                return;
-            }
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const produtoId = urlParams.get("id");
+      const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-            try {
-                const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
-                if (!response.ok) throw new Error(`Erro ${response.status}`);
-                
-                const produto = await response.json();
-                displayProduto(produto);
-                
-                if (usuarioLogado && usuarioLogado._id === produto.usuarioId) {
-                    document.getElementById('editar-container').style.display = 'block';
-                    window.produtoAtual = produto;
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showError(error.message);
-            }
-        });
+      if (!produtoId) {
+        showError("ID do produto não especificado");
+        return;
+      }
 
-        function displayProduto(produto) {
-            document.getElementById('produto-nome').textContent = produto.nome;
-            document.getElementById('produto-descricao').textContent = produto.descricao;
-            document.getElementById('produto-preco').textContent = `R$ ${produto.preco.toFixed(2)}`;
-            window.produtoAtual = produto;
-            const imagensEl = document.getElementById('produto-imagens');
-            imagensEl.innerHTML = '';
-            
-            (produto.fotos.length ? produto.fotos : ['../assets/img/placeholder.png'])
-                .forEach(foto => {
-                    const img = document.createElement('img');
-                    img.src = foto;
-                    img.onerror = () => img.src = '../assets/img/placeholder.png';
-                    imagensEl.appendChild(img);
-                });
-                
-            const btnComprar = document.getElementById('btn-comprar');
-    btnComprar.onclick = adicionarAoCarrinho;
-    btnComprar.style.cursor = 'pointer';
+      try {
+        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
 
+        const produto = await response.json();
+        displayProduto(produto);
+
+        if (usuarioLogado && usuarioLogado._id === produto.usuarioId) {
+          document.getElementById("editar-container").style.display = "block";
+        }
+        window.produtoAtual = produto; // Armazena globalmente para usar no carrinho
+      } catch (error) {
+        console.error("Erro:", error);
+        showError(error.message);
+      }
+    });
+
+    function displayProduto(produto) {
+      document.getElementById("produto-nome").textContent = produto.nome;
+      document.getElementById("produto-descricao").textContent = produto.descricao;
+      document.getElementById("produto-preco").textContent = `R$ ${produto.preco.toFixed(2)}`;
+
+      const imagensEl = document.getElementById("produto-imagens");
+      imagensEl.innerHTML = "";
+
+      const fotos = (produto.fotos && produto.fotos.length > 0) ? produto.fotos : ["../assets/img/placeholder.png"];
+      fotos.forEach(foto => {
+        const img = document.createElement("img");
+        img.src = foto;
+        img.alt = produto.nome;
+        img.onerror = () => (img.src = "../assets/img/placeholder.png");
+        imagensEl.appendChild(img);
+      });
+
+      const btnComprar = document.getElementById("btn-comprar");
+      btnComprar.onclick = (event) => {
+        event.preventDefault();
+
+        const produtoId = window.produtoAtual?._id;
+
+        if (!produtoId) {
+          console.error("ID do produto não encontrado");
+          return;
         }
 
-        function adicionarAoCarrinho() {
-    const produtoId = new URLSearchParams(window.location.search).get('id');
-    
-    if (!produtoId && window.produtoAtual) {
-        produtoId = window.produtoAtual._id;
-    }
+        if (typeof window.adicionarAoCarrinho === "function") {
+          window.adicionarAoCarrinho(produtoId, event);
 
-    if (produtoId) {
-        // Cria um evento de clique simulado
-        const event = {
-            preventDefault: () => {},
-            stopPropagation: () => {}
-        };
-        
-        // Chama a função global do carrinho
-        if (typeof window.adicionarAoCarrinho === 'function') {
-            window.adicionarAoCarrinho(produtoId, event);
-            
-            // Feedback visual
-            const btn = document.getElementById('btn-comprar');
-            btn.textContent = 'Adicionado!';
-            btn.style.backgroundColor = '#4CAF50';
-            
-            setTimeout(() => {
-                btn.textContent = 'Comprar';
-                btn.style.backgroundColor = '';
-            }, 2000);
+          // Feedback visual
+          btnComprar.textContent = "Adicionado!";
+
+          setTimeout(() => {
+            btnComprar.textContent = "Comprar";
+            btnComprar.style.backgroundColor = "";
+          }, 2000);
         } else {
-            console.error('Função adicionarAoCarrinho não encontrada');
+          console.error("Função adicionarAoCarrinho não encontrada");
         }
-    } else {
-        console.error('ID do produto não encontrado');
+      };
     }
-}
 
+    function editarProduto() {
+      const produtoId = window.produtoAtual?._id;
+      if (produtoId) {
+        window.location.href = `/paginas/editar-produto.html?id=${produtoId}`;
+      }
+    }
 
-        function editarProduto() {
-            const produtoId = new URLSearchParams(window.location.search).get('id');
-            window.location.href = `/paginas/editar-produto.html?id=${produtoId}`;
-        }
-
-        function showError(message) {
-            const container = document.getElementById('produto-container');
-            container.innerHTML = `
-                <div class="error-message">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>${message}</p>
-                    <a href="/paginas/produtos.html" class="btn">Voltar aos produtos</a>
-                </div>
-            `;
-        }
-    </script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    function showError(message) {
+      const container = document.getElementById("produto-container");
+      container.innerHTML = `
+        <div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>${message}</p>
+          <a href="/paginas/produtos.html" class="btn">Voltar aos produtos</a>
+        </div>
+      `;
+    }
+  </script>
+  <script type="module" src="../assets/js/modules/produtos.js"></script>
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+  ></script>
 </body>
 </html>

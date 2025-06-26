@@ -22,6 +22,7 @@
 </script>
     <!-- CABEÇALHO -->
     <header class="banner">
+    <div id="feedback" class="feedback" aria-live="polite"></div>
         <div class="container">
             <!-- BARRA DE NAVEGAÇÃO -->
             <nav class="navbar">
@@ -112,6 +113,17 @@
     </section>
 
     <!-- SCRIPTS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado) {
+            // Se não estiver logado, pode redirecionar ou mostrar mensagem
+            document.getElementById('saudacao').textContent = 'Olá, visitante!';
+            return;
+            }
+            document.getElementById('saudacao').textContent = `Olá, ${usuarioLogado.nome}!`;
+        });
+    </script>
     <script type="module" src="../assets/js/modules/config.js"></script>
     <script type="module" src="../assets/js/main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
