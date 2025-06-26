@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { v2 as cloudinary } from 'cloudinary'; // Para upload de imagens
 
 const uri = process.env.MONGODB_URI;
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
       // 2. Salva o produto no MongoDB
       const produto = {
-        usuarioId,
+        usuarioId: new ObjectId(usuarioId), // <-- conversão aqui
         nome,
         descricao,
         preco: parseFloat(preco),

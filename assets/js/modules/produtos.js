@@ -93,7 +93,12 @@ export function adicionarAoCarrinho(produtoId, event) {
       nome: produto.nome,
       preco: produto.preco,
       imagem: produto.foto || produtoConfig.placeholderImage,
-      quantidade: 1
+      quantidade: 1,
+      vendedor: {
+      nome: produto.vendedor?.nome || 'Vendedor',
+      email: produto.vendedor?.email || 'Email não informado',
+      telefone: produto.vendedor?.telefone || 'Telefone não informado'
+      } 
     });
   }
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../assets/estilo/finalizar.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+  <title>Finalizar Compra - EcoMarket</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Resumo do Pedido</h1>
+    <div id="resumo-carrinho"></div>
+
+    <button onclick="voltar()">Voltar à Loja</button>
+  </div>
+
+  <script>
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    carrinho.forEach(item => {
+    console.log(item.vendedor?.nome, item.vendedor?.telefone);
+    });
+
+    if (!carrinho.length) {
+      document.getElementById('resumo-carrinho').innerHTML = "<p>Nenhum item no carrinho.</p>";
+    } else {
+      const html = carrinho.map(item => `
+        <div class="produto">
+          <h2>${item.nome}</h2>
+          <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2)} (x${item.quantidade})</p>
+          <p><strong>Vendedor:</strong> ${item.vendedor?.nome || 'Desconhecido'}</p>
+          <p><strong>Email:</strong> ${item.vendedor?.email || '-'}</p>
+          <p><strong>Telefone:</strong> ${item.vendedor?.telefone || '-'}</p>
+          <hr>
+        </div>
+      `).join('');
+
+      document.getElementById('resumo-carrinho').innerHTML = html;
+    }
+
+    function voltar() {
+      window.location.href = "produtos.html";
+    }
+  </script>
+</body>
+</html>

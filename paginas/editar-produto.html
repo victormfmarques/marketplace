@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="../assets/estilo/editprod.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="../assets/estilo/editprod.css" />
   <title>Editar Produto</title>
 </head>
+
 <body>
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
       <a href="../paginas/home.html" class="btn-home" title="Voltar para a página inicial">
-      <ion-icon name="home-outline"></ion-icon>
+        <ion-icon name="home-outline"></ion-icon>
+      </a>
+      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
+        <ion-icon name="storefront-outline"></ion-icon>
       </a>
     </div>
     <form id="form-editar-produto">
@@ -26,116 +31,148 @@
       <input type="number" id="preco" step="0.01" min="0" required />
       <label>Categoria:</label>
       <select id="categoria" name="categoria" required>
-            <option value="selecione">Selecione...</option>
-            <option value="artesanal">Artesanato</option>
-            <option value="natural">Beleza Natural</option>
-            <option value="moda">Moda Consciente</option>
-            <option value="higiene">Higiene Pessoal Sustentável</option>
-            <option value="decoracao">Decoração Sustentável</option>
-            <option value="kit">Presentes Sustentáveis</option>
-            <option value="outro">Outro</option>
-          </select>
-        </div>
+        <option value="selecione">Selecione...</option>
+        <option value="artesanal">Artesanato</option>
+        <option value="natural">Beleza Natural</option>
+        <option value="moda">Moda Consciente</option>
+        <option value="higiene">Higiene Pessoal Sustentável</option>
+        <option value="decoracao">Decoração Sustentável</option>
+        <option value="kit">Presentes Sustentáveis</option>
+        <option value="outro">Outro</option>
+      </select>
+      </div>
       <label>Fotos:</label>
       <input type="file" id="fotos" multiple accept="image/*" />
       <div id="preview-fotos"></div>
       <button type="submit">Salvar Alterações</button>
+      <button type="button" id="btn-excluir" class="btn-excluir">
+        <i class="fas fa-trash-alt"></i> Excluir Produto
+      </button>
     </form>
   </main>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script type="module">
-  import { mostrarFeedback } from '../assets/js/modules/feedback.js';
+    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
 
-  const produtoId = new URLSearchParams(window.location.search).get('id');
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const produtoId = new URLSearchParams(window.location.search).get('id');
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-  if (!usuarioLogado) {
-    window.location.href = '/login.html';
-  }
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
-      if (!response.ok) throw new Error(`Erro ${response.status}`);
-
-      const produto = await response.json();
-
-      if (produto.usuarioId !== usuarioLogado._id) {
-        mostrarFeedback('Você não tem permissão para editar este produto');
-        setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
-        return;
-      }
-
-      preencherFormulario(produto);
-    } catch (error) {
-      console.error('Erro ao carregar produto:', error);
-      mostrarFeedback('Falha ao carregar produto: ' + error.message);
-      setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
+    if (!usuarioLogado) {
+      window.location.href = '/login.html';
     }
-  });
 
-  function preencherFormulario(produto) {
-    document.getElementById('nome').value = produto.nome;
-    document.getElementById('descricao').value = produto.descricao;
-    document.getElementById('preco').value = produto.preco.toFixed(2);
-    document.getElementById('categoria').value = produto.categoria;
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('btn-excluir').addEventListener('click', async () => {
+        const confirmar = confirm('Tem certeza que deseja excluir este produto? Esta ação não poderá ser desfeita.');
+        if (!confirmar) return;
 
-    const preview = document.getElementById('preview-fotos');
-    preview.innerHTML = '';
+        try {
+          const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-usuario': JSON.stringify(usuarioLogado)
+            }
+          });
 
-    if (produto.fotos && Array.isArray(produto.fotos)) {
-      produto.fotos.forEach(foto => {
-        const img = document.createElement('img');
-        img.src = foto;
-        img.onerror = () => img.src = '../assets/img/placeholder.png';
-        img.style.maxWidth = '120px';
-        img.style.margin = '5px';
-        preview.appendChild(img);
+          if (!response.ok) {
+            const erro = await response.json().catch(() => ({}));
+            throw new Error(erro.error || 'Erro ao excluir produto');
+          }
+
+          mostrarFeedback('Produto excluído com sucesso!');
+          setTimeout(() => window.location.href = '/paginas/produtos.html', 2000);
+
+        } catch (error) {
+          console.error('Erro ao excluir produto:', error);
+          mostrarFeedback('Erro ao excluir produto: ' + error.message);
+        }
       });
-    }
-  }
 
-  document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
-    e.preventDefault();
 
-    const formData = {
-      nome: document.getElementById('nome').value,
-      descricao: document.getElementById('descricao').value,
-      preco: parseFloat(document.getElementById('preco').value),
-      categoria: document.getElementById('categoria').value
-    };
+      try {
+        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
 
-    try {
-      await editarProduto(produtoId, formData, usuarioLogado);
-      mostrarFeedback('Produto atualizado com sucesso!');
-      setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
-    } catch (error) {
-      console.error('Erro ao editar produto:', error);
-      mostrarFeedback('Erro ao atualizar produto: ' + error.message);
-    }
-  });
+        const produto = await response.json();
 
-  async function editarProduto(id, dados, usuario) {
-    if (!id || !usuario) throw new Error('ID ou usuário ausente');
+        if (produto.usuarioId !== usuarioLogado._id) {
+          mostrarFeedback('Você não tem permissão para editar este produto');
+          setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
+          return;
+        }
 
-    const response = await fetch(`/api/produtos/editar?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-usuario': JSON.stringify(usuario)
-      },
-      body: JSON.stringify(dados)
+        preencherFormulario(produto);
+      } catch (error) {
+        console.error('Erro ao carregar produto:', error);
+        mostrarFeedback('Falha ao carregar produto: ' + error.message);
+        setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
+      }
     });
 
-    if (!response.ok) {
-      const erro = await response.json().catch(() => ({}));
-      throw new Error(erro.error || 'Erro ao editar produto');
+    function preencherFormulario(produto) {
+      document.getElementById('nome').value = produto.nome;
+      document.getElementById('descricao').value = produto.descricao;
+      document.getElementById('preco').value = produto.preco.toFixed(2);
+      document.getElementById('categoria').value = produto.categoria;
+
+      const preview = document.getElementById('preview-fotos');
+      preview.innerHTML = '';
+
+      if (produto.fotos && Array.isArray(produto.fotos)) {
+        produto.fotos.forEach(foto => {
+          const img = document.createElement('img');
+          img.src = foto;
+          img.onerror = () => img.src = '../assets/img/placeholder.png';
+          img.style.maxWidth = '120px';
+          img.style.margin = '5px';
+          preview.appendChild(img);
+        });
+      }
     }
 
-    return await response.json();
-  }
-</script>
+    document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        nome: document.getElementById('nome').value,
+        descricao: document.getElementById('descricao').value,
+        preco: parseFloat(document.getElementById('preco').value),
+        categoria: document.getElementById('categoria').value
+      };
+
+      try {
+        await editarProduto(produtoId, formData, usuarioLogado);
+        mostrarFeedback('Produto atualizado com sucesso!');
+        setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
+      } catch (error) {
+        console.error('Erro ao editar produto:', error);
+        mostrarFeedback('Erro ao atualizar produto: ' + error.message);
+      }
+    });
+
+    async function editarProduto(id, dados, usuario) {
+      if (!id || !usuario) throw new Error('ID ou usuário ausente');
+
+      const response = await fetch(`/api/produtos/editar?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-usuario': JSON.stringify(usuario)
+        },
+        body: JSON.stringify(dados)
+      });
+
+      if (!response.ok) {
+        const erro = await response.json().catch(() => ({}));
+        throw new Error(erro.error || 'Erro ao editar produto');
+      }
+
+      return await response.json();
+    }
+  </script>
 </body>
+
 </html>

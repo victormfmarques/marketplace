@@ -11,7 +11,8 @@ export function setupCarrinho() {
 
   document.querySelector('.carrinho-icone')?.addEventListener('click', toggleCarrinho);
   document.addEventListener('click', fecharCarrinho);
-  document.getElementById('finalizar-compra')?.addEventListener('click', finalizarCompra);
+  document.getElementById('finalizar-compra').addEventListener('click', () => {
+  window.location.href = '../paginas/finalizar-compra.html';});
   document.querySelector('.btn-limpar')?.addEventListener('click', limparCarrinho);
 }
 
@@ -33,7 +34,12 @@ export function adicionarAoCarrinho(produtoId, event) {
       nome: produto.nome,
       preco: produto.preco,
       imagem: produto.foto || config.placeholderImage,
-      quantidade: 1
+      quantidade: 1,
+      vendedor: {
+        nome: produto.vendedor?.nome || 'Vendedor',
+        email: produto.vendedor?.email || 'Email não informado',
+        telefone: produto.vendedor?.telefone || 'Telefone não informado'
+      }
     });
   }
 
