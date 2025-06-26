@@ -9,6 +9,7 @@
   <title>Editar Produto</title>
 </head>
 <body>
+  <div id="feedback" class="feedback" aria-live="polite"></div>
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
@@ -40,104 +41,101 @@
       <div id="preview-fotos"></div>
       <button type="submit">Salvar Alterações</button>
     </form>
-    <div id="feedback"></div>
   </main>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script>
-    const produtoId = new URLSearchParams(window.location.search).get('id');
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  <script type="module">
+  import { mostrarFeedback } from '../assets/js/modules/feedback.js';
 
-    if (!usuarioLogado) {
-      window.location.href = '/login.html';
+  const produtoId = new URLSearchParams(window.location.search).get('id');
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+  if (!usuarioLogado) {
+    window.location.href = '/login.html';
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+      if (!response.ok) throw new Error(`Erro ${response.status}`);
+
+      const produto = await response.json();
+
+      if (produto.usuarioId !== usuarioLogado._id) {
+        mostrarFeedback('Você não tem permissão para editar este produto');
+        setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
+        return;
+      }
+
+      preencherFormulario(produto);
+    } catch (error) {
+      console.error('Erro ao carregar produto:', error);
+      mostrarFeedback('Falha ao carregar produto: ' + error.message);
+      setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
     }
+  });
 
-    // Carrega os dados do produto
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
+  function preencherFormulario(produto) {
+    document.getElementById('nome').value = produto.nome;
+    document.getElementById('descricao').value = produto.descricao;
+    document.getElementById('preco').value = produto.preco.toFixed(2);
+    document.getElementById('categoria').value = produto.categoria;
 
-        const produto = await response.json();
+    const preview = document.getElementById('preview-fotos');
+    preview.innerHTML = '';
 
-        if (produto.usuarioId !== usuarioLogado._id) {
-          alert('Você não tem permissão para editar este produto');
-          window.location.href = '/paginas/produtos.html';
-          return;
-        }
-
-        preencherFormulario(produto);
-      } catch (error) {
-        console.error('Erro ao carregar produto:', error);
-        alert('Falha ao carregar produto: ' + error.message);
-        window.location.href = '/paginas/produtos.html';
-      }
-    });
-
-    // Preenche os campos do formulário
-    function preencherFormulario(produto) {
-      document.getElementById('nome').value = produto.nome;
-      document.getElementById('descricao').value = produto.descricao;
-      document.getElementById('preco').value = produto.preco.toFixed(2);
-      document.getElementById('categoria').value = produto.categoria;
-
-      const preview = document.getElementById('preview-fotos');
-      preview.innerHTML = '';
-
-      if (produto.fotos && Array.isArray(produto.fotos)) {
-        produto.fotos.forEach(foto => {
-          const img = document.createElement('img');
-          img.src = foto;
-          img.onerror = () => img.src = '../assets/img/placeholder.png';
-          img.style.maxWidth = '120px';
-          img.style.margin = '5px';
-          preview.appendChild(img);
-        });
-      }
-    }
-
-    // Envia atualização
-    document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = {
-        nome: document.getElementById('nome').value,
-        descricao: document.getElementById('descricao').value,
-        preco: parseFloat(document.getElementById('preco').value),
-        categoria: document.getElementById('categoria').value
-      };
-
-      try {
-        await editarProduto(produtoId, formData, usuarioLogado);
-        alert('Produto atualizado com sucesso!');
-        window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`;
-      } catch (error) {
-        console.error('Erro ao editar produto:', error);
-        alert('Erro ao atualizar produto: ' + error.message);
-      }
-    });
-
-    // Função utilitária para enviar PUT à API
-    async function editarProduto(id, dados, usuario) {
-      if (!id || !usuario) throw new Error('ID ou usuário ausente');
-
-      const response = await fetch(`/api/produtos/editar?id=${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-usuario': JSON.stringify(usuario)
-        },
-        body: JSON.stringify(dados)
+    if (produto.fotos && Array.isArray(produto.fotos)) {
+      produto.fotos.forEach(foto => {
+        const img = document.createElement('img');
+        img.src = foto;
+        img.onerror = () => img.src = '../assets/img/placeholder.png';
+        img.style.maxWidth = '120px';
+        img.style.margin = '5px';
+        preview.appendChild(img);
       });
-
-      if (!response.ok) {
-        const erro = await response.json().catch(() => ({}));
-        throw new Error(erro.error || 'Erro ao editar produto');
-      }
-
-      return await response.json();
     }
-  </script>
+  }
+
+  document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      nome: document.getElementById('nome').value,
+      descricao: document.getElementById('descricao').value,
+      preco: parseFloat(document.getElementById('preco').value),
+      categoria: document.getElementById('categoria').value
+    };
+
+    try {
+      await editarProduto(produtoId, formData, usuarioLogado);
+      mostrarFeedback('Produto atualizado com sucesso!');
+      setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
+    } catch (error) {
+      console.error('Erro ao editar produto:', error);
+      mostrarFeedback('Erro ao atualizar produto: ' + error.message);
+    }
+  });
+
+  async function editarProduto(id, dados, usuario) {
+    if (!id || !usuario) throw new Error('ID ou usuário ausente');
+
+    const response = await fetch(`/api/produtos/editar?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-usuario': JSON.stringify(usuario)
+      },
+      body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) {
+      const erro = await response.json().catch(() => ({}));
+      throw new Error(erro.error || 'Erro ao editar produto');
+    }
+
+    return await response.json();
+  }
+</script>
 </body>
 </html>

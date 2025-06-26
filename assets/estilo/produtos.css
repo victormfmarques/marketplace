@@ -287,3 +287,54 @@ header {
 .produto-info {
   padding: 15px;
 }
+
+/* Tornar carrinho-dropdown responsivo */
+@media (max-width: 480px) {
+  .carrinho-dropdown {
+    width: 60vw; /* ocupa até 90% da largura da viewport */
+    max-width: 320px;
+    right: 5%; /* deixa um pequeno espaço da borda direita */
+    top: 50px;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* Ajustar itens do carrinho para ficarem mais compactos */
+  .item-carrinho {
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .item-carrinho img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .carrinho-botoes {
+    flex-direction: column;
+  }
+
+  .btn-finalizar,
+  .btn-limpar {
+    font-size: 14px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  /* Ajustar header para empilhar em telas pequenas */
+  header {
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .logo-container {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .header-controls {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

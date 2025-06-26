@@ -56,8 +56,8 @@ body {
 }
 
 .btn:hover {
-    background: var(--verde-claro);
-    color: var(--cinza-pedra);
+    background: var(--verde-folha);
+    color: var(--branco-neve);
 }
 
 .titulo {
@@ -219,9 +219,14 @@ nav ul li a:hover {
    CARRINHO DE COMPRAS
    ============================================= */
 .carrinho-icone {
-    position: relative;
-    cursor: pointer;
-    margin-left: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 #contador-carrinho {

@@ -15,3 +15,6 @@ export function mostrarFeedback(mensagem) {
     feedback.classList.remove('show');
   }, 3000);
 }
+
+// Torna a função global para ser usada fora do módulo
+window.mostrarFeedback = mostrarFeedback;

@@ -166,10 +166,6 @@ function criarMensagem(texto, tipo = 'info') {
   `;
 }
 
-function mostrarFeedback(mensagem) {
-  alert(mensagem);
-}
-
 export async function editarProduto(produtoId, dados, usuarioLogado) {
   if (!produtoId || !usuarioLogado) {
     throw new Error('ID do produto ou usuário não informado');

@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../assets/estilo/addprod.css">
-    <title>EcoMarket - Adicionar Produtos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="../assets/estilo/addprod.css"/>
+  <title>EcoMarket - Adicionar Produtos</title>
 </head>
 <body>
   <div class="container">
+    <div id="feedback" class="feedback" aria-live="polite"></div> <!-- FEEDBACK -->
+
     <h1>Adicionar <br>Novo Produto</h1>
     <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
-  <ion-icon name="storefront-outline"></ion-icon>
-</a>
+      <ion-icon name="storefront-outline"></ion-icon>
+    </a>
 
     <form id="form-produto">
       <div class="form-group">
         <label for="nome">Nome do Produto:</label>
-        <input type="text" id="nome" name="nome" required>
+        <input type="text" id="nome" name="nome" required />
       </div>
-      
+
       <div class="form-group">
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required></textarea>
       </div>
-      
+
       <div class="form-group">
         <label for="preco">Preço:</label>
-        <input type="number" id="preco" name="preco" step="0.01" required>
+        <input type="number" id="preco" name="preco" step="0.01" required />
       </div>
-      
+
       <div class="form-group">
         <label for="categoria">Categoria:</label>
         <select id="categoria" name="categoria" required>
@@ -43,70 +45,72 @@
           <option value="outro">Outro</option>
         </select>
       </div>
-      
+
       <div class="form-group">
         <label for="imagem-produto">Imagem do Produto:</label>
-        <input type="file" id="imagem-produto" name="imagem" accept="image/*" >
+        <input type="file" id="imagem-produto" name="imagem" accept="image/*" />
       </div>
-      
+
       <button type="submit">Cadastrar Produto</button>
     </form>
   </div>
-  
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
   <script type="module">
-  import { cadastrarProduto } from '../assets/js/modules/produtos.js';
+    import { cadastrarProduto } from '../assets/js/modules/produtos.js';
+    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    document.addEventListener('DOMContentLoaded', () => {
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-    if (!usuarioLogado || !usuarioLogado._id) {
-      alert('Você precisa estar logado para cadastrar produtos');
-      window.location.href = '/index.html'; // ou a página de login
-      return;
-    }
-
-    document.getElementById('form-produto').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const form = e.target;
-
-      const dados = {
-        usuarioId: usuarioLogado._id,
-        nome: form.nome.value,
-        descricao: form.descricao.value,
-        preco: form.preco.value,
-        categoria: form.categoria.value,
-        fotosBase64: []
-      };
-
-      const imagem = form['imagem-produto'].files[0];
-
-      if (imagem) {
-        const base64 = await toBase64(imagem);
-        dados.fotosBase64.push(base64);
+      if (!usuarioLogado || !usuarioLogado._id) {
+        mostrarFeedback('Você precisa estar logado para cadastrar produtos');
+        setTimeout(() => window.location.href = '/index.html', 3000);
+        return;
       }
 
-      try {
-        console.log("Enviando dados para cadastro:", dados);
-        await cadastrarProduto(dados);
-        alert('Produto cadastrado com sucesso!');
-        window.location.href = '../paginas/produtos.html';
-      } catch (err) {
-        alert('Erro: ' + err.message);
+      document.getElementById('form-produto').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+
+        const dados = {
+          usuarioId: usuarioLogado._id,
+          nome: form.nome.value,
+          descricao: form.descricao.value,
+          preco: parseFloat(form.preco.value),
+          categoria: form.categoria.value,
+          fotosBase64: []
+        };
+
+        const imagem = form['imagem-produto'].files[0];
+
+        if (imagem) {
+          const base64 = await toBase64(imagem);
+          dados.fotosBase64.push(base64);
+        }
+
+        try {
+          console.log("Enviando dados para cadastro:", dados);
+          await cadastrarProduto(dados);
+          mostrarFeedback('Produto cadastrado com sucesso!');
+          setTimeout(() => window.location.href = '../paginas/produtos.html', 2500);
+        } catch (err) {
+          mostrarFeedback('Erro: ' + err.message);
+        }
+      });
+
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
       }
     });
-
-    function toBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
-    }
-  });
-</script>
+  </script>
 </body>
 </html>

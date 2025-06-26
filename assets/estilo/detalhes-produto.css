@@ -192,3 +192,23 @@ body {
 .btn-home,.btn-voltar ion-icon {
   font-size: 1.5rem;
 }
+
+/* Feedback */
+.feedback {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background: var(--verde-folha);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.feedback.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
