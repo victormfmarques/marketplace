@@ -176,17 +176,10 @@ input[type="number"] {
 
   /* Ajusta título e botão para ficarem empilhados no celular */
   .titulo {
-    flex-direction: column;
     gap: 0.5rem;
   }
 
   .titulo h1 {
-    font-size: 1.5rem;
-  }
-
-  .btn-home {
-    width: 36px;
-    height: 36px;
     font-size: 1.5rem;
   }
 
