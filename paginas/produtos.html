@@ -10,6 +10,15 @@
     <title>EcoMarket - Produtos</title>
 </head>
 <body>
+    <script>
+        // Proteção de Rota (deve ser o PRIMEIRO script da página)
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if (!usuario || !usuario.email) { // Verifica tanto a existência quanto dados válidos
+        localStorage.removeItem('usuarioLogado'); // Limpa dados corrompidos
+        window.location.href = '/index.html?redirect=' + encodeURIComponent(window.location.pathname);
+}
+</script>
     <div id="feedback" class="feedback" aria-live="polite"></div>
     <header>
         <div class="logo-container">
