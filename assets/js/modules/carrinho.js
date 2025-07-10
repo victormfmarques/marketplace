@@ -65,9 +65,9 @@ function updateListaItens() {
 
   lista.innerHTML = carrinho.map((item) => `
     <div class="item-carrinho">
-      <img src="${item.imagem}" alt="${item.nome}" ">
+      <img src="${item.imagem}" alt="${item.nome}" class="img-detalhes" data-id="${item.id}">
       <div>
-        <h4>${item.nome}</h4>
+        <h4 class="link-detalhes" data-id="${item.id}">${item.nome}</h4>
         <p>${item.quantidade}x R$ ${item.preco.toFixed(2)}</p>
         <button class="btn-remover" title="Remover produto" data-id="${item.id}">Remover</button>
       </div>
@@ -79,6 +79,26 @@ function updateListaItens() {
     btn.addEventListener('click', (e) => {
       const id = e.target.dataset.id;
       removerUmaUnidade(id);
+    });
+  });
+
+  // ✅ Evento de redirecionar pelo nome
+  document.querySelectorAll('.link-detalhes').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const id = e.target.dataset.id;
+      if (id) {
+        window.location.href = `../paginas/detalhes-produto.html?id=${id}`;
+      }
+    });
+  });
+
+  // ✅ Evento de redirecionar pela imagem
+  document.querySelectorAll('.img-detalhes').forEach(img => {
+    img.addEventListener('click', (e) => {
+      const id = e.target.dataset.id;
+      if (id) {
+        window.location.href = `../paginas/detalhes-produto.html?id=${id}`;
+      }
     });
   });
 }
@@ -123,17 +143,6 @@ export function limparCarrinho() {
   carrinho = [];
   persistirCarrinho();
   mostrarFeedback('Carrinho limpo com sucesso!');
-}
-
-// Finalizar compra
-export function finalizarCompra() {
-  if (carrinho.length === 0) return;
-
-  if (confirm('Tem certeza que deseja finalizar a compra?')) {
-    carrinho = [];
-    persistirCarrinho();
-    mostrarFeedback('Compra finalizada com sucesso!');
-  }
 }
 
 // Funções de UI
