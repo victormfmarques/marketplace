@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +8,6 @@
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <title>Detalhes do Produto</title>
 </head>
-
 <body>
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <div id="produto-container">
@@ -19,6 +17,20 @@
       <p id="produto-descricao"></p>
       <span id="produto-preco"></span>
       <button id="btn-comprar">Comprar</button>
+
+     <div class="carrinho-icone" title="Carrinho de Compras">
+      <img id="carrinho" src="../assets/img/carrinho.png" alt="Carrinho de Compras">
+      <span id="contador-carrinho">0</span>
+      <div class="carrinho-dropdown" id="carrinho-dropdown">
+        <div id="lista-carrinho"></div>
+        <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+        <div class="carrinho-botoes">
+          <button class="btn-limpar">Limpar Carrinho</button>
+          <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+
 
       <div id="editar-container" style="display: none;">
         <button class="btn-editar" onclick="redirecionarParaEdicao()">
@@ -53,7 +65,7 @@
         produto.id = produto._id;
         produto.foto = produto.fotos?.[0] || "../assets/img/placeholder.png";
         displayProduto(produto);
-
+        window.produtosCarregados = [produto];
 
         if (usuarioLogado && usuarioLogado._id === produto.usuarioId) {
           document.getElementById("editar-container").style.display = "block";
@@ -63,12 +75,11 @@
         console.error("Erro:", error);
         showError(error.message);
       }
-
     });
 
     function displayProduto(produto) {
       document.getElementById("produto-nome").textContent = produto.nome;
-      document.getElementById("produto-descricao").textContent = produto.descricao;
+      document.getElementById('produto-descricao').innerHTML = produto.descricao.replace(/\n/g, '<br>');
       document.getElementById("produto-preco").textContent = `R$ ${produto.preco.toFixed(2)}`;
 
       const imagensEl = document.getElementById("produto-imagens");
@@ -97,9 +108,7 @@
         if (typeof window.adicionarAoCarrinho === "function") {
           window.adicionarAoCarrinho(produtoId, event);
 
-          // Feedback visual
           btnComprar.textContent = "Adicionado!";
-
           setTimeout(() => {
             btnComprar.textContent = "Comprar";
           }, 2000);
@@ -107,7 +116,6 @@
           console.error("Função adicionarAoCarrinho não encontrada");
         }
       };
-
     }
 
     function redirecionarParaEdicao() {
@@ -116,7 +124,6 @@
         window.location.href = `/paginas/editar-produto.html?id=${produtoId}`;
       }
     }
-
 
     function showError(message) {
       const container = document.getElementById("produto-container");
@@ -129,10 +136,27 @@
       `;
     }
   </script>
+
+  <!-- Módulos normais -->
+  <script type="module" src="../assets/js/modules/carrinho.js"></script>
   <script type="module" src="../assets/js/modules/feedback.js"></script>
   <script type="module" src="../assets/js/modules/produtos.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
+  <script type="module" src="../assets/js/main.js"></script>
 
+  <!-- Importações específicas da página (carrinho/feedback) -->
+  <script type="module">
+    import { setupCarrinho, adicionarAoCarrinho } from '../assets/js/modules/carrinho.js';
+    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
+
+    window.setupCarrinho = setupCarrinho;
+    window.adicionarAoCarrinho = adicionarAoCarrinho;
+    window.mostrarFeedback = mostrarFeedback;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupCarrinho();
+    });
+  </script>
+</body>
 </html>

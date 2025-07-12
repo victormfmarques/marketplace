@@ -183,6 +183,7 @@ header {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
@@ -198,6 +199,8 @@ header {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
@@ -212,6 +215,7 @@ header {
   border: none;
   padding: 5px;
   border-radius: 4px;
+  font-weight: bold;  
 }
 
 .btn-remover:hover {
@@ -271,10 +275,16 @@ header {
 }
 
 .produto-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 360px;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
 }
 
 .produto-card:hover {
@@ -282,14 +292,57 @@ header {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+/* Imagem do Produto */
 .produto-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  border-bottom: 1px solid #eee;
 }
 
+/* Informações */
 .produto-info {
+  flex-grow: 1;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+/* Nome do produto */
+.produto-info h3 {
+  font-size: 1.1em;
+  margin: 0 0 10px;
+  line-height: 1.3em;
+  height: 2.6em; /* Força 2 linhas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #3A6351;
+}
+
+/* Preço */
+.produto-info p {
+  font-weight: bold;
+  margin: 0 0 15px;
+  color: #7B5E42;
+}
+
+/* Botão Comprar */
+.btn-comprar {
+  margin-top: auto;
+  background-color: #3A6351;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background-color: #7B5E42;
 }
 
 /* Tornar carrinho-dropdown responsivo */

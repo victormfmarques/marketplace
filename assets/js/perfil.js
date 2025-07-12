@@ -186,8 +186,8 @@ function formatarTelefone(telefone) {
 }
 
 // Exemplo de uso:
-const telefoneFormatado = formatarTelefone('11987654321');
-console.log(telefoneFormatado); // (11) 98765-4321
+// const telefoneFormatado = formatarTelefone('11987654321');
+// console.log(telefoneFormatado); // (11) 98765-4321
 
 // Adicione isso no DOMContentLoaded
 document.getElementById('itel')?.addEventListener('input', function (e) {

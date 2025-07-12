@@ -300,6 +300,7 @@ nav ul li a:hover {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
@@ -315,6 +316,8 @@ nav ul li a:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
@@ -329,6 +332,7 @@ nav ul li a:hover {
   border: none;
   padding: 5px;
   border-radius: 4px;
+  font-weight: bold;
 }
 
 .btn-remover:hover {
@@ -436,39 +440,90 @@ nav ul li a:hover {
   100% { transform: rotate(360deg); }
 }
 
-/* Produtos grid */
+/* Grade de produtos */
 .produtos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
-  max-width: 1200px;     /* largura máxima para centralizar */
-  margin: 0 auto;         /* centraliza horizontalmente */
-  padding: 20px;          /* espaçamento interno */
-  box-sizing: border-box; /* garante que padding não ultrapasse o limite */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Cartão do produto */
 .produto-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 380px; /* altura mínima padronizada */
   border: 1px solid #e1e1e1;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.03);
 }
 
 .produto-card:hover {
   transform: translateY(-5px);
 }
 
+/* Imagem */
 .produto-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
+/* Informações */
 .produto-info {
+  flex-grow: 1; /* ocupa espaço restante */
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
 }
 
+/* Título do produto */
+.produto-info h4 {
+  font-size: 1.1em;
+  margin: 0 0 10px;
+  color: #3A6351;
+  line-height: 1.3em;
+  height: 2.6em; /* Força no máximo 2 linhas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Preço */
+.produto-info p {
+  font-weight: bold;
+  color: #7B5E42;
+  margin-bottom: 10px;
+}
+
+/* Botão Comprar */
+.produto-info .btn-comprar {
+  background-color: #3A6351;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: auto; /* empurra o botão para o fim */
+}
+
+.produto-info .btn-comprar:hover {
+  background-color: #A8C686;
+}
+
+/* Mensagem de erro */
 .error-message {
   color: #ff4d4d;
   text-align: center;

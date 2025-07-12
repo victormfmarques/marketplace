@@ -18,168 +18,78 @@
     </ul>
   </header>
 
-  <div class="profile-pic"><ion-icon name="person-outline"></ion-icon></div>
-
-  <form class="content" id="form-perfil" action="../api/cadastro.js" method="post">
-    <p><label for="inome">Nome</label> <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name" /></p>
-    <p>
-      <input type="radio" name="sexo" id="imas" value="masculino" />
-      <label for="imas">Masculino</label>
-      <input type="radio" name="sexo" id="ifem" value="feminino" />
-      <label for="ifem">Feminino</label>
-    </p>
-    <p><label for="idat">Data de Nascimento</label> <input type="date" name="dat" id="idat" /></p>
-    <p><label for="itel">Telefone</label> <input type="tel" name="tel" id="itel" required autocomplete="tel" pattern="^\(\d{2})\d{4,5}-\d{4}$" placeholder="(XX)XXXXX-XXXX" /></p>
-    <p><label for="iemail">Email</label> <input type="email" name="email" id="iemail" autocomplete="email" required placeholder="seuemail@gmail.com" /></p>
-    <p><label for="isenha">Senha</label> <input type="password" name="senha" id="isenha" required minlength="6" /></p>
-    <p><label for="insenha">Nova Senha (opcional)</label> <input type="password" name="nsenha" id="insenha" placeholder="Nova senha" /></p>
+  <main>
+    <div class="profile-pic"><ion-icon name="person-outline"></ion-icon></div>
+    <form class="content" id="form-perfil" action="../api/perfil/cadastro.js" method="post">
+      <p><label for="inome">Nome</label> <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name" /></p>
+      <p>
+        <input type="radio" name="sexo" id="imas" value="masculino" />
+        <label for="imas">Masculino</label>
+        <input type="radio" name="sexo" id="ifem" value="feminino" />
+        <label for="ifem">Feminino</label>
+      </p>
+      <p><label for="idat">Data de Nascimento</label> <input type="date" name="dat" id="idat" /></p>
+      <p><label for="itel">Telefone</label> <input type="tel" name="tel" id="itel" required autocomplete="tel" pattern="^\\(\\d{2}\\)\\d{4,5}-\\d{4}$" placeholder="(XX)XXXXX-XXXX" /></p>
+      <p><label for="iemail">Email</label> <input type="email" name="email" id="iemail" autocomplete="email" required placeholder="seuemail@gmail.com" /></p>
+      <p><label for="isenha">Senha</label> <input type="password" name="senha" id="isenha" required minlength="6" /></p>
+      <p><label for="insenha">Nova Senha (opcional)</label> <input type="password" name="nsenha" id="insenha" placeholder="Nova senha" /></p>
     
-    <div id="botoes-container">
-      <input id="enviar" type="submit" value="Atualizar Perfil" />
-      <button type="button" id="btn-logout">Sair</button>
-      <button type="button" id="btn-excluir-conta">Excluir Conta</button>
-    </div>
-  </form>
+      <div id="botoes-container">
+        <input id="enviar" type="submit" value="Atualizar Perfil" />
+        <button type="button" id="btn-logout">Sair</button>
+        <button type="button" id="btn-excluir-conta">Excluir Conta</button>
+      </div>
+    </form>
+    <!-- Nova seção para listar os produtos do usuário -->
+    <section class="meus-produtos">
+      <h2>Meus Produtos</h2>
+      <div id="produtos-usuario">Carregando seus produtos...</div>
+    </section>
+  </main>
 
-  <div class="educacao-ambiental">
-    <h2>🎓 Seu Progresso de Aprendizado</h2>
 
-    <div class="quiz">
-      <h3>Teste seus conhecimentos ambientais</h3>
-      <div id="pergunta-quiz"></div>
-      <div id="opcoes-quiz"></div>
-      <div id="feedback" class="feedback"></div>
-      <p>Pontuação: <span id="pontuacao">0</span></p>
-    </div>
-
-    <div class="conquistas">
-      <h3>🏆 Conquistas</h3>
-      <div id="badges"></div>
-    </div>
-  </div>
-  
-  <script src="../assets/js/perfil.js" type="module"></script>
+  <script type="module" src="../assets/js/perfil.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  
+
   <script>
-    const quiz = [
-      {
-        pergunta: "Qual destes materiais demora mais para se decompor na natureza?",
-        opcoes: ["Papel", "Casca de banana", "Vidro", "Folhas secas"],
-        resposta: 2,
-        explicacao: "O vidro pode levar até 1 milhão de anos para se decompor completamente na natureza!"
-      },
-      {
-        pergunta: "Qual destas ações economiza mais água?",
-        opcoes: ["Tomar banhos curtos", "Fechar a torneira ao escovar os dentes", "Consertar vazamentos", "Reutilizar água da chuva"],
-        resposta: 2,
-        explicacao: "Um simples vazamento pode desperdiçar até 20.000 litros de água por ano!"
-      },
-      {
-        pergunta: "O que significa a sigla '3R' em sustentabilidade?",
-        opcoes: ["Reciclagem de Papel e Alumínio", "Resíduos Perigosos Ambientais", "Redução, Reuso e Reciclagem", "Responsabilidade Pública Ambiental"],
-        resposta: 2,
-        explicacao: "Os 3 Rs da sustentabilidade são: Reduzir, Reutilizar e Reciclar, nessa ordem de importância."
-      },
-      {
-        pergunta: "Qual destas energias é considerada renovável?",
-        opcoes: ["Energia nuclear", "Energia de carvão", "Energia eólica", "Energia de gás natural"],
-        resposta: 2,
-        explicacao: "A energia eólica é renovável pois utiliza o vento, um recurso natural inesgotável."
-      },
-      {
-        pergunta: "Qual o maior benefício da compostagem?",
-        opcoes: ["Reduz o lixo orgânico em aterros", "Produz adubo natural", "Diminui emissão de metano", "Todos os anteriores"],
-        resposta: 3,
-        explicacao: "A compostagem traz todos esses benefícios, ajudando a fechar o ciclo dos nutrientes."
-      }
-    ];
-    
-    let perguntaAtual = 0;
-    let pontuacao = 0;
-    let respostasCorretas = 0;
-    
-    function carregarPergunta() {
-      const q = quiz[perguntaAtual];
-      document.getElementById('pergunta-quiz').textContent = q.pergunta;
-      
-      const opcoesDiv = document.getElementById('opcoes-quiz');
-      opcoesDiv.innerHTML = q.opcoes.map((opcao, index) =>
-        `<button onclick="responder(${index})">${opcao}</button>`
-      ).join('');
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-      document.getElementById('feedback').className = 'feedback';
-    }
+  if (usuarioLogado) {
+    async function carregarProdutosUsuario() {
+      try {
+        const response = await fetch(`/api/perfil/produtos-usuario?usuarioId=${usuarioLogado._id}`);
+        const result = await response.json();
 
-    function responder(opcaoSelecionada) {
-      const q = quiz[perguntaAtual];
-      const botoes = document.querySelectorAll('#opcoes-quiz button');
-      const feedback = document.getElementById('feedback');
+        const container = document.getElementById('produtos-usuario');
+        if (result.success && result.data.length > 0) {
+          container.innerHTML = result.data.map(prod => {
+            const foto = prod.fotos && prod.fotos.length > 0
+              ? (prod.fotos[0].startsWith('http') ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}`)
+              : '/assets/img/placeholder.png';
 
-      // Desabilita todos os botões
-      botoes.forEach(btn => {
-        btn.style.pointerEvents = 'none';
-      });
-
-      // Marca a resposta correta
-      botoes[q.resposta].classList.add('correta');
-
-      // Verifica se acertou
-      if (opcaoSelecionada === q.resposta) {
-        pontuacao += 10;
-        respostasCorretas++;
-        feedback.textContent = "✅ Correto! " + q.explicacao;
-        feedback.className = 'feedback correta';
-      } else {
-        // Marca a resposta errada
-        botoes[opcaoSelecionada].classList.add('incorreta');
-        feedback.textContent = "❌ Incorreto. " + q.explicacao;
-        feedback.className = 'feedback incorreta';
-      }
-
-      document.getElementById('pontuacao').textContent = pontuacao;
-
-      // Atualiza conquistas
-      atualizarConquistas();
-
-      // Prepara próxima pergunta após 8 segundos
-      setTimeout(() => {
-        perguntaAtual = (perguntaAtual + 1) % quiz.length;
-        carregarPergunta();
-      }, 8000);
-    }
-
-    function atualizarConquistas() {
-      const badgesDiv = document.getElementById('badges');
-
-      if (respostasCorretas >= 1 && !document.getElementById('badge1')) {
-        badgesDiv.innerHTML += `<div class="badge" id="badge1">🌱</div>`;
-      }
-
-      if (respostasCorretas >= 3 && !document.getElementById('badge3')) {
-        badgesDiv.innerHTML += `<div class="badge" id="badge3">♻️</div>`;
-      }
-
-      if (respostasCorretas >= 5 && !document.getElementById('badge5')) {
-        badgesDiv.innerHTML += `<div class="badge" id="badge5">🏆</div>`;
-      }
-    }
-
-    window.onload = carregarPergunta;
-  </script>
-  <script>
-        // Verifica se o usuário está logado
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-        if (usuarioLogado) {
-            // Exemplo: Mostrar nome do usuário em um elemento com ID "saudacao"
-            const saudacaoElement = document.getElementById('saudacao');
-            if (saudacaoElement) {
-                saudacaoElement.textContent = `Olá, ${usuarioLogado.nome}!`;
-            }
+            return `
+              <div class="produto-item">
+                <img src="${foto}" alt="${prod.nome}" />
+                <div class="produto-info">
+                  <h4>${prod.nome}</h4>
+                  <p>R$ ${parseFloat(prod.preco).toFixed(2)}</p>
+                </div>
+                <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
+              </div>
+            `;
+          }).join('');
+        } else {
+          container.innerHTML = '<p>Você ainda não postou produtos.</p>';
         }
-    </script>
-</body>
+      } catch (error) {
+        console.error('Erro ao carregar produtos do usuário:', error);
+        document.getElementById('produtos-usuario').textContent = 'Erro ao carregar produtos.';
+      }
+    }
 
+    carregarProdutosUsuario();
+  }
+</script>
+</body>
 </html>
