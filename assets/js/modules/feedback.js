@@ -1,15 +1,19 @@
 // js/modules/feedback.js
-export function mostrarFeedback(mensagem) {
+export function mostrarFeedback(mensagem, tipo = 'sucesso') {
   const feedback = document.getElementById('feedback');
   if (!feedback) return;
 
+  // Reset e configuração
   feedback.textContent = mensagem;
-  feedback.classList.remove('show'); // remove se já estiver visível
+  feedback.className = 'feedback'; // Remove todas as classes
+  feedback.classList.add(tipo); // Adiciona a classe do tipo
 
-  // força reflow para reiniciar a animação
+  // Força reflow para reiniciar animação
   void feedback.offsetWidth;
 
   feedback.classList.add('show');
+  
+  // Auto-esconder após 3 segundos
   clearTimeout(feedback._hideTimeout);
   feedback._hideTimeout = setTimeout(() => {
     feedback.classList.remove('show');

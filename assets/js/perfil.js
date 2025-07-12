@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   if (!usuarioLogado) {
-    alert('Por favor, faça login para acessar esta página');
-    window.location.href = '/index.html';
+    mostrarFeedback('Por favor, faça login para acessar esta página', 'erro');
+    setTimeout(() => window.location.href = '/index.html', 2000);
     return;
   }
 
@@ -30,16 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const telefoneInput = document.getElementById('itel').value;
       const telefoneFormatado = formatarTelefone(telefoneInput);
 
+      // Validação do telefone
+      if (!/^\(\d{2}\)\s?\d{4,5}-\d{4}$/.test(telefoneFormatado)) {
+        throw new Error('Formato de telefone inválido. Use (XX) XXXX-XXXX ou (XX) XXXXX-XXXX');
+      }
+
       // Obtém os dados do formulário
       const formData = {
         userId: usuarioLogado._id,
-        nome: document.getElementById('inome').value,
-        sexo: sexoSelecionado, // Isso agora vai capturar "masculino" ou "feminino"
+        nome: document.getElementById('inome').value.trim(),
+        sexo: sexoSelecionado,
         dataNascimento: document.getElementById('idat').value,
-        telefone: telefoneFormatado, // Usa o telefone formatado
-        email: document.getElementById('iemail').value,
+        telefone: telefoneFormatado.replace(/\D/g, ''), // Remove formatação para armazenar
+        email: document.getElementById('iemail').value.trim(),
         senha: document.getElementById('isenha').value,
-        nsenha: document.getElementById('insenha').value || null // Só envia se foi preenchida
+        nsenha: document.getElementById('insenha').value || null
       };
 
       // Validação básica
@@ -47,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Nome e email são obrigatórios');
       }
 
-      // Se nova senha foi informada, verifica se a atual foi fornecida
       if (formData.nsenha && !formData.senha) {
         throw new Error('Para alterar a senha, informe a senha atual');
       }
@@ -69,19 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
       document.getElementById('saudacao').textContent = `Olá, ${data.usuario.nome}!`;
 
-      alert('Perfil atualizado com sucesso!');
+      mostrarFeedback('Perfil atualizado com sucesso!', 'sucesso');
 
-      // Limpa os campos de senha se existirem
-      if (document.getElementById('isenha')) {
-        document.getElementById('isenha').value = '';
-      }
-      if (document.getElementById('insenha')) {
-        document.getElementById('insenha').value = '';
-      }
+      // Limpa os campos de senha
+      document.getElementById('isenha').value = '';
+      document.getElementById('insenha').value = '';
+
+      // Atualiza o formulário com os novos dados
+      preencherFormulario(data.usuario);
 
     } catch (error) {
       console.error('Erro na atualização:', error);
-      alert(error.message || 'Erro ao atualizar perfil');
+      mostrarFeedback(error.message || 'Erro ao atualizar perfil', 'erro');
+      
+      // Destaca campos com erro
+      if (error.message.includes('telefone')) {
+        document.getElementById('itel').classList.add('error-border');
+      }
+
     } finally {
       btnSubmit.disabled = false;
       btnLogout.disabled = false;
@@ -91,31 +100,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Configura o logout
   document.getElementById('btn-logout').addEventListener('click', () => {
-    localStorage.removeItem('usuarioLogado');
-    window.location.href = '/index.html';
+    mostrarFeedback('Saindo da sua conta...', 'aviso');
+    setTimeout(() => {
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = '/index.html';
+    }, 1500);
   });
+
+  // Configura a exclusão de conta
+  configurarExclusaoConta();
 });
 
 function preencherFormulario(usuario) {
   document.getElementById('inome').value = usuario.nome || '';
   document.getElementById('idat').value = usuario.dataNascimento?.split('T')[0] || '';
-  // Aplica a formatação ao telefone ao preencher o formulário
   document.getElementById('itel').value = formatarTelefone(usuario.telefone || '');
   document.getElementById('iemail').value = usuario.email || '';
 
-  // Corrige para lidar com o valor "on" incorreto
-  const generoCorrigido = usuario.sexo === 'on' ?
-    (usuario.genero || 'masculino') : // fallback caso exista outro campo
-    usuario.sexo;
+  // Normaliza o gênero
+  const genero = (usuario.sexo === 'on' ? 
+                 (usuario.genero || 'masculino') : 
+                 usuario.sexo).toLowerCase().trim();
 
-  // Normaliza o valor
-  const genero = generoCorrigido.toLowerCase().trim();
-
-  // Marca o radio button correto
   document.getElementById('imas').checked = genero.includes('masc');
   document.getElementById('ifem').checked = genero.includes('fem');
 
-  // Atualiza a saudação
   document.getElementById('saudacao').textContent = `Olá, ${usuario.nome}!`;
 }
 
@@ -126,16 +135,18 @@ function configurarExclusaoConta() {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
     if (!usuarioLogado) {
-      alert('Faça login para acessar esta função');
+      mostrarFeedback('Faça login para acessar esta função', 'erro');
       return;
     }
 
+    // Modal customizado para senha
     const senha = prompt('Para confirmar a exclusão da sua conta, digite sua senha:');
-
     if (!senha) return;
 
     try {
+      // Confirmação visual
       if (!confirm('ATENÇÃO: Todos seus dados serão permanentemente apagados. Deseja continuar?')) {
+        mostrarFeedback('Exclusão de conta cancelada', 'aviso');
         return;
       }
 
@@ -154,56 +165,42 @@ function configurarExclusaoConta() {
         throw new Error(data.message || 'Erro ao excluir conta');
       }
 
-      alert(data.message || 'Conta excluída com sucesso!');
-      localStorage.removeItem('usuarioLogado');
-      window.location.href = '/index.html';
+      mostrarFeedback(data.message || 'Conta excluída com sucesso!', 'sucesso');
+      
+      setTimeout(() => {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = '/index.html';
+      }, 2000);
 
     } catch (error) {
       console.error('Erro ao excluir conta:', error);
-      alert(error.message || 'Falha ao excluir conta');
+      mostrarFeedback(error.message || 'Falha ao excluir conta', 'erro');
     }
   });
 }
 
-// Chame esta função no DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  configurarExclusaoConta();
-});
-
 function formatarTelefone(telefone) {
-  // Remove tudo que não é dígito
   const apenasNumeros = telefone.replace(/\D/g, '');
 
-  // Aplica a formatação (XX) XXXX-XXXX ou (XX) XXXXX-XXXX
   if (apenasNumeros.length === 10) {
     return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 6)}-${apenasNumeros.substring(6)}`;
   } else if (apenasNumeros.length === 11) {
     return `(${apenasNumeros.substring(0, 2)}) ${apenasNumeros.substring(2, 7)}-${apenasNumeros.substring(7)}`;
   }
 
-  // Retorna sem formatação se não tiver tamanho adequado
   return telefone;
 }
 
-// Exemplo de uso:
-// const telefoneFormatado = formatarTelefone('11987654321');
-// console.log(telefoneFormatado); // (11) 98765-4321
-
-// Adicione isso no DOMContentLoaded
-document.getElementById('itel')?.addEventListener('input', function (e) {
-  // Obtém a posição do cursor
-  const cursorPosition = e.target.selectionStart;
+// Formatação dinâmica do telefone
+document.getElementById('itel')?.addEventListener('input', function(e) {
   const input = e.target;
   let value = input.value.replace(/\D/g, '');
-
-  // Formatação dinâmica
+  
   if (value.length > 0) {
-    value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
-  }
-  if (value.length > 10) {
-    value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+    value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}${value.length > 7 ? '-' : ''}${value.substring(7, 11)}`;
   }
 
+  const cursorPosition = input.selectionStart;
   input.value = value;
-
+  input.setSelectionRange(cursorPosition, cursorPosition);
 });

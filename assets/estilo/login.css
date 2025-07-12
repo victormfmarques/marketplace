@@ -141,3 +141,56 @@ form > a.botao:hover {
 form > a.botao > span {
     font-size: 0.8em;
 }
+
+/* Feedback - Mantendo sua paleta de cores */
+.feedback {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  color: var(--branco-neve);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feedback.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Tipos de feedback usando SUA paleta */
+.feedback.sucesso {
+  background: var(--cor2);
+  border-left: 5px solid #7B5E42;
+  color: white;
+}
+
+.feedback.erro {
+  background: #8B2E2E; /* Vermelho terroso - harmonizado com seu marrom-terra */
+  color: white;
+  border-left: 5px solid #C44D4D;
+}
+
+.feedback.aviso {
+  background: var(--marrom-terra);
+  border-left: 5px solid var(--bege-areia);
+  color: var(--branco-neve);
+}
+
+/* Animação de shake para erros - mais suave */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.error-border {
+  border: 2px solid #8B2E2E !important;
+  color: white;
+  animation: shake 0.5s ease-in-out;
+}
