@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="../assets/estilo/finalizar.css">
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <title>Finalizar Compra - EcoMarket</title>
 </head>
 <body>
@@ -30,8 +31,18 @@
           <h2>${item.nome}</h2>
           <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2)} (x${item.quantidade})</p>
           <p><strong>Vendedor:</strong> ${item.vendedor?.nome || 'Desconhecido'}</p>
-          <p><strong>Email:</strong> ${item.vendedor?.email || '-'}</p>
-          <p><strong>Telefone:</strong> ${item.vendedor?.telefone || '-'}</p>
+          <p><strong>Email:</strong> 
+          <a href="mailto:${item.vendedor.email}" class="email">
+            <i class="fas fa-envelope"></i> ${item.vendedor.email}
+          </a>
+          </p>
+          <p><strong>Telefone:</strong> 
+            <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '')}" 
+              class="whatsapp" 
+              target="_blank">
+              <i class="fab fa-whatsapp"></i> ${item.vendedor.telefone}
+            </a>
+          </p>
           <hr>
         </div>
       `).join('');

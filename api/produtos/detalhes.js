@@ -59,6 +59,12 @@ export default async function handler(req, res) {
             return res.status(404).json({ error: 'Produto não encontrado' });
         }
 
+        // ✅ Incrementa visualizações
+        await db.collection('produtos').updateOne(
+        { _id: new ObjectId(id) },
+        { $inc: { visualizacoes: 1 } }
+        );
+        
         const fotos = Array.isArray(produto.fotos)
             ? produto.fotos.map(foto =>
                 foto.startsWith('http') ? foto

@@ -8,6 +8,8 @@ export default async function handler(req, res) {
     await client.connect();
     const db = client.db('marketplace');
 
+    const limit = parseInt(req.query.limit) || 0; // Limite opcional
+
     const pipeline = [
   { $match: { status: 'ativo' } },
   {
@@ -33,6 +35,7 @@ export default async function handler(req, res) {
       categoria: 1,
       fotos: 1,
       usuarioId: 1,
+      visualizacoes: 1, // <-- importante!
       foto: { $arrayElemAt: ['$fotos', 0] },
       vendedor: {
         nome: '$usuario.nome',
@@ -40,13 +43,18 @@ export default async function handler(req, res) {
         telefone: '$usuario.telefone'
       }
     }
-  }
+  },
+  { $sort: { visualizacoes: -1 } } // <-- ordena pelos mais vistos
 ];
+
+// ✅ Aplica limite se informado
+if (limit > 0) {
+  pipeline.push({ $limit: limit });
+}
 
 
     const produtos = await db.collection('produtos').aggregate(pipeline).toArray();
 
-    // Conversão segura de _id
     const produtosFormatados = produtos.map(p => ({
       ...p,
       id: p.id.toString()

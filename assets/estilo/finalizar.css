@@ -92,3 +92,27 @@ button {
 button:hover {
   background-color: var(--marrom-terra);
 }
+
+.produto a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.produto a.email {
+  color: var(--marrom-terra);
+}
+
+.produto a.email:hover {
+  color: var(--cinza-pedra);
+  text-decoration: underline;
+}
+
+.produto a.whatsapp {
+  color: var(--verde-folha);
+}
+
+.produto a.whatsapp:hover {
+  color: var(--verde-claro);
+  text-decoration: underline;
+}
