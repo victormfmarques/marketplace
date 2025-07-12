@@ -23,101 +23,191 @@
 
     body {
       background-color: var(--bege-areia);
-      padding: 40px;
       font-family: Arial, sans-serif;
       color: var(--cinza-pedra);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
     }
 
     header {
       background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
       color: var(--branco-neve);
-      margin: auto;
-      max-width: 430px;
-      height: 40px;
-      padding: 20px;
-      text-align: center;
-      position: relative;
+      width: 100%;
+      max-width: 600px;
       border-radius: 10px;
+      padding: 15px 20px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
+      /* Agora alinha à esquerda */
       align-items: center;
-    }
-
-    header ul {
-      position: absolute;
-      top: 6px;
-      right: 20px;
-      list-style-type: none;
-      font-weight: bold;
-    }
-
-    header ul li {
-      color: var(--branco-neve);
-      font-size: 28px;
+      transition: background-color 0.3s ease-in-out;
+      /* Suaviza qualquer mudança no header */
     }
 
     header a {
-      padding: 5px;
       color: var(--branco-neve);
       text-decoration: none;
+      font-size: 24px;
+      padding: 6px;
+      border-radius: 30%;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease;
     }
 
     header a:hover {
-      background-color: var(--cinza-pedra);
-      transition: 0.5s;
-      border-radius: 20px;
+      background-color: var(--marrom-terra);
+      transform: scale(1.1);
     }
+
 
     main {
       background-color: var(--branco-neve);
-      padding: 30px;
+      padding: 30px 25px;
       border-radius: 12px;
-      max-width: 400px;
+      max-width: 600px;
+      width: 100%;
+      margin-top: 1px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: center;
-      flex-flow: column wrap;
-      margin: auto;
     }
 
     main img {
-      width: 150px;
-      height: auto;
-      align-self: center;
-      margin-bottom: 20px;
+      display: block;
+      margin: 0 auto 20px;
+      width: 140px;
     }
 
     h1 {
       text-align: center;
       color: var(--verde-folha);
       margin-bottom: 20px;
+      font-size: 1.6em;
     }
 
     h2 {
-      font-size: 1.1em;
-      color: var(--cinza-pedra);
+      font-size: 1.05em;
       margin-bottom: 10px;
+    }
+
+    a {
+      color: var(--verde-folha);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    textarea,
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: var(--verde-folha);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: var(--marrom-terra);
+    }
+
+    #mensagem-enviada {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 20px;
+      }
+
+      header {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <ul>
-      <li>
-        <a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a>
-      </li>
-    </ul>
+    <a href="../paginas/home.html" title="Voltar para Home">
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
   </header>
+
   <main>
     <img src="../assets/img/logo.png" alt="Logo EcoMarket" />
     <h1>Contatos</h1>
-    <h2>Nome: EcoMarket-Samavi</h2>
-    <h2>Telefone: (77) 99191-7432</h2>
-    <h2>Gmail: RafaOliveira84555@gmail.com</h2>
+    <h2><strong>Nome:</strong> EcoMarket-Samavi</h2>
+    <h2><strong>Telefone:</strong> <a href="https://wa.me/5577988758331" target="_blank">(77) 98875-8331</a></h2>
+    <h2><strong>Email:</strong> <a href="mailto:contato.ecomarketsamavi@gmail.com">contato.ecomarketsamavi@gmail.com</a>
+    </h2>
+
+    <h1>Envie seu Feedback</h1>
+    <form id="form-feedback">
+      <label for="mensagem">Sugestões ou Reclamações:</label>
+      <textarea id="mensagem" name="mensagem" rows="5" required placeholder="Digite sua mensagem..."></textarea>
+
+      <label for="email">Seu Email (opcional):</label>
+      <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" />
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div id="mensagem-enviada"></div>
   </main>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+  document.getElementById('form-feedback').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const mensagem = document.getElementById('mensagem').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    try {
+      const res = await fetch('/api/feedback/registrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensagem, email })
+      });
+
+      const resultado = await res.json();
+
+      if (res.ok) {
+        document.getElementById('mensagem-enviada').textContent = resultado.message;
+        this.reset();
+      } else {
+        alert(resultado.error || 'Erro ao enviar feedback');
+      }
+    } catch (err) {
+      alert('Erro de conexão');
+    }
+  });
+  </script>
 </body>
 </html>

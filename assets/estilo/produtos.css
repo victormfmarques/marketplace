@@ -93,8 +93,12 @@ header {
   margin-bottom: -9px;
 }
 
+.nav-link > ion-icon {
+  margin-top: 10px; 
+}
+
 /* =============================================
-              CARRINHO DE COMPRAS
+   CARRINHO DE COMPRAS
    ============================================= */
 
 .carrinho-icone {
