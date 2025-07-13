@@ -133,6 +133,9 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
       throw new Error('As senhas não coincidem');
     }
 
+    senhaInput.classList.remove('error-border');
+    confirmacaoSenhaInput.classList.remove('error-border');
+
     // Requisição
     const response = await fetch('/api/perfil/cadastro', {
       method: 'POST',
@@ -166,38 +169,41 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
   }
 });
 
-// Validação em tempo real da confirmação de senha
-document.getElementById('iconfirmasenha')?.addEventListener('input', function() {
-  const senha = document.getElementById('isenha').value;
-  const confirmacao = this.value;
-
-  if (senha && confirmacao) {
-    if (senha !== confirmacao) {
-      this.classList.add('error-border');
-      document.getElementById('isenha').classList.add('error-border');
-      mostrarFeedback('As senhas não coincidem', 'aviso');
-    } else {
-      this.classList.remove('error-border');
-      document.getElementById('isenha').classList.remove('error-border');
-    }
-  }
-});
-
-// Formatação de telefone
+// Formatação dinâmica do telefone
 document.getElementById('itel')?.addEventListener('input', function(e) {
   const input = e.target;
-  let value = input.value.replace(/\D/g, '');
-  
-  // Formatação dinâmica
-  if (value.length > 0) {
-    value = `(${value.substring(0, 2)}${value.length > 2 ? ') ' : ''}${value.substring(2)}`;
-  }
-  if (value.length > 10) {
-    value = `${value.substring(0, 10)}-${value.substring(10, 15)}`;
+  let rawValue = input.value.replace(/\D/g, ''); // só números
+
+  // Armazena a posição antiga do cursor relativa ao fim do input
+  const oldCursorPos = input.selectionStart;
+  const oldLength = input.value.length;
+
+  // Aplica a formatação no rawValue
+  let formattedValue = '';
+  if (rawValue.length > 0) {
+    formattedValue = `(${rawValue.substring(0, 2)}) `;
+    if (rawValue.length <= 6) {
+      formattedValue += rawValue.substring(2);
+    } else if (rawValue.length <= 10) {
+      formattedValue += rawValue.substring(2, rawValue.length - 4) + '-' + rawValue.substring(rawValue.length - 4);
+    } else {
+      formattedValue += rawValue.substring(2, 7) + '-' + rawValue.substring(7, 11);
+    }
   }
 
-  // Mantém a posição do cursor
-  const cursorPosition = input.selectionStart;
-  input.value = value;
-  input.setSelectionRange(cursorPosition, cursorPosition);
+  // Atualiza o valor no input
+  input.value = formattedValue;
+
+  // Calcula a nova posição do cursor
+  const newLength = formattedValue.length;
+  const diffLength = newLength - oldLength;
+
+  let newCursorPos = oldCursorPos + diffLength;
+
+  // Corrige cursor para não passar do tamanho do texto
+  if (newCursorPos > newLength) newCursorPos = newLength;
+  if (newCursorPos < 0) newCursorPos = 0;
+
+  // Ajusta o cursor para a nova posição
+  input.setSelectionRange(newCursorPos, newCursorPos);
 });

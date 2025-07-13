@@ -17,10 +17,25 @@
   </div>
 
   <script>
+    function formatarTelefone(telefone) {
+      // Remove tudo que não é dígito
+      const numeros = telefone.replace(/\D/g, '');
+      
+      // Formatação para números com 10 ou 11 dígitos (incluindo DDD)
+      if (numeros.length === 11) {
+        return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      } else if (numeros.length === 10) {
+        return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      }
+      
+      // Retorna o original se não for um número conhecido
+      return telefone;
+    }
+
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
     carrinho.forEach(item => {
-    console.log(item.vendedor?.nome, item.vendedor?.telefone);
+      console.log(item.vendedor?.nome, item.vendedor?.telefone);
     });
 
     if (!carrinho.length) {
@@ -40,7 +55,7 @@
             <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '')}" 
               class="whatsapp" 
               target="_blank">
-              <i class="fab fa-whatsapp"></i> ${item.vendedor.telefone}
+              <i class="fab fa-whatsapp"></i> ${formatarTelefone(item.vendedor.telefone)}
             </a>
           </p>
           <hr>
