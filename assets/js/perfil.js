@@ -131,7 +131,7 @@ function preencherFormulario(usuario) {
 function configurarExclusaoConta() {
   const btnExcluir = document.getElementById('btn-excluir-conta');
 
-  btnExcluir?.addEventListener('click', async () => {
+  btnExcluir?.addEventListener('click', () => {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
     if (!usuarioLogado) {
@@ -139,44 +139,68 @@ function configurarExclusaoConta() {
       return;
     }
 
-    // Modal customizado para senha
-    const senha = prompt('Para confirmar a exclusão da sua conta, digite sua senha:');
-    if (!senha) return;
+    abrirModalExclusaoConta(async (senha) => {
+      try {
+        const confirmacao = confirm('ATENÇÃO: Todos os seus dados serão permanentemente apagados. Deseja continuar?');
+        if (!confirmacao) {
+          mostrarFeedback('Exclusão de conta cancelada', 'aviso');
+          return;
+        }
 
-    try {
-      // Confirmação visual
-      if (!confirm('ATENÇÃO: Todos seus dados serão permanentemente apagados. Deseja continuar?')) {
-        mostrarFeedback('Exclusão de conta cancelada', 'aviso');
-        return;
+        const response = await fetch('/api/perfil/excluirConta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: usuarioLogado._id,
+            senha: senha
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Erro ao excluir conta');
+        }
+
+        mostrarFeedback(data.message || 'Conta excluída com sucesso!', 'sucesso');
+
+        setTimeout(() => {
+          localStorage.removeItem('usuarioLogado');
+          window.location.href = '/index.html';
+        }, 2000);
+
+      } catch (error) {
+        console.error('Erro ao excluir conta:', error);
+        mostrarFeedback(error.message || 'Falha ao excluir conta', 'erro');
       }
-
-      const response = await fetch('/api/perfil/excluirConta', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: usuarioLogado._id,
-          senha: senha
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Erro ao excluir conta');
-      }
-
-      mostrarFeedback(data.message || 'Conta excluída com sucesso!', 'sucesso');
-      
-      setTimeout(() => {
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = '/index.html';
-      }, 2000);
-
-    } catch (error) {
-      console.error('Erro ao excluir conta:', error);
-      mostrarFeedback(error.message || 'Falha ao excluir conta', 'erro');
-    }
+    });
   });
+}
+
+function abrirModalExclusaoConta(callback) {
+  const modal = document.getElementById('modal-excluir-conta');
+  const confirmarBtn = document.getElementById('confirmar-exclusao');
+  const cancelarBtn = document.getElementById('cancelar-exclusao');
+  const inputSenha = document.getElementById('senha-confirmacao');
+
+  inputSenha.value = ''; // limpa o campo sempre que abrir
+  modal.style.display = 'flex';
+
+  confirmarBtn.onclick = () => {
+    const senha = inputSenha.value.trim();
+    if (!senha) {
+      mostrarFeedback('Digite sua senha para continuar', 'aviso');
+      return;
+    }
+
+    modal.style.display = 'none';
+    callback(senha); // envia a senha para quem chamou
+  };
+
+  cancelarBtn.onclick = () => {
+    modal.style.display = 'none';
+    mostrarFeedback('Exclusão de conta cancelada', 'aviso');
+  };
 }
 
 function formatarTelefone(telefone) {
@@ -229,3 +253,5 @@ document.getElementById('itel')?.addEventListener('input', function(e) {
   // Ajusta o cursor para a nova posição
   input.setSelectionRange(newCursorPos, newCursorPos);
 });
+
+configurarExclusaoConta();

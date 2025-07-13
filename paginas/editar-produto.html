@@ -51,6 +51,19 @@
     </form>
   </main>
 
+  <!-- Modal de confirmação para excluir produto -->
+<div id="modal-excluir-produto" class="modal hidden">
+  <div class="modal-content">
+    <h2>Excluir Produto</h2>
+    <p>Digite sua senha para confirmar a exclusão:</p>
+    <input type="password" id="senha-confirmacao" placeholder="Digite sua senha">
+    <div style="margin-top: 1rem;">
+      <button id="confirmar-exclusao">Confirmar</button>
+      <button id="cancelar-exclusao">Cancelar</button>
+    </div>
+  </div>
+</div>
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script type="module">
@@ -64,34 +77,53 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('btn-excluir').addEventListener('click', async () => {
-        const confirmar = confirm('Tem certeza que deseja excluir este produto? Esta ação não poderá ser desfeita.');
-        if (!confirmar) return;
+      document.getElementById('btn-excluir').addEventListener('click', () => {
+  const modal = document.getElementById('modal-excluir-produto');
+  modal.classList.remove('hidden');
 
-        try {
-          const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-usuario': JSON.stringify(usuarioLogado)
-            }
-          });
+  document.getElementById('cancelar-exclusao').onclick = () => {
+    modal.classList.add('hidden');
+    mostrarFeedback('Exclusão de produto cancelada', 'aviso');
+  };
 
-          if (!response.ok) {
-            const erro = await response.json().catch(() => ({}));
-            throw new Error(erro.error || 'Erro ao excluir produto');
-          }
+  document.getElementById('confirmar-exclusao').onclick = async () => {
+    const senha = document.getElementById('senha-confirmacao').value.trim();
 
-          mostrarFeedback('Produto excluído com sucesso!');
-          setTimeout(() => window.location.href = '/paginas/produtos.html', 2000);
+    if (!senha) {
+      mostrarFeedback('Por favor, digite sua senha para confirmar', 'aviso');
+      return;
+    }
 
-        } catch (error) {
-          console.error('Erro ao excluir produto:', error);
-          mostrarFeedback('Erro ao excluir produto: ' + error.message);
-        }
+    try {
+      const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-usuario': JSON.stringify(usuarioLogado)
+        },
+        body: JSON.stringify({ senha })
       });
 
+      const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao excluir produto');
+      }
+
+      mostrarFeedback('Produto excluído com sucesso!', 'sucesso');
+      modal.classList.add('hidden');
+
+      setTimeout(() => {
+        window.location.href = '/paginas/produtos.html';
+      }, 2000);
+
+    } catch (error) {
+      console.error('Erro ao excluir produto:', error);
+      mostrarFeedback('Erro ao excluir produto: ' + error.message, 'erro');
+    }
+  };
+});
+      
       try {
         const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
         if (!response.ok) throw new Error(`Erro ${response.status}`);
@@ -174,5 +206,4 @@
     }
   </script>
 </body>
-
 </html>
