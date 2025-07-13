@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     }
 
     const produtos = await db.collection('produtos')
-      .find({ usuarioId: usuarioId, status: 'ativo' })
+      .find({ usuarioId: new ObjectId(usuarioId), status: 'ativo' })
       .toArray();
 
     res.status(200).json({ success: true, data: produtos });

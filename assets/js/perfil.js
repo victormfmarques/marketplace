@@ -194,13 +194,38 @@ function formatarTelefone(telefone) {
 // Formatação dinâmica do telefone
 document.getElementById('itel')?.addEventListener('input', function(e) {
   const input = e.target;
-  let value = input.value.replace(/\D/g, '');
-  
-  if (value.length > 0) {
-    value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}${value.length > 7 ? '-' : ''}${value.substring(7, 11)}`;
+  let rawValue = input.value.replace(/\D/g, ''); // só números
+
+  // Armazena a posição antiga do cursor relativa ao fim do input
+  const oldCursorPos = input.selectionStart;
+  const oldLength = input.value.length;
+
+  // Aplica a formatação no rawValue
+  let formattedValue = '';
+  if (rawValue.length > 0) {
+    formattedValue = `(${rawValue.substring(0, 2)}) `;
+    if (rawValue.length <= 6) {
+      formattedValue += rawValue.substring(2);
+    } else if (rawValue.length <= 10) {
+      formattedValue += rawValue.substring(2, rawValue.length - 4) + '-' + rawValue.substring(rawValue.length - 4);
+    } else {
+      formattedValue += rawValue.substring(2, 7) + '-' + rawValue.substring(7, 11);
+    }
   }
 
-  const cursorPosition = input.selectionStart;
-  input.value = value;
-  input.setSelectionRange(cursorPosition, cursorPosition);
+  // Atualiza o valor no input
+  input.value = formattedValue;
+
+  // Calcula a nova posição do cursor
+  const newLength = formattedValue.length;
+  const diffLength = newLength - oldLength;
+
+  let newCursorPos = oldCursorPos + diffLength;
+
+  // Corrige cursor para não passar do tamanho do texto
+  if (newCursorPos > newLength) newCursorPos = newLength;
+  if (newCursorPos < 0) newCursorPos = 0;
+
+  // Ajusta o cursor para a nova posição
+  input.setSelectionRange(newCursorPos, newCursorPos);
 });
