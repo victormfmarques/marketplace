@@ -1,161 +1,177 @@
 @charset "UTF-8";
 
-/* 
-    Paleta de cores
-    Verde: #49a092
-    Lilás: #5f2c82
-*/
-
+/* =====================
+   VARIÁVEIS DE CORES
+===================== */
 :root {
-    --cor1:#83c716;
-    --cor2:#3A6351;
-    --cor3:#A8C686;
+  --cor1: #83c716;       /* Verde limão suave */
+  --cor2: #3A6351;       /* Verde escuro */
+  --cor3: #A8C686;       /* Verde claro */
+  --cor-sucesso: #59880f;
+  --cor-sucesso-hover: #6ba50ea9;
+  --cor-erro: #8B2E2E;
+  --cor-erro-borda: #C44D4D;
 }
 
+/* =====================
+   RESET E BASE
+===================== */
 * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body, html {
-    background-color: var(--cor2);
-    height: 100vh;
-    width: 100vw;
+  background-color: var(--cor2);
+  height: 100vh;
+  width: 100vw;
 }
 
+/* =====================
+   LAYOUT PRINCIPAL
+===================== */
 main {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 section#login {
-    background-color: white;
-    overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.479);
-    width: 250px;
-    height: 515px;
-    border-radius: 20px;
-    
-    transition: width .3s, height .3s;
-    transition-timing-function: ease;
+  background-color: white;
+  overflow: hidden;
+  width: 250px;
+  height: 515px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.48);
+  transition: width .3s, height .3s;
+  transition-timing-function: ease;
 }
 
+/* =====================
+   IMAGEM DO LOGIN
+===================== */
 div#imagem {
-    height: 200px;
-    background: url(/assets/img/folha.jpg) no-repeat center center /cover;
-    display: block;
+  height: 200px;
+  background: url(/assets/img/folha.jpg) no-repeat center center / cover;
+  display: block;
 }
 
+/* =====================
+   FORMULÁRIO DE LOGIN
+===================== */
 div#formulario {
-    display: block;
-    padding: 10px;
+  padding: 10px;
 }
 
 div#formulario h1 {
-    text-align: center;
-    margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 div#formulario p {
-    font-size: 0.8em;
+  font-size: 0.8em;
 }
 
 form > div.campo {
-    background-color: var(--cor2);
-    border-radius: 8px;
-    height: 40px;
-    margin: 5px 0px;
-    text-align: justify;
-    border: 2px solid var(--cor2);
+  background-color: var(--cor2);
+  border: 2px solid var(--cor2);
+  border-radius: 8px;
+  height: 40px;
+  margin: 5px 0;
+  align-items: center;
 }
 
 div.campo > label {
-    display: none;
+  display: none; /* Mantido para acessibilidade */
 }
 
 div.campo input {
-    border-radius: 8px;
-    font-size: 1em;
-    height: 100%;
-    width: calc(100% - 45px);
-    background-color: var(--cor3);
-    border: none;
-    padding: 4px;
-    transform: translateY(-11px);
+  width: calc(100% - 45px);
+  height: 100%;
+  padding: 4px;
+  font-size: 1em;
+  background-color: var(--cor3);
+  border: none;
+  border-radius: 8px;
+  transform: translateY(-11px);
 }
 
 div.campo input:focus-within {
-    background-color: white;
+  background-color: white;
 }
 
 div.campo span {
-    padding: 5px;
-    width: 40px;
-    font-size: 1.9em;
-    color:  white;
-    text-align: center;
+  width: 40px;
+  font-size: 1.9em;
+  padding: 5px;
+  color: white;
+  text-align: center;
 }
 
+/* =====================
+   BOTÕES DO FORMULÁRIO
+===================== */
 form > input[type=submit] {
-    display: block;
-    width: 100%;
-    height: 40px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    background-color: #59880f;
-    font-size: 1em;
-    cursor: pointer;
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  font-size: 1em;
+  color: white;
+  background-color: var(--cor-sucesso);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 form > input[type=submit]:hover {
-    background-color: #6ba50ea9;
+  background-color: var(--cor-sucesso-hover);
 }
 
 form > a.botao {
-    display: block;
-    width: 100%;
-    height: 40px;
-    font-size: 1em;
-    text-align: center;
-    text-decoration: none;
-    margin-top: 5px;
-    padding-top: 5px;
-    border-radius: 5px;
-    color: #597729;
-    border: 1px solid var(--cor1);
-    background-color: white;
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  padding-top: 5px;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  color: #597729;
+  background-color: white;
+  border: 1px solid var(--cor1);
+  border-radius: 5px;
 }
 
 form > a.botao:hover {
-    background-color: #bcdb9e;
+  background-color: #bcdb9e;
 }
 
 form > a.botao > span {
-    font-size: 0.8em;
+  font-size: 0.8em;
 }
 
-/* Feedback - Mantendo sua paleta de cores */
+/* =====================
+   FEEDBACK (MODAL)
+===================== */
 .feedback {
   position: fixed;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
-  color: var(--branco-neve);
-  padding: 1rem 2rem;
-  border-radius: 8px;
   opacity: 0;
-  transition: all 0.3s ease-in-out;
-  z-index: 1000;
+  padding: 1rem 2rem;
+  color: white;
   font-weight: 500;
+  border-radius: 8px;
+  z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 .feedback.show {
@@ -163,26 +179,24 @@ form > a.botao > span {
   opacity: 1;
 }
 
-/* Tipos de feedback usando SUA paleta */
 .feedback.sucesso {
   background: var(--cor2);
   border-left: 5px solid #F2E8CF;
-  color: white;
 }
 
 .feedback.erro {
-  background: #8B2E2E; /* Vermelho terroso - harmonizado com seu marrom-terra */
-  color: white;
-  border-left: 5px solid #C44D4D;
+  background: var(--cor-erro);
+  border-left: 5px solid var(--cor-erro-borda);
 }
 
 .feedback.aviso {
-  background: var(--marrom-terra);
-  border-left: 5px solid var(--bege-areia);
-  color: var(--branco-neve);
+  background: #735F32; /* substituto para --marrom-terra */
+  border-left: 5px solid #EADFB4; /* substituto para --bege-areia */
 }
 
-/* Animação de shake para erros - mais suave */
+/* =====================
+   ERROS DE FORMULÁRIO
+===================== */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-5px); }
@@ -190,7 +204,7 @@ form > a.botao > span {
 }
 
 .error-border {
-  border: 2px solid #8B2E2E !important;
+  border: 2px solid var(--cor-erro) !important;
   color: white;
   animation: shake 0.5s ease-in-out;
 }

@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+/* ===============================
+   IMPORTAÇÕES E VARIÁVEIS
+================================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
+
+  --vermelho-erro: #8B2E2E;
+  --borda-erro: #C44D4D;
+}
+
+/* ===============================
+   ESTILO GLOBAL
+================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+/* ===============================
+   CABEÇALHO
+================================== */
+header {
+  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  color: var(--branco-neve);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  height: 160px;
+}
+
+header img {
+  max-width: 10%;
+  height: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+header ul {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  list-style: none;
+  font-weight: bold;
+}
+
+header ul li {
+  color: var(--branco-neve);
+}
+
+header a {
+  color: var(--branco-neve);
+  font-size: 30px;
+  padding: 5px;
+  text-decoration: none;
+}
+
+header a:hover {
+  background-color: var(--marrom-terra);
+  transition: 0.5s;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+/* ===============================
+   FOTO DE PERFIL
+================================== */
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  background: #ddd;
+  border-radius: 50%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75px;
+  border: 3px solid var(--branco-neve);
+  color: var(--branco-neve);
+}
+
+/* ===============================
+   FORMULÁRIO
+================================== */
+.content {
+  display: flex;
+  flex-direction: column;
+  background: var(--branco-neve);
+  padding: 20px;
+  margin: 10px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Campos de texto, e-mail, senha etc. */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 15px;
+  border: 1px solid var(--verde-claro);
+  width: 50%;
+}
+
+/* Radio buttons (sexo) — estilo neutro */
+input[type="radio"] {
+  accent-color: var(--verde-folha); /* só muda a cor do círculo preenchido */
+  width: auto;
+  margin-right: 5px;
+}
+
+label, span {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* ===============================
+   BOTÕES
+================================== */
+#botoes-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#enviar {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#enviar:hover {
+  background-color: var(--marrom-terra);
+}
+
+#limpar {
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 4px;
+  transition: background-color 0.3s;
+}
+
+#limpar:hover {
+  background-color: #5a422c;
+}
+
+/* ===============================
+   RESPONSIVIDADE
+================================== */
+@media (min-width: 600px) {
+  .content {
+    max-width: 600px;
+    margin: 10px auto;
+  }
+}
+
+/* ===============================
+   MODAL DE FEEDBACK
+================================== */
+.feedback {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  color: var(--branco-neve);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feedback.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.feedback.sucesso {
+  background: var(--verde-folha);
+  border-left: 5px solid var(--verde-claro);
+}
+
+.feedback.erro {
+  background: var(--vermelho-erro);
+  border-left: 5px solid var(--borda-erro);
+}
+
+.feedback.aviso {
+  background: var(--marrom-terra);
+  border-left: 5px solid var(--bege-areia);
+  color: var(--branco-neve);
+}
+
+/* ===============================
+   ANIMAÇÃO DE ERRO
+================================== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.error-border {
+  border: 2px solid var(--vermelho-erro) !important;
+  animation: shake 0.5s ease-in-out;
+}
