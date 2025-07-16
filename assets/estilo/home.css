@@ -518,6 +518,10 @@ nav ul li a:hover {
     max-width: 45%;
   }
 
+  .col-3 h3 {
+    font-size: 18px;
+  }
+
   .col-2 {
     flex-basis: 100%;
   }
