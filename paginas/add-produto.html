@@ -1,41 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="../assets/estilo/addprod.css"/>
-  <title>Adicionar Produtos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>EcoMarket - Adicionar Produto</title>
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="../assets/estilo/addprod.css" />
 </head>
 <body>
   <div class="container">
-    <div id="feedback" class="feedback" aria-live="polite"></div> <!-- FEEDBACK -->
+    <!-- Área de feedback para acessibilidade -->
+    <div id="feedback" class="feedback" aria-live="polite" role="alert" tabindex="0"></div>
 
-    <h1>Adicionar <br>Novo Produto</h1>
-    <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
-      <ion-icon name="storefront-outline"></ion-icon>
+    <h1>Adicionar <br />Novo Produto</h1>
+
+    <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
+      <ion-icon name="storefront-outline" aria-hidden="true"></ion-icon>
     </a>
 
-    <form id="form-produto">
+    <form id="form-produto" novalidate>
       <div class="form-group">
         <label for="nome">Nome do Produto:</label>
-        <input type="text" id="nome" name="nome" required />
+        <input type="text" id="nome" name="nome" required autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" required></textarea>
+        <textarea id="descricao" name="descricao" required rows="4" autocomplete="off"></textarea>
       </div>
 
       <div class="form-group">
-        <label for="preco">Preço:</label>
-        <input type="number" id="preco" name="preco" step="0.01" required />
+        <label for="preco">Preço (R$):</label>
+        <input type="number" id="preco" name="preco" step="0.01" min="0" required autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="categoria">Categoria:</label>
         <select id="categoria" name="categoria" required>
-          <option value="selecione">Selecione...</option>
+          <option value="" disabled selected>Selecione...</option>
           <option value="artesanal">Artesanato</option>
           <option value="natural">Beleza Natural</option>
           <option value="moda">Moda Consciente</option>
@@ -48,16 +51,19 @@
 
       <div class="form-group">
         <label for="imagem-produto">Imagem do Produto:</label>
-        <input type="file" id="imagem-produto" name="imagem" accept="image/*" />
+        <input type="file" id="imagem-produto" name="imagem" accept="image/*" aria-describedby="imagemHelp" />
+        <small id="imagemHelp">Aceitamos imagens nos formatos JPG, PNG, GIF.</small>
       </div>
 
-      <button type="submit">Cadastrar Produto</button>
+      <button type="submit" aria-label="Cadastrar produto">Cadastrar Produto</button>
     </form>
   </div>
 
+  <!-- Ícones Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+  <!-- Script principal -->
   <script type="module">
     import { cadastrarProduto } from '../assets/js/modules/produtos.js';
     import { mostrarFeedback } from '../assets/js/modules/feedback.js';
@@ -71,25 +77,29 @@
         return;
       }
 
-      document.getElementById('form-produto').addEventListener('submit', async function (e) {
-        e.preventDefault();
+      const form = document.getElementById('form-produto');
 
-        const form = e.target;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
         const dados = {
           usuarioId: usuarioLogado._id,
-          nome: form.nome.value,
-          descricao: form.descricao.value,
+          nome: form.nome.value.trim(),
+          descricao: form.descricao.value.trim(),
           preco: parseFloat(form.preco.value),
           categoria: form.categoria.value,
           fotosBase64: []
         };
 
         const imagem = form['imagem-produto'].files[0];
-
         if (imagem) {
-          const base64 = await toBase64(imagem);
-          dados.fotosBase64.push(base64);
+          try {
+            const base64 = await toBase64(imagem);
+            dados.fotosBase64.push(base64);
+          } catch (error) {
+            mostrarFeedback('Erro ao processar a imagem.');
+            return;
+          }
         }
 
         try {
@@ -107,7 +117,7 @@
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
+          reader.onerror = (error) => reject(error);
         });
       }
     });

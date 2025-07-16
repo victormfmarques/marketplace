@@ -12,6 +12,7 @@
   --cinza-pedra: #4F4F4F;
 }
 
+/* Reset e base */
 * {
   margin: 0;
   padding: 0;
@@ -20,6 +21,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: var(--bege-areia);
 }
 
 /* Container principal */
@@ -30,7 +32,7 @@ body {
   margin: 2rem auto;
   gap: 3rem;
   padding: 1rem;
-  background-color: var(--bege-areia);
+  background-color: var(--branco-neve);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -72,7 +74,7 @@ body {
   line-height: 1.6;
   margin-bottom: 2rem;
   color: var(--cinza-pedra);
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* preserva quebras de linha */
 }
 
 #produto-preco {
@@ -93,7 +95,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 #btn-comprar:hover {
@@ -115,21 +117,21 @@ body {
   cursor: pointer;
   width: 130px;
   font-weight: 600;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 #editar-container button:hover {
   background-color: #604937;
 }
 
-/* Responsivo */
+/* Responsividade */
 @media (max-width: 768px) {
   #produto-container {
     flex-direction: column;
   }
 }
 
-/* Estilo do card extra (se utilizado em outros contextos) */
+/* Estilos para cards de produto (se usados em outro contexto) */
 .produto-card {
   position: relative;
   transition: transform 0.3s;
@@ -155,7 +157,7 @@ body {
   cursor: pointer;
   margin-top: 10px;
   font-weight: bold;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
 
 .produto-card button:hover {
@@ -180,7 +182,7 @@ body {
   font-weight: bold;
 }
 
-/* Botão estilo link para home */
+/* Botões estilo link para navegação */
 .btn-home, .btn-voltar {
   display: inline-flex;
   align-items: center;
@@ -199,7 +201,7 @@ body {
   background-color: var(--marrom-terra);
 }
 
-.btn-home,.btn-voltar ion-icon {
+.btn-home, .btn-voltar ion-icon {
   font-size: 1.5rem;
 }
 
@@ -227,24 +229,27 @@ body {
    CARRINHO DE COMPRAS
    ============================================= */
 
+/* Ícone do carrinho */
 .carrinho-icone {
-  position: absolute; /* MUDA DE relative PARA absolute */
+  position: absolute; /* posiciona no canto superior direito */
   top: 1rem;
   right: 1rem;
-  z-index: 10; /* garante que fique acima do conteúdo */
+  z-index: 10; /* fica acima do conteúdo */
   color: var(--branco-neve);
   cursor: pointer;
   font-size: 1.5rem;
 }
 
+/* Imagem do carrinho */
 #carrinho {
-  width:40px; 
-  height:40px;
+  width: 40px;
+  height: 40px;
   background-color: var(--verde-folha);
   padding: 6px;
   border-radius: 30%;
 }
 
+/* Contador de itens no carrinho */
 #contador-carrinho {
   position: absolute;
   top: -6px;
@@ -257,6 +262,7 @@ body {
   border-radius: 50%;
 }
 
+/* Dropdown do carrinho */
 .carrinho-dropdown {
   display: none;
   position: absolute;
@@ -270,7 +276,6 @@ body {
   width: 300px;
   font-size: 18px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  display: none;
   z-index: 1000;
 }
 
@@ -278,70 +283,74 @@ body {
   display: block;
 }
 
+/* Lista de itens dentro do carrinho */
 #lista-carrinho {
-    max-height: 300px;
-    overflow-y: auto;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
+/* Item individual do carrinho */
 .item-carrinho {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--cinza-pedra);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cinza-pedra);
 }
 
 .item-carrinho img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 4px;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-  .carrinho-total {
-    font-weight: bold;
-    margin: 15px 0;
-    text-align: right;
-    padding-top: 0.5rem;
+/* Total do carrinho */
+.carrinho-total {
+  font-weight: bold;
+  margin: 15px 0;
+  text-align: right;
+  padding-top: 0.5rem;
 }
 
+/* Botões dentro do dropdown do carrinho */
 .carrinho-botoes {
-    display: flex;
-    gap: 15px;
-    margin-top: 15px;
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .btn-finalizar {
-    width: 100%;
-    padding: 10px;
-    background: var(--verde-folha);
-    color: var(--branco-neve);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: bold;
-    transition: background 0.3s;
+  width: 100%;
+  padding: 10px;
+  background: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
 .btn-finalizar:hover {
-    background: var(--marrom-terra);
+  background: var(--marrom-terra);
 }
 
 .btn-limpar {
-    width: 100%;
-    padding: 10px;
-    background: #ff4d4d;
-    color: var(--branco-neve);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
+  width: 100%;
+  padding: 10px;
+  background: #ff4d4d;
+  color: var(--branco-neve);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
 .btn-limpar:hover {
-    background: #e60000;
+  background: #e60000;
 }
 
 .btn-remover {
@@ -352,9 +361,9 @@ body {
   padding: 5px;
   border-radius: 4px;
   font-weight: bold;
+  transition: background 0.3s ease;
 }
 
 .btn-remover:hover {
   background: #e60000;
-  transition: background 0.3s;
 }

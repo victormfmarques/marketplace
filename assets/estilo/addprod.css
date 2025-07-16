@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
+/* Importa a fonte Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
+/* Variáveis de cores */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -12,6 +13,7 @@
   --cinza-pedra: #4F4F4F;
 }
 
+/* Reset e fonte base */
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +21,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Estilo geral do corpo da página */
 body {
   background-color: var(--bege-areia);
   color: var(--cinza-pedra);
@@ -26,9 +29,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
 }
 
+/* Container principal */
 .container {
   background-color: var(--branco-neve);
   padding: 2rem 3rem;
@@ -38,6 +42,7 @@ body {
   max-width: 500px;
 }
 
+/* Título principal */
 h1 {
   color: var(--verde-folha);
   text-align: center;
@@ -53,17 +58,20 @@ form {
   gap: 1.25rem;
 }
 
+/* Grupos de inputs e labels */
 .form-group {
   display: flex;
   flex-direction: column;
 }
 
+/* Labels dos campos */
 label {
   margin-bottom: 0.4rem;
   font-weight: 600;
   color: var(--cinza-pedra);
 }
 
+/* Campos de texto, número, textarea, select e arquivo */
 input[type="text"],
 input[type="number"],
 textarea,
@@ -80,6 +88,7 @@ input[type="file"] {
   resize: vertical;
 }
 
+/* Foco nos campos */
 input[type="text"]:focus,
 input[type="number"]:focus,
 textarea:focus,
@@ -90,12 +99,12 @@ input[type="file"]:focus {
   background-color: var(--branco-neve);
 }
 
-/* Textarea ajustes */
+/* Ajuste específico para textarea */
 textarea {
   min-height: 80px;
 }
 
-/* Botão */
+/* Botão de envio */
 button[type="submit"] {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
@@ -108,20 +117,13 @@ button[type="submit"] {
   transition: background-color 0.3s ease;
 }
 
+/* Efeito hover e foco do botão */
 button[type="submit"]:hover,
 button[type="submit"]:focus {
   background-color: var(--marrom-terra);
 }
 
-/* Responsividade simples */
-@media (max-width: 520px) {
-  .container {
-    padding: 1.5rem 1.5rem;
-    width: 100%;
-  }
-}
-
-/* Botão de voltar para produtos */
+/* Botão voltar */
 .btn-voltar {
   display: inline-flex;
   align-items: center;
@@ -144,7 +146,7 @@ button[type="submit"]:focus {
   transform: scale(1.05);
 }
 
-/* Feedback */
+/* Feedback fixo no rodapé */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -162,4 +164,12 @@ button[type="submit"]:focus {
 .feedback.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
+}
+
+/* Responsividade */
+@media (max-width: 520px) {
+  .container {
+    padding: 1.5rem 1.5rem;
+    width: 100%;
+  }
 }

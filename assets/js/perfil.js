@@ -125,7 +125,7 @@ function preencherFormulario(usuario) {
   document.getElementById('imas').checked = genero.includes('masc');
   document.getElementById('ifem').checked = genero.includes('fem');
 
-  document.getElementById('saudacao').textContent = `Olá, ${usuario.nome}!`;
+  document.getElementById('saudacao').textContent = `Olá, ${usuario.nome}`;
 }
 
 function configurarExclusaoConta() {
