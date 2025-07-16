@@ -1,0 +1,172 @@
+/* =============================================
+   IMPORTS
+   ============================================= */
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* =============================================
+   VARIÁVEIS DE CORES
+   ============================================= */
+:root {
+    --verde-folha: #3A6351;
+    --verde-claro: #A8C686;
+    --marrom-terra: #7B5E42;
+    --bege-areia: #F2E8CF;
+    --branco-neve: #FFFFFF;
+    --cinza-pedra: #4F4F4F;
+}
+
+/* =============================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+   ============================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--cinza-pedra) url(../img/fundo.png) no-repeat center center / cover fixed;
+    color: var(--cinza-pedra);
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+header {
+    padding: 10px;
+    background-image: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
+    text-align: center;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
+    position: relative;
+}
+
+header img {
+    max-width: 10%;
+    height: auto;
+}
+
+header ul {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    list-style-type: none;
+    font-weight: bolder;
+}
+
+header ul li {
+    color: var(--branco-neve);
+}
+
+header a {
+  background-color: var(--verde-folha);
+  border-radius: 30%;
+  color: var(--branco-neve);
+  font-size: 30px;
+  padding: 6px 6px 0;
+  transition: background 0.5s ease-in-out, transform 0.2s ease;
+}
+
+header a:hover {
+  background-color: var(--marrom-terra);
+  transform: scale(1.1);
+}
+
+/* =============================================
+   MAIN (CONTEÚDO PRINCIPAL)
+   ============================================= */
+main {
+    margin: 0 auto;
+    max-width: 900px;
+    width: 95%;
+    padding: 20px;
+    line-height: 1.6em;
+    background-color: var(--bege-areia);
+}
+
+main h1 {
+    margin-bottom: 15px;
+}
+
+main h2 {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    color: var(--branco-neve);
+}
+
+/* Classes especiais para h2 com cores gradientes */
+h2.verde {
+    background-image: linear-gradient(to right, green, white);
+    color: var(--cinza-pedra);
+}
+
+h2.azul {
+    background-image: linear-gradient(to right, blue, white);
+    color: var(--branco-neve);
+}
+
+h2.amarela {
+    background-image: linear-gradient(to right, gold, white);
+    color: var(--cinza-pedra);
+}
+
+h2.vermelha {
+    background-image: linear-gradient(to right, red, white);
+    color: var(--branco-neve);
+}
+
+h2.marrom {
+    background-image: linear-gradient(to right, saddlebrown, white);
+    color: var(--branco-neve);
+}
+
+h2.laranja {
+    background-image: linear-gradient(to right, orange, white);
+    color: var(--cinza-pedra);
+}
+
+h2.preta {
+    background-image: linear-gradient(to right, black, white);
+    color: var(--branco-neve);
+}
+
+main p {
+    text-indent: 10px;
+    text-align: justify;
+    margin: 10px 0;
+}
+
+main ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+h3 {
+    margin: 10px 0;
+}
+
+main img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+   ============================================= */
+@media (max-width: 768px) {
+    header ul {
+        position: static;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    main {
+        width: 100%;
+        padding: 15px;
+    }
+}

@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
-  <title>EcoMarket - Produtos ecológicos e sustentáveis</title>
-  <meta name="description" content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
-  <meta name="keywords" content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
-  <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi" />
-  <meta name="robots" content="index, follow" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoMarket - Produtos ecológicos e sustentáveis</title>
+    <meta name="description" content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
+    <meta name="keywords" content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
+    <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi" />
+    <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
-  <meta property="og:description" content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
-  <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
-  <meta property="og:url" content="https://ecomarket-samavi.vercel.app/paginas/home.html" />
-  <meta property="og:type" content="website" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
+    <meta property="og:description"
+        content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
+    <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
+    <meta property="og:url" content="https://ecomarket-samavi.vercel.app/paginas/home.html" />
+    <meta property="og:type" content="website" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
-  <meta name="twitter:description" content="Marketplace local para produtos sustentáveis e regionais." />
-  <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
+    <meta name="twitter:description" content="Marketplace local para produtos sustentáveis e regionais." />
+    <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
 
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <link rel="stylesheet" href="../assets/estilo/estiloprod.css" />
-  <link rel="stylesheet" href="../assets/estilo/home.css" />
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/estilo/home.css" />
 </head>
 <body>
     <script>
@@ -35,13 +33,13 @@
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
         if (!usuario || !usuario.email) { // Verifica tanto a existência quanto dados válidos
-        localStorage.removeItem('usuarioLogado'); // Limpa dados corrompidos
-        window.location.href = '/index.html?redirect=' + encodeURIComponent(window.location.pathname);
-}
-</script>
+            localStorage.removeItem('usuarioLogado'); // Limpa dados corrompidos
+            window.location.href = '/index.html?redirect=' + encodeURIComponent(window.location.pathname);
+        }
+    </script>
     <!-- CABEÇALHO -->
     <header class="banner">
-    <div id="feedback" class="feedback" aria-live="polite"></div>
+        <div id="feedback" class="feedback" aria-live="polite"></div>
         <div class="container">
             <!-- BARRA DE NAVEGAÇÃO -->
             <nav class="navbar">
@@ -52,7 +50,9 @@
                 <!-- MENU PRINCIPAL -->
                 <nav>
                     <ul id="MenuItens">
-                        <li><p id="saudacao"></p></li>
+                        <li>
+                            <p id="saudacao"></p>
+                        </li>
                         <li><a href="../paginas/produtos.html">Produtos</a></li>
                         <li><a href="../paginas/contatos.html">Contatos</a></li>
                         <li><a href="../paginas/conta.html">Minha Conta</a></li>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-               
+
             </nav>
 
             <!-- HERO BANNER -->
@@ -112,14 +112,14 @@
     </section>
 
     <!-- PRODUTOS EM DESTAQUE -->
-<main class="home-page">
-    <section class="produtos-section">
-    <h2 class="titulo">Produtos em Destaque</h2>
-    <div >
-        <div class="produtos-grid" id="produtos-destaque"></div>
-    </div>
-</section>
-</main>
+    <main class="home-page">
+        <section class="produtos-section">
+            <h2 class="titulo">Produtos em Destaque</h2>
+            <div>
+                <div class="produtos-grid" id="produtos-destaque"></div>
+            </div>
+        </section>
+    </main>
 
     <!-- OFERTAS (SEÇÃO VAZIA PARA FUTURO DESENVOLVIMENTO) -->
     <section class="ofertas">
@@ -136,9 +136,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
             if (!usuarioLogado) {
-            // Se não estiver logado, pode redirecionar ou mostrar mensagem
-            document.getElementById('saudacao').textContent = 'Olá, visitante!';
-            return;
+                // Se não estiver logado, pode redirecionar ou mostrar mensagem
+                document.getElementById('saudacao').textContent = 'Olá, visitante!';
+                return;
             }
             document.getElementById('saudacao').textContent = `Olá, ${usuarioLogado.nome}!`;
         });
