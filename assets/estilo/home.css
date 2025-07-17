@@ -90,6 +90,7 @@ body {
    ============================================= */
 .banner {
   background: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
+  border-radius: 0px 0px 10px 10px;
 }
 
 .banner .linha {
@@ -219,6 +220,12 @@ nav ul li a:hover {
 
 .classificacao {
   color: gold;
+}
+
+.rodape {
+  background: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
+  border-radius: 10px 10px 0px;
+  padding-bottom: 30px;
 }
 
 /* =============================================
