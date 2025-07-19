@@ -39,3 +39,40 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCarrinho();
   console.log('Config:', config);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  inicializarProdutos();
+
+  const inputPesquisa = document.getElementById('input-pesquisa');
+  const filtroCategoria = document.getElementById('filtro-categoria');
+  const container = document.getElementById('produtos-lista');
+
+  function aplicarFiltros() {
+    const termo = inputPesquisa?.value.trim().toLowerCase() || '';
+    const categoriaSelecionada = filtroCategoria?.value || '';
+    const todosProdutos = window.produtosCarregados || [];
+
+    const filtrados = todosProdutos.filter(p => {
+      const correspondeBusca = p.nome.toLowerCase().includes(termo) ||
+        (p.descricao && p.descricao.toLowerCase().includes(termo));
+
+      const correspondeCategoria = categoriaSelecionada === '' || p.categoria === categoriaSelecionada;
+
+      return correspondeBusca && correspondeCategoria;
+    });
+
+    if (container) {
+      container.innerHTML = filtrados.length > 0
+        ? renderizarProdutos(filtrados)
+        : '<p style="text-align:center;">Nenhum produto encontrado.</p>';
+
+      configurarEventosProdutos(); // mantém os botões de adicionar funcionando
+    }
+  }
+
+  if (inputPesquisa) inputPesquisa.addEventListener('input', aplicarFiltros);
+  if (filtroCategoria) filtroCategoria.addEventListener('change', aplicarFiltros);
+
+  setupCarrinho();
+  console.log('Config:', config);
+});

@@ -31,7 +31,7 @@ body {
 .container {
   max-width: 1300px;
   margin: auto;
-  padding: 0 25px;
+  padding: 0 15px;
 }
 
 .linha {
@@ -149,6 +149,20 @@ nav ul li a:hover {
   max-width: 100%;
 }
 
+.col-2-banner {
+  flex-basis: 50%;
+  min-width: 100%;
+  min-height: 10%;
+}
+
+.col-2-banner img {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  margin: auto;
+}
+
 .col-2 h1 {
   font-size: 50px;
   line-height: 60px;
@@ -223,8 +237,13 @@ nav ul li a:hover {
 
 .rodape {
   background: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
-  border-radius: 10px 10px 0px;
+  border-radius: 10px 10px 0px 0px;
+  margin-top: 100px;
   padding-bottom: 30px;
+}
+
+.rodape img {
+  padding: 50px;
 }
 
 /* =============================================
@@ -238,14 +257,13 @@ nav ul li a:hover {
 
 .produtos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  justify-content: center;
+  justify-items: center;/* Adiciona esse */
 }
 
 .produto-card {
@@ -260,6 +278,8 @@ nav ul li a:hover {
   justify-content: space-between;
   height: 100%;
   min-height: 380px;
+  width: 100%;
+  max-width: 300px;
 }
 
 .produto-card:hover {
@@ -486,14 +506,6 @@ nav ul li a:hover {
 /* =============================================
    RESPONSIVIDADE
    ============================================= */
-.menu-celular {
-  height: 28px;
-  width: 28px;
-  margin-left: 20px;
-  display: none;
-  cursor: pointer;
-}
-
 @media (max-width: 800px) {
   nav ul {
     position: absolute;
@@ -505,11 +517,14 @@ nav ul li a:hover {
 
   nav ul li {
     display: block;
-    margin: 10px 50px;
+    margin: 10px 30px;
+    padding: 2px;
   }
-
-  .menu-celular {
-    display: block;
+  .rodape img {
+    margin-left: 0;
+  }
+  .col-2-banner img {
+    max-width: 100%;
   }
 }
 
@@ -525,7 +540,7 @@ nav ul li a:hover {
   }
 
   .col-3 h3 {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .col-2 {
@@ -535,9 +550,66 @@ nav ul li a:hover {
   .col-2 h1 {
     font-size: 28px;
   }
+  .rodape img {
+  padding: 0;
+  margin-left: 0;
+  }
+}
 
+@media (max-width: 480px) {
+  .rodape img {
+  padding: 0;
+  margin-left: 0;
+  }
+
+
+  .col-2 h1 {
+    line-height: 50px;
+  }
+
+  .banner {
+    padding: 0;
+  }
+  
   .carrinho-dropdown {
-    width: 280px;
-    right: -50px;
+    width: 60vw;
+    max-width: 320px;
+    right: 5%;
+    top: 50px;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .item-carrinho {
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .item-carrinho img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .carrinho-botoes {
+    flex-direction: column;
+  }
+
+  .btn-finalizar,
+  .btn-limpar {
+    font-size: 14px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  header {
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .logo-container,
+  .header-controls {
+    flex: 1 1 100%;
+    justify-content: center;
   }
 }

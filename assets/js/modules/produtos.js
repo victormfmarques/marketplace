@@ -55,7 +55,20 @@ export async function carregarProdutos(containerId, params = {}) {
 
 export function inicializarProdutos() {
   if (document.getElementById('produtos-destaque')) {
-    carregarProdutos('produtos-destaque', { limit: 4 });
+  const larguraTela = window.innerWidth;
+
+  let limite;
+  if (larguraTela < 480) {
+    limite = 2;
+  } else if (larguraTela < 768) {
+    limite = 4;
+  } else if (larguraTela < 1154) {
+    limite = 6;
+  } else {
+    limite = 8;
+  }
+
+  carregarProdutos('produtos-destaque', { limit: limite });
   }
 
   if (document.getElementById('produtos-lista')) {
@@ -116,7 +129,7 @@ function renderizarProdutos(produtos) {
       </a>
       <div class="produto-info">
         <h3>${produto.nome}</h3>
-        <p class="produto-preco">R$ ${produto.preco.toFixed(2)}</p>
+        <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace('.', ',')}</p>
         <button class="produto-btn-comprar" data-id="${produto.id}" aria-label="Comprar ${produto.nome}">
           Comprar
         </button>
@@ -216,3 +229,11 @@ window.inicializarProdutos = inicializarProdutos;
 window.editarProduto = editarProduto;
 window.cadastrarProduto = cadastrarProduto;
 export { renderizarProdutos, configurarEventosProdutos };
+window.addEventListener('resize', () => {
+  clearTimeout(window.__resizeTimer);
+  window.__resizeTimer = setTimeout(() => {
+    if (document.getElementById('produtos-destaque')) {
+      inicializarProdutos();
+    }
+  }, 300); // evita chamadas excessivas
+});

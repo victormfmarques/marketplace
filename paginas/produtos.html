@@ -65,8 +65,22 @@
     <main class="produtos-page">
       <h1 id="subtitulo">Todos os Produtos</h1>
 
-      <div class="barra-pesquisa">
-        <input type="text" id="input-pesquisa" placeholder="Buscar produtos..." aria-label="Buscar produtos" />
+      <div class="filtros-container">
+        <div class="barra-pesquisa">
+          <input type="text" id="input-pesquisa" placeholder="Buscar produtos..." aria-label="Buscar produtos" />
+        </div>
+        <div class="filtro-categoria">
+          <select id="filtro-categoria" aria-label="Filtrar por categoria">
+            <option value="">Todas as Categorias</option>
+            <option value="artesanal">Artesanato</option>
+            <option value="natural">Beleza Natural</option>
+            <option value="moda">Moda Consciente</option>
+            <option value="higiene">Higiene Pessoal Sustentável</option>
+            <option value="decoracao">Decoração Sustentável</option>
+            <option value="kit">Presentes Sustentáveis</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
       </div>
 
       <div class="produtos-grid" id="produtos-lista"></div>

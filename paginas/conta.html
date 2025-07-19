@@ -135,15 +135,17 @@
                 : '/assets/img/placeholder.png';
 
               return `
-                <div class="produto-item">
+              <div class="produto-card">
+                <a href="detalhes-produto.html?id=${prod._id}">
                   <img src="${foto}" alt="${prod.nome}" />
-                  <div class="produto-info">
-                    <h4>${prod.nome}</h4>
-                    <p>R$ ${parseFloat(prod.preco).toFixed(2)}</p>
-                  </div>
+                </a>
+                <div class="produto-info">
+                  <h4>${prod.nome}</h4>
+                  <p>R$ ${parseFloat(prod.preco).toFixed(2)}</p>
                   <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
                 </div>
-              `;
+              </div>
+            `;
             }).join('');
           } else {
             container.innerHTML = '<p>Você ainda não postou produtos.</p>';

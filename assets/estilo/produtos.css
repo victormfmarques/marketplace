@@ -258,13 +258,6 @@ header {
   border-radius: 3px;
 }
 
-.barra-pesquisa {
-  max-width: 400px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-}
-
 #input-pesquisa {
   width: 100%;
   padding: 10px 15px;
@@ -275,7 +268,7 @@ header {
 
 .produtos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
   padding: 0 10px;
 }
@@ -392,5 +385,54 @@ header {
   .header-controls {
     flex: 1 1 100%;
     justify-content: center;
+  }
+}
+
+.filtros-container {
+  max-width: 800px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.barra-pesquisa {
+  flex: 1 1 300px;
+  display: flex;
+}
+
+.filtro-categoria select {
+  padding: 10px 15px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 25px;
+  background-color: var(--branco-neve);
+  color: var(--cinza-pedra);
+  font-size: 16px;
+  appearance: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+  transition: border-color 0.3s;
+}
+
+.filtro-categoria select:hover,
+.filtro-categoria select:focus,
+#input-pesquisa:hover,
+#input-pesquisa:focus {
+  border-color: var(--marrom-terra);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .filtros-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .barra-pesquisa,
+  .filtro-categoria {
+    flex: 1 1 100%;
+    margin: auto;
   }
 }
