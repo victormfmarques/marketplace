@@ -48,15 +48,13 @@
             <!-- BARRA DE NAVEGAÇÃO -->
             <nav class="navbar">
                 <div class="logo">
-                    <img src="../assets/img/logo.png" alt="Logo EcoMarket" width="200">
+                    <img src="../assets/img/logo.png" alt="Logo EcoMarket">
                 </div>
 
                 <!-- MENU PRINCIPAL -->
                 <nav>
-                    <ul id="MenuItens">
-                        <li>
-                            <p id="saudacao"></p>
-                        </li>
+                    <ul>
+                        <li><p id="saudacao"></p></li>
                         <li><a href="../paginas/produtos.html">Produtos</a></li>
                         <li><a href="../paginas/contatos.html">Contatos</a></li>
                         <li><a href="../paginas/conta.html">Minha Conta</a></li>
@@ -76,8 +74,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </nav>
 
             <!-- HERO BANNER -->
@@ -143,12 +139,31 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-            if (!usuarioLogado) {
-                // Se não estiver logado, pode redirecionar ou mostrar mensagem
-                document.getElementById('saudacao').textContent = 'Olá, visitante!';
-                return;
+            const saudacao = document.getElementById('saudacao');
+
+            if (!usuarioLogado || !usuarioLogado.nome) {
+            saudacao.textContent = 'Olá, visitante!';
+            return;
             }
-            document.getElementById('saudacao').textContent = `Olá, ${usuarioLogado.nome}`;
+
+            const nomeCompleto = usuarioLogado.nome.trim();
+            const partesNome = nomeCompleto.split(' ');
+
+            let nomeFinal;
+
+            if (window.innerWidth >= 768) {
+            // Telas grandes (PC, tablet deitado)
+            nomeFinal = nomeCompleto;
+            } else {
+            // Telas pequenas (celulares)
+            if (partesNome.length >= 2) {
+                nomeFinal = partesNome[0] + ' ' + partesNome[1]; // Primeiro nome + 1 sobrenome
+            } else {
+                nomeFinal = partesNome[0]; // Só o primeiro nome
+            }
+            }
+
+            saudacao.textContent = `Olá, ${nomeFinal}`;
         });
     </script>
     <script type="module" src="../assets/js/modules/config.js"></script>
