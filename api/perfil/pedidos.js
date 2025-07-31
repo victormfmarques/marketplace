@@ -64,6 +64,8 @@ export default async function handler(req, res) {
 
       const result = await db.collection('pedidos').insertOne(pedido);
 
+      const pedidoId = result.insertedId.toString();
+
       // Notificar os vendedores
       const emailsNotificados = new Set();
 
