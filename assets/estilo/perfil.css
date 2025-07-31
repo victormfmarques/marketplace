@@ -190,6 +190,18 @@ span {
   }
 }
 
+@media (max-width:466px) {
+  .content {
+    padding: 10px;
+  }
+}
+
+@media (max-width:430px) {
+  .content {
+    padding: 5px;
+  }
+}
+
 /* ===== Seção Meus Produtos ===== */
 .meus-produtos {
   margin: 40px auto;

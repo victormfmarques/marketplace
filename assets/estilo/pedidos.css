@@ -127,6 +127,12 @@ h1 {
   }
 }
 
+@media (max-width: 480px) {
+  .btn-voltar {
+    left: 85%;
+  }
+}
+
 /* MODAL DE CANCELAMENTO */
 #cancelModal {
   position: fixed;
