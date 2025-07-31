@@ -9,11 +9,25 @@
   <title>Finalizar Compra - EcoMarket</title>
 </head>
 <body>
+  <div id="feedback" class="feedback"></div>
   <div class="container">
-    <h1>Resumo do Pedido</h1>
+    <div class="topo-pagina">
+      <h1>Resumo do Pedido</h1>
+      <!-- Navegação -->
+        <nav class="botoes-navegacao" aria-label="Navegação da página">
+          <a href="../paginas/home.html" class="btn-home" aria-label="Página inicial">
+            <ion-icon name="home-outline"></ion-icon>
+          </a>
+          <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
+            <ion-icon name="storefront-outline"></ion-icon>
+          </a>
+          <a  id="registrar-pedido">
+            <ion-icon name="newspaper-outline"></ion-icon>
+          </a>
+        </nav>
+    </div>
     <div id="resumo-carrinho"></div>
 
-    <button onclick="voltar()">Voltar à Loja</button>
   </div>
 
   <script>
@@ -32,7 +46,15 @@
       return telefone;
     }
 
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      function getChaveCarrinho() {
+      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+      if (usuario && usuario.email) {
+        return `carrinho_${usuario.email}`;
+      }
+      return 'carrinho_anonimo';
+    }
+
+    const carrinho = JSON.parse(localStorage.getItem(getChaveCarrinho())) || [];
 
     carrinho.forEach(item => {
       console.log(item.vendedor?.nome, item.vendedor?.telefone);
@@ -69,5 +91,9 @@
       window.location.href = "produtos.html";
     }
   </script>
+  <script type="module" src="../assets/js/modules/feedback.js"></script>
+  <script type="module" src="../assets/js/modules/finalizar-pedido.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

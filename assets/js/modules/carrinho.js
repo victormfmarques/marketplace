@@ -3,7 +3,7 @@ import { config } from './config.js';
 import { mostrarFeedback } from './feedback.js';
 
 // Estado centralizado do carrinho
-let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+let carrinho = JSON.parse(localStorage.getItem(getChaveCarrinho())) || [];
 
 // Inicialização do carrinho
 export function setupCarrinho() {
@@ -49,7 +49,7 @@ export function adicionarAoCarrinho(produtoId, event) {
 
 // Funções auxiliares
 function persistirCarrinho() {
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  localStorage.setItem(getChaveCarrinho(), JSON.stringify(carrinho));
   atualizarCarrinhoUI();
 }
 
@@ -158,6 +158,15 @@ function fecharCarrinho(e) {
     dropdown.classList.remove('show');
   }
 }
+
+function getChaveCarrinho() {
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (usuario && usuario.email) {
+    return `carrinho_${usuario.email}`;
+  }
+  return 'carrinho_anonimo';
+}
+
 
 // Expondo para uso global se necessário
 window.adicionarAoCarrinho = adicionarAoCarrinho;

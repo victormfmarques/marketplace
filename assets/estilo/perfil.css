@@ -134,7 +134,7 @@ span {
   align-items: center;
 }
 
-#enviar {
+#enviar, .pedidos {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
   border-radius: 10px;
@@ -145,9 +145,13 @@ span {
   transition: background-color 0.3s;
 }
 
-#enviar:hover {
+#enviar:hover, .pedidos:hover {
   background-color: var(--cinza-pedra);
   color: var(--branco-neve);
+}
+
+.pedidos {
+  margin-left: 5px;
 }
 
 #btn-logout,

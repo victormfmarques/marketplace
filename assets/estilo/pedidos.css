@@ -1,0 +1,265 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Poppins, sans-serif;
+}
+
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+  min-height: 100vh;
+}
+
+header {
+  position: relative;
+  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  color: var(--branco-neve);
+  padding: 1rem 2rem;
+  justify-content: center;
+}
+
+main {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.pedido {
+  background-color: var(--branco-neve);
+  border-left: 6px solid var(--verde-folha);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+}
+
+.pedido h3 {
+  color: var(--verde-folha);
+  margin-bottom: 0.5rem;
+}
+
+.pedido p {
+  margin: 0.3rem 0;
+}
+
+.pedido ul {
+  padding-left: 1.2rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.pedido ul li {
+  list-style-type: disc;
+}
+
+.pedido button {
+  background-color: #d9534f;
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.pedido button:hover {
+  background-color: #c9302c;
+}
+
+/* Botões estilo link para navegação */
+.btn-voltar {
+  position: absolute;
+  top: 20%;
+  left: 95%;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  padding: 10px;
+  border-radius: 30%;
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-voltar:hover{
+  background-color: var(--marrom-terra);
+}
+
+.btn-voltar ion-icon {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 1rem;
+  }
+
+  .pedido {
+    padding: 1rem;
+  }
+
+  .pedido button {
+    width: 100%;
+  }
+}
+
+@media (max-width:940px) {
+  .btn-voltar {
+    left: 90%;
+  }
+}
+
+/* MODAL DE CANCELAMENTO */
+#cancelModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(74, 74, 74, 0.7); /* Fundo semi-transparente */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#cancelModal.modal-open {
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--branco-neve);
+  border-radius: 12px;
+  padding: 25px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(123, 94, 66, 0.2);
+  border: 2px solid var(--verde-folha);
+}
+
+.modal-content h3 {
+  color: var(--verde-folha);
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  text-align: center;
+  border-bottom: 1px dashed var(--verde-folha);
+  padding-bottom: 10px;
+}
+
+#cancelReason {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 8px;
+  background-color: var(--branco-neve);
+  resize: none;
+  font-size: 1rem;
+  margin: 10px 0;
+  color: var(--cinza-pedra);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#confirmCancel {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+}
+
+#confirmCancel:hover {
+  background-color: #2d4f3f;
+  transform: translateY(-2px);
+}
+
+#closeModal {
+  background-color: #ccc;
+  color: var(--cinza-pedra);
+  border: none;
+}
+
+#closeModal:hover {
+  background-color: #bbb;
+}
+
+#cancelPassword {
+  width: 64%;
+  height: 40px;
+  padding: 12px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 8px;
+  background-color: var(--branco-neve);
+  resize: none;
+  font-size: 15px;
+  margin: 10px 0;
+  color: var(--cinza-pedra);
+}
+
+/* ===== Feedback ===== */
+.feedback {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  color: var(--branco-neve);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feedback.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.feedback.sucesso {
+  background: var(--verde-folha);
+  border-left: 5px solid var(--verde-claro);
+}
+
+.feedback.erro {
+  background: #8B2E2E;
+  /* Vermelho terroso */
+  border-left: 5px solid #C44D4D;
+}
+
+.feedback.aviso {
+  background: var(--marrom-terra);
+  border-left: 5px solid var(--bege-areia);
+  color: var(--branco-neve);
+}

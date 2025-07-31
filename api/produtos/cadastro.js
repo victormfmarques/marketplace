@@ -6,7 +6,7 @@ import { v2 as cloudinary } from 'cloudinary'; // Para upload de imagens
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
-// Configure o Cloudinary (serviço gratuito para imagens)
+// Cloudinary (serviço gratuito para imagens)
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -30,6 +30,12 @@ export default async function handler(req, res) {
         fotosUrls.push(result.secure_url);
       }
 
+      // 2. Busca o e-mail do vendedor
+      const vendedor = await db.collection('usuarios').findOne({ _id: new ObjectId(usuarioId) });
+      if (!vendedor) {
+        return res.status(404).json({ success: false, error: 'Usuário vendedor não encontrado' });
+      }
+
       // 2. Salva o produto no MongoDB
       const produto = {
         usuarioId: new ObjectId(usuarioId), // <-- conversão aqui
@@ -39,7 +45,8 @@ export default async function handler(req, res) {
         categoria,
         fotos: fotosUrls,
         dataCadastro: new Date(),
-        status: 'ativo'
+        status: 'ativo',
+        vendedorEmail: vendedor.email
       };
 
       const result = await db.collection('produtos').insertOne(produto);

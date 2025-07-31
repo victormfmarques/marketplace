@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meus Pedidos - EcoMarket Samavi</title>
+  <link rel="stylesheet" href="../assets/estilo/pedidos.css" />
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <div id="feedback" class="feedback"></div>
+  <header>
+    <h1>Meus Pedidos</h1>
+    <a class="btn-voltar" href="../paginas/conta.html"><ion-icon name="person-outline"></ion-icon></a>
+  </header>
+
+  <main>
+    <section id="lista-pedidos">
+      <p>Carregando seus pedidos...</p>
+    </section>
+  </main>
+  <!-- Modal de Cancelamento -->
+  <div id="cancelModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>Justificar Cancelamento</h3>
+      <textarea id="cancelReason" placeholder="Digite o motivo (opcional)..."></textarea>
+
+      <input type="password" id="cancelPassword" placeholder="Digite sua senha para confirmar" required />
+
+      <div class="modal-buttons">
+        <button id="confirmCancel">Enviar Solicitação</button>
+        <button id="closeModal">Voltar</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="../assets/js/modules/feedback.js"></script>
+  <script type="module" src="../assets/js/modules/pedidos.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
