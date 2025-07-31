@@ -86,6 +86,9 @@ export default async function handler(req, res) {
             html: `
               <p>Um pedido foi cancelado:</p>
               <p><strong>Nº do Pedido:</strong> ${pedidoId}</p>
+              <p><strong>Comprador:</strong> ${usuario.nome}</p>
+              <p><strong>Email:</strong> ${usuario.email}</p>
+              <p><strong>Telefone:</strong> ${usuario.telefone}</p>
               <p><strong>Motivo:</strong> ${motivo || "Não informado"}</p>
               <p><strong>Produtos afetados:</strong></p>
               <ul>
