@@ -51,6 +51,18 @@
     </form>
   </main>
 
+<!-- Modal de confirmação de atualização -->
+<div id="modal-confirmar-edicao" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-edicao">
+    <p id="titulo-modal-edicao">Deseja realmente salvar as alterações deste produto?</p>
+    <div class="botoes-modal">
+      <button id="btn-confirmar-edicao" class="btn-confirmar">Sim</button>
+      <button id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
   <!-- Modal de confirmação para excluir produto -->
 <div id="modal-excluir-produto" class="modal hidden">
   <div class="modal-content">
@@ -165,25 +177,44 @@
       }
     }
 
-    document.getElementById('form-editar-produto').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    document.getElementById('form-editar-produto').addEventListener('submit', (e) => {
+  e.preventDefault();
 
-      const formData = {
-        nome: document.getElementById('nome').value,
-        descricao: document.getElementById('descricao').value,
-        preco: parseFloat(document.getElementById('preco').value),
-        categoria: document.getElementById('categoria').value
-      };
+  const formData = {
+    nome: document.getElementById('nome').value,
+    descricao: document.getElementById('descricao').value,
+    preco: parseFloat(document.getElementById('preco').value),
+    categoria: document.getElementById('categoria').value
+  };
 
-      try {
-        await editarProduto(produtoId, formData, usuarioLogado);
-        mostrarFeedback('Produto atualizado com sucesso!');
-        setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
-      } catch (error) {
-        console.error('Erro ao editar produto:', error);
-        mostrarFeedback('Erro ao atualizar produto: ' + error.message);
-      }
-    });
+  const modal = document.getElementById('modal-confirmar-edicao');
+  const btnConfirmar = document.getElementById('btn-confirmar-edicao');
+  const btnCancelar = document.getElementById('btn-cancelar-edicao');
+
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden', 'false');
+
+  btnCancelar.onclick = () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    mostrarFeedback('Edição cancelada.', 'aviso');
+  };
+
+  btnConfirmar.onclick = async () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+
+    try {
+      await editarProduto(produtoId, formData, usuarioLogado);
+      mostrarFeedback('Produto atualizado com sucesso!', 'sucesso');
+      setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
+    } catch (error) {
+      console.error('Erro ao editar produto:', error);
+      mostrarFeedback('Erro ao atualizar produto: ' + error.message, 'erro');
+    }
+  };
+});
+
 
     async function editarProduto(id, dados, usuario) {
       if (!id || !usuario) throw new Error('ID ou usuário ausente');

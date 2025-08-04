@@ -21,7 +21,7 @@
           <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
             <ion-icon name="storefront-outline"></ion-icon>
           </a>
-          <a  id="registrar-pedido">
+          <a id="registrar-pedido" title="Registrar pedido">
             <ion-icon name="newspaper-outline"></ion-icon>
           </a>
         </nav>
@@ -29,7 +29,18 @@
     <div id="resumo-carrinho"></div>
 
   </div>
-
+  <div id="modal-confirmar-pedido" class="modal">
+  <div class="modal-content">
+    <h2>Confirmação de Pedido</h2>
+    <p>Para confirmar o pedido, digite sua senha:</p>
+    <input type="password" id="senha-confirmacao" placeholder="Digite sua senha" />
+    <div class="botoes">
+      <button id="confirmar-pedido">Confirmar</button>
+      <button id="cancelar-pedido">Cancelar</button>
+    </div>
+    <p id="erro-senha"></p>
+  </div>
+  </div>
   <script>
     function formatarTelefone(telefone) {
       // Remove tudo que não é dígito

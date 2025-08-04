@@ -188,7 +188,7 @@ button:hover {
   border-radius: 8px;
   opacity: 0;
   transition: all 0.3s ease-in-out;
-  z-index: 1000;
+  z-index: 1100;
   font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -213,4 +213,93 @@ button:hover {
   background: var(--marrom-terra);
   border-left: 5px solid var(--bege-areia);
   color: var(--branco-neve);
+}
+
+/* MODAL DE CONFIRMAÇÃO DE PEDIDO */
+#modal-confirmar-pedido {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(74, 74, 74, 0.7); /* Fundo semi-transparente */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#modal-confirmar-pedido.modal-open {
+  display: flex;
+}
+
+#modal-confirmar-pedido .modal-content {
+  background-color: var(--branco-neve);
+  border-radius: 12px;
+  padding: 25px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(123, 94, 66, 0.2);
+  border: 2px solid var(--verde-folha);
+  text-align: center;
+}
+
+#modal-confirmar-pedido .modal-content h2 {
+  color: var(--verde-folha);
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  border-bottom: 1px dashed var(--verde-folha);
+  padding-bottom: 10px;
+}
+
+#modal-confirmar-pedido .modal-content p {
+  color: var(--cinza-pedra);
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+#senha-confirmacao {
+  width: 100%;
+  height: 40px;
+  padding: 12px;
+  border: 2px solid var(--verde-folha);
+  border-radius: 8px;
+  background-color: var(--branco-neve);
+  font-size: 1rem;
+  color: var(--cinza-pedra);
+}
+
+#modal-confirmar-pedido .botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+#modal-confirmar-pedido .botoes button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#confirmar-pedido {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+}
+
+#confirmar-pedido:hover {
+  background-color: #2d4f3f;
+  transform: translateY(-2px);
+}
+
+#cancelar-pedido {
+  background-color: #ccc;
+  color: var(--cinza-pedra);
+  border: none;
+}
+
+#cancelar-pedido:hover {
+  background-color: #bbb;
 }

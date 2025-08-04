@@ -97,7 +97,7 @@
             const base64 = await toBase64(imagem);
             dados.fotosBase64.push(base64);
           } catch (error) {
-            mostrarFeedback('Erro ao processar a imagem.');
+            mostrarFeedback('Erro ao processar a imagem.', 'erro');
             return;
           }
         }
@@ -105,7 +105,7 @@
         try {
           console.log("Enviando dados para cadastro:", dados);
           await cadastrarProduto(dados);
-          mostrarFeedback('Produto cadastrado com sucesso!');
+          mostrarFeedback('Produto cadastrado com sucesso!', 'sucesso');
           setTimeout(() => window.location.href = '../paginas/produtos.html', 2500);
         } catch (err) {
           mostrarFeedback('Erro: ' + err.message);
