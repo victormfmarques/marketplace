@@ -25,7 +25,7 @@ body {
 
 header {
   position: relative;
-  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  background-color: var(--verde-folha);
   color: var(--branco-neve);
   padding: 1rem 2rem;
   justify-content: center;
@@ -95,16 +95,17 @@ h1 {
   border-radius: 30%;
   font-size: 1.3rem;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: background 0.5s ease-in-out, transform 0.2s ease;
   cursor: pointer;
 }
 
 .btn-voltar:hover{
   background-color: var(--marrom-terra);
+  transform: scale(1.1);
 }
 
 .btn-voltar ion-icon {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 @media (max-width: 600px) {
@@ -118,6 +119,9 @@ h1 {
 
   .pedido button {
     width: 100%;
+  }
+  .btn-voltar ion-icon {
+    font-size: 1.5rem;
   }
 }
 

@@ -22,7 +22,7 @@ body {
 
 /* ===== Header ===== */
 header {
-  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  background-color: var(--verde-folha);
   color: var(--branco-neve);
   padding: 20px;
   text-align: center;
