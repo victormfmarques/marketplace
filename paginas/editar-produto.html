@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,12 +8,13 @@
   <link rel="stylesheet" href="../assets/estilo/editprod.css" />
   <title>Editar Produto</title>
 </head>
-
 <body>
+  <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
+      <!-- NAVEGAÇÃO -->
       <a href="../paginas/home.html" class="btn-home" title="Voltar para a página inicial">
         <ion-icon name="home-outline"></ion-icon>
       </a>
@@ -22,6 +22,7 @@
         <ion-icon name="storefront-outline"></ion-icon>
       </a>
     </div>
+    <!-- FORMULÁRIO DE EDIÇAÕ -->
     <form id="form-editar-produto">
       <label>Nome:</label>
       <input type="text" id="nome" required />
@@ -51,7 +52,7 @@
     </form>
   </main>
 
-<!-- Modal de confirmação de atualização -->
+<!-- MODAL(MENU) DE CONFIRMAÇÃO DE ATUALIZAÇÃO -->
 <div id="modal-confirmar-edicao" class="modal" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-edicao">
     <p id="titulo-modal-edicao">Deseja realmente salvar as alterações deste produto?</p>

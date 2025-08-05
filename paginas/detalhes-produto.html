@@ -15,7 +15,7 @@
   <meta name="author" content="EcoMarket" />
 </head>
 <body>
-  <!-- Feedback para acessibilidade -->
+  <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
 
   <main id="produto-container" role="main" aria-labelledby="produto-nome">
@@ -28,7 +28,7 @@
 
       <button id="btn-comprar" aria-label="Comprar este produto">Comprar</button>
 
-      <!-- Carrinho de compras -->
+      <!-- CARRINHO -->
       <div class="carrinho-icone" title="Carrinho de Compras" aria-label="Carrinho de Compras">
         <img id="carrinho" src="../assets/img/carrinho.png" alt="Ícone do carrinho de compras" />
         <span id="contador-carrinho" aria-live="polite" aria-atomic="true">0</span>
@@ -50,7 +50,7 @@
         </button>
       </div>
 
-      <!-- Navegação -->
+      <!-- NAVEGAÇÃO -->
       <nav aria-label="Navegação da página">
         <a href="../paginas/home.html" class="btn-home" aria-label="Página inicial">
           <ion-icon name="home-outline"></ion-icon>
@@ -61,7 +61,7 @@
       </nav>
     </section>
   </main>
-
+  <!-- SCRIPTS -->
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -156,17 +156,17 @@
     }
   </script>
 
-  <!-- Scripts gerais -->
+  <!-- SCRIPTS GERAIS -->
   <script type="module" src="../assets/js/modules/carrinho.js"></script>
   <script type="module" src="../assets/js/modules/feedback.js"></script>
   <script type="module" src="../assets/js/modules/produtos.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
 
-  <!-- Ionicons -->
+  <!-- IONICONS -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <!-- Inicialização do carrinho e feedback -->
+  <!-- INICIALIZAÇÃO DO CARRINHO E FEEDBACK -->
   <script type="module">
     import { setupCarrinho, adicionarAoCarrinho } from '../assets/js/modules/carrinho.js';
     import { mostrarFeedback } from '../assets/js/modules/feedback.js';

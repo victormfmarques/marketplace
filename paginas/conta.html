@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,37 +9,33 @@
   <meta name="keywords" content="perfil, conta, usuário, EcoMarket, Samavi, produtos, atualização de dados" />
   <meta name="author" content="EcoMarket Samavi" />
   <meta name="robots" content="noindex, nofollow" />
-
   <!-- Open Graph -->
   <meta property="og:title" content="EcoMarket - Perfil do Usuário" />
   <meta property="og:description" content="Gerencie seu perfil e visualize os produtos que você publicou no EcoMarket Samavi." />
   <meta property="og:image" content="https://ecomarket-samavi.vercel.app.com/assets/img/logo-300.png" />
   <meta property="og:url" content="https://ecomarket-samavi.vercel.app.com/paginas/conta.html" />
   <meta property="og:type" content="website" />
-
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="EcoMarket - Perfil do Usuário" />
   <meta name="twitter:description" content="Gerencie seu perfil e visualize os produtos que você publicou no EcoMarket Samavi." />
   <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app.com/assets/img/logo-300.png" />
-
   <!-- Ícone e CSS -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../assets/estilo/perfil.css" />
 </head>
-
 <body>
+  <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback"></div>
-
   <header>
     <h1>Perfil</h1>
     <h2 id="saudacao"></h2>
     <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+    <!-- NAVEGAÇÃO -->
     <ul>
       <li><a href="../paginas/home.html"><ion-icon name="home-outline"></ion-icon></a></li>
     </ul>
   </header>
-
   <main>
     <div class="profile-pic">
       <ion-icon name="person-outline"></ion-icon>
@@ -100,7 +95,7 @@
     </section>
   </main>
 
-  <!-- Modal -->
+  <!-- MODAL(MENU) DE EXCLUSÃO -->
   <div id="modal-excluir-conta" class="modal hidden">
     <div class="modal-content">
       <h2>Confirmação de Exclusão</h2>
@@ -113,12 +108,11 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS -->
   <script type="module" src="../assets/js/perfil.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script type="module" src="../assets/js/modules/feedback.js"></script>
-
   <script>
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
@@ -156,7 +150,6 @@
           document.getElementById('produtos-usuario').textContent = 'Erro ao carregar produtos.';
         }
       }
-
       carregarProdutosUsuario();
     }
   </script>
