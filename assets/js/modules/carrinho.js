@@ -131,7 +131,7 @@ export function removerUmaUnidade(produtoId) {
       mostrarFeedback(`1 unidade de ${produto.nome} removida do carrinho.`);
     } else {
       carrinho.splice(index, 1);
-      mostrarFeedback(`${produto.nome} removido do carrinho.`);
+      mostrarFeedback(`${produto.nome} removido do carrinho.`, 'aviso');
     }
 
     persistirCarrinho();
