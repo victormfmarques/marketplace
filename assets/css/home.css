@@ -336,6 +336,7 @@ nav ul li a:hover {
   font-weight: bold;
   transition: background-color 0.3s ease;
   margin-top: auto;
+  font-size: 16px;
 }
 
 .produto-btn-comprar:hover,

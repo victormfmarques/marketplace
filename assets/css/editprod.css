@@ -265,7 +265,7 @@ input[type="number"] {
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   text-align: center;
   animation: fadeIn 0.3s ease;
@@ -339,7 +339,7 @@ input[type="number"] {
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   text-align: center;
   animation: fadeIn 0.3s ease;
