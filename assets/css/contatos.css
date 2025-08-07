@@ -43,7 +43,7 @@ body {
    Cabeçalho
    ============================ */
 header {
-  background: linear-gradient(to right, var(--verde-folha), var(--verde-claro));
+  background-color: var(--verde-folha);
   color: var(--branco-neve);
   width: 100%;
   max-width: 600px;

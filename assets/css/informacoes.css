@@ -36,14 +36,15 @@ body {
    ============================================= */
 header {
     padding: 10px;
-    background-image: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
+    background-color: var(--verde-folha);
     text-align: center;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.37);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.37);
     position: relative;
+    border-radius: 0px 0px 10px 10px;
 }
 
 header img {
-    max-width: 10%;
+    max-width: 12%;
     height: auto;
 }
 
@@ -159,9 +160,12 @@ main img {
    RESPONSIVIDADE
    ============================================= */
 @media (max-width: 768px) {
+    header img {
+        max-width: 20%;
+    }
+    
     header ul {
-        position: static;
-        text-align: center;
+        text-align: right;
         margin-top: 10px;
     }
 

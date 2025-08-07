@@ -37,6 +37,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .logo-container {
@@ -76,14 +77,15 @@ header {
   color: var(--branco-neve);
   text-decoration: none;
   font-size: 30px;
-  padding: 5px;
-  border-radius: 10px;
-  transition: background 0.8s ease, padding 0.3ms ease;
+  padding: 8px;
+  border-radius: 30%;
+  transition: background 0.8s ease, padding 0.3ms ease, transform 0.2s ease;
 }
 
 #home-p:hover,
 #home-p:focus {
   background-color: var(--marrom-terra);
+  transform: scale(1.1);
 }
 
 #home-p {

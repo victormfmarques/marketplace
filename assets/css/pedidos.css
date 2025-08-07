@@ -14,7 +14,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Poppins, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -29,6 +29,53 @@ header {
   color: var(--branco-neve);
   padding: 1rem 2rem;
   justify-content: center;
+  border-radius: 0px 0px 10px 10px;
+  height: 200px;
+}
+
+.logo {
+  max-width: 10%;
+  height: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+header ul {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  list-style-type: none;
+  font-weight: bolder;
+  gap: 10px;
+  align-items: center;
+  z-index: 10;
+}
+
+header ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header a {
+  display: inline-block;
+  background-color: var(--verde-folha);
+  border-radius: 30%;
+  color: var(--branco-neve);
+  font-size: 30px;
+  padding: 6px 6px 0;
+  transition: background 0.5s ease-in-out, transform 0.2s ease;
+}
+
+header a:hover {
+  background-color: var(--marrom-terra);
+  transform: scale(1.1);
+}
+
+.btn-voltar {
+  margin-top: 8px;
 }
 
 main {
@@ -40,6 +87,134 @@ main {
 h1 {
   font-size: 2rem;
   text-align: center;
+}
+
+/* =============================================
+   CARRINHO DE COMPRAS
+   ============================================= */
+.carrinho-icone {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.carrinho-icone img {
+  max-width: 100%;
+}
+
+#contador-carrinho {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.carrinho-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  color: var(--cinza-pedra);
+  background: var(--branco-neve);
+  border: 2px solid var(--verde-claro);
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.carrinho-dropdown.show {
+  display: block;
+}
+
+#lista-carrinho {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.item-carrinho {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cinza-pedra);
+}
+
+.item-carrinho img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.carrinho-total {
+  font-weight: bold;
+  margin: 15px 0;
+  text-align: right;
+  padding-top: 0.5rem;
+}
+
+.carrinho-botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-finalizar,
+.btn-limpar {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-finalizar {
+  background: var(--verde-folha);
+  color: var(--branco-neve);
+}
+
+.btn-finalizar:hover {
+  background: var(--marrom-terra);
+}
+
+.btn-limpar {
+  background: #ff4d4d;
+  color: var(--branco-neve);
+}
+
+.btn-limpar:hover {
+  background: #e60000;
+}
+
+.btn-remover {
+  cursor: pointer;
+  color: var(--branco-neve);
+  background-color: var(--marrom-terra);
+  border: none;
+  padding: 5px;
+  border-radius: 4px;
+  font-weight: bold;  
+}
+
+.btn-remover:hover {
+  background: #e60000;
+  transition: background 0.3s;
 }
 
 .pedido {
@@ -84,28 +259,14 @@ h1 {
   background-color: #c9302c;
 }
 
-/* Botões estilo link para navegação */
-.btn-voltar {
-  position: absolute;
-  top: 20%;
-  left: 95%;
-  background-color: var(--verde-folha);
-  color: var(--branco-neve);
-  padding: 10px;
-  border-radius: 30%;
-  font-size: 1.3rem;
-  text-decoration: none;
-  transition: background 0.5s ease-in-out, transform 0.2s ease;
-  cursor: pointer;
-}
-
-.btn-voltar:hover{
-  background-color: var(--marrom-terra);
-  transform: scale(1.1);
-}
-
-.btn-voltar ion-icon {
-  font-size: 1.8rem;
+@media (max-width: 1000px) {
+  .logo {
+    max-width: 20%;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -120,20 +281,11 @@ h1 {
   .pedido button {
     width: 100%;
   }
-  .btn-voltar ion-icon {
-    font-size: 1.5rem;
-  }
 }
 
-@media (max-width:940px) {
-  .btn-voltar {
-    left: 90%;
-  }
-}
-
-@media (max-width: 480px) {
-  .btn-voltar {
-    left: 85%;
+@media (max-width: 780px) {
+  header {
+    height: 160px;
   }
 }
 
@@ -163,6 +315,7 @@ h1 {
   max-width: 500px;
   box-shadow: 0 4px 15px rgba(123, 94, 66, 0.2);
   border: 2px solid var(--verde-folha);
+  animation: fadeIn 0.3s ease;
 }
 
 .modal-content h3 {
@@ -272,4 +425,17 @@ h1 {
   background: var(--marrom-terra);
   border-left: 5px solid var(--bege-areia);
   color: var(--branco-neve);
+}
+
+/* ===== Animação fadeIn para modal ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

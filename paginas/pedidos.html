@@ -10,8 +10,26 @@
 <body>
   <div id="feedback" class="feedback"></div>
   <header>
+    <img class="logo" src="../assets/img/logo-300.png" alt="Logo do site">
     <h1>Meus Pedidos</h1>
-    <a class="btn-voltar" href="../paginas/conta.html"><ion-icon name="person-outline"></ion-icon></a>
+    <ul>
+      <li><a class="btn-voltar" href="../paginas/conta.html"><ion-icon name="person-outline"></ion-icon></a></li>
+      <li>
+        <!-- CARRINHO DE COMPRAS -->
+            <div class="carrinho-icone">
+                <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30">
+                <span id="contador-carrinho">0</span>
+                <div class="carrinho-dropdown" id="carrinho-dropdown">
+                    <div id="lista-carrinho"></div>
+                    <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+                    <div class="carrinho-botoes">
+                        <button class="btn-limpar">Limpar Carrinho</button>
+                        <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+      </li>
+    </ul>
   </header>
 
   <main>
@@ -36,6 +54,8 @@
   </div>
   <script type="module" src="../assets/js/modules/feedback.js"></script>
   <script type="module" src="../assets/js/modules/pedidos.js"></script>
+  <script type="module" src="../assets/js/modules/config.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
