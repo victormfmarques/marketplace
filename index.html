@@ -130,7 +130,7 @@
     const email = document.getElementById('email-esqueci').value;
 
     try {
-      const res = await fetch('/api/perfil/esqueci-senha', {
+      const res = await fetch(`/api?rota=perfil/esqueci-senha`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -194,7 +194,7 @@
       }
 
       try {
-        const res = await fetch(`/api/perfil/resetar-senha?token=${encodeURIComponent(token)}`, {
+        const res = await fetch(`/api?rota=perfil/resetar-senha?token=${encodeURIComponent(token)}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ senha, confirmarSenha }),
