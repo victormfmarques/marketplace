@@ -1,5 +1,5 @@
 // js/modules/feedback.js
-export function mostrarFeedback(mensagem, tipo = 'sucesso') {
+export function mostrarFeedback(mensagem, tipo = 'sucesso', tempo = 3000) {
   const feedback = document.getElementById('feedback');
   if (!feedback) return;
 
@@ -13,11 +13,11 @@ export function mostrarFeedback(mensagem, tipo = 'sucesso') {
 
   feedback.classList.add('show');
   
-  // Auto-esconder após 3 segundos
+  // Auto-esconder após X segundos
   clearTimeout(feedback._hideTimeout);
   feedback._hideTimeout = setTimeout(() => {
     feedback.classList.remove('show');
-  }, 3000);
+  }, tempo);
 }
 
 // Torna a função global para ser usada fora do módulo
