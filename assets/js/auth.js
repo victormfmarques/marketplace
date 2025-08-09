@@ -109,9 +109,9 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
       throw new Error('O nome completo é obrigatório');
     }
 
-    if (!usuario.sexo) {
-      throw new Error('Selecione seu sexo');
-    }
+    // if (!usuario.sexo) {
+    //   throw new Error('Selecione seu sexo');
+    // }
 
     if (!usuario.email) {
       throw new Error('O email é obrigatório');

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch(`/api?rota=perfil/pedidos.js&usuarioId=${usuarioId}`);
+    const res = await fetch(`/api?rota=perfil/pedidos&usuarioId=${usuarioId}`);
     const pedidos = await res.json();
 
     if (pedidos.length === 0) {
