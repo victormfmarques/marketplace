@@ -108,7 +108,7 @@
     }
 
     try {
-      const response = await fetch(`/api/produtos/editar?id=${produtoId}`, {
+      const response = await fetch(`/api?rota=produtos/editar?id=${produtoId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -137,8 +137,10 @@
   };
 });
       
-      try {
-        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+            try {
+        const params = new URLSearchParams({ rota: 'produtos/detalhes', id: produtoId });
+        const response = await fetch(`/api?${params.toString()}`);
+
         if (!response.ok) throw new Error(`Erro ${response.status}`);
 
         const produto = await response.json();
@@ -220,7 +222,7 @@
     async function editarProduto(id, dados, usuario) {
       if (!id || !usuario) throw new Error('ID ou usuário ausente');
 
-      const response = await fetch(`/api/produtos/editar?id=${id}`, {
+      const response = await fetch(`/api?rota=produtos/editar?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

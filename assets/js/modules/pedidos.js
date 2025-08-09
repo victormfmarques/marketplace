@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch(`/api/perfil/pedidos.js?usuarioId=${usuarioId}`);
+    const res = await fetch(`/api?rota=perfil/pedidos.js?usuarioId=${usuarioId}`);
     const pedidos = await res.json();
 
     if (pedidos.length === 0) {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-        const res = await fetch("/api/perfil/cancelarPedido", {
+        const res = await fetch("/api?rota=perfil/cancelarPedido", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

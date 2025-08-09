@@ -57,7 +57,7 @@
       <ion-icon name="person-outline"></ion-icon>
     </div>
 
-    <form class="content" id="form-perfil" action="../api/perfil/cadastro.js" method="post">
+    <form class="content" id="form-perfil" action="../api?rota=perfil/cadastro.js" method="post">
       <p>
         <label for="inome">Nome</label>
         <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
@@ -137,7 +137,12 @@
     if (usuarioLogado) {
       async function carregarProdutosUsuario() {
         try {
-          const response = await fetch(`/api/perfil/produtos-usuario?usuarioId=${usuarioLogado._id}`);
+          const params = new URLSearchParams({
+            rota: 'perfil/produtos-usuario',
+            usuarioId: usuarioLogado._id
+          });
+          const response = await fetch(`/api?${params.toString()}`);
+
           const result = await response.json();
 
           const container = document.getElementById('produtos-usuario');
@@ -170,6 +175,6 @@
       }
       carregarProdutosUsuario();
     }
-  </script>
+</script>
 </body>
 </html>

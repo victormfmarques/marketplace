@@ -14,27 +14,31 @@ import produtosEditar from './_modulos/produtos/editar.js';
 import produtosListar from './_modulos/produtos/listar.js';
 
 export default async function handler(req, res) {
-  const { pathname } = new URL(req.url, `http://${req.headers.host}`);
+  const rota = req.query.rota;
+
+  if (!rota) {
+    return res.status(400).json({ error: "Rota não especificada" });
+  }
 
   // Feedback
-  if (pathname === "/api/feedback/registrar") return feedbackRegistrar(req, res);
+  if (rota === "feedback/registrar") return feedbackRegistrar(req, res);
 
   // Perfil
-  if (pathname === "/api/perfil/atualizar") return perfilAtualizar(req, res);
-  if (pathname === "/api/perfil/cadastro") return perfilCadastro(req, res);
-  if (pathname === "/api/perfil/cancelarPedido") return perfilCancelarPedido(req, res);
-  if (pathname === "/api/perfil/esqueci-senha") return perfilEsqueciSenha(req, res);
-  if (pathname === "/api/perfil/excluirConta") return perfilExcluirConta(req, res);
-  if (pathname === "/api/perfil/login") return perfilLogin(req, res);
-  if (pathname === "/api/perfil/pedidos") return perfilPedidos(req, res);
-  if (pathname === "/api/perfil/produtos-usuario") return perfilProdutosUsuario(req, res);
-  if (pathname === "/api/perfil/resetar-senha") return perfilResetarSenha(req, res);
+  if (rota === "perfil/atualizar") return perfilAtualizar(req, res);
+  if (rota === "perfil/cadastro") return perfilCadastro(req, res);
+  if (rota === "perfil/cancelarPedido") return perfilCancelarPedido(req, res);
+  if (rota === "perfil/esqueci-senha") return perfilEsqueciSenha(req, res);
+  if (rota === "perfil/excluirConta") return perfilExcluirConta(req, res);
+  if (rota === "perfil/login") return perfilLogin(req, res);
+  if (rota === "perfil/pedidos") return perfilPedidos(req, res);
+  if (rota === "perfil/produtos-usuario") return perfilProdutosUsuario(req, res);
+  if (rota === "perfil/resetar-senha") return perfilResetarSenha(req, res);
 
   // Produtos
-  if (pathname === "/api/produtos/cadastro") return produtosCadastro(req, res);
-  if (pathname === "/api/produtos/detalhes") return produtosDetalhes(req, res);
-  if (pathname === "/api/produtos/editar") return produtosEditar(req, res);
-  if (pathname === "/api/produtos/listar") return produtosListar(req, res);
+  if (rota === "produtos/cadastro") return produtosCadastro(req, res);
+  if (rota === "produtos/detalhes") return produtosDetalhes(req, res);
+  if (rota === "produtos/editar") return produtosEditar(req, res);
+  if (rota === "produtos/listar") return produtosListar(req, res);
 
   // Caso não encontre rota
   res.status(404).json({ error: "Rota não encontrada" });

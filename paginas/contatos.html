@@ -55,7 +55,7 @@
       const email = document.getElementById('email').value.trim();
 
       try {
-        const res = await fetch('/api/feedback/registrar', {
+        const res = await fetch('/api?rota=feedback/registrar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ mensagem, email })

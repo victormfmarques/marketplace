@@ -1,7 +1,7 @@
 // assets/js/modules/produtos.js
 
 const produtoConfig = {
-  apiBaseUrl: '/api/produtos',
+  apiBaseUrl: '/api?rota=produtos',
   placeholderImage: '../assets/img/placeholder.png'
 };
 
@@ -19,7 +19,7 @@ export async function carregarProdutos(containerId, params = {}) {
     // Adiciona timestamp para evitar cache da requisição
     params._ = new Date().getTime();
     const queryString = new URLSearchParams(params).toString();
-    const url = `${produtoConfig.apiBaseUrl}/listar?${queryString}`;
+    const url = `/api?rota=produtos/listar&${queryString}`;
 
     console.log('Fetching:', url);
 
@@ -208,7 +208,7 @@ export async function editarProduto(produtoId, dados, usuarioLogado) {
 
 // ✅ NOVA FUNÇÃO: cadastrarProduto
 export async function cadastrarProduto(dados) {
-  const response = await fetch('/api/produtos/cadastro', {
+  const response = await fetch('/api?rota=produtos/cadastro', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados)

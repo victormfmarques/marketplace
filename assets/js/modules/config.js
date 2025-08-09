@@ -1,6 +1,6 @@
 // js/config.js
 export const config = {
-  apiBaseUrl: '/api/produtos/listar',
+  apiBaseUrl: '/api?rota=produtos/listar',
   placeholderImage: '../assets/img/placeholder.png'
 };
 

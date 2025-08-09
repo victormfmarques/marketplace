@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <title>Detalhes do Produto - EcoMarket</title>
-
   <!-- Estilos -->
   <link rel="stylesheet" href="../assets/css/detalhes-produto.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
   <!-- Metadados para SEO -->
   <meta name="description" content="Detalhes completos do produto no EcoMarket. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
   <meta name="author" content="EcoMarket" />
@@ -74,7 +72,9 @@
       }
 
       try {
-        const response = await fetch(`/api/produtos/detalhes?id=${produtoId}`);
+        const params = new URLSearchParams({ rota: 'produtos/detalhes', id: produtoId });
+        const response = await fetch(`/api?${params.toString()}`);
+
         if (!response.ok) throw new Error(`Erro ${response.status}`);
 
         const produto = await response.json();

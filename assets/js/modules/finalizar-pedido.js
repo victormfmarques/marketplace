@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Verifica a senha com o backend
-      const verificar = await fetch("/api/perfil/login", {
+      const verificar = await fetch("/api?rota=perfil/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: usuario.email, senha })
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Se senha estiver correta, registra o pedido
       const total = carrinho.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
 
-      const response = await fetch("/api/perfil/pedidos", {
+      const response = await fetch("/api?rota=perfil/pedidos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

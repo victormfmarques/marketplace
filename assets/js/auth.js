@@ -32,7 +32,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const response = await fetch('/api/perfil/login', {
+    const response = await fetch('/api?rota=perfil/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha }),
@@ -137,7 +137,7 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     confirmacaoSenhaInput.classList.remove('error-border');
 
     // Requisição
-    const response = await fetch('/api/perfil/cadastro', {
+    const response = await fetch('/api?rota=perfil/cadastro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(usuario)
