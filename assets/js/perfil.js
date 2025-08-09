@@ -140,40 +140,34 @@ function configurarExclusaoConta() {
     }
 
     abrirModalExclusaoConta(async (senha) => {
-      try {
-        const confirmacao = confirm('ATENÇÃO: Todos os seus dados serão permanentemente apagados. Deseja continuar?');
-        if (!confirmacao) {
-          mostrarFeedback('Exclusão de conta cancelada', 'aviso');
-          return;
-        }
+    try {
+      const response = await fetch('/api?rota=perfil/excluirConta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: usuarioLogado._id,
+          senha: senha
+        })
+      });
 
-        const response = await fetch('/api?rota=perfil/excluirConta', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: usuarioLogado._id,
-            senha: senha
-          })
-        });
+      const data = await response.json();
 
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || 'Erro ao excluir conta');
-        }
-
-        mostrarFeedback(data.message || 'Conta excluída com sucesso!', 'sucesso');
-
-        setTimeout(() => {
-          localStorage.removeItem('usuarioLogado');
-          window.location.href = '/index.html';
-        }, 2000);
-
-      } catch (error) {
-        console.error('Erro ao excluir conta:', error);
-        mostrarFeedback(error.message || 'Falha ao excluir conta', 'erro');
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao excluir conta');
       }
-    });
+
+      mostrarFeedback(data.message || 'Conta excluída com sucesso!', 'sucesso');
+
+      setTimeout(() => {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = '/index.html';
+      }, 2000);
+
+    } catch (error) {
+      console.error('Erro ao excluir conta:', error);
+      mostrarFeedback(error.message || 'Falha ao excluir conta', 'erro');
+    }
+  });
   });
 }
 
