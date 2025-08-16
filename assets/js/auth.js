@@ -207,3 +207,11 @@ document.getElementById('itel')?.addEventListener('input', function(e) {
   // Ajusta o cursor para a nova posição
   input.setSelectionRange(newCursorPos, newCursorPos);
 });
+
+// Se já estiver logado, manda pra home direto
+document.addEventListener("DOMContentLoaded", () => {
+  const usuario = localStorage.getItem("usuarioLogado");
+  if (usuario) {
+    window.location.href = "/paginas/home.html";
+  }
+});
