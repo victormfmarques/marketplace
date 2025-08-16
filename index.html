@@ -235,5 +235,86 @@
     }
   });
   </script>
+  <script>
+    function getUsuario() {
+      try {
+        const raw = localStorage.getItem('usuarioLogado');
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        if (obj && typeof obj === 'object' && obj.email) return obj;
+        return null;
+      } catch { return null; }
+    }
+
+    function salvarUsuarioSessao(dados) {
+      const user = {
+        id: dados?.id ?? dados?._id ?? null,
+        nome: (dados?.nome ?? '').trim(),
+        email: (dados?.email ?? '').trim(),
+      };
+      localStorage.setItem('usuarioLogado', JSON.stringify(user));
+      return user;
+    }
+
+    function sair() {
+      localStorage.removeItem('usuarioLogado');
+      // replace evita “voltar” para a home
+      window.location.replace('../index.html');
+    }
+  </script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Já logado? Vai pra home
+      const u = getUsuario();
+      if (u) {
+        window.location.replace('./paginas/home.html');
+        return;
+      }
+
+      const form = document.getElementById('form-login');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('iemail').value.trim();
+        const senha = document.getElementById('isenha').value;
+
+        if (!email || !senha) {
+          alert('Preencha e-mail e senha.');
+          return;
+        }
+
+        try {
+          const res = await fetch('/api?rota=perfil/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data?.usuario) {
+            alert(data?.message || 'Credenciais inválidas.');
+            return;
+          }
+
+          // Padroniza e salva
+          salvarUsuarioSessao({
+            id: data.usuario._id,
+            nome: data.usuario.nome,
+            email: data.usuario.email
+          });
+
+          // Respeita ?redirect= se existir
+          const params = new URLSearchParams(window.location.search);
+          const redirect = params.get('redirect');
+          window.location.replace(redirect || data.redirect || './paginas/home.html');
+
+        } catch (err) {
+          console.error(err);
+          alert('Erro ao conectar. Tente novamente.');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
