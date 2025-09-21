@@ -28,18 +28,22 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
       throw new Error('Por favor, informe sua senha');
     }
 
-    // Requisição com timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    // ⭐⭐ SOLUÇÃO ALTERNATIVA - Sem AbortController ⭐⭐
+    const fetchWithTimeout = (url, options, timeout = 15000) => {
+      return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Timeout: A requisição demorou muito')), timeout)
+        )
+      ]);
+    };
 
-    const response = await fetch('/api?rota=perfil/login', {
+    // Requisição COM timeout alternativo
+    const response = await fetchWithTimeout('/api?rota=perfil/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha }),
-      signal: controller.signal
+      body: JSON.stringify({ email, senha })
     });
-
-    clearTimeout(timeoutId);
 
     // Tratamento da resposta
     const data = await response.json();
@@ -63,7 +67,15 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 
   } catch (error) {
     console.error('Erro no login:', error);
-    mostrarFeedback(error.message || 'Falha na autenticação. Tente novamente.', 'erro');
+    
+    // Mensagens mais amigáveis para erros específicos
+    if (error.message.includes('Timeout')) {
+      mostrarFeedback('A conexão está lenta. Tente novamente.', 'erro');
+    } else if (error.name === 'TypeError') {
+      mostrarFeedback('Erro de conexão. Verifique sua internet.', 'erro');
+    } else {
+      mostrarFeedback(error.message || 'Falha na autenticação. Tente novamente.', 'erro');
+    }
 
     // Foca no campo problemático
     if (error.message.toLowerCase().includes('email')) {
