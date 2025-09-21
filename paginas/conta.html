@@ -23,6 +23,7 @@
   <!-- Ícone e CSS -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../assets/css/conta.css" />
+  <link rel="stylesheet" href="../assets/css/carrinho.css">
 </head>
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
@@ -159,7 +160,7 @@
                 </a>
                 <div class="produto-info">
                   <h4>${prod.nome}</h4>
-                  <p>R$ ${parseFloat(prod.preco).toFixed(2)}</p>
+                  <p>R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
                   <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
                 </div>
               </div>

@@ -96,7 +96,12 @@ header {
   margin-top: 10px;
 }
 
+/* =============================================
+   CARRINHO DE COMPRAS
+   ============================================= */
 .carrinho-icone {
+  flex: 1;
+  text-align: right;
   position: relative;
   color: var(--branco-neve);
   cursor: pointer;
@@ -133,84 +138,6 @@ header {
 
 .carrinho-dropdown.show {
   display: block;
-}
-
-#lista-carrinho {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.item-carrinho {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--cinza-pedra);
-}
-
-.item-carrinho img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.carrinho-total {
-  font-weight: bold;
-  margin: 15px 0;
-  text-align: right;
-  padding-top: 0.5rem;
-}
-
-.carrinho-botoes {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.btn-finalizar,
-.btn-limpar {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.btn-finalizar {
-  background: var(--verde-folha);
-  color: var(--branco-neve);
-}
-
-.btn-finalizar:hover {
-  background: var(--marrom-terra);
-}
-
-.btn-limpar {
-  background: #ff4d4d;
-  color: var(--branco-neve);
-}
-
-.btn-limpar:hover {
-  background: #e60000;
-}
-
-.btn-remover {
-  cursor: pointer;
-  color: var(--branco-neve);
-  background-color: var(--marrom-terra);
-  border: none;
-  padding: 5px;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.btn-remover:hover {
-  background: #e60000;
 }
 
 /* ===== Feedback ===== */

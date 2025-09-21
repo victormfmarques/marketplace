@@ -68,7 +68,7 @@ function updateListaItens() {
       <img src="${item.imagem}" alt="${item.nome}" class="img-detalhes" data-id="${item.id}">
       <div>
         <h4 class="link-detalhes" data-id="${item.id}">${item.nome}</h4>
-        <p>${item.quantidade}x R$ ${item.preco.toFixed(2)}</p>
+        <p>${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
         <button class="btn-remover" title="Remover produto" data-id="${item.id}">Remover</button>
       </div>
     </div>
@@ -107,7 +107,7 @@ function updateTotal() {
   const totalElement = document.getElementById('total-carrinho');
   if (totalElement) {
     const total = carrinho.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
-    totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+    totalElement.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
   }
 }
 

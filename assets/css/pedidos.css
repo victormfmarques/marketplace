@@ -47,7 +47,6 @@ header ul {
   top: 20px;
   right: 20px;
   list-style-type: none;
-  font-weight: bolder;
   gap: 10px;
   align-items: center;
   z-index: 10;
@@ -93,6 +92,8 @@ h1 {
    CARRINHO DE COMPRAS
    ============================================= */
 .carrinho-icone {
+  flex: 1;
+  text-align: right;
   position: relative;
   width: 30px;
   height: 30px;
@@ -152,6 +153,10 @@ h1 {
   border-bottom: 1px solid var(--cinza-pedra);
 }
 
+.item-carrinho p {
+  text-align: right;
+}
+
 .item-carrinho img {
   width: 80px;
   height: 80px;
@@ -209,7 +214,8 @@ h1 {
   border: none;
   padding: 5px;
   border-radius: 4px;
-  font-weight: bold;  
+  font-weight: bold;
+  margin-left: auto;
 }
 
 .btn-remover:hover {

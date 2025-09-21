@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.classList.add("pedido");
 
       const produtosHTML = pedido.produtos.map(prod =>
-        `<li>${prod.nome} (x${prod.quantidade}) - R$ ${prod.preco.toFixed(2)}</li>`
+        `<li>${prod.nome} (x${prod.quantidade}) - R$ ${prod.preco.toFixed(2).replace('.', ',')}</li>`
       ).join("");
 
       const statusVisivel = pedido.status === "pendente" ? "pedido enviado ao vendedor" : pedido.status;
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <p><strong>Status:</strong> ${statusVisivel}</p>
         ${mensagemInfo}
         <ul>${produtosHTML}</ul>
-        <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2)}</p>
+        <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
         ${pedido.status === "pendente" ? `<button data-id="${pedido._id}">Cancelar</button>` : ""}
       `;
 
