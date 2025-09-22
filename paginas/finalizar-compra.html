@@ -79,7 +79,7 @@
       const html = carrinho.map(item => `
         <div class="produto">
           <h2>${item.nome}</h2>
-          <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2)} (x${item.quantidade})</p>
+          <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2).replace('.',',')} (x${item.quantidade})</p>
           <p><strong>Vendedor:</strong> ${item.vendedor?.nome || 'Desconhecido'}</p>
           <p><strong>Email:</strong> 
           <a href="mailto:${item.vendedor.email}" class="email">
