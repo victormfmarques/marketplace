@@ -1,17 +1,25 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+let cachedClient = null;
+
+async function connectToDatabase() {
+  if (cachedClient) return cachedClient;
+  const client = new MongoClient(uri);
+  await client.connect();
+  cachedClient = client;
+  return client;
+}
 
 export default async function handler(req, res) {
   try {
-    await client.connect();
-    const db = client.db('marketplace');
+    const client = await connectToDatabase();
+    const db = client.db("marketplace");
 
     const limit = parseInt(req.query.limit) || 0;
 
     const pipeline = [
-      { $match: { status: 'ativo' } },
+      { $match: { status: "ativo" } },
       {
         $addFields: {
           usuarioObjectId: { $toObjectId: "$usuarioId" }
@@ -19,16 +27,16 @@ export default async function handler(req, res) {
       },
       {
         $lookup: {
-          from: 'usuarios',
-          localField: 'usuarioObjectId',
-          foreignField: '_id',
-          as: 'usuario'
+          from: "usuarios",
+          localField: "usuarioObjectId",
+          foreignField: "_id",
+          as: "usuario"
         }
       },
-      { $unwind: { path: '$usuario', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$usuario", preserveNullAndEmptyArrays: true } },
       {
         $project: {
-          id: '$_id',
+          id: "$_id",
           nome: 1,
           descricao: 1,
           preco: 1,
@@ -36,11 +44,11 @@ export default async function handler(req, res) {
           fotos: 1,
           usuarioId: 1,
           visualizacoes: 1,
-          foto: { $arrayElemAt: ['$fotos', 0] },
+          foto: { $arrayElemAt: ["$fotos", 0] },
           vendedor: {
-            nome: '$usuario.nome',
-            email: '$usuario.email',
-            telefone: '$usuario.telefone'
+            nome: "$usuario.nome",
+            email: "$usuario.email",
+            telefone: "$usuario.telefone"
           }
         }
       },
@@ -49,20 +57,16 @@ export default async function handler(req, res) {
 
     if (limit > 0) pipeline.push({ $limit: limit });
 
-    const produtos = await db.collection('produtos').aggregate(pipeline).toArray();
+    const produtos = await db.collection("produtos").aggregate(pipeline).toArray();
 
-    // Garantir que o id seja string
-    const produtosFormatados = produtos.map(p => ({
+    const produtosFormatados = produtos.map((p) => ({
       ...p,
       id: p.id.toString()
     }));
 
     res.status(200).json({ success: true, data: produtosFormatados });
-
   } catch (error) {
-    console.error('Erro ao listar produtos:', error);
-    res.status(500).json({ success: false, error: 'Erro interno' });
-  } finally {
-    await client.close();
+    console.error("Erro ao listar produtos:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 }
