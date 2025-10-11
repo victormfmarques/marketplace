@@ -2,7 +2,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* ===== Variáveis de cores ===== */
+/* =============================================
+  VARIÁVEIS DE CORES
+============================================= */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -12,7 +14,9 @@
   --cinza-pedra: #4F4F4F;
 }
 
-/* ===== Reset e corpo ===== */
+/* =============================================
+  RESET E CORPO
+============================================= */
 * {
     margin: 0;
     padding: 0;
@@ -25,7 +29,9 @@ body {
   color: var(--cinza-pedra);
 }
 
-/* ===== Header ===== */
+/* =============================================
+  CABEÇA
+============================================= */
 header {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
@@ -77,7 +83,7 @@ header a:hover {
 
 /* =============================================
    CARRINHO DE COMPRAS
-   ============================================= */
+============================================= */
 .carrinho-icone {
   flex: 1;
   text-align: right;
@@ -127,7 +133,9 @@ header a:hover {
   display: block;
 }
 
-/* ===== Perfil - Ícone ===== */
+/* =============================================
+  PERFIL E ÍCONES
+============================================= */
 .profile-pic {
   color: var(--branco-neve);
   width: 150px;
@@ -193,7 +201,9 @@ span {
   font-weight: bold;
 }
 
-/* ===== Botões ===== */
+/* =============================================
+  BOTÕES
+============================================= */
 #botoes-container {
   display: flex;
   flex-wrap: wrap;
@@ -238,7 +248,33 @@ span {
   margin-right: 5px;
 }
 
-/* ===== Responsividade ===== */
+/* =============================================
+  CARREGAMENTO E NOTIFICAÇÃO DE ERRO
+============================================= */
+.btn-tentar-novamente {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  margin-top: 20px;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-tentar-novamente:hover {
+  background-color: var(--marrom-terra);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* =============================================
+  RESPONSIVIDADE
+============================================= */
 @media (min-width: 600px) {
   .content {
     max-width: 600px;
@@ -294,7 +330,9 @@ span {
   }
 }
 
-/* ===== Seção Meus Produtos ===== */
+/* =============================================
+  SEÇÃO MEUS PRODUTOS
+============================================= */
 .meus-produtos {
   margin: 40px auto;
   max-width: 1200px;
@@ -319,7 +357,9 @@ span {
   justify-items: center;
 }
 
-/* Card do Produto */
+/* =============================================
+  CARTÃO DO PRODUTO
+============================================= */
 .produto-card {
   background-color: var(--branco-neve);
   border: 2px solid var(--verde-claro);
@@ -395,7 +435,9 @@ span {
   background-color: var(--marrom-terra);
 }
 
-/* ===== Feedback ===== */
+/* =============================================
+  FEEDBACK
+============================================= */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -457,7 +499,9 @@ span {
   animation: shake 0.5s ease-in-out;
 }
 
-/* ===== Modal ===== */
+/* =============================================
+  MODAL
+============================================= */
 .modal.hidden {
   display: none;
 }
@@ -549,7 +593,9 @@ span {
   background-color: #bbb;
 }
 
-/* ===== Animação fadeIn para modal ===== */
+/* =============================================
+  ANIMAÇÃO FADEIN PARA MODAL
+============================================= */
 @keyframes fadeIn {
   from {
     opacity: 0;

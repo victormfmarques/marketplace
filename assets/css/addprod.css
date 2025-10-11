@@ -1,9 +1,12 @@
+/* ============================
+  IMPORTAÇÕES
+============================ */
 @charset "UTF-8";
-
-/* Importa a fonte Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Variáveis de cores */
+/* ============================
+  VARIÁVEIS DE CORES
+============================ */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -13,7 +16,9 @@
   --cinza-pedra: #4F4F4F;
 }
 
-/* Reset e fonte base */
+/* ============================
+  RESET E CORPO
+============================ */
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +26,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Estilo geral do corpo da página */
 body {
   background-color: var(--bege-areia);
   color: var(--cinza-pedra);
@@ -146,7 +150,9 @@ button[type="submit"]:focus {
   transform: scale(1.05);
 }
 
-/* ===== Feedback ===== */
+/* ============================
+  FEEDBACK
+============================ */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -184,7 +190,9 @@ button[type="submit"]:focus {
   color: var(--branco-neve);
 }
 
-/* Responsividade */
+/* ============================
+  RESPONSIVIDADE
+============================ */
 @media (max-width: 520px) {
   .container {
     padding: 1.5rem 1.5rem;

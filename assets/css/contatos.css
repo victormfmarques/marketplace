@@ -1,13 +1,12 @@
-@charset "UTF-8";
-
 /* ============================
-   Importação de Fontes
-   ============================ */
+  IMPORTAÇÕES
+============================ */
+@charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* ============================
-   Variáveis Globais
-   ============================ */
+  VARIÁVEIS GLOBAIS
+============================ */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -18,8 +17,8 @@
 }
 
 /* ============================
-   Reset Básico
-   ============================ */
+  RESET E CORPO
+============================ */
 * {
   margin: 0;
   padding: 0;
@@ -27,9 +26,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* ============================
-   Corpo da Página
-   ============================ */
 body {
   background-color: var(--bege-areia);
   color: var(--cinza-pedra);
@@ -40,8 +36,8 @@ body {
 }
 
 /* ============================
-   Cabeçalho
-   ============================ */
+  CABEÇA
+============================ */
 header {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
@@ -70,8 +66,8 @@ header a:hover {
 }
 
 /* ============================
-   Conteúdo Principal
-   ============================ */
+  CONFIGURAÇÕES PRINCIPAIS
+============================ */
 main {
   background-color: var(--branco-neve);
   padding: 25px;
@@ -88,9 +84,6 @@ main img {
   width: 140px;
 }
 
-/* ============================
-   Títulos e Textos
-   ============================ */
 h1 {
   text-align: center;
   color: var(--verde-folha);
@@ -113,8 +106,8 @@ a:hover {
 }
 
 /* ============================
-   Formulário
-   ============================ */
+  FORMULÁRIO
+============================ */
 form {
   margin-top: 30px;
 }
@@ -135,9 +128,6 @@ input[type="email"] {
   font-size: 1em;
 }
 
-/* ============================
-   Botão
-   ============================ */
 button {
   background-color: var(--verde-folha);
   color: white;
@@ -155,8 +145,8 @@ button:hover {
 }
 
 /* ============================
-   Feedback
-   ============================ */
+  FEEDBACK
+============================ */
 #mensagem-enviada {
   margin-top: 15px;
   color: green;
@@ -201,8 +191,8 @@ button:hover {
 }
 
 /* ============================
-   Responsividade
-   ============================ */
+  RESPONSIVIDADE
+============================ */
 @media (max-width: 480px) {
   main {
     padding: 20px;

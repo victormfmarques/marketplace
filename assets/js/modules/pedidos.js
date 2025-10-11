@@ -1,7 +1,87 @@
-document.addEventListener("DOMContentLoaded", async () => {
+// /js/modules/pedidos.js
+
+import { mostrarFeedback } from './feedback.js';
+
+const lista = document.getElementById("lista-pedidos");
+const modal = document.getElementById("cancelModal");
+const cancelReason = document.getElementById("cancelReason");
+const confirmCancelBtn = document.getElementById("confirmCancel");
+const closeModalBtn = document.getElementById("closeModal");
+
+let currentOrderId = null;
+
+/* =============================================
+  FUNÇÃO PARA ABRIR MODAL DE CANCELAMENTO
+============================================= */
+function openModal(orderId) {
+  currentOrderId = orderId;
+  cancelReason.value = "";
+  document.getElementById("cancelPassword").value = "";
+  modal.style.display = "flex";
+}
+
+/* =============================================
+  FUNÇÃO PARA FECHAR MODAL
+============================================= */
+function closeModal() {
+  modal.style.display = "none";
+  currentOrderId = null;
+  cancelReason.value = "";
+  document.getElementById("cancelPassword").value = "";
+}
+
+/* =============================================
+  FUNÇÃO PARA RENDERIZAR OS PEDIDOS NA TELA
+============================================= */
+function renderizarPedidos(pedidos) {
+  if (!pedidos || pedidos.length === 0) {
+    lista.innerHTML = window.criarMensagem(
+      "Você ainda não fez nenhum pedido.",
+      "info",
+      null // sem botão de tentar novamente
+    );
+    return;
+  }
+
+  lista.innerHTML = "";
+  pedidos.forEach(pedido => {
+    const card = document.createElement("div");
+    card.classList.add("pedido");
+
+    const produtosHTML = pedido.produtos.map(prod =>
+      `<li>${prod.nome} (x${prod.quantidade}) - R$ ${prod.preco.toFixed(2).replace('.', ',')}</li>`
+    ).join("");
+
+    const statusVisivel = pedido.status === "pendente" ? "pedido enviado ao vendedor" : pedido.status;
+    const mensagemInfo = pedido.status === "pendente"
+      ? `<p class="aviso">O vendedor foi notificado por e-mail. Aguarde o contato para combinar pagamento e entrega.</p>`
+      : "";
+
+    card.innerHTML = `
+      <h3>Pedido ${pedido._id}</h3>
+      <p><strong>Data:</strong> ${new Date(pedido.dataPedido).toLocaleString()}</p>
+      <p><strong>Status:</strong> ${statusVisivel}</p>
+      ${mensagemInfo}
+      <ul>${produtosHTML}</ul>
+      <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
+      ${pedido.status === "pendente" ? `<button data-id="${pedido._id}">Cancelar</button>` : ""}
+    `;
+
+    lista.appendChild(card);
+  });
+
+  // Associa evento para abrir modal nos botões cancelar
+  document.querySelectorAll("button[data-id]").forEach(btn => {
+    btn.addEventListener("click", () => openModal(btn.dataset.id));
+  });
+}
+
+/* =============================================
+  FUNÇÃO PARA BUSCAR PEDIDOS DO USUÁRIO
+============================================= */
+async function carregarPedidos() {
   const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
   const usuarioId = usuario?._id;
-  const lista = document.getElementById("lista-pedidos");
 
   if (!usuarioId) {
     mostrarFeedback('Por favor, faça login para acessar esta página', 'erro');
@@ -9,111 +89,83 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  // Exibe loader
+  lista.innerHTML = window.criarLoader("Carregando seus pedidos...");
+
   try {
     const res = await fetch(`/api?rota=perfil/pedidos&usuarioId=${usuarioId}`);
+    
+    //throw new Error("Teste de erro para verificar layout");
     const pedidos = await res.json();
 
-    if (pedidos.length === 0) {
-      lista.innerHTML = "<p>Você ainda não fez nenhum pedido.</p>";
-      return;
-    }
+    renderizarPedidos(pedidos);
+    } catch (error) {
+      console.error('Erro ao carregar pedidos:', error);
 
-    lista.innerHTML = "";
-    pedidos.forEach(pedido => {
-      const card = document.createElement("div");
-      card.classList.add("pedido");
+      window.mostrarErro(
+        lista,
+        'Não foi possível carregar seus pedidos',
+        navigator.onLine
+          ? 'Ocorreu um erro interno no servidor. Tente novamente em alguns instantes.'
+          : 'Parece que você está sem conexão com a internet.',
+        carregarPedidos,
+        'tentar-novamente-pedidos'
+      );
 
-      const produtosHTML = pedido.produtos.map(prod =>
-        `<li>${prod.nome} (x${prod.quantidade}) - R$ ${prod.preco.toFixed(2).replace('.', ',')}</li>`
-      ).join("");
-
-      const statusVisivel = pedido.status === "pendente" ? "pedido enviado ao vendedor" : pedido.status;
-      const mensagemInfo = pedido.status === "pendente"
-        ? `<p class="aviso">O vendedor foi notificado por e-mail. Aguarde o contato para combinar pagamento e entrega.</p>`
-        : "";
-
-      card.innerHTML = `
-        <h3>Pedido ${pedido._id}</h3>
-        <p><strong>Data:</strong> ${new Date(pedido.dataPedido).toLocaleString()}</p>
-        <p><strong>Status:</strong> ${statusVisivel}</p>
-        ${mensagemInfo}
-        <ul>${produtosHTML}</ul>
-        <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
-        ${pedido.status === "pendente" ? `<button data-id="${pedido._id}">Cancelar</button>` : ""}
-      `;
-
-      lista.appendChild(card);
-    });
-
-    // Modal e variáveis do modal
-    const modal = document.getElementById("cancelModal");
-    const cancelReason = document.getElementById("cancelReason");
-    const confirmCancelBtn = document.getElementById("confirmCancel");
-    const closeModalBtn = document.getElementById("closeModal");
-    let currentOrderId = null;
-
-    // Funções para abrir e fechar modal
-    function openModal(orderId) {
-      currentOrderId = orderId;
-      cancelReason.value = "";
-      document.getElementById("cancelPassword").value = "";
-      modal.style.display = "flex";
-    }
-
-    function closeModal() {
-      modal.style.display = "none";
-      currentOrderId = null;
-      cancelReason.value = "";
-      document.getElementById("cancelPassword").value = "";
-    }
-
-    closeModalBtn.addEventListener("click", closeModal);
-
-    // Evento para confirmar cancelamento, com verificação da senha
-    confirmCancelBtn.addEventListener("click", async () => {
-      if (!currentOrderId) return;
-
-      const password = document.getElementById("cancelPassword").value.trim();
-      if (!password) {
-        mostrarFeedback("Digite sua senha para confirmar.", "erro");
-        return;
-      }
-
-      try {
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-        const res = await fetch("/api?rota=perfil/cancelarPedido", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pedidoId: currentOrderId,
-            motivo: cancelReason.value.trim() || "Motivo não informado",
-            usuarioId: usuario._id,
-            email: usuario.email,
-            senha: password
-          })
+    const btn = document.getElementById("tentar-novamente-pedidos");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          lista.innerHTML = window.criarLoader("Carregando seus pedidos...");
+          setTimeout(() => carregarPedidos(), 300);
         });
-
-        const data = await res.json();
-        if (data.success) {
-          mostrarFeedback('Solicitação de cancelamento enviada ao vendedor!', 'aviso');
-          closeModal();
-          setTimeout(() => location.reload(), 2000);
-        } else {
-          mostrarFeedback(data.message || 'Erro ao enviar solicitação.', 'erro');
-        }
-      } catch (err) {
-        console.error(err);
-        mostrarFeedback('Erro na comunicação com o servidor.', 'erro');
       }
-    });
-
-    // Associa evento para abrir modal nos botões cancelar
-    document.querySelectorAll("button[data-id]").forEach(btn => {
-      btn.addEventListener("click", () => openModal(btn.dataset.id));
-    });
-
-  } catch (err) {
-    lista.innerHTML = "<p>Erro ao carregar os pedidos.</p>";
-    console.error(err);
   }
-});
+}
+
+/* =============================================
+  FUNÇÃO PARA CANCELAR PEDIDO
+============================================= */
+async function cancelarPedido() {
+  if (!currentOrderId) return;
+
+  const password = document.getElementById("cancelPassword").value.trim();
+  if (!password) {
+    mostrarFeedback("Digite sua senha para confirmar.", "erro");
+    return;
+  }
+
+  try {
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const res = await fetch("/api?rota=perfil/cancelarPedido", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pedidoId: currentOrderId,
+        motivo: cancelReason.value.trim() || "Motivo não informado",
+        usuarioId: usuario._id,
+        email: usuario.email,
+        senha: password
+      })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      mostrarFeedback('Solicitação de cancelamento enviada ao vendedor!', 'aviso');
+      closeModal();
+      setTimeout(() => carregarPedidos(), 2000);
+    } else {
+      mostrarFeedback(data.message || 'Erro ao enviar solicitação.', 'erro');
+    }
+  } catch (err) {
+    console.error(err);
+    mostrarFeedback('Erro na comunicação com o servidor.', 'erro');
+  }
+}
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", carregarPedidos);
+closeModalBtn.addEventListener("click", closeModal);
+confirmCancelBtn.addEventListener("click", cancelarPedido);
+
+// Export caso queira usar em outros módulos
+export { carregarPedidos, renderizarPedidos };

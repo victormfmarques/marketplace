@@ -1,9 +1,12 @@
 /* =============================================
-   IMPORTAÇÕES E VARIÁVEIS GLOBAIS
-   ============================================= */
+  IMPORTAÇÕES
+============================================= */
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* =============================================
+  VARIÁVEIS DE CORES
+============================================= */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -13,6 +16,9 @@
   --cinza-pedra: #4F4F4F;
 }
 
+/* =============================================
+  RESET E CORPO
+============================================= */
 * {
   margin: 0;
   padding: 0;
@@ -26,8 +32,8 @@ body {
 }
 
 /* =============================================
-   LAYOUT GERAL
-   ============================================= */
+  LAYOUT GERAL
+============================================= */
 .container {
   max-width: 1300px;
   margin: auto;
@@ -42,8 +48,8 @@ body {
 }
 
 /* =============================================
-   COMPONENTES COMUNS
-   ============================================= */
+  COMPONENTES COMUNS
+============================================= */
 .btn {
   text-decoration: none;
   color: var(--branco-neve);
@@ -86,8 +92,8 @@ body {
 }
 
 /* =============================================
-   HEADER E NAVEGAÇÃO
-   ============================================= */
+  CABEÇA E NAVEGAÇÃO
+============================================= */
 .banner {
   background: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
   border-radius: 0px 0px 10px 10px;
@@ -142,8 +148,8 @@ nav ul li a:hover {
 }
 
 /* =============================================
-   SEÇÕES DE CONTEÚDO (HOME)
-   ============================================= */
+  SEÇÕES DE CONTEÚDO (HOME)
+============================================= */
 .col-2 {
   flex-basis: 50%;
   min-width: 300px;
@@ -251,8 +257,8 @@ nav ul li a:hover {
 }
 
 /* =============================================
-   PRODUTOS - GRADE E CARDS
-   ============================================= */
+  PRODUTOS - GRADE E CARDS
+============================================= */
 .produtos-section,
 .produtos-page {
   padding: 20px;
@@ -344,9 +350,25 @@ nav ul li a:hover {
   background-color: var(--marrom-terra);
 }
 
+.btn-tentar-novamente {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-tentar-novamente:hover {
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+}
+
 /* =============================================
-   CARRINHO DE COMPRAS
-   ============================================= */
+  CARRINHO DE COMPRAS
+============================================= */
 .carrinho-icone {
   position: relative;
   color: var(--branco-neve);
@@ -387,10 +409,9 @@ nav ul li a:hover {
   display: block;
 }
 
-/* =============================================
-   FEEDBACK E LOADER
-   ============================================= */
-/* ===== Feedback ===== */
+/* ==================================
+  FEEDBACK
+================================== */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -428,20 +449,23 @@ nav ul li a:hover {
   color: var(--branco-neve);
 }
 
-.loader {
-  text-align: center;
-  padding: 20px;
-  grid-column: 1 / -1;
+/* =============================================
+  CARREGAMENTO E NOTIFICAÇÃO DE ERRO
+============================================= */
+.btn-tentar-novamente {
+  background-color: var(--verde-folha); 
+  margin-top: 20px;
+  color: var(--branco-neve);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid #2a7ae2;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 10px;
+.btn-tentar-novamente:hover {
+  background-color: var(--marrom-terra);
 }
 
 @keyframes spin {
@@ -450,8 +474,8 @@ nav ul li a:hover {
 }
 
 /* =============================================
-   RESPONSIVIDADE
-   ============================================= */
+  RESPONSIVIDADE
+============================================= */
 @media (max-width: 800px) {
   nav ul {
     position: absolute;

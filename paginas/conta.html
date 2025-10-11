@@ -24,6 +24,7 @@
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../assets/css/conta.css" />
   <link rel="stylesheet" href="../assets/css/carrinho.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
@@ -132,50 +133,6 @@
   <script type="module" src="../assets/js/modules/feedback.js"></script>
   <script type="module" src="../assets/js/modules/config.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
-  <script>
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-    if (usuarioLogado) {
-      async function carregarProdutosUsuario() {
-        try {
-          const params = new URLSearchParams({
-            rota: 'perfil/produtos-usuario',
-            usuarioId: usuarioLogado._id
-          });
-          const response = await fetch(`/api?${params.toString()}`);
-
-          const result = await response.json();
-
-          const container = document.getElementById('produtos-usuario');
-          if (result.success && result.data.length > 0) {
-            container.innerHTML = result.data.map(prod => {
-              const foto = prod.fotos && prod.fotos.length > 0
-                ? (prod.fotos[0].startsWith('http') ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}`)
-                : '/assets/img/placeholder.png';
-
-              return `
-              <div class="produto-card">
-                <a href="detalhes-produto.html?id=${prod._id}">
-                  <img src="${foto}" alt="${prod.nome}" />
-                </a>
-                <div class="produto-info">
-                  <h4>${prod.nome}</h4>
-                  <p>R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
-                  <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
-                </div>
-              </div>
-            `;
-            }).join('');
-          } else {
-            container.innerHTML = '<p>Você ainda não postou produtos.</p>';
-          }
-        } catch (error) {
-          console.error('Erro ao carregar produtos do usuário:', error);
-          document.getElementById('produtos-usuario').textContent = 'Erro ao carregar produtos.';
-        }
-      }
-      carregarProdutosUsuario();
-    }
-</script>
+  <script type="module" src="../assets/js/modules/produtos.js"></script>
 </body>
 </html>

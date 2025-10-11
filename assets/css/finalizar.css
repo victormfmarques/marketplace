@@ -1,7 +1,12 @@
+/* =============================================
+  IMPORTAÇÕES
+============================================= */
 @charset "UTF-8";
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+/* =============================================
+  VARIÁVEIS DE CORES
+============================================= */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -11,6 +16,9 @@
   --cinza-pedra: #4F4F4F;
 }
 
+/* =============================================
+  RESET E CONFIGURAÇÕES GLOBAIS
+============================================= */
 * {
   margin: 0;
   padding: 0;
@@ -177,7 +185,9 @@ button:hover {
 }
 }
 
-/* ===== Feedback ===== */
+/* =============================================
+  FEEDBACK
+============================================= */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -215,7 +225,9 @@ button:hover {
   color: var(--branco-neve);
 }
 
-/* MODAL DE CONFIRMAÇÃO DE PEDIDO */
+/* =============================================
+  MODAL DE CONFIRMAÇÃO DE PEDIDO
+============================================= */
 #modal-confirmar-pedido {
   position: fixed;
   top: 0;
@@ -305,7 +317,9 @@ button:hover {
   background-color: #bbb;
 }
 
-/* ===== Animação fadeIn para modal ===== */
+/* =============================================
+  ANIMAÇÃO FADEIN PARA MODAL
+============================================= */
 @keyframes fadeIn {
   from {
     opacity: 0;

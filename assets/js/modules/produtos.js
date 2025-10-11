@@ -1,136 +1,29 @@
 // assets/js/modules/produtos.js
+if (!window.mostrarErro) {
+  window.addEventListener('load', () => {
+    console.warn('Funções globais ainda não estavam prontas, recarregando...');
+  });
+}
 
 const produtoConfig = {
   apiBaseUrl: '/api?rota=produtos',
   placeholderImage: '../assets/img/placeholder.png'
 };
 
-// Função principal para carregar produtos no container indicado
-export async function carregarProdutos(containerId, params = {}) {
-  const container = document.getElementById(containerId);
-  if (!container) {
-    console.error(`Container #${containerId} não encontrado`);
-    return;
-  }
-
-  try {
-    container.innerHTML = criarLoader();
-
-    // Adiciona timestamp para evitar cache da requisição
-    params._ = new Date().getTime();
-    const queryString = new URLSearchParams(params).toString();
-    const url = `/api?rota=produtos/listar&${queryString}`;
-
-    console.log('Fetching:', url);
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
-    }
-
-    const result = await response.json();
-    console.log('API Response:', result);
-
-    if (!result.success) {
-      throw new Error(result.message || 'Erro na resposta da API');
-    }
-
-    if (!result.data || result.data.length === 0) {
-      container.innerHTML = criarMensagem('Nenhum produto disponível', 'info');
-      return;
-    }
-
-    window.produtosCarregados = result.data;
-
-    container.innerHTML = renderizarProdutos(result.data);
-
-    configurarEventosProdutos();
-
-  } catch (error) {
-    console.error('Erro ao carregar produtos:', error);
-    container.innerHTML = criarMensagemErro(error);
-  }
-}
-
-export function inicializarProdutos() {
-  if (document.getElementById('produtos-destaque')) {
-  const larguraTela = window.innerWidth;
-
-  let limite;
-  if (larguraTela < 480) {
-    limite = 2;
-  } else if (larguraTela < 768) {
-    limite = 4;
-  } else if (larguraTela < 1154) {
-    limite = 6;
-  } else {
-    limite = 8;
-  }
-
-  carregarProdutos('produtos-destaque', { limit: limite });
-  }
-
-  if (document.getElementById('produtos-lista')) {
-    carregarProdutos('produtos-lista');
-  }
-}
-
-export function adicionarAoCarrinho(produtoId, event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  // Tenta encontrar o produto na lista geral
-  let produto = window.produtosCarregados?.find(p => p.id === produtoId);
-
-  // Se não encontrar na lista, tenta usar o produtoAtual da página detalhes
-  if (!produto && window.produtoAtual && window.produtoAtual.id === produtoId) {
-    produto = window.produtoAtual;
-  }
-
-  if (!produto) {
-    console.warn(`Produto com id ${produtoId} não encontrado para adicionar ao carrinho.`);
-    return;
-  }
-
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  const itemExistente = carrinho.find(item => item.id === produtoId);
-
-  if (itemExistente) {
-    itemExistente.quantidade += 1;
-  } else {
-    carrinho.push({
-      id: produto.id,
-      nome: produto.nome,
-      preco: produto.preco,
-      imagem: produto.foto || produtoConfig.placeholderImage,
-      quantidade: 1,
-      vendedor: {
-      nome: produto.vendedor?.nome || 'Vendedor',
-      email: produto.vendedor?.email || 'Email não informado',
-      telefone: produto.vendedor?.telefone || 'Telefone não informado'
-      } 
-    });
-  }
-
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
-}
+// -------------------- FUNÇÕES AUXILIARES --------------------
 
 function renderizarProdutos(produtos) {
   return produtos.map(produto => `
-    <div class="produto-card" data-id="${produto.id}">
-      <a href="detalhes-produto.html?id=${produto.id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
-        <img src="${produto.foto || produtoConfig.placeholderImage}" 
+    <div class="produto-card" data-id="${produto.id || produto._id}">
+      <a href="detalhes-produto.html?id=${produto.id || produto._id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
+        <img src="${produto.foto || produto.fotos?.[0] || produtoConfig.placeholderImage}" 
              alt="${produto.nome}"
              onerror="this.src='${produtoConfig.placeholderImage}'">
       </a>
       <div class="produto-info">
         <h3>${produto.nome}</h3>
-        <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace('.', ',')}</p>
-        <button class="produto-btn-comprar" data-id="${produto.id}" aria-label="Comprar ${produto.nome}">
+        <p class="produto-preco">R$ ${(produto.preco || 0).toFixed(2).replace('.', ',')}</p>
+        <button class="produto-btn-comprar" data-id="${produto.id || produto._id}" aria-label="Comprar ${produto.nome}">
           Comprar
         </button>
       </div>
@@ -151,89 +44,177 @@ function configurarEventosProdutos() {
   });
 }
 
-function criarLoader() {
-  return `
-    <div class="loader-container" role="status" aria-live="polite">
-      <div class="loader-spinner"></div>
-      <p class="loader-text">Carregando produtos...</p>
-    </div>
-  `;
+// -------------------- FUNÇÕES PRINCIPAIS --------------------
+
+export async function carregarProdutos(containerId, params = {}) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  try {
+    container.innerHTML = window.criarLoader("Carregando produtos...");
+
+    params._ = new Date().getTime();
+    const queryString = new URLSearchParams(params).toString();
+    const url = `/api?rota=produtos/listar&${queryString}`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+    //throw new Error("Teste de erro para verificar layout");
+    const result = await response.json();
+    if (!result.success) throw new Error(result.error || 'Erro na resposta da API');
+
+    if (!result.data || result.data.length === 0) {
+      container.innerHTML = window.criarMensagem('Nenhum produto disponível', 'info');
+      return;
+    }
+
+    window.produtosCarregados = result.data;
+    container.innerHTML = renderizarProdutos(result.data);
+    configurarEventosProdutos();
+
+  } catch (error) {
+    console.error('Erro ao carregar produtos:', error);
+
+    window.mostrarErro(container,
+      'Não foi possível carregar os produtos',
+      navigator.onLine
+        ? 'Ocorreu um erro interno no servidor. Tente novamente em alguns instantes.'
+        : 'Parece que você está sem conexão com a internet.',
+      () => carregarProdutos(containerId, params)
+    );
+  }
 }
 
-function criarMensagemErro(error) {
-  return `
-    <div class="error-container" role="alert">
-      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-      <h3>Não foi possível carregar os produtos</h3>
-      <p class="error-detail">${error.message}</p>
-      <div class="error-actions">
-        <button class="btn-tentar" onclick="window.location.reload()" aria-label="Tentar novamente">
-          <i class="fas fa-sync-alt" aria-hidden="true"></i> Tentar novamente
-        </button>
-      </div>
-    </div>
-  `;
-}
+export function inicializarProdutos() {
+  if (document.getElementById('produtos-destaque')) {
+    const larguraTela = window.innerWidth;
+    let limite = 8;
 
-function criarMensagem(texto, tipo = 'info') {
-  return `
-    <div class="message-${tipo}" role="alert">
-      <i class="fas fa-${tipo === 'info' ? 'info-circle' : 'exclamation-circle'}" aria-hidden="true"></i>
-      <p>${texto}</p>
-    </div>
-  `;
-}
+    if (larguraTela < 480) limite = 2;
+    else if (larguraTela < 768) limite = 4;
+    else if (larguraTela < 1154) limite = 6;
 
-export async function editarProduto(produtoId, dados, usuarioLogado) {
-  if (!produtoId || !usuarioLogado) {
-    throw new Error('ID do produto ou usuário não informado');
+    carregarProdutos('produtos-destaque', { limit: limite });
   }
 
-  const response = await fetch(`${produtoConfig.apiBaseUrl}/editar?id=${produtoId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-usuario': JSON.stringify(usuarioLogado)
-    },
-    body: JSON.stringify(dados)
+  if (document.getElementById('produtos-lista')) {
+    carregarProdutos('produtos-lista');
+  }
+}
+
+export function adicionarAoCarrinho(produtoId, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  let produto = window.produtosCarregados?.find(p => p.id === produtoId) 
+                || (window.produtoAtual?.id === produtoId ? window.produtoAtual : null);
+
+  if (!produto) {
+    console.warn(`Produto com id ${produtoId} não encontrado para adicionar ao carrinho.`);
+    return;
+  }
+
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  const itemExistente = carrinho.find(item => item.id === produtoId);
+
+  if (itemExistente) itemExistente.quantidade += 1;
+  else carrinho.push({
+    id: produto.id || produto._id,
+    nome: produto.nome,
+    preco: produto.preco,
+    imagem: produto.foto || produtoConfig.placeholderImage,
+    quantidade: 1,
+    vendedor: {
+      nome: produto.vendedor?.nome || 'Vendedor',
+      email: produto.vendedor?.email || 'Email não informado',
+      telefone: produto.vendedor?.telefone || 'Telefone não informado'
+    }
   });
 
-  if (!response.ok) {
-    const erro = await response.json().catch(() => ({}));
-    throw new Error(erro.error || 'Erro ao editar produto');
-  }
-
-  return await response.json();
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  window.mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
 }
 
-// ✅ NOVA FUNÇÃO: cadastrarProduto
-export async function cadastrarProduto(dados) {
-  const response = await fetch('/api?rota=produtos/cadastro', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dados)
-  });
+// -------------------- PRODUTOS DO USUÁRIO --------------------
 
-  if (!response.ok) {
-    const erro = await response.json();
-    throw new Error(erro.error || 'Erro ao cadastrar produto');
+const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+if (usuarioLogado) {
+  async function carregarProdutosUsuario() {
+    const container = document.getElementById('produtos-usuario');
+    if (!container) return;
+
+    try {
+      container.innerHTML = window.criarLoader("Carregando seus produtos...");
+
+      const params = new URLSearchParams({
+        rota: 'perfil/produtos-usuario',
+        usuarioId: usuarioLogado._id,
+        _: new Date().getTime()
+      });
+      
+      const response = await fetch(`/api?${params.toString()}`);
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+      //throw new Error("Teste de erro para verificar layout");
+
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Erro na resposta da API');
+
+      if (result.data.length === 0) {
+        container.innerHTML = window.criarMensagem('Você ainda não postou produtos.', 'info');
+        return;
+      }
+
+      container.innerHTML = result.data.map(prod => {
+        const foto = prod.fotos?.length
+          ? (prod.fotos[0].startsWith('http') ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}`)
+          : '/assets/img/placeholder.png';
+
+        return `
+          <div class="produto-card">
+            <a href="detalhes-produto.html?id=${prod._id}">
+              <img src="${foto}" alt="${prod.nome}" />
+            </a>
+            <div class="produto-info">
+              <h4>${prod.nome}</h4>
+              <p>R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
+              <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    } catch (error) {
+      console.error('Erro ao carregar produtos do usuário:', error);
+
+      window.mostrarErro(container,
+        'Não foi possível carregar seus produtos',
+        navigator.onLine
+          ? 'Ocorreu um erro interno no servidor. Tente novamente em alguns instantes.'
+          : 'Parece que você está sem conexão com a internet.',
+        carregarProdutosUsuario,
+        'tentar-novamente-usuario'
+      );
+    }
   }
 
-  return await response.json();
+  document.addEventListener('DOMContentLoaded', carregarProdutosUsuario);
 }
 
-// Exports globais
+// -------------------- EXPORTS GLOBAIS --------------------
 window.adicionarAoCarrinho = adicionarAoCarrinho;
 window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;
-window.editarProduto = editarProduto;
-window.cadastrarProduto = cadastrarProduto;
+
 export { renderizarProdutos, configurarEventosProdutos };
+
 window.addEventListener('resize', () => {
   clearTimeout(window.__resizeTimer);
   window.__resizeTimer = setTimeout(() => {
-    if (document.getElementById('produtos-destaque')) {
-      inicializarProdutos();
-    }
-  }, 300); // evita chamadas excessivas
+    if (document.getElementById('produtos-destaque')) inicializarProdutos();
+  }, 300);
 });

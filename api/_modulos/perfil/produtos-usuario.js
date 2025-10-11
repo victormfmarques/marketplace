@@ -21,7 +21,12 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Erro ao buscar produtos do usuário:', error);
-    res.status(500).json({ success: false, error: 'Erro interno' });
+    res.status(500).json({
+    success: false,
+    error:
+      error.message ||
+      "Ocorreu um erro no servidor. Tente novamente em alguns instantes."
+  });
   } finally {
     await client.close();
   }

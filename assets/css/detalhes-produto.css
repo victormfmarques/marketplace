@@ -1,8 +1,12 @@
+/* ==================================
+  IMPORTAÇÕES
+================================== */
 @charset "UTF-8";
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Paleta Eco */
+/* ==================================
+  VARIÁVEIS DE CORES
+================================== */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -12,7 +16,9 @@
   --cinza-pedra: #4F4F4F;
 }
 
-/* Reset e base */
+/* ==================================
+  RESET E CORPO
+================================== */
 * {
   margin: 0;
   padding: 0;
@@ -24,7 +30,9 @@ body {
   background-color: var(--bege-areia);
 }
 
-/* Container principal */
+/* ==================================
+  PRODUTOS
+================================== */
 #produto-container {
   position: relative;
   display: flex;
@@ -198,7 +206,9 @@ body {
   font-size: 1.5rem;
 }
 
-/* Feedback */
+/* ==================================
+  FEEDBACK
+================================== */
 .feedback {
   position: fixed;
   bottom: 1rem;
@@ -236,9 +246,9 @@ body {
   color: var(--branco-neve);
 }
 
-/* =============================================
-   CARRINHO DE COMPRAS
-   ============================================= */
+/* ==================================
+  CARRINHO DE COMPRAS
+================================== */
 
 /* Ícone do carrinho */
 .carrinho-icone {
@@ -300,7 +310,9 @@ body {
   display: block;
 }
 
-/* Responsividade */
+/* ==================================
+  RESPONSIVIDADE
+================================== */
 @media (max-width: 768px) {
   #produto-container {
     flex-direction: column;

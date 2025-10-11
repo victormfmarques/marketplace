@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-/* ===============================
-   IMPORTAÇÕES E VARIÁVEIS
+/* ==================================
+  IMPORTAÇÕES E VARIÁVEIS
 ================================== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -17,8 +17,8 @@
   --borda-erro: #C44D4D;
 }
 
-/* ===============================
-   ESTILO GLOBAL
+/* ==================================
+  RESET E CONFIGURAÇÕES GLOBAIS
 ================================== */
 * {
     margin: 0;
@@ -34,8 +34,8 @@ body {
   color: var(--cinza-pedra);
 }
 
-/* ===============================
-   CABEÇALHO
+/* ==================================
+  CABEÇALHO
 ================================== */
 header {
   background-color: var(--verde-folha);
@@ -81,8 +81,8 @@ header a:hover {
   border-radius: 20px;
 }
 
-/* ===============================
-   FOTO DE PERFIL
+/* ==================================
+  FOTO DE PERFIL
 ================================== */
 .profile-pic {
   width: 150px;
@@ -98,10 +98,9 @@ header a:hover {
   color: var(--branco-neve);
 }
 
-/* ===============================
-   FORMULÁRIO
+/* ==================================
+  FORMULÁRIO
 ================================== */
-/* ===== Formulário ===== */
 .content {
   display: flex;
   flex-direction: column;
@@ -152,8 +151,8 @@ span {
   font-weight: bold;
 }
 
-/* ===============================
-   BOTÕES
+/* ==================================
+  BOTÕES
 ================================== */
 #botoes-container {
   display: flex;
@@ -194,7 +193,7 @@ span {
 }
 
 /* ===============================
-   RESPONSIVIDADE
+  RESPONSIVIDADE
 ================================== */
 @media (min-width: 600px) {
   .content {
@@ -214,7 +213,7 @@ span {
 }
 
 /* ===============================
-   MODAL DE FEEDBACK
+  MODAL DE FEEDBACK
 ================================== */
 .feedback {
   position: fixed;
@@ -253,7 +252,7 @@ span {
 }
 
 /* ===============================
-   ANIMAÇÃO DE ERRO
+  ANIMAÇÃO DE ERRO
 ================================== */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
