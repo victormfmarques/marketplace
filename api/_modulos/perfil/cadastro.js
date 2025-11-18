@@ -29,7 +29,8 @@ export default async function handler(req, res) {
         sexo,
         dataNascimento: new Date(dataNascimento), // Converte para Date
         telefone,
-        dataCadastro: new Date()
+        dataCadastro: new Date(),
+        cargo: 'comprador'
       });
 
       res.status(201).json({ 
@@ -40,7 +41,8 @@ export default async function handler(req, res) {
           email,
           sexo,
           dataNascimento,
-          telefone
+          telefone,
+          cargo : 'comprador'
         },
         redirect: "/index.html"
       });

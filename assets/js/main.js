@@ -21,15 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkAddProduto = document.getElementById('link-add-produto');
     const iconeCarrinho = document.getElementById('icone-carrinho');
 
-    // Mostra/esconde elementos com base no login
-    if (usuario) {
-        if (linkAddProduto) linkAddProduto.style.display = 'block'; // ou 'inline-block'
-        if (iconeCarrinho) iconeCarrinho.style.display = 'block'; // ou 'inline-block'
-    } else {
-        if (linkAddProduto) linkAddProduto.style.display = 'none';
-        if (iconeCarrinho) iconeCarrinho.style.display = 'none';
+    // Lógica para o Ícone do Carrinho (visível para qualquer usuário logado)
+    if (iconeCarrinho) {
+        if (usuario) {
+            iconeCarrinho.style.display = 'block'; // ou 'inline-block'
+        } else {
+            iconeCarrinho.style.display = 'none';
+        }
     }
     
+    // Lógica para o Botão "Adicionar Produto" (visível APENAS para vendedores)
+    if (linkAddProduto) {
+        if (usuario && usuario.cargo === 'vendedor') {
+            linkAddProduto.style.display = 'block'; // ou 'inline-block'
+        } else {
+            linkAddProduto.style.display = 'none';
+        }
+    }
+
     // --- INICIALIZAÇÃO DOS MÓDULOS ---
     inicializarProdutos();
     setupCarrinho();
