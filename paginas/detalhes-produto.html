@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Metadados para SEO -->
   <meta name="description" content="Detalhes completos do produto no EcoMarket. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
-  <meta name="author" content="EcoMarket" />
+  <meta name="author" content="EcoMarket"/>
 </head>
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
@@ -28,7 +28,7 @@
       <button id="btn-comprar" aria-label="Comprar este produto">Comprar</button>
 
       <!-- CARRINHO -->
-      <div class="carrinho-icone" title="Carrinho de Compras" aria-label="Carrinho de Compras">
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras" aria-label="Carrinho de Compras">
         <img id="carrinho" src="../assets/img/carrinho.png" alt="Ícone do carrinho de compras" />
         <span id="contador-carrinho" aria-live="polite" aria-atomic="true">0</span>
 
@@ -51,7 +51,7 @@
 
       <!-- NAVEGAÇÃO -->
       <nav aria-label="Navegação da página">
-        <a href="../paginas/home.html" class="btn-home" aria-label="Página inicial">
+        <a href="/index.html" class="btn-home" aria-label="Página inicial">
           <ion-icon name="home-outline"></ion-icon>
         </a>
         <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
@@ -67,6 +67,8 @@
       const urlParams = new URLSearchParams(window.location.search);
       const produtoId = urlParams.get("id");
       const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+      const iconeCarrinho = document.getElementById('icone-carrinho');
 
       if (!produtoId) {
         showError("ID do produto não especificado");
@@ -119,22 +121,30 @@
       btnComprar.onclick = (event) => {
         event.preventDefault();
 
-        const produtoId = window.produtoAtual?.id || window.produtoAtual?._id;
+        // Pega o objeto completo do produto que está no escopo global do script
+        const produtoParaAdicionar = window.produtoAtual;
 
-        if (!produtoId) {
-          console.error("ID do produto não encontrado");
+        if (!produtoParaAdicionar) {
+          console.error("Objeto do produto (produtoAtual) não foi encontrado no window.");
           return;
         }
 
         if (typeof window.adicionarAoCarrinho === "function") {
-          window.adicionarAoCarrinho(produtoId, event);
 
-          btnComprar.textContent = "Adicionado!";
-          setTimeout(() => {
-            btnComprar.textContent = "Comprar";
-          }, 2000);
+          // 1. Chama a função UMA VEZ e guarda o resultado (true ou false)
+          const sucesso = window.adicionarAoCarrinho(produtoParaAdicionar, event);
+
+          // 2. Só muda o texto se a operação foi um sucesso
+          if (sucesso) {
+            btnComprar.textContent = "Adicionado!";
+            setTimeout(() => {
+              btnComprar.textContent = "Comprar";
+            }, 2000);
+          }
+          // Se 'sucesso' for false (usuário não logado), nada acontece com o botão.
+
         } else {
-          console.error("Função adicionarAoCarrinho não encontrada");
+          console.error("Função adicionarAoCarrinho não foi encontrada no window.");
         }
       };
     }
@@ -160,8 +170,8 @@
 
   <!-- SCRIPTS GERAIS -->
   <script type="module" src="../assets/js/modules/carrinho.js"></script>
-  <script type="module" src="../assets/js/modules/feedback.js"></script>
-  <script type="module" src="../assets/js/modules/produtos.js"></script>
+  <script type="module" src="../assets/js/modules/ui.js"></script>
+  <script type="module" src="../assets/js/pages/produtos.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
 
   <!-- IONICONS -->
@@ -171,7 +181,7 @@
   <!-- INICIALIZAÇÃO DO CARRINHO E FEEDBACK -->
   <script type="module">
     import { setupCarrinho, adicionarAoCarrinho } from '../assets/js/modules/carrinho.js';
-    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
+    import { mostrarFeedback } from '../assets/js/modules/ui.js';
 
     window.setupCarrinho = setupCarrinho;
     window.adicionarAoCarrinho = adicionarAoCarrinho;

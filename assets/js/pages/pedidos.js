@@ -1,6 +1,9 @@
-// /js/modules/pedidos.js
+// assets/js/pages/pedidos.js
 
-import { mostrarFeedback } from './feedback.js';
+// =========================== IMPORTAÇÕES ===============================
+import { mostrarFeedback } from '../modules/ui.js';
+import { pedidosAPI } from '../modules/api.js';
+// =======================================================================
 
 const lista = document.getElementById("lista-pedidos");
 const modal = document.getElementById("cancelModal");
@@ -93,10 +96,7 @@ async function carregarPedidos() {
   lista.innerHTML = window.criarLoader("Carregando seus pedidos...");
 
   try {
-    const res = await fetch(`/api?rota=perfil/pedidos&usuarioId=${usuarioId}`);
-    
-    //throw new Error("Teste de erro para verificar layout");
-    const pedidos = await res.json();
+    const pedidos = await pedidosAPI.listar(usuarioId);
 
     renderizarPedidos(pedidos);
     } catch (error) {
@@ -136,19 +136,14 @@ async function cancelarPedido() {
 
   try {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-    const res = await fetch("/api?rota=perfil/cancelarPedido", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const data = await pedidosAPI.cancelar({
         pedidoId: currentOrderId,
         motivo: cancelReason.value.trim() || "Motivo não informado",
         usuarioId: usuario._id,
         email: usuario.email,
         senha: password
-      })
     });
 
-    const data = await res.json();
     if (data.success) {
       mostrarFeedback('Solicitação de cancelamento enviada ao vendedor!', 'aviso');
       closeModal();

@@ -1,12 +1,21 @@
 // js/modules/carrinho.js
 import { config } from './config.js';
-import { mostrarFeedback } from './feedback.js';
+import { mostrarFeedback } from './ui.js';
 
 // Estado centralizado do carrinho
-let carrinho = JSON.parse(localStorage.getItem(getChaveCarrinho())) || [];
+let carrinho = []; // Começa sempre vazio na memória
+
+function carregarCarrinhoDoStorage() {
+    const carrinhoSalvo = JSON.parse(localStorage.getItem(getChaveCarrinho())) || [];
+    // Filtra o carrinho para garantir que cada item seja um objeto válido com id e preço
+    carrinho = carrinhoSalvo.filter(item => 
+        item && typeof item === 'object' && item.id && typeof item.preco === 'number'
+    );
+}
 
 // Inicialização do carrinho
 export function setupCarrinho() {
+  carregarCarrinhoDoStorage();
   atualizarCarrinhoUI();
 
   document.querySelector('.carrinho-icone')?.addEventListener('click', toggleCarrinho);
@@ -17,34 +26,60 @@ export function setupCarrinho() {
 }
 
 // Adicionar produto ao carrinho
-export function adicionarAoCarrinho(produtoId, event) {
-  event?.preventDefault();
-  event?.stopPropagation();
+export function adicionarAoCarrinho(produto, event) { 
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
 
-  const produto = window.produtosCarregados?.find(p => p.id === produtoId);
-  if (!produto) return;
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuario) {
+        
+      // 1. Mostra o feedback
+        if (!usuario) {
+            mostrarFeedback('Você precisa fazer login para continuar.', 'aviso');
+        } else {
+            alert('Você precisa fazer login para continuar.');
+        }
 
-  const itemExistente = carrinho.find(item => item.id === produtoId);
+      // 2. ESPERA um pouco antes de redirecionar
+        setTimeout(() => {
+            window.location.href = `/paginas/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        }, 4000); // Espera 4000 milissegundos (4 segundos)
 
-  if (itemExistente) {
-    itemExistente.quantidade += 1;
-  } else {
-    carrinho.push({
-      id: produto.id,
-      nome: produto.nome,
-      preco: produto.preco,
-      imagem: produto.foto || config.placeholderImage,
-      quantidade: 1,
-      vendedor: {
-        nome: produto.vendedor?.nome || 'Vendedor',
-        email: produto.vendedor?.email || 'Email não informado',
-        telefone: produto.vendedor?.telefone || 'Telefone não informado'
-      }
-    });
-  }
+        return false;
+    }
 
-  persistirCarrinho();
-  mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
+    // Não precisamos mais procurar o produto, já o recebemos!
+    if (!produto) {
+        console.warn(`Objeto do produto não foi fornecido para adicionar ao carrinho.`);
+        return;
+    }
+
+    const itemExistente = carrinho.find(item => (item.id || item._id) === (produto.id || produto._id));
+
+    if (itemExistente) {
+        itemExistente.quantidade += 1;
+    } else {
+        carrinho.push({
+            id: produto.id || produto._id,
+            nome: produto.nome,
+            preco: produto.preco,
+            imagem: produto.foto || produto.fotos?.[0] || config.placeholderImage,
+            quantidade: 1,
+            vendedor: {
+                nome: produto.vendedor?.nome || 'Vendedor',
+                email: produto.vendedor?.email || 'Email não informado',
+                telefone: produto.vendedor?.telefone || 'Telefone não informado'
+            }
+        });
+    }
+
+    // Chama a função que salva e atualiza a tela
+    persistirCarrinho();
+    mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
+
+    return true;
 }
 
 // Funções auxiliares
@@ -166,7 +201,3 @@ function getChaveCarrinho() {
   }
   return 'carrinho_anonimo';
 }
-
-
-// Expondo para uso global se necessário
-window.adicionarAoCarrinho = adicionarAoCarrinho;

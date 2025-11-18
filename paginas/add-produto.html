@@ -66,16 +66,15 @@
   <!-- SCRIPT PRINCIPAL -->
   <script type="module">
     import { cadastrarProduto } from '../assets/js/modules/produtos.js';
-    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
+    import { mostrarFeedback } from '../assets/js/modules/ui.js';
 
     document.addEventListener('DOMContentLoaded', () => {
-      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-      if (!usuarioLogado || !usuarioLogado._id) {
-        mostrarFeedback('Você precisa estar logado para cadastrar produtos');
-        setTimeout(() => window.location.href = '/index.html', 3000);
-        return;
-      }
+      
+      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuario) {
+            mostrarFeedback('Você precisa estar logado para cadastrar produtos');
+            window.location.href = '/login.html'; // Redireciona para o login
+        }
 
       const form = document.getElementById('form-produto');
 

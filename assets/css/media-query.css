@@ -21,6 +21,10 @@
         float: right;
         width: 70%;
     }
+    
+    #alinhamento h1 {
+    transform: translateX(-80%);
+    }
 }
 
 @media screen and (min-width: 992px) { /* CONFIGURAÇÃO PARA DESKTOP  */
@@ -31,7 +35,7 @@
 
     section#login {
         width: 950px;
-        height: 370px;
+        height: 380px;
     }
 
     section#login > div#imagem {
@@ -52,6 +56,10 @@
     div#formulario > p {
         font-size: 1em;
         margin: 20px 0px;
+    }
+
+    #alinhamento h1 {
+    transform: translateX(-90%);
     }
 
     a.botao {

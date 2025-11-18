@@ -18,13 +18,6 @@
     <meta property="og:type" content="website">
 </head>
 <body>
-    <script>
-      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-      if (!usuario || !usuario.email) {
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = '/index.html?redirect=' + encodeURIComponent(window.location.pathname);
-      }
-    </script>
     <!-- NOTIFICAÇÃO DE FEEDBACK -->
     <div id="feedback" class="feedback" aria-live="polite"></div>
 
@@ -37,18 +30,18 @@
       <div class="header-controls">
         <ul>
           <li>
-            <a href="../paginas/home.html">
+            <a href="/index.html">
               <ion-icon title="Voltar à página Home" name="home-outline" id="home-p"></ion-icon>
             </a>
           </li>
           <li>
-            <a href="add-produto.html" class="nav-link" title="Adicionar Produto">
+            <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto">
               <ion-icon name="add-circle-outline"></ion-icon>
             </a>
           </li>
         </ul>
         <!-- CARRINHO -->
-        <div class="carrinho-icone" title="Carrinho de Compras">
+        <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
           <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30" />
           <span id="contador-carrinho">0</span>
           <div class="carrinho-dropdown" id="carrinho-dropdown">

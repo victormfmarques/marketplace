@@ -141,6 +141,25 @@ nav ul li a:hover {
   border-radius: 20px;
 }
 
+/* --- CSS PARA O MENU DINÂMICO --- */
+
+/* Por padrão, os itens dinâmicos começam escondidos */
+#link-minha-conta,
+#link-login,
+#link-logout,
+#icone-carrinho {
+    display: none;
+}
+
+/* Quando o JS adiciona a classe .visivel, eles aparecem como inline-block */
+#link-minha-conta.visivel,
+#link-login.visivel,
+#link-logout.visivel, 
+#icone-carrinho.visivel {
+    display: inline-block;
+    cursor: pointer;
+}
+
 #saudacao {
   color: white;
   font-weight: bold;
@@ -476,7 +495,14 @@ nav ul li a:hover {
 /* =============================================
   RESPONSIVIDADE
 ============================================= */
-@media (max-width: 800px) {
+  @media (max-width: 840px) {
+    #link-minha-conta.visivel,
+    #link-login.visivel,
+    #link-logout.visivel,
+    #icone-carrinho.visivel {
+      display: block;
+  }
+
   nav ul {
     position: absolute;
     top: 60px;
@@ -485,7 +511,7 @@ nav ul li a:hover {
     border-radius: 0 0 10px 10px;
   }
 
-  nav ul li {
+  nav ul li{
     display: block;
     margin: 10px 30px;
     padding: 2px;

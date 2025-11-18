@@ -1,3 +1,11 @@
+// assets/js/pages/auth.js
+
+// =========================== IMPORTAÇÕES ===============================
+import { formatarTelefone } from '../modules/utils.js';
+import { mostrarFeedback } from '../modules/ui.js';
+import { authAPI } from '../modules/api.js';
+// =======================================================================
+
 // ========== LOGIN ==========
 document.getElementById('form-login')?.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -28,29 +36,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
       throw new Error('Por favor, informe sua senha');
     }
 
-    // ⭐⭐ SOLUÇÃO ALTERNATIVA - Sem AbortController ⭐⭐
-    const fetchWithTimeout = (url, options, timeout = 15000) => {
-      return Promise.race([
-        fetch(url, options),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout: A requisição demorou muito')), timeout)
-        )
-      ]);
-    };
-
-    // Requisição COM timeout alternativo
-    const response = await fetchWithTimeout('/api?rota=perfil/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha })
-    });
-
-    // Tratamento da resposta
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Erro no servidor durante o login');
-    }
+    const data = await authAPI.login(email, senha);
 
     // Armazenamento seguro do usuário
     localStorage.setItem('usuarioLogado', JSON.stringify({
@@ -62,7 +48,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     
     // Redirecionamento seguro após o feedback
     setTimeout(() => {
-      window.location.href = data.redirect || '/paginas/home.html';
+      window.location.href = data.redirect || '/index.html';
     }, 2000);
 
   } catch (error) {
@@ -95,7 +81,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 document.getElementById('form-cadastro')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const btnCadastro = document.querySelector('#form-cadastro button[type="submit"]');
+  const btnCadastro = document.querySelector('#form-cadastro input[type="submit"]');
   const senhaInput = document.getElementById('isenha');
   const confirmacaoSenhaInput = document.getElementById('iconfirmasenha');
 
@@ -103,7 +89,7 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     // Estado de loading
     if (btnCadastro) {
       btnCadastro.disabled = true;
-      btnCadastro.textContent = 'Registrando...';
+      btnCadastro.value = 'Registrando...';
     }
 
     // Validação dos dados
@@ -148,18 +134,7 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     senhaInput.classList.remove('error-border');
     confirmacaoSenhaInput.classList.remove('error-border');
 
-    // Requisição
-    const response = await fetch('/api?rota=perfil/cadastro', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(usuario)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Erro ao processar cadastro');
-    }
+    const data = await authAPI.cadastrar(usuario);
 
     // Armazenamento e redirecionamento
     localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
@@ -167,7 +142,7 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     
     // Redirecionamento após o feedback
     setTimeout(() => {
-      window.location.href = data.redirect || '/paginas/home.html';
+      window.location.href = data.redirect || '/index.html';
     }, 2000);
 
   } catch (error) {
@@ -176,54 +151,30 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
   } finally {
     if (btnCadastro) {
       btnCadastro.disabled = false;
-      btnCadastro.textContent = 'Cadastrar';
+      btnCadastro.value = 'Cadastrar';
     }
   }
 });
 
 // Formatação dinâmica do telefone
-document.getElementById('itel')?.addEventListener('input', function(e) {
-  const input = e.target;
-  let rawValue = input.value.replace(/\D/g, ''); // só números
-
-  // Armazena a posição antiga do cursor relativa ao fim do input
-  const oldCursorPos = input.selectionStart;
-  const oldLength = input.value.length;
-
-  // Aplica a formatação no rawValue
-  let formattedValue = '';
-  if (rawValue.length > 0) {
-    formattedValue = `(${rawValue.substring(0, 2)}) `;
-    if (rawValue.length <= 6) {
-      formattedValue += rawValue.substring(2);
-    } else if (rawValue.length <= 10) {
-      formattedValue += rawValue.substring(2, rawValue.length - 4) + '-' + rawValue.substring(rawValue.length - 4);
-    } else {
-      formattedValue += rawValue.substring(2, 7) + '-' + rawValue.substring(7, 11);
-    }
-  }
-
-  // Atualiza o valor no input
-  input.value = formattedValue;
-
-  // Calcula a nova posição do cursor
-  const newLength = formattedValue.length;
-  const diffLength = newLength - oldLength;
-
-  let newCursorPos = oldCursorPos + diffLength;
-
-  // Corrige cursor para não passar do tamanho do texto
-  if (newCursorPos > newLength) newCursorPos = newLength;
-  if (newCursorPos < 0) newCursorPos = 0;
-
-  // Ajusta o cursor para a nova posição
-  input.setSelectionRange(newCursorPos, newCursorPos);
-});
+const campoTelefone = document.getElementById('itel');
+if (campoTelefone) {
+    campoTelefone.addEventListener('input', (e) => {
+        // Pega o valor atual do campo
+        const valorAtual = e.target.value;
+        
+        // Usa a função importada para formatar o valor
+        const valorFormatado = formatarTelefone(valorAtual);
+        
+        // Atualiza o valor do campo com o resultado formatado
+        e.target.value = valorFormatado;
+    });
+}
 
 // Se já estiver logado, manda pra home direto
 document.addEventListener("DOMContentLoaded", () => {
   const usuario = localStorage.getItem("usuarioLogado");
   if (usuario) {
-    window.location.href = "/paginas/home.html";
+    window.location.href = "/index.html";
   }
 });

@@ -103,6 +103,17 @@ header {
   margin-top: 10px;
 }
 
+/* Esconde os ícones por padrão */
+#link-add-produto,
+#icone-carrinho {
+    display: none;
+}
+
+#link-add-produto.visivel,
+#icone-carrinho.visivel {
+    display: block;
+}
+
 /* ==================================
   CARRINHO DE COMPRAS
 ================================== */

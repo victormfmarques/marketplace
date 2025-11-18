@@ -15,7 +15,7 @@
     <div class="titulo">
       <h1>Editar Produto</h1>
       <!-- NAVEGAÇÃO -->
-      <a href="../paginas/home.html" class="btn-home" title="Voltar para a página inicial">
+      <a href="../index.html" class="btn-home" title="Voltar para a página inicial">
         <ion-icon name="home-outline"></ion-icon>
       </a>
       <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
@@ -81,7 +81,7 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script type="module">
-    import { mostrarFeedback } from '../assets/js/modules/feedback.js';
+    import { mostrarFeedback } from '../assets/js/modules/ui.js';
 
     const produtoId = new URLSearchParams(window.location.search).get('id');
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));

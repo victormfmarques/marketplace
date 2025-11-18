@@ -1,4 +1,10 @@
-import { mostrarFeedback } from "./feedback.js";
+// assets/js/pages/finalizar-pedido.js
+
+// =========================== IMPORTAÇÕES ===============================
+import { authAPI } from "../modules/api.js";
+import { pedidosAPI } from "../modules/api.js";
+import { mostrarFeedback } from "../modules/ui.js";
+// =======================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
   const btnFinalizar = document.querySelector("#registrar-pedido");
@@ -43,34 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      // Verifica a senha com o backend
-      const verificar = await fetch("/api?rota=perfil/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: usuario.email, senha })
-      });
+      // 1. Verifica a senha usando a API de autenticação.
+      // Se a senha estiver errada, a função 'login' vai lançar um erro e o código vai pular para o 'catch'.
+      await authAPI.login(usuario.email, senha);
 
-      const resultado = await verificar.json();
-
-      if (!resultado.success) {
-        mostrarFeedback(resultado.message || 'Senha incorreta.', 'erro');
-        return;
-      }
-
-      // Se senha estiver correta, registra o pedido
+      // 2. Se a senha estiver correta, registra o pedido usando a API de pedidos.
       const total = carrinho.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
-
-      const response = await fetch("/api?rota=perfil/pedidos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await pedidosAPI.registrar({
           usuarioId: usuario._id,
           produtos: carrinho,
           total
-        })
       });
-
-      const data = await response.json();
 
       if (data.success) {
         localStorage.removeItem(`carrinho_${usuario.email}`);

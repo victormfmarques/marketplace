@@ -1,6 +1,14 @@
 /* ============================
   CARRINHO DE COMPRAS
 ============================ */
+#icone-carrinho {
+    display: none;
+}
+
+#icone-carrinho.visivel {
+    display: block;
+}
+
 #lista-carrinho {
   max-height: 300px;
   overflow-y: auto;

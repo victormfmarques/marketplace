@@ -42,7 +42,7 @@ export default async function handler(req, res) {
           dataNascimento,
           telefone
         },
-        redirect: "/paginas/home.html"
+        redirect: "/index.html"
       });
 
     } catch (error) {

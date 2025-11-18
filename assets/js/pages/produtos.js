@@ -1,4 +1,11 @@
-// assets/js/modules/produtos.js
+// assets/js/pages/produtos.js
+
+// =========================== IMPORTAÇÕES ===============================
+import { setProdutos, encontrarProdutoPorId } from '../modules/store.js';
+import { adicionarAoCarrinho } from '../modules/carrinho.js';
+import { produtosAPI } from '../modules/api.js';
+// =======================================================================
+
 if (!window.mostrarErro) {
   window.addEventListener('load', () => {
     console.warn('Funções globais ainda não estavam prontas, recarregando...');
@@ -12,10 +19,10 @@ const produtoConfig = {
 
 // -------------------- FUNÇÕES AUXILIARES --------------------
 
-function renderizarProdutos(produtos) {
+function renderizarProdutos(produtos, basePath = '') {
   return produtos.map(produto => `
     <div class="produto-card" data-id="${produto.id || produto._id}">
-      <a href="detalhes-produto.html?id=${produto.id || produto._id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
+      <a href="${basePath}detalhes-produto.html?id=${produto.id || produto._id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
         <img src="${produto.foto || produto.fotos?.[0] || produtoConfig.placeholderImage}" 
              alt="${produto.nome}"
              onerror="this.src='${produtoConfig.placeholderImage}'">
@@ -35,10 +42,15 @@ function configurarEventosProdutos() {
   document.querySelectorAll('.produto-btn-comprar').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const produtoId = e.target.dataset.id;
-      if (window.adicionarAoCarrinho) {
-        window.adicionarAoCarrinho(produtoId, e);
+      
+      // Encontra o objeto do produto na lista de produtos carregados
+      const produtoParaAdicionar = encontrarProdutoPorId(produtoId);
+
+      if (produtoParaAdicionar) {
+        // Passa o objeto completo para a função
+        adicionarAoCarrinho(produtoParaAdicionar, e); 
       } else {
-        console.error('Função adicionarAoCarrinho não está disponível');
+        console.error(`Produto com ID ${produtoId} não encontrado no store.`);
       }
     });
   });
@@ -50,27 +62,24 @@ export async function carregarProdutos(containerId, params = {}) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
+  // Detecta de qual página estamos vindo
+  const isHomePage = window.location.pathname === '/index.html' || window.location.pathname === '/';
+  const basePath = isHomePage ? 'paginas/' : '';
+
   try {
     container.innerHTML = window.criarLoader("Carregando produtos...");
 
-    params._ = new Date().getTime();
     const queryString = new URLSearchParams(params).toString();
-    const url = `/api?rota=produtos/listar&${queryString}`;
-
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-
-    //throw new Error("Teste de erro para verificar layout");
-    const result = await response.json();
-    if (!result.success) throw new Error(result.error || 'Erro na resposta da API');
+    const result = await produtosAPI.listar(queryString);
 
     if (!result.data || result.data.length === 0) {
       container.innerHTML = window.criarMensagem('Nenhum produto disponível', 'info');
       return;
     }
 
-    window.produtosCarregados = result.data;
-    container.innerHTML = renderizarProdutos(result.data);
+    setProdutos(result.data);
+    // PASSA O basePath PARA A FUNÇÃO DE RENDERIZAÇÃO
+    container.innerHTML = renderizarProdutos(result.data, basePath); 
     configurarEventosProdutos();
 
   } catch (error) {
@@ -103,41 +112,6 @@ export function inicializarProdutos() {
   }
 }
 
-export function adicionarAoCarrinho(produtoId, event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  let produto = window.produtosCarregados?.find(p => p.id === produtoId) 
-                || (window.produtoAtual?.id === produtoId ? window.produtoAtual : null);
-
-  if (!produto) {
-    console.warn(`Produto com id ${produtoId} não encontrado para adicionar ao carrinho.`);
-    return;
-  }
-
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  const itemExistente = carrinho.find(item => item.id === produtoId);
-
-  if (itemExistente) itemExistente.quantidade += 1;
-  else carrinho.push({
-    id: produto.id || produto._id,
-    nome: produto.nome,
-    preco: produto.preco,
-    imagem: produto.foto || produtoConfig.placeholderImage,
-    quantidade: 1,
-    vendedor: {
-      nome: produto.vendedor?.nome || 'Vendedor',
-      email: produto.vendedor?.email || 'Email não informado',
-      telefone: produto.vendedor?.telefone || 'Telefone não informado'
-    }
-  });
-
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  window.mostrarFeedback(`${produto.nome} adicionado ao carrinho!`);
-}
-
 // -------------------- PRODUTOS DO USUÁRIO --------------------
 
 const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -150,19 +124,7 @@ if (usuarioLogado) {
     try {
       container.innerHTML = window.criarLoader("Carregando seus produtos...");
 
-      const params = new URLSearchParams({
-        rota: 'perfil/produtos-usuario',
-        usuarioId: usuarioLogado._id,
-        _: new Date().getTime()
-      });
-      
-      const response = await fetch(`/api?${params.toString()}`);
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-
-      //throw new Error("Teste de erro para verificar layout");
-
-      const result = await response.json();
-      if (!result.success) throw new Error(result.error || 'Erro na resposta da API');
+      const result = await produtosAPI.listarPorUsuario(usuarioLogado._id);
 
       if (result.data.length === 0) {
         container.innerHTML = window.criarMensagem('Você ainda não postou produtos.', 'info');
@@ -206,7 +168,6 @@ if (usuarioLogado) {
 }
 
 // -------------------- EXPORTS GLOBAIS --------------------
-window.adicionarAoCarrinho = adicionarAoCarrinho;
 window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;
 

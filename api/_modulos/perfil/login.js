@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       success: true,
       message: 'Login realizado com sucesso!',
       usuario: usuarioSemSenha,
-      redirect: '/paginas/home.html'
+      redirect: '/index.html'
     });
 
   } catch (error) {

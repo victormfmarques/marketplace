@@ -1,240 +1,184 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <!-- Codificação e responsividade -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Título e SEO -->
-  <title>Login - EcoMarket Samavi</title>
-  <meta name="description" content="Faça login para acessar sua conta no EcoMarket Samavi, o marketplace local de produtos sustentáveis de Santa Maria da Vitória.">
-  <meta name="keywords" content="login, EcoMarket, Santa Maria da Vitória, produtos sustentáveis, pequenos produtores">
-  <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi">
-  <meta name="robots" content="noindex, nofollow"> <!-- Página de login não deve ser indexada -->
-  <!-- Open Graph para redes sociais -->
-  <meta property="og:title" content="Login - EcoMarket Samavi">
-  <meta property="og:description" content="Acesse sua conta para comprar produtos locais sustentáveis.">
-  <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png">
-  <meta property="og:url" content="https://ecomarket-samavi.vercel.app">
-  <meta property="og:type" content="website">
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Login - EcoMarket Samavi">
-  <meta name="twitter:description" content="Acesse sua conta no EcoMarket Samavi e apoie produtores locais.">
-  <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png">
-  <!-- Favicon e Estilos -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="./assets/css/login.css">
-  <link rel="stylesheet" href="./assets/css/media-query.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap&icons=mail,autorenew">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoMarket - Produtos ecológicos e sustentáveis</title>
+    <meta name="description" content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
+    <meta name="keywords" content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
+    <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi" />
+    <meta name="robots" content="index, follow" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
+    <meta property="og:description" content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
+    <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
+    <meta property="og:url" content="https://ecomarket-samavi.vercel.app/index.html" />
+    <meta property="og:type" content="website" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
+    <meta name="twitter:description" content="Marketplace local para produtos sustentáveis e regionais." />
+    <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
+    <!-- LINKS CSS E ICON -->
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/home.css" />
+    <link rel="stylesheet" href="./assets/css/carrinho.css">
 </head>
 <body>
-  <div id="feedback" role="alert" aria-live="assertive"></div>
-  <main>
-    <section id="login" aria-label="Formulário de login do EcoMarket">
-      <div id="imagem" role="presentation" aria-hidden="true"></div>
+    <!-- CABEÇALHO -->
+    <header class="banner">
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+        <div class="container">
+            <!-- BARRA DE NAVEGAÇÃO -->
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../assets/img/logo.png" alt="Logo EcoMarket">
+                </div>
 
-      <div id="formulario">
-        <h1>Login</h1>
-        <p>Seja bem-vindo(a)! Faça login para acessar sua conta e configurar seu ambiente.</p>
+                <!-- MENU PRINCIPAL -->
+                <nav>
+                    <ul>
+                        <li><p id="saudacao"></p></li>
+                        <li><a href="../paginas/produtos.html">Produtos</a></li>
+                        <li><a href="../paginas/contatos.html">Fale Conosco</a></li>
+                        <!-- Itens que mudam -->
+                        <li id="link-minha-conta"><a href="../paginas/conta.html">Minha Conta</a></li>
+                        <li id="link-login"><a href="/paginas/login.html">Login / Cadastro</a></li>
+                        <li id="link-logout"><a id="btn-logout-menu">Sair</a></li>
+                    </ul>
+                </nav>
 
-        <form id="form-login" method="post" autocomplete="on" aria-label="Formulário de login">
-          <div class="campo">
-            <span class="material-icons" aria-hidden="true">person</span>
-            <input type="email" name="email" id="iemail" placeholder="seu e-mail" autocomplete="email" required maxlength="80" aria-label="E-mail">
-            <label for="iemail" class="visually-hidden">E-mail</label>
-          </div>
+                <!-- CARRINHO DE COMPRAS -->
+                <div id="icone-carrinho" class="carrinho-icone">
+                    <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30">
+                    <span id="contador-carrinho">0</span>
+                    <div class="carrinho-dropdown" id="carrinho-dropdown">
+                        <div id="lista-carrinho"></div>
+                        <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+                        <div class="carrinho-botoes">
+                            <button class="btn-limpar">Limpar Carrinho</button>
+                            <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
 
-          <div class="campo">
-            <span class="material-icons" aria-hidden="true">vpn_key</span>
-            <input type="password" name="senha" id="isenha" placeholder="sua senha" autocomplete="current-password" required minlength="8" aria-label="Senha">
-            <label for="isenha" class="visually-hidden">Senha</label>
-            <a href="#" id="link-esqueci-senha">🔐 Esqueceu sua senha?</a>
-          </div>
-
-          <input type="submit" value="Entrar" id="btn-login" aria-label="Entrar na conta">
-          <a href="./paginas/registro.html" class="botao" aria-label="Criar nova conta">Crie sua conta
-            <span class="material-icons" aria-hidden="true">mail</span>
-          </a>
-        </form>
-        <!-- Modal Esqueci Senha -->
-        <div id="modal-esqueci-senha" class="modal" aria-hidden="true">
-          <div class="modal-content" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-desc">
-            <span class="close-modal" id="fechar-esqueci-senha" aria-label="Fechar">&times;</span>
-            <h2 id="modal-title">Redefinir senha</h2>
-            <p id="modal-desc" class="desc">Digite seu e-mail para receber o link de redefinição.</p>
-            <form id="form-esqueci-senha">
-              <div class="campo">
-                <span class="material-icons" aria-hidden="true">mail</span>
-                <input type="email" name="email" id="email-esqueci" placeholder="seu e-mail" required>
-              </div>
-              <button type="submit" class="botao-enviar">Enviar link</button>
-            </form>
-          </div>
+            <!-- BANNER -->
+            <section class="linha">
+                <div class="col-2-banner">
+                    <picture>
+                        <source media="(max-width: 780px)" srcset="../assets/img/banner-mobile1.png">
+                        <img src="../assets/img/banner-home.png" alt="Estilo de vida sustentável">
+                    </picture>
+                </div>
+            </section>
         </div>
-        <!-- Modal Redefinir Senha -->
-        <div id="modal-redefinir-senha" class="modal" aria-hidden="true">
-          <div class="modal-content" role="dialog" aria-labelledby="modal-redefinir-title" aria-describedby="modal-redefinir-desc">
-            <span class="close-modal" id="fechar-redefinir-senha" aria-label="Fechar">&times;</span>
-            <h2 id="modal-redefinir-title">Redefinir senha</h2>
-            <p id="modal-redefinir-desc" class="desc">Cole o token que recebeu no e-mail e defina sua nova senha.</p>
-            <form id="form-redefinir-senha">
-              <div class="campo">
-                <span class="material-symbols-outlined">mail_lock</span>
-                <input type="text" name="token" id="input-token" placeholder="Token" required>
-              </div>
-              <div class="campo">
-                <span class="material-icons" aria-hidden="true">vpn_key</span>
-                <input type="password" name="senha" id="nova-senha" placeholder="Nova senha" required minlength="8">
-              </div>
-              <div class="campo">
-                <span class="material-symbols-outlined">autorenew</span>
-                <input type="password" name="confirmarSenha" id="confirma-nova-senha" placeholder="Confirme a nova senha" required minlength="8">
-              </div>
-              <button type="submit" class="botao-enviar">Redefinir senha</button>
-            </form>
-          </div>
+    </header>
+
+    <!-- CATEGORIAS -->
+    <section class="categorias">
+        <div class="corpo-categorias">
+            <h2 class="titulo">Nossas Categorias</h2>
+            <div class="linha">
+                <article class="col-3">
+                    <h3>Higiene Pessoal</h3>
+                    <img src="../assets/img/categoria-1.jpg" alt="Produtos de higiene sustentáveis">
+                </article>
+                <article class="col-3">
+                    <h3>Moda Sustentável</h3>
+                    <img src="../assets/img/categoria-2.jpg" alt="Moda ecológica">
+                </article>
+                <article class="col-3">
+                    <h3>Decoração Ecológica</h3>
+                    <img src="../assets/img/categoria-3.jpg" alt="Decoração sustentável">
+                </article>
+            </div>
         </div>
-      </div>
     </section>
-  </main>
-  <!-- SCRIPTS -->
-  <script src="../assets/js/vercel-analytics.js"></script>
-  <script type="module" src="./assets/js/modules/feedback.js"></script>
-  <script src="./assets/js/auth.js" defer></script>
-  <script>
-    const modalEsqueci = document.getElementById('modal-esqueci-senha');
-    const abrirModal = document.getElementById('link-esqueci-senha');
-    const fecharModal = document.getElementById('fechar-esqueci-senha');
-    const formEsqueci = document.getElementById('form-esqueci-senha');
 
-    abrirModal.addEventListener('click', (e) => {
-      e.preventDefault();
-      modalEsqueci.classList.add('active');
-      modalEsqueci.setAttribute('aria-hidden', 'false');
-    });
+    <!-- PRODUTOS EM DESTAQUE -->
+    <main class="home-page">
+        <section class="produtos-section">
+            <h2 class="titulo">Produtos em Destaque</h2>
+            <div>
+                <div class="produtos-grid" id="produtos-destaque"></div>
+            </div>
+        </section>
+    </main>
 
-    fecharModal.addEventListener('click', () => {
-      modalEsqueci.classList.remove('active');
-      modalEsqueci.setAttribute('aria-hidden', 'true');
-    });
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+        <div class="corpo-categorias">
+            <div class="linha">
+                <div class="col-2">
+                    <h1>Escolha um novo <br> estilo de vida!</h1>
+                    <p>Quem ama preserva, preservar o meio <br> ambiente é preservar a vida</p> <br>
+                    <a href="../paginas/informacoes.html" class="btn">Mais Informações &#8594;</a>
+                </div>
+                <div class="col-2">
+                    <img src="../assets/img/lixeiras.png" alt="">
+                </div>
+            </div>
+        </div>
+    </footer>
 
-    modalEsqueci.addEventListener('click', (e) => {
-      if (e.target === modalEsqueci) {
-        modalEsqueci.classList.remove('active');
-        modalEsqueci.setAttribute('aria-hidden', 'true');
-      }
-    });
+    <!-- SCRIPTS -->
+    <script src="../assets/js/vercel-analytics.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Pega os elementos do menu que vamos manipular
+            const saudacaoEl = document.getElementById('saudacao');
+            const linkMinhaConta = document.getElementById('link-minha-conta');
+            const linkLogin = document.getElementById('link-login');
+            const linkLogout = document.getElementById('link-logout');
+            const btnLogoutMenu = document.getElementById('btn-logout-menu');
+            const iconeCarrinho = document.getElementById('icone-carrinho');
 
-    formEsqueci.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email-esqueci').value;
+            // 2. Verifica se o usuário está logado
+            const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-    try {
-      const res = await fetch(`/api?rota=perfil/esqueci-senha`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+            if (usuario && usuario.nome) {
+                // --- CENÁRIO: USUÁRIO LOGADO ---
 
-      const data = await res.json();
+                // Pega o primeiro nome para a saudação
+                const nomeFinal = usuario.nome.split(' ')[0];
+                saudacaoEl.textContent = `Olá, ${nomeFinal}!`;
 
-      if (res.ok) {
-        mostrarFeedback(data.message || `Se o e-mail ${email} estiver cadastrado, enviaremos um link de redefinição.`, 'sucesso', 8000);
-      } else {
-        mostrarFeedback(data.message || 'Erro ao enviar e-mail.', 'erro', 8000);
-      }
+                // Mostra os links de "Minha Conta" e "Sair"
+                linkMinhaConta.classList.add('visivel');
+                linkLogout.classList.add('visivel');
+                iconeCarrinho.classList.add('visivel');
 
-    } catch (error) {
-      mostrarFeedback('Erro na requisição. Tente novamente.', 'erro', 8000);
-    }
+                // Adiciona a função ao botão de Sair
+                btnLogoutMenu.addEventListener('click', (e) => {
+                    e.preventDefault(); // Previne que o link '<a>' tente navegar
+                    localStorage.removeItem('usuarioLogado');
+                    
+                    // VERIFICA se a função existe antes de usar
+                    if (typeof window.mostrarFeedback === 'function') {
+                        window.mostrarFeedback('Saindo da sua conta...', 'aviso');
+                        setTimeout(() => {
+                            window.location.href = '/paginas/login.html';
+                        }, 3000);
+                    } else {
+                        // Fallback: redireciona diretamente se a função não estiver disponível
+                        console.warn('Função mostrarFeedback não disponível, redirecionando...');
+                        window.location.href = '/paginas/login.html';
+                    }
+                });
 
-    setTimeout(() => {
-      modalEsqueci.classList.remove('active');
-      formEsqueci.reset();
-    }, 8000);
-    });
+            } else {
+                // --- CENÁRIO: VISITANTE (NÃO LOGADO) ---
 
-    const modalRedefinir = document.getElementById('modal-redefinir-senha');
-    const fecharRedefinir = document.getElementById('fechar-redefinir-senha');
-    const formRedefinir = document.getElementById('form-redefinir-senha');
-
-    // Função para abrir o modal Redefinir Senha (você pode chamar quando quiser)
-    function abrirModalRedefinir() {
-      modalRedefinir.classList.add('active');
-      modalRedefinir.setAttribute('aria-hidden', 'false');
-    }
-
-    // Fecha modal ao clicar no X
-    fecharRedefinir.addEventListener('click', () => {
-      modalRedefinir.classList.remove('active');
-      modalRedefinir.setAttribute('aria-hidden', 'true');
-      formRedefinir.reset();
-    });
-
-    // Fecha modal ao clicar fora do conteúdo
-    modalRedefinir.addEventListener('click', (e) => {
-      if (e.target === modalRedefinir) {
-        modalRedefinir.classList.remove('active');
-        modalRedefinir.setAttribute('aria-hidden', 'true');
-        formRedefinir.reset();
-      }
-    });
-
-    // Envio do formulário para resetar senha
-    formRedefinir.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const token = document.getElementById('input-token').value.trim();
-      const senha = document.getElementById('nova-senha').value;
-      const confirmarSenha = document.getElementById('confirma-nova-senha').value;
-
-      if (senha !== confirmarSenha) {
-        mostrarFeedback('As senhas não conferem.', 'erro');
-        return;
-      }
-
-      try {
-        const res = await fetch(`/api?rota=perfil/resetar-senha&token=${encodeURIComponent(token)}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ senha, confirmarSenha }),
+                saudacaoEl.textContent = 'Bem-vindo(a)!';
+                linkLogin.classList.add('visivel');
+            }
         });
-        const data = await res.json();
-
-        if (res.ok) {
-          mostrarFeedback(data.message || 'Senha redefinida com sucesso.', 'sucesso');
-          setTimeout(() => {
-            modalRedefinir.classList.remove('active');
-            formRedefinir.reset();
-          }, 4000);
-        } else {
-          mostrarFeedback(data.message || 'Erro ao redefinir senha.', 'erro');
-        }
-      } catch {
-        mostrarFeedback('Erro na requisição. Tente novamente.', 'erro');
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-
-    if (token) {
-      // Abre o modal de redefinir senha
-      const modalRedefinir = document.getElementById('modal-redefinir-senha');
-      const inputToken = document.getElementById('input-token');
-
-      modalRedefinir.classList.add('active');
-      modalRedefinir.setAttribute('aria-hidden', 'false');
-
-      // Preenche o input token
-      inputToken.value = token;
-
-      // Opcional: remover token da URL para segurança / limpeza
-      history.replaceState(null, '', window.location.pathname);
-    }
-  });
-  </script>
+    </script>
+    <script type="module" src="./assets/js/modules/config.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
