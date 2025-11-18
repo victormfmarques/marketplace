@@ -112,61 +112,6 @@ export function inicializarProdutos() {
   }
 }
 
-// -------------------- PRODUTOS DO USUÁRIO --------------------
-
-const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-if (usuarioLogado) {
-  async function carregarProdutosUsuario() {
-    const container = document.getElementById('produtos-usuario');
-    if (!container) return;
-
-    try {
-      container.innerHTML = window.criarLoader("Carregando seus produtos...");
-
-      const result = await produtosAPI.listarPorUsuario(usuarioLogado._id);
-
-      if (result.data.length === 0) {
-        container.innerHTML = window.criarMensagem('Você ainda não postou produtos.', 'info');
-        return;
-      }
-
-      container.innerHTML = result.data.map(prod => {
-        const foto = prod.fotos?.length
-          ? (prod.fotos[0].startsWith('http') ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}`)
-          : '/assets/img/placeholder.png';
-
-        return `
-          <div class="produto-card">
-            <a href="detalhes-produto.html?id=${prod._id}">
-              <img src="${foto}" alt="${prod.nome}" />
-            </a>
-            <div class="produto-info">
-              <h4>${prod.nome}</h4>
-              <p>R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
-              <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-    } catch (error) {
-      console.error('Erro ao carregar produtos do usuário:', error);
-
-      window.mostrarErro(container,
-        'Não foi possível carregar seus produtos',
-        navigator.onLine
-          ? 'Ocorreu um erro interno no servidor. Tente novamente em alguns instantes.'
-          : 'Parece que você está sem conexão com a internet.',
-        carregarProdutosUsuario,
-        'tentar-novamente-usuario'
-      );
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', carregarProdutosUsuario);
-}
-
 // -------------------- EXPORTS GLOBAIS --------------------
 window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;

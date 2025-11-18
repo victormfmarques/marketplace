@@ -3,8 +3,60 @@
 // =========================== IMPORTAÇÕES ===============================
 import { formatarTelefone } from '../modules/utils.js';
 import { mostrarFeedback } from '../modules/ui.js';
-import { perfilAPI } from '../modules/api.js';
+import { perfilAPI, produtosAPI } from '../modules/api.js';
 // =======================================================================
+
+// -------------------- PRODUTOS DO USUÁRIO --------------------
+
+async function carregarProdutosUsuario() {
+  const container = document.getElementById('produtos-usuario');
+  if (!container) return;
+
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    container.innerHTML = window.criarLoader("Carregando seus produtos...");
+
+    const result = await produtosAPI.listarPorUsuario(usuario._id);
+
+    if (result.data.length === 0) {
+        container.innerHTML = window.criarMensagem('Você ainda não postou produtos.', 'info');
+        return;
+      }
+
+      container.innerHTML = result.data.map(prod => {
+        const foto = prod.fotos?.length
+          ? (prod.fotos[0].startsWith('http') ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}`)
+          : '/assets/img/placeholder.png';
+
+        return `
+          <div class="produto-card">
+            <a href="detalhes-produto.html?id=${prod._id}">
+              <img src="${foto}" alt="${prod.nome}" />
+            </a>
+            <div class="produto-info">
+              <h4>${prod.nome}</h4>
+              <p>R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
+              <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    } catch (error) {
+      console.error('Erro ao carregar produtos do usuário:', error);
+
+      window.mostrarErro(container,
+        'Não foi possível carregar seus produtos',
+        navigator.onLine
+          ? 'Ocorreu um erro interno no servidor. Tente novamente em alguns instantes.'
+          : 'Parece que você está sem conexão com a internet.',
+        carregarProdutosUsuario,
+        'tentar-novamente-usuario'
+      );
+    }
+  }
+
+// --- FUNÇÕES ESPECÍFICAS DESTA PÁGINA ---
 
 document.addEventListener('DOMContentLoaded', () => {
   // Carrega os dados do usuário
@@ -14,6 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
     mostrarFeedback('Por favor, faça login para acessar esta página', 'erro');
     setTimeout(() => window.location.href = '/index.html', 2000);
     return;
+  }
+
+  // --- NOVA LÓGICA DE CONTROLE DE SEÇÃO ---
+  const secaoMeusProdutos = document.getElementById('secao-meus-produtos');
+
+  if (secaoMeusProdutos) {
+    if (usuarioLogado.cargo === 'vendedor') {
+      // Se for vendedor, mostra a seção e carrega os produtos
+      secaoMeusProdutos.style.display = 'block';
+      carregarProdutosUsuario(); // Chama a função que busca os produtos
+    } else {
+      // Se for comprador, simplesmente esconde a seção inteira
+      secaoMeusProdutos.style.display = 'none';
+    }
   }
 
   // Preenche o formulário com os dados do usuário
