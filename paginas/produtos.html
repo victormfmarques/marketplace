@@ -30,6 +30,11 @@
       <div class="header-controls">
         <ul>
           <li>
+            <a href="/paginas/login.html" id="link-login">
+              Login / Cadastro
+            </a>
+          </li>
+          <li>
             <a href="/index.html">
               <ion-icon title="Voltar à página Home" name="home-outline" id="home-p"></ion-icon>
             </a>
@@ -85,5 +90,20 @@
     <script type="module" src="../assets/js/main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1. Para os eventos dinâmicos do menu
+        const linkLogin = document.getElementById('link-login');
+
+        // 2. Para conferir se o usuário está logado
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if ( usuario ) {
+
+        }else {
+          linkLogin.classList.add('visivel');
+        }
+      })
+    </script>
   </body>
 </html>

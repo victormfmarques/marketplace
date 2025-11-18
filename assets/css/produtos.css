@@ -79,7 +79,7 @@ header {
   gap: 1rem;
 }
 
-.header-controls ul li a,
+#link-add-produto,
 #home-p {
   color: var(--branco-neve);
   text-decoration: none;
@@ -105,13 +105,31 @@ header {
 
 /* Esconde os ícones por padrão */
 #link-add-produto,
-#icone-carrinho {
+#icone-carrinho,
+#link-login {
     display: none;
 }
 
 #link-add-produto.visivel,
-#icone-carrinho.visivel {
+#icone-carrinho.visivel,
+#link-login.visivel {
     display: block;
+}
+
+#link-login {
+  text-decoration: none;
+  color: var(--branco-neve);
+  font-weight: 600;
+  font-size: 18px;
+  transition: 0.3s;
+  margin-top: 5px;
+}
+
+#link-login:hover {
+  background-color: var(--marrom-terra);
+  color: var(--branco-neve);
+  padding: 10px;
+  border-radius: 20px;
 }
 
 /* ==================================
