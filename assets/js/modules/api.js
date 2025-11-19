@@ -79,3 +79,23 @@ export const perfilAPI = {
         body: JSON.stringify(dadosExclusao)
     })
 };
+
+// --- MÓDULO DE ADMIN ---
+export const adminAPI = {
+    listarUsuarios: (adminId) => request(`admin/listarUsuarios&adminId=${adminId}`),
+    mudarCargo: (adminId, targetUserId, novoCargo) => request('admin/mudarCargo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminId, targetUserId, novoCargo })
+    }),
+    excluirUsuario: (adminId, targetUserId) => request('admin/excluirUsuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminId, targetUserId })
+    }),
+    atualizarUsuario: (adminId, targetUserId, novosDados) => request('admin/atualizarUsuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminId, targetUserId, novosDados })
+    })
+};

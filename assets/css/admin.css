@@ -1,0 +1,291 @@
+/* assets/css/admin.css */
+
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' );
+
+/* =============================================
+  VARIÁVEIS DE CORES
+============================================= */
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
+  --vermelho-erro: #c0392b;
+  --azul-info: #2980b9;
+}
+
+/* =============================================
+  ESTILOS GERAIS DA PÁGINA
+============================================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+  margin: 0;
+  padding: 2rem;
+}
+
+h1, h2 {
+  color: var(--verde-folha);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* =============================================
+  ESTILO DA TABELA DE USUÁRIOS
+============================================= */
+#tabela-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  overflow-x: auto; /* Garante que a tabela seja rolável em telas pequenas */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Remove o espaço entre as células */
+  background-color: var(--branco-neve);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* Garante que o border-radius funcione */
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--bege-areia);
+}
+
+thead th {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f8f6f0; /* Um bege um pouco mais claro para listras */
+}
+
+tbody tr:hover {
+  background-color: var(--verde-claro);
+  color: var(--verde-folha);
+  cursor: default;
+}
+
+td button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  color: var(--branco-neve);
+}
+
+/* Estilo para o botão de "Promover" */
+button[data-cargo-atual="comprador"] {
+  background-color: var(--azul-info);
+}
+button[data-cargo-atual="comprador"]:hover {
+  background-color: #2c97de;
+  transform: translateY(-2px);
+}
+
+/* Estilo para o botão de "Rebaixar" */
+button[data-cargo-atual="vendedor"] {
+  background-color: var(--vermelho-erro);
+}
+button[data-cargo-atual="vendedor"]:hover {
+  background-color: #e74c3c;
+  transform: translateY(-2px);
+}
+
+/* Estilo para o botão de "Administrador" */
+button[data-cargo-atual="administrador"] {
+  background-color: var(--verde-folha);
+}
+button[data-cargo-atual="administrador"]:hover {
+  background-color: var(--cinza-pedra);
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilo para a célula de ações para alinhar os botões */
+td:last-child {
+    display: flex;
+    gap: 8px; /* Espaço entre os botões */
+    align-items: center;
+}
+
+/* Estilo para o botão de "Editar" */
+.btn-editar-user {
+  background-color: #f39c12; /* Laranja */
+}
+.btn-editar-user:hover {
+  background-color: #d35400;
+  transform: translateY(-2px);
+}
+
+/* Estilo para o botão de "Excluir" */
+.btn-excluir-user {
+  background-color: #555; /* Cinza escuro */
+}
+.btn-excluir-user:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.search-container {
+    max-width: 900px;
+    margin: 0 auto 2rem auto; /* Centraliza e dá espaço abaixo */
+    text-align: center;
+}
+
+#admin-search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+    border: 2px solid var(--verde-folha);
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+#admin-search-input:focus {
+    outline: none;
+    border-color: var(--marrom-terra);
+    box-shadow: 0 0 5px var(--verde-claro);
+}
+
+#admin-search-input:hover {
+    border-color: var(--marrom-terra);
+}
+
+.search-container a {
+    display: inline-block;
+    background-color: var(--verde-folha);
+    border-radius: 30%;
+    color: var(--branco-neve);
+    font-size: 30px;
+    padding: 1px 5px;
+    transition: background 0.5s ease-in-out, transform 0.2s ease;
+}
+
+.search-container a:hover {
+    background-color: var(--marrom-terra);
+    transform: scale(1.1);
+}
+
+/* =============================================
+  MODAL
+============================================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Quando o JS adiciona display:flex, o modal aparece com fade-in */
+.modal[style*="display: flex"] {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+  background-color: var(--branco-neve);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-content h2 {
+  color: var(--verde-folha);
+  margin-top: 0;
+}
+
+.modal-botoes {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Nomes das classes corrigidos para bater com o HTML */
+.modal-botoes .btn-confirmar {
+  background-color: var(--vermelho-erro);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-botoes .btn-confirmar:hover {
+  background-color: #a8332a;
+}
+
+.modal-botoes .btn-cancelar {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.modal-botoes .btn-cancelar:hover {
+  background-color: #bbb;
+}
+
+#form-edicao .form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+#form-edicao label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--cinza-pedra);
+}
+#form-edicao input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* =============================================
+  ANIMAÇÃO DO LOADER
+============================================= */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

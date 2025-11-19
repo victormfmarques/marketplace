@@ -104,6 +104,7 @@
         <button type="button" id="btn-logout">Sair</button>
         <button type="button" id="btn-excluir-conta">Excluir Conta</button>
         <a href="../paginas/pedidos.html"><button type="button" class="pedidos">Meus Pedidos</button></a>
+        <a href="../paginas/admin.html"><button type="button" class="adm" id="link-adm">Administrar</button></a>
       </div>
     </form>
 
@@ -136,5 +137,20 @@
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages/produtos.js"></script>
   <script type="module" src="../assets/js/pages/perfil.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Para os eventos dinâmicos do menu
+        const linkAdm = document.getElementById('link-adm');
+
+        // 2. Para conferir se o usuário está logado
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        if ( usuario && usuario.cargo == 'administrador' ) {
+          linkAdm.classList.add('visivel');
+        }else {
+
+        }
+      })
+  </script>
 </body>
 </html>

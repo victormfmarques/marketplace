@@ -210,7 +210,7 @@ span {
   align-items: center;
 }
 
-#enviar, .pedidos {
+#enviar, .pedidos, .adm {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
   border-radius: 10px;
@@ -221,9 +221,18 @@ span {
   transition: background-color 0.3s;
 }
 
-#enviar:hover, .pedidos:hover {
+#enviar:hover, .pedidos:hover, .adm:hover {
   background-color: var(--cinza-pedra);
   color: var(--branco-neve);
+}
+
+#link-adm {
+  margin-left: 5px;
+  display: none;
+}
+
+#link-adm.visivel {
+  display: block;
 }
 
 #btn-logout,

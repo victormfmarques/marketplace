@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const secaoMeusProdutos = document.getElementById('secao-meus-produtos');
 
   if (secaoMeusProdutos) {
-    if (usuarioLogado.cargo === 'vendedor') {
+    if (usuarioLogado.cargo === 'vendedor'|| usuarioLogado.cargo === 'administrador') {
       // Se for vendedor, mostra a seção e carrega os produtos
       secaoMeusProdutos.style.display = 'block';
       carregarProdutosUsuario(); // Chama a função que busca os produtos

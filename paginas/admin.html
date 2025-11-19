@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+    <title>Painel Administrativo</title>
+    <!-- ... seus meta tags, title, links de css ... -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    
+    <script>
+        // GUARDA DE ROTA - PROTEÇÃO DE ACESSO
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuario || usuario.cargo !== 'administrador') {
+            // Se não há usuário logado, OU se o usuário não é admin,
+            // redireciona para a página inicial.
+            window.location.href = '/index.html';
+        }
+    </script>
+</head>
+<body>
+    <h1>Painel do Administrador</h1>
+    <p>Bem-vindo, mestre do universo.</p>
+    <div class="search-container">
+        <a class="btn-voltar" href="../paginas/conta.html"><ion-icon name="person-outline"></ion-icon></a>
+        <input type="text" id="admin-search-input" placeholder="Pesquisar por nome ou email...">
+        <a href="/index.html"><ion-icon name="home-outline"></ion-icon></a>
+    </div>
+    <!-- O conteúdo do painel virá aqui -->
+    <div id="tabela-container"></div>
+    
+    <div id="modal-confirmacao" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-titulo">Confirmar Ação</h2>
+            <p id="modal-texto">Você tem certeza?</p>
+            
+            <div class="modal-botoes">
+                <button id="btn-confirmar-modal" class="btn-confirmar">Confirmar</button>
+                <button id="btn-cancelar-modal" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-edicao" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Editar Usuário</h2>
+            <form id="form-edicao">
+                <input type="hidden" id="edit-userId">
+                <div class="form-group">
+                    <label for="edit-nome">Nome:</label>
+                    <input type="text" id="edit-nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" required>
+                </div>
+                <!-- Adicione mais campos se desejar (telefone, etc) -->
+                <div class="modal-botoes">
+                    <button type="submit" class="btn-confirmar">Salvar Alterações</button>
+                    <button type="button" id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/pages/admin.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
