@@ -142,6 +142,7 @@ header {
   color: var(--branco-neve);
   cursor: pointer;
   font-size: 1.5rem;
+  margin-top: 6px;
 }
 
 #contador-carrinho {
