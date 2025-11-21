@@ -7,7 +7,7 @@
     <title>Painel Administrativo</title>
     <!-- ... seus meta tags, title, links de css ... -->
     <link rel="stylesheet" href="../assets/css/admin.css">
-    
+    <link rel="stylesheet" href="../assets/css/modal.css">
     <script>
         // GUARDA DE ROTA - PROTEÇÃO DE ACESSO
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -29,7 +29,7 @@
     <!-- O conteúdo do painel virá aqui -->
     <div id="tabela-container"></div>
     
-    <div id="modal-confirmacao" class="modal" style="display: none;">
+    <div id="modal-confirmacao" class="modal hidden">
         <div class="modal-content">
             <h2 id="modal-titulo">Confirmar Ação</h2>
             <p id="modal-texto">Você tem certeza?</p>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div id="modal-edicao" class="modal" style="display: none;">
+    <div id="modal-edicao" class="modal hidden">
         <div class="modal-content">
             <h2>Editar Usuário</h2>
             <form id="form-edicao">

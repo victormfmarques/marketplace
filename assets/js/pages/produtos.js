@@ -4,6 +4,7 @@
 import { setProdutos, encontrarProdutoPorId } from '../modules/store.js';
 import { adicionarAoCarrinho } from '../modules/carrinho.js';
 import { produtosAPI } from '../modules/api.js';
+import { criarMensagemErro } from '../modules/ui.js';
 // =======================================================================
 
 if (!window.mostrarErro) {
@@ -67,13 +68,18 @@ export async function carregarProdutos(containerId, params = {}) {
   const basePath = isHomePage ? 'paginas/' : '';
 
   try {
-    container.innerHTML = window.criarLoader("Carregando produtos...");
+    container.innerHTML = criarLoader("Carregando produtos...");
 
     const queryString = new URLSearchParams(params).toString();
     const result = await produtosAPI.listar(queryString);
 
     if (!result.data || result.data.length === 0) {
-      container.innerHTML = window.criarMensagem('Nenhum produto disponível', 'info');
+      container.innerHTML = criarMensagemErro(
+                'Nenhum Produto Encontrado', // Título da mensagem
+                'info', // Tipo 'info' para usar o ícone de informação
+                null,   // Sem botão de "tentar novamente"
+                ''      // Sem texto no botão
+            );
       return;
     }
 

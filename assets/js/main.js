@@ -5,6 +5,7 @@ import { inicializarProdutos, renderizarProdutos, configurarEventosProdutos } fr
 import { setupCarrinho } from './modules/carrinho.js';
 import { mostrarFeedback, criarLoader, criarMensagemErro, mostrarErro } from './modules/ui.js';
 import { getProdutos } from './modules/store.js';
+import { verificarEAtualizarSessao } from './modules/utils.js'; 
 
 // --- 2. DISPONIBILIZAÇÃO GLOBAL ---
 // Para scripts antigos ou inline que ainda possam precisar delas
@@ -14,33 +15,43 @@ window.mostrarFeedback = mostrarFeedback;
 window.mostrarErro = mostrarErro;
 
 // --- 3. LÓGICA PRINCIPAL DA APLICAÇÃO ---
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+
+    // --- VERIFICAÇÃO GLOBAL DA SESSÃO ---
+    const usuario = await verificarEAtualizarSessao();
     
-    // --- CONTROLE DE ACESSO À UI ---
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    // --- CONTROLE DE ACESSO À UI (usando o 'usuario' sempre atualizado) ---
     const linkAddProduto = document.getElementById('link-add-produto');
     const iconeCarrinho = document.getElementById('icone-carrinho');
-
-    // Lógica para o Ícone do Carrinho (visível para qualquer usuário logado)
+    const linkLogin = document.getElementById('link-login'); // Assumindo que você tem um link de login
+    const linkConta = document.getElementById('link-conta');
+    
+    // Mostra/esconde o ícone do carrinho
     if (iconeCarrinho) {
-        if (usuario) {
-            iconeCarrinho.style.display = 'block'; // ou 'inline-block'
-        } else {
-            iconeCarrinho.style.display = 'none';
-        }
+        iconeCarrinho.style.display = usuario ? 'block' : 'none';
     }
     
-    // Lógica para o Botão "Adicionar Produto" (visível APENAS para vendedores)
-    if (linkAddProduto) {
-        if (usuario && usuario.cargo === 'vendedor') {
-            linkAddProduto.style.display = 'block'; // ou 'inline-block'
-        } else {
-            linkAddProduto.style.display = 'none';
+     if (usuario) {
+        // --- USUÁRIO LOGADO ---
+        if (linkLogin) linkLogin.classList.remove('visivel');
+        if (linkConta) linkConta.classList.add('visivel');
+        
+        // Mostra "Adicionar Produto" se for vendedor/admin
+        if (linkAddProduto && (usuario.cargo === 'vendedor' || usuario.cargo === 'administrador')) {
+            linkAddProduto.classList.add('visivel');
         }
-    }
 
+    } else {
+        // --- VISITANTE ---
+        if (linkLogin) linkLogin.classList.add('visivel');
+        if (linkConta) linkConta.classList.remove('visivel');
+        if (linkAddProduto) linkAddProduto.classList.remove('visivel');
+    }
+    
     // --- INICIALIZAÇÃO DOS MÓDULOS ---
-    inicializarProdutos();
+    if (document.getElementById('produtos-destaque') || document.getElementById('produtos-lista')) {
+        inicializarProdutos();
+    }
     setupCarrinho();
 
     // --- LÓGICA DE FILTRO E PESQUISA ---
@@ -71,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const basePath = window.location.pathname === '/index.html' || window.location.pathname === '/' ? 'paginas/' : '';
             containerProdutos.innerHTML = filtrados.length > 0
                 ? renderizarProdutos(filtrados, basePath)
-                : '<p style="text-align:center;">Nenhum produto encontrado para sua busca.</p>';
+                : criarMensagemErro('Nenhum produto corresponde à sua busca.', 'info');
             configurarEventosProdutos();
         }
     }

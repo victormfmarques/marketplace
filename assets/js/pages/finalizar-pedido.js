@@ -1,12 +1,70 @@
 // assets/js/pages/finalizar-pedido.js
 
 // =========================== IMPORTAÇÕES ===============================
-import { authAPI } from "../modules/api.js";
-import { pedidosAPI } from "../modules/api.js";
+import { authAPI, pedidosAPI } from "../modules/api.js";
 import { mostrarFeedback } from "../modules/ui.js";
 // =======================================================================
 
+function getChaveCarrinho(usuario) {
+    return usuario?.email ? `carrinho_${usuario.email}` : 'carrinho_anonimo';
+}
+
+function formatarTelefone(telefone) {
+    if (!telefone) return 'Não informado';
+    const numeros = telefone.replace(/\D/g, '');
+    if (numeros.length === 11) return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    if (numeros.length === 10) return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    return telefone;
+}
+
+function renderizarResumo(carrinho) {
+    const container = document.getElementById('resumo-carrinho');
+    if (!container) return;
+
+    if (!carrinho || carrinho.length === 0) {
+        container.innerHTML = "<p>Seu carrinho está vazio. Volte para a loja para adicionar produtos.</p>";
+        // Opcional: desabilitar o botão de finalizar se o carrinho estiver vazio
+        const btnFinalizar = document.querySelector("#registrar-pedido");
+        if(btnFinalizar) btnFinalizar.style.display = 'none';
+        return;
+    }
+
+    const html = carrinho.map(item => `
+        <div class="produto">
+            <h2>${item.nome}</h2>
+            <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')} (x${item.quantidade})</p>
+            <p><strong>Vendedor:</strong> ${item.vendedor?.nome || 'Desconhecido'}</p>
+            <p><strong>Email:</strong> 
+                <a href="mailto:${item.vendedor.email}" class="email">
+                    <i class="fas fa-envelope"></i> ${item.vendedor.email}
+                </a>
+            </p>
+            <p><strong>Telefone:</strong> 
+                <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '' )}" class="whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> ${formatarTelefone(item.vendedor.telefone)}
+                </a>
+            </p>
+            <hr>
+        </div>
+    `).join('');
+    container.innerHTML = html;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    // Guarda de rota
+    if (!usuario) {
+        mostrarFeedback('Faça login para finalizar a compra.', 'erro');
+        setTimeout(() => window.location.href = '/paginas/login.html', 2000);
+        return;
+    }
+  // Pega o carrinho e desenha na tela
+    const chaveCarrinho = getChaveCarrinho(usuario);
+    const carrinho = JSON.parse(localStorage.getItem(chaveCarrinho)) || [];
+    renderizarResumo(carrinho);
+
   const btnFinalizar = document.querySelector("#registrar-pedido");
   const modal = document.querySelector("#modal-confirmar-pedido");
   const btnConfirmar = document.querySelector("#confirmar-pedido");
@@ -16,14 +74,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!btnFinalizar) return;
 
+  // ABRIR O MODAL
   btnFinalizar.addEventListener("click", (e) => {
     e.preventDefault(); // Impede recarregar a página
-    modal.classList.add("modal-open"); // Exibe o modal
     senhaInput.value = "";
+    modal.classList.remove("hidden");
   });
   
+  // FECHAR O MODAL
   btnCancelar.addEventListener("click", () => {
-    modal.classList.remove("modal-open");
+    modal.classList.add("hidden");
     senhaInput.value = "";
   });
 
@@ -64,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.success) {
         localStorage.removeItem(`carrinho_${usuario.email}`);
         mostrarFeedback('Pedido registrado com sucesso!', 'sucesso');
-        modal.classList.remove("modal-open");
+        modal.classList.add("hidden");
         setTimeout(() => {
           window.location.href = "/paginas/pedidos.html";
         }, 2000);

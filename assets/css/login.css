@@ -11,8 +11,6 @@
   --marrom-terra: #7B5E42;
   --cor-sucesso: #59880f;
   --cor-sucesso-hover: #6ba50ea9;
-  --cor-erro: #8B2E2E;
-  --cor-erro-borda: #C44D4D;
 }
 
 /* =====================
@@ -198,109 +196,68 @@ form > a.botao > span {
   text-decoration: none;
 }
 
-/* =====================
-   FEEDBACK (MODAL)
-===================== */
-.feedback {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  opacity: 0;
-  padding: 1rem 2rem;
-  color: white;
-  font-weight: 500;
-  border-radius: 8px;
-  z-index: 1001;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+/* =============================================================
+   ESTILOS ESPECÍFICOS PARA OS MODAIS DA PÁGINA DE LOGIN
+============================================================= */
+
+/* Seleciona o conteúdo de AMBOS os modais da página de login */
+
+#modal-esqueci-senha h2, #modal-redefinir-senha h2 {
+  color: black !important;
 }
 
-.feedback.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
+#email-esqueci {
+  transform: translateY(0px);
 }
 
-.feedback.sucesso {
-  background: var(--cor2);
-  border-left: 5px solid #F2E8CF;
+#input-token, #nova-senha, #confirma-nova-senha {
+  transform: translateY(7px);
 }
 
-.feedback.erro {
-  background: var(--cor-erro);
-  border-left: 5px solid var(--cor-erro-borda);
-}
-
-.feedback.aviso {
-  background: #735F32; /* substituto para --marrom-terra */
-  border-left: 5px solid #EADFB4; /* substituto para --bege-areia */
-}
-
-/* =====================
-   ERROS DE FORMULÁRIO
-===================== */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
-}
-
-.error-border {
-  border: 2px solid var(--cor-erro) !important;
-  color: white;
-  animation: shake 0.5s ease-in-out;
-}
-
-/* =====================
-    MODAL 
-===================== */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal.active {
-  display: flex;
-}
-
-.modal-content {
+#modal-esqueci-senha .modal-content,
+#modal-redefinir-senha .modal-content {
   background: #fff;
-  padding: 20px;
+  padding: 2rem;
   border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;
 }
 
+.modal-content #modal-redefinir-desc, .modal-content #modal-desc {
+  font-size: 16px;
+}
+
+/* Botão de fechar (X) */
 .close-modal {
   position: absolute;
-  right: 12px;
-  top: 8px;
-  font-size: 1.5rem;
+  right: 15px;
+  top: 10px;
+  font-size: 1.8rem;
   cursor: pointer;
-  color: #333;
+  color: #555;
+  transition: color 0.3s;
+}
+.close-modal:hover {
+  color: #000;
 }
 
-.modal-content h2 {
-  margin-bottom: 10px;
-  font-size: 1.4rem;
+/* Títulos dos modais */
+#modal-esqueci-senha h2,
+#modal-redefinir-senha h2 {
+  color: var(--verde-folha, #3A6351);
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
 }
 
-.modal-content p {
-  font-size: 0.95rem !important;
-  margin-bottom: 15px;
-  color: #444;
+/* Parágrafos dos modais */
+#modal-esqueci-senha p,
+#modal-redefinir-senha p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--cinza-pedra, #4F4F4F);
 }
 
+/* Estilo dos campos de input (a sua regra original, adaptada) */
 .modal-content .campo {
   background-color: var(--cor2);
   border: 2px solid var(--cor2);
@@ -308,18 +265,20 @@ form > a.botao > span {
   height: 40px;
   margin: 5px 0;
   align-items: center;
-  display: flex; /* garante alinhamento horizontal */
+  display: flex;
 }
 
 .modal-content .campo input {
-  width: calc(100% - 45px);
+  width: 100%;
   height: 100%;
-  padding: 4px;
+  padding: 0 15px;
   font-size: 1em;
   background-color: var(--cor3);
   border: none;
-  border-radius: 8px;
-  transform: translateY(0); /* remove o deslocamento do login */
+  color: var(--cinza-pedra, #4F4F4F);
+}
+.modal-content .campo input:focus {
+  background-color: white;
 }
 
 .modal-content .campo span {
@@ -331,18 +290,22 @@ form > a.botao > span {
   margin: 2px;
 }
 
+/* Botão de Enviar (a regra que faltava) */
 .botao-enviar {
-  background: var(--cor-sucesso);
-  color: #fff;
-  padding: 10px 15px;
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin-top: 1.5rem;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--branco-neve, #FFFFFF);
+  background-color: var(--verde-folha, #3A6351);
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
 }
 
 .botao-enviar:hover {
-  background: var(--cor-sucesso-hover);
+  background-color: var(--marrom-terra, #7B5E42);
 }
-

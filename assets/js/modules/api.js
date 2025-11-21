@@ -47,7 +47,7 @@ export const produtosAPI = {
     listar: (queryParams = '') => request(`produtos/listar&${queryParams}`),
     
     detalhes: (id) => request(`produtos/detalhes&id=${id}`),
-    listarPorUsuario: (usuarioId) => request(`perfil/produtos-usuario&usuarioId=${usuarioId}`)
+    listarPorUsuario: (usuarioId) => request(`perfil/produtos-usuario&usuarioId=${usuarioId}`),
     // Adicionar aqui 'cadastrar', 'editar', 'excluir' no futuro...
 };
 
@@ -77,7 +77,8 @@ export const perfilAPI = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dadosExclusao)
-    })
+    }),
+    verificarSessao: (userId) => request(`perfil/verificarSessao&userId=${userId}`),
 };
 
 // --- MÓDULO DE ADMIN ---
@@ -98,4 +99,13 @@ export const adminAPI = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ adminId, targetUserId, novosDados })
     })
+};
+
+// --- MÓDULO DE VENDEDOR ---
+export const vendedorAPI = {
+    getPerfil: (vendedorId) => request(`vendedor/perfil&vendedorId=${vendedorId}`),
+    atualizarVendedor: (formData) => request('vendedor/atualizarVendedor', {
+        method: 'POST',
+        body: formData // Não definimos Content-Type, o navegador faz isso por nós
+    }),
 };

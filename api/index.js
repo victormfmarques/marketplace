@@ -16,6 +16,9 @@
   import adminMudarCargo from './_modulos/admin/mudarCargo.js';
   import adminExcluirUsuario from './_modulos/admin/excluirUsuario.js';
   import adminatualizarUsuario from './_modulos/admin/atualizarUsuario.js';
+  import vendedorPerfil from './_modulos/vendedor/perfil.js';
+  import vendedorAtualizarVendedor from './_modulos/vendedor/atualizarVendedor.js';
+  import perfilVerificarSessao from './_modulos/perfil/verificarSessao.js';
 
   export default async function handler(req, res) {
     const rota = req.query.rota;
@@ -37,6 +40,7 @@
     if (rota === "perfil/pedidos") return perfilPedidos(req, res);
     if (rota === "perfil/produtos-usuario") return perfilProdutosUsuario(req, res);
     if (rota === "perfil/resetar-senha") return perfilResetarSenha(req, res);
+    if (rota === "perfil/verificarSessao") return perfilVerificarSessao(req, res);
 
     // Produtos
     if (rota === "produtos/cadastro") return produtosCadastro(req, res);
@@ -50,6 +54,10 @@
     if (rota === "admin/excluirUsuario") return adminExcluirUsuario(req, res);
     if (rota === "admin/atualizarUsuario") return adminatualizarUsuario(req, res);
 
+    // Vendedor
+    if (rota === "vendedor/perfil") return vendedorPerfil(req, res);
+    if (rota === "vendedor/atualizarVendedor") return vendedorAtualizarVendedor(req, res);
+    
     // Caso não encontre rota
     res.status(404).json({ error: "Rota não encontrada" });
   }

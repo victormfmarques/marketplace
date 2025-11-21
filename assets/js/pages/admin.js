@@ -216,15 +216,15 @@ function confirmarComModal(titulo, texto) {
 
         tituloEl.textContent = titulo;
         textoEl.textContent = texto;
-        modal.style.display = 'flex';
+        modal.classList.remove("hidden");
 
         btnConfirmar.onclick = () => {
-            modal.style.display = 'none';
+            modal.classList.add("hidden");
             resolve(true); // Usuário confirmou
         };
 
         btnCancelar.onclick = () => {
-            modal.style.display = 'none';
+            modal.classList.add("hidden")
             resolve(false); // Usuário cancelou
         };
     });
@@ -238,7 +238,7 @@ function abrirModalEdicao(user) {
     document.getElementById('edit-nome').value = user.nome;
     document.getElementById('edit-email').value = user.email;
 
-    modal.style.display = 'flex';
+    modal.classList.remove("hidden");
 }
 
 function configurarFormularioEdicao() {
@@ -248,7 +248,7 @@ function configurarFormularioEdicao() {
 
     // Evento para fechar o modal ao clicar em "Cancelar"
     document.getElementById('btn-cancelar-edicao').addEventListener('click', () => {
-        modal.style.display = 'none';
+        modal.classList.add("hidden");
     });
 
     // Evento para salvar as alterações
@@ -268,7 +268,7 @@ function configurarFormularioEdicao() {
 
             await adminAPI.atualizarUsuario(usuarioLogado._id, targetUserId, novosDados);
             
-            modal.style.display = 'none';
+            modal.classList.add("hidden");
             mostrarFeedback('Usuário atualizado com sucesso!', 'sucesso');
             carregarUsuarios(usuarioLogado._id); // Recarrega a tabela
 

@@ -1,0 +1,129 @@
+/* assets/css/vendedor.css */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F2E8CF; /* --bege-areia */
+    margin: 0;
+}
+
+/* ==================================
+  CABEÇALHO DO PERFIL
+================================== */
+.perfil-header {
+    background: #3A6351;
+    color: #FFFFFF; /* --branco-neve */
+    padding: 1rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.vendedor-foto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #FFFFFF;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.vendedor-nome {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ==================================
+  CONTEÚDO PRINCIPAL DO PERFIL
+================================== */
+.perfil-main {
+    /* Define a largura máxima e centraliza o conteúdo na página */
+    max-width: 1200px;
+    margin: 2rem auto;
+    
+    /* Garante que o container ocupe 100% da largura disponível até o max-width */
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box; /* Essencial para o width: 100% funcionar com padding */
+}
+
+#sobre-vendedor, 
+#produtos-do-vendedor {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    
+    /* Força as seções a ocuparem toda a largura do .perfil-main */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #3A6351;
+    border-bottom: 2px solid #A8C686;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ==================================
+  AJUSTES NA GRADE DE PRODUTOS
+================================== */
+
+/* 
+  Sobrepõe a regra do produtos.css APENAS na página do vendedor
+  para garantir que a grade se comporte corretamente e tenha um
+  tamanho de card mais adequado para este layout.
+*/
+#produtos-do-vendedor .produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+/* EM: assets/css/vendedor.css */
+.perfil-nav {
+    order: 3; /* Garante que apareça depois do nome/contato */
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.nav-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--branco-neve);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px; /* Pílula */
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+.nav-button:hover {
+    background-color: var(--branco-neve);
+    color: var(--verde-folha);
+}
+
+/* EM: assets/css/vendedor.css */
+.vendedor-contato {
+    order: 2; /* Aparece depois do nome e antes da navegação */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.5rem; /* Espaçamento vertical e horizontal */
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+.vendedor-contato span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

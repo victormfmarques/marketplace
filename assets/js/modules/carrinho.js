@@ -15,14 +15,44 @@ function carregarCarrinhoDoStorage() {
 
 // Inicialização do carrinho
 export function setupCarrinho() {
-  carregarCarrinhoDoStorage();
-  atualizarCarrinhoUI();
+    carregarCarrinhoDoStorage();
+    atualizarCarrinhoUI();
 
-  document.querySelector('.carrinho-icone')?.addEventListener('click', toggleCarrinho);
-  document.addEventListener('click', fecharCarrinho);
-  document.getElementById('finalizar-compra').addEventListener('click', () => {
-  window.location.href = '../paginas/finalizar-compra.html';});
-  document.querySelector('.btn-limpar')?.addEventListener('click', limparCarrinho);
+    const iconeCarrinho = document.querySelector('.carrinho-icone');
+    const dropdown = document.getElementById('carrinho-dropdown');
+
+    // Adiciona evento para abrir/fechar o dropdown
+    iconeCarrinho?.addEventListener('click', toggleCarrinho);
+    
+    // Adiciona evento para fechar o dropdown ao clicar fora
+    document.addEventListener('click', (e) => {
+        // Verifica se o clique foi fora do ícone E fora do dropdown
+        if (dropdown && !iconeCarrinho?.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    // --- DELEGAÇÃO DE EVENTOS ---
+    // Adiciona UM único ouvinte de clique no dropdown do carrinho
+    if (dropdown) {
+        dropdown.addEventListener('click', (e) => {
+            // Verifica se o elemento clicado (e.target) tem a classe 'btn-limpar'
+            if (e.target.classList.contains('btn-limpar')) {
+                limparCarrinho();
+            }
+
+            // Verifica se o elemento clicado tem o ID 'finalizar-compra'
+            if (e.target.id === 'finalizar-compra') {
+                window.location.href = '/paginas/finalizar-compra.html'; // Corrigi o caminho para ser absoluto
+            }
+
+            // Verifica se o elemento clicado tem a classe 'btn-remover'
+            if (e.target.classList.contains('btn-remover')) {
+                const produtoId = e.target.dataset.id;
+                removerUmaUnidade(produtoId);
+            }
+        });
+    }
 }
 
 // Adicionar produto ao carrinho
@@ -101,9 +131,9 @@ function updateListaItens() {
   lista.innerHTML = carrinho.map((item) => `
     <div class="item-carrinho">
       <img src="${item.imagem}" alt="${item.nome}" class="img-detalhes" data-id="${item.id}">
-      <div>
+      <div class="produto-info-carrinho">
         <h4 class="link-detalhes" data-id="${item.id}">${item.nome}</h4>
-        <p>${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+        <p class="produto-preco-carrinho">${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
         <button class="btn-remover" title="Remover produto" data-id="${item.id}">Remover</button>
       </div>
     </div>

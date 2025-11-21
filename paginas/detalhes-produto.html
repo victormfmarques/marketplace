@@ -8,6 +8,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="../assets/css/detalhes-produto.css" />
   <link rel="stylesheet" href="../assets/css/carrinho.css">
+  <link rel="stylesheet" href="../assets/css/feedback.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Metadados para SEO -->
   <meta name="description" content="Detalhes completos do produto no EcoMarket. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
@@ -18,33 +19,36 @@
   <div id="feedback" class="feedback" aria-live="polite"></div>
 
   <main id="produto-container" role="main" aria-labelledby="produto-nome">
-    <section id="produto-imagens" aria-label="Imagens do produto"></section>
-
+    <section id="produto-imagens" aria-label="Imagens do produto">
+        <!-- JS vai preencher aqui -->
+    </section>
     <section id="produto-info">
       <h1 id="produto-nome">Carregando...</h1>
       <p id="produto-descricao"></p>
-      <span id="produto-preco" aria-live="polite"></span>
-
-      <button id="btn-comprar" aria-label="Comprar este produto">Comprar</button>
+      <span id="produto-preco"></span>
+      <div class="vendedor-info-link">
+          <span>Vendido e entregue por:</span>
+          <a href="#" id="link-vendedor">Carregando...</a>
+      </div>
+      <button id="btn-comprar">Comprar</button>
 
       <!-- CARRINHO -->
       <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras" aria-label="Carrinho de Compras">
         <img id="carrinho" src="../assets/img/carrinho.png" alt="Ícone do carrinho de compras" />
         <span id="contador-carrinho" aria-live="polite" aria-atomic="true">0</span>
-
         <div class="carrinho-dropdown" id="carrinho-dropdown" aria-label="Conteúdo do carrinho">
           <div id="lista-carrinho"></div>
           <div class="carrinho-total" id="total-carrinho" aria-live="polite">Total: R$ 0,00</div>
           <div class="carrinho-botoes">
             <button class="btn-limpar" type="button">Limpar Carrinho</button>
-            <button id="finalizar-compra" class="btn-finalizar" type="button">Finalizar Compra</button>
+            <a href="/paginas/finalizar-compra.html" id="finalizar-compra" class="btn-finalizar" role="button">Finalizar Compra</a>
           </div>
         </div>
       </div>
 
       <!-- Botão para edição do produto, visível apenas para o dono -->
       <div id="editar-container" style="display: none;">
-        <button class="btn-editar" type="button" onclick="redirecionarParaEdicao()" aria-label="Editar produto">
+        <button class="btn-editar" type="button" aria-label="Editar produto">
           <i class="fas fa-edit" aria-hidden="true"></i> Editar Produto
         </button>
       </div>
@@ -54,142 +58,17 @@
         <a href="/index.html" class="btn-home" aria-label="Página inicial">
           <ion-icon name="home-outline"></ion-icon>
         </a>
-        <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
+        <a href="/paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
           <ion-icon name="storefront-outline"></ion-icon>
         </a>
       </nav>
     </section>
   </main>
+  
   <!-- SCRIPTS -->
+  <script type="module" src="../assets/js/pages/detalhes-produto.js"></script>
   <script src="../assets/js/vercel-analytics.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const produtoId = urlParams.get("id");
-      const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-      const iconeCarrinho = document.getElementById('icone-carrinho');
-
-      if (!produtoId) {
-        showError("ID do produto não especificado");
-        return;
-      }
-
-      try {
-        const params = new URLSearchParams({ rota: 'produtos/detalhes', id: produtoId });
-        const response = await fetch(`/api?${params.toString()}`);
-
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
-
-        const produto = await response.json();
-        produto.id = produto._id;
-        produto.foto = produto.fotos?.[0] || "../assets/img/placeholder.png";
-        displayProduto(produto);
-        window.produtosCarregados = [produto];
-
-        if (usuarioLogado && usuarioLogado._id === produto.usuarioId) {
-          document.getElementById("editar-container").style.display = "block";
-        }
-        window.produtoAtual = produto;
-      } catch (error) {
-        console.error("Erro:", error);
-        showError(error.message);
-      }
-    });
-
-    function displayProduto(produto) {
-      const nomeEl = document.getElementById("produto-nome");
-      const descEl = document.getElementById("produto-descricao");
-      const precoEl = document.getElementById("produto-preco");
-      const imagensEl = document.getElementById("produto-imagens");
-
-      nomeEl.textContent = produto.nome;
-      descEl.innerHTML = produto.descricao.replace(/\n/g, '<br>');
-      precoEl.textContent = `R$ ${produto.preco.toFixed(2).replace('.',',')}`;
-
-      imagensEl.innerHTML = "";
-      const fotos = (produto.fotos && produto.fotos.length > 0) ? produto.fotos : ["../assets/img/placeholder.png"];
-      fotos.forEach(foto => {
-        const img = document.createElement("img");
-        img.src = foto;
-        img.alt = `Imagem do produto: ${produto.nome}`;
-        img.onerror = () => (img.src = "../assets/img/placeholder.png");
-        imagensEl.appendChild(img);
-      });
-
-      const btnComprar = document.getElementById("btn-comprar");
-      btnComprar.onclick = (event) => {
-        event.preventDefault();
-
-        // Pega o objeto completo do produto que está no escopo global do script
-        const produtoParaAdicionar = window.produtoAtual;
-
-        if (!produtoParaAdicionar) {
-          console.error("Objeto do produto (produtoAtual) não foi encontrado no window.");
-          return;
-        }
-
-        if (typeof window.adicionarAoCarrinho === "function") {
-
-          // 1. Chama a função UMA VEZ e guarda o resultado (true ou false)
-          const sucesso = window.adicionarAoCarrinho(produtoParaAdicionar, event);
-
-          // 2. Só muda o texto se a operação foi um sucesso
-          if (sucesso) {
-            btnComprar.textContent = "Adicionado!";
-            setTimeout(() => {
-              btnComprar.textContent = "Comprar";
-            }, 2000);
-          }
-          // Se 'sucesso' for false (usuário não logado), nada acontece com o botão.
-
-        } else {
-          console.error("Função adicionarAoCarrinho não foi encontrada no window.");
-        }
-      };
-    }
-
-    function redirecionarParaEdicao() {
-      const produtoId = window.produtoAtual?._id;
-      if (produtoId) {
-        window.location.href = `/paginas/editar-produto.html?id=${produtoId}`;
-      }
-    }
-
-    function showError(message) {
-      const container = document.getElementById("produto-container");
-      container.innerHTML = `
-        <div class="error-message" role="alert">
-          <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-          <p>${message}</p>
-          <a href="/paginas/produtos.html" class="btn">Voltar aos produtos</a>
-        </div>
-      `;
-    }
-  </script>
-
-  <!-- SCRIPTS GERAIS -->
-  <script type="module" src="../assets/js/modules/carrinho.js"></script>
-  <script type="module" src="../assets/js/modules/ui.js"></script>
-  <script type="module" src="../assets/js/pages/produtos.js"></script>
-  <script type="module" src="../assets/js/main.js"></script>
-
-  <!-- IONICONS -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-  <!-- INICIALIZAÇÃO DO CARRINHO E FEEDBACK -->
-  <script type="module">
-    import { setupCarrinho, adicionarAoCarrinho } from '../assets/js/modules/carrinho.js';
-    import { mostrarFeedback } from '../assets/js/modules/ui.js';
-
-    window.setupCarrinho = setupCarrinho;
-    window.adicionarAoCarrinho = adicionarAoCarrinho;
-    window.mostrarFeedback = mostrarFeedback;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      setupCarrinho();
-    });
-  </script>
 </body>
 </html>

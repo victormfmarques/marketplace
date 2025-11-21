@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="../assets/css/finalizar.css">
+  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <link rel="stylesheet" href="../assets/css/modal.css">
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <title>Finalizar Compra - EcoMarket</title>
@@ -30,12 +32,12 @@
 
   </div>
   <!-- MODAL(MENU) DE CONFIRMAÇÃO -->
-  <div id="modal-confirmar-pedido" class="modal">
+  <div id="modal-confirmar-pedido" class="modal hidden">
   <div class="modal-content">
     <h2>Confirmação de Pedido</h2>
     <p>Para confirmar o pedido, digite sua senha:</p>
     <input type="password" id="senha-confirmacao" placeholder="Digite sua senha" />
-    <div class="botoes">
+    <div class="modal-botoes">
       <button id="confirmar-pedido">Confirmar</button>
       <button id="cancelar-pedido">Cancelar</button>
     </div>
@@ -44,67 +46,6 @@
   </div>
   <!-- SCRIPTS -->
   <script src="../assets/js/vercel-analytics.js"></script>
-  <script>
-    function formatarTelefone(telefone) {
-      // Remove tudo que não é dígito
-      const numeros = telefone.replace(/\D/g, '');
-      
-      // Formatação para números com 10 ou 11 dígitos (incluindo DDD)
-      if (numeros.length === 11) {
-        return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-      } else if (numeros.length === 10) {
-        return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-      }
-      
-      // Retorna o original se não for um número conhecido
-      return telefone;
-    }
-
-      function getChaveCarrinho() {
-      const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-      if (usuario && usuario.email) {
-        return `carrinho_${usuario.email}`;
-      }
-      return 'carrinho_anonimo';
-    }
-
-    const carrinho = JSON.parse(localStorage.getItem(getChaveCarrinho())) || [];
-
-    carrinho.forEach(item => {
-      console.log(item.vendedor?.nome, item.vendedor?.telefone);
-    });
-
-    if (!carrinho.length) {
-      document.getElementById('resumo-carrinho').innerHTML = "<p>Nenhum item no carrinho.</p>";
-    } else {
-      const html = carrinho.map(item => `
-        <div class="produto">
-          <h2>${item.nome}</h2>
-          <p><strong>Preço:</strong> R$ ${(item.preco * item.quantidade).toFixed(2).replace('.',',')} (x${item.quantidade})</p>
-          <p><strong>Vendedor:</strong> ${item.vendedor?.nome || 'Desconhecido'}</p>
-          <p><strong>Email:</strong> 
-          <a href="mailto:${item.vendedor.email}" class="email">
-            <i class="fas fa-envelope"></i> ${item.vendedor.email}
-          </a>
-          </p>
-          <p><strong>Telefone:</strong> 
-            <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '')}" 
-              class="whatsapp" 
-              target="_blank">
-              <i class="fab fa-whatsapp"></i> ${formatarTelefone(item.vendedor.telefone)}
-            </a>
-          </p>
-          <hr>
-        </div>
-      `).join('');
-
-      document.getElementById('resumo-carrinho').innerHTML = html;
-    }
-
-    function voltar() {
-      window.location.href = "produtos.html";
-    }
-  </script>
   <script type="module" src="../assets/js/modules/ui.js"></script>
   <script type="module" src="../assets/js/pages/finalizar-pedido.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

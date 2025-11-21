@@ -5,6 +5,7 @@
 ================================== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* --- VARIÁVEIS --- */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -12,14 +13,9 @@
   --bege-areia: #F2E8CF;
   --branco-neve: #FFFFFF;
   --cinza-pedra: #4F4F4F;
-
-  --vermelho-erro: #8B2E2E;
-  --borda-erro: #C44D4D;
 }
 
-/* ==================================
-  RESET E CONFIGURAÇÕES GLOBAIS
-================================== */
+/* --- RESET E BODY --- */
 * {
     margin: 0;
     padding: 0;
@@ -28,227 +24,137 @@
 }
 
 body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: var(--bege-areia);
+  background-color: var(--bege-areia);
   color: var(--cinza-pedra);
 }
 
-/* ==================================
-  CABEÇALHO
-================================== */
-header {
-  background-color: var(--verde-folha);
-  color: var(--branco-neve);
-  padding: 20px;
+/* --- CABEÇALHO --- */
+.registro-header {
+  padding: 1rem 2rem;
   text-align: center;
   position: relative;
-  height: 200px;
-  border-radius: 0px 0px 10px 10px;
 }
-
-header img {
-  max-width: 10%;
-  height: auto;
+.registro-header .logo-link {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 50%;
+  left: 2rem;
+  transform: translateY(-50%);
 }
-
-header ul {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  list-style: none;
-  font-weight: bold;
-}
-
-header ul li {
-  color: var(--branco-neve);
-}
-
-header a {
-  color: var(--branco-neve);
-  font-size: 30px;
-  padding: 5px;
-  text-decoration: none;
-}
-
-header a:hover {
-  background-color: var(--marrom-terra);
-  transition: 0.5s;
-  padding: 8px;
-  border-radius: 20px;
-}
-
-/* ==================================
-  FOTO DE PERFIL
-================================== */
-.profile-pic {
-  width: 150px;
-  height: 150px;
-  background: #ddd;
-  border-radius: 50%;
-  margin: 10px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 75px;
-  border: 3px solid var(--branco-neve);
-  color: var(--branco-neve);
-}
-
-/* ==================================
-  FORMULÁRIO
-================================== */
-.content {
-  display: flex;
-  flex-direction: column;
-  background: var(--branco-neve);
-  padding: 20px;
-  margin: 30px auto;
-  border: 2px solid var(--verde-folha);
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  width: 90%;
-  max-width: 600px;
-  gap: 20px;
-}
-
-input {
-  border-radius: 5px;
-  padding: 4px;
-  border: 1px solid var(--verde-claro);
-}
-
-input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="password"],
-input[type="date"] {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%; /* preenchimento total */
-  margin-top: 5px;
-}
-
-input[type="tel"] {
-  font-family: monospace;
-}
-
-/* Radio buttons (sexo) — estilo neutro */
-input[type="radio"] {
-  accent-color: var(--verde-folha);
-  /* só muda a cor do círculo preenchido */
+.registro-header img {
+  height: 60px;
   width: auto;
-  margin-right: 5px;
+}
+.registro-header h1 {
+  color: var(--verde-folha);
+  font-size: 2rem;
+  display: inline-block;
 }
 
-label,
-span {
-  font-size: 1.1em;
-  font-weight: bold;
+/* --- LAYOUT PRINCIPAL --- */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 120px); /* Ajusta a altura para centralizar */
 }
 
-/* ==================================
-  BOTÕES
-================================== */
-#botoes-container {
+/* --- CARD DE REGISTRO --- */
+.card-registro {
+    background: var(--branco-neve);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* --- FORMULÁRIOS --- */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+.form-group label, .form-group > span {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: var(--verde-folha);
+    box-shadow: 0 0 0 3px rgba(58, 99, 81, 0.2);
+}
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.radio-group input[type="radio"] {
+    accent-color: var(--verde-folha);
+}
+
+/* --- BOTÕES --- */
+.botoes-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
 }
-
-#enviar {
-  background-color: var(--verde-folha);
-  color: var(--branco-neve);
-  border-radius: 10px;
-  padding: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    flex-grow: 1; /* Faz os botões ocuparem o espaço */
 }
-
-#enviar:hover {
-  background-color: var(--cinza-pedra);
-  color: var(--branco-neve);
+.btn-primario {
+    background-color: var(--verde-folha);
+    color: var(--branco-neve);
 }
-
-#limpar {
-  background-color: var(--marrom-terra);
-  color: var(--branco-neve);
-  border-radius: 10px;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 4px;
-  transition: background-color 0.3s;
+.btn-primario:hover {
+    background-color: var(--marrom-terra);
 }
-
-#limpar:hover {
-  background-color: #5a422c;
+.btn-secundario {
+    background-color: #e0e0e0;
+    color: var(--cinza-pedra);
+}
+.btn-secundario:hover {
+    background-color: #d0d0d0;
 }
 
 /* ===============================
   RESPONSIVIDADE
 ================================== */
-@media (min-width: 600px) {
-  .content {
-    max-width: 600px;
-    margin: 10px auto;
-  }
-}
-
-@media (max-width: 1000px) {
-  header img {
-    max-width: 20%;
-    height: auto;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-}
-
-/* ===============================
-  MODAL DE FEEDBACK
-================================== */
-.feedback {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  color: var(--branco-neve);
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-  z-index: 1000;
-  font-weight: 500;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feedback.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-}
-
-.feedback.sucesso {
-  background: var(--verde-folha);
-  border-left: 5px solid var(--verde-claro);
-}
-
-.feedback.erro {
-  background: var(--vermelho-erro);
-  border-left: 5px solid var(--borda-erro);
-}
-
-.feedback.aviso {
-  background: var(--marrom-terra);
-  border-left: 5px solid var(--bege-areia);
-  color: var(--branco-neve);
+@media (max-width: 600px) {
+    .registro-header {
+        padding: 1rem;
+    }
+    .registro-header .logo-link {
+        position: static;
+        transform: none;
+        margin-bottom: 1rem;
+    }
+    main {
+        padding: 1rem;
+    }
+    .card-registro {
+        padding: 1.5rem;
+    }
 }
 
 /* ===============================
@@ -258,9 +164,4 @@ span {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-5px); }
   40%, 80% { transform: translateX(5px); }
-}
-
-.error-border {
-  border: 2px solid var(--vermelho-erro) !important;
-  animation: shake 0.5s ease-in-out;
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/produtos.css">
     <link rel="stylesheet" href="../assets/css/carrinho.css">
+    <link rel="stylesheet" href="../assets/css/feedback.css">
     <!-- Metadados para SEO e acessibilidade -->
     <meta name="description" content="Confira todos os produtos disponíveis no EcoMarket SAMAVI, um marketplace sustentável para produtores locais.">
     <meta name="author" content="Equipe EcoMarket SAMAVI">
@@ -22,88 +23,76 @@
     <div id="feedback" class="feedback" aria-live="polite"></div>
 
     <header>
-      <div class="logo-container">
-        <h1>EcoMarket SAMAVI</h1>
-        <img src="../assets/img/logo.png" alt="Logo EcoMarket" />
-      </div>
-      <!-- NAVEGAÇÃO -->
-      <div class="header-controls">
-        <ul>
-          <li>
-            <a href="/paginas/login.html" id="link-login">
-              Login / Cadastro
+        <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+            <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+            <h1>EcoMarket SAMAVI</h1>
+        </a>
+        
+        <nav class="header-nav">
+            <a href="/paginas/login.html" id="link-login" class="nav-link" title="Login ou Cadastro">
+                <ion-icon name="log-in-outline"></ion-icon>
+                <span>Login</span>
             </a>
-          </li>
-          <li>
-            <a href="/index.html">
-              <ion-icon title="Voltar à página Home" name="home-outline" id="home-p"></ion-icon>
+            <a href="/paginas/conta.html" id="link-conta" class="nav-link" title="Minha Conta" style="display: none;">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span>Minha Conta</span>
             </a>
-          </li>
-          <li>
-            <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto">
+            <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto" style="display: none;">
               <ion-icon name="add-circle-outline"></ion-icon>
             </a>
-          </li>
-        </ul>
-        <!-- CARRINHO -->
-        <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-          <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30" />
-          <span id="contador-carrinho">0</span>
-          <div class="carrinho-dropdown" id="carrinho-dropdown">
-            <div id="lista-carrinho"></div>
-            <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
-            <div class="carrinho-botoes">
-              <button class="btn-limpar">Limpar Carrinho</button>
-              <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
+            <!-- CARRINHO -->
+            <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+              <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30" />
+              <span id="contador-carrinho">0</span>
+              <div class="carrinho-dropdown" id="carrinho-dropdown">
+                <div id="lista-carrinho"></div>
+                <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+                <div class="carrinho-botoes">
+                  <button class="btn-limpar">Limpar Carrinho</button>
+                  <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+        </nav>
     </header>
 
     <main class="produtos-page">
-      <h1 id="subtitulo">Todos os Produtos</h1>
-      <!-- BARRA DE PESQUISA E FILTRAGEM -->
-      <div class="filtros-container">
+      <div class="page-header">
+        <h2>Nossos Produtos</h2>
+        <p>Descubra o melhor do artesanato e produtos sustentáveis da nossa região.</p>
+      </div>
+
+      <!-- FILTROS -->
+      <section class="filtros-card">
         <div class="barra-pesquisa">
-          <input type="text" id="input-pesquisa" placeholder="Buscar produtos..." aria-label="Buscar produtos" />
+          <i class="fas fa-search"></i>
+          <input type="text" id="input-pesquisa" placeholder="Buscar pelo nome..." aria-label="Buscar produtos" />
         </div>
         <div class="filtro-categoria">
+          <i class="fas fa-tag"></i>
           <select id="filtro-categoria" aria-label="Filtrar por categoria">
             <option value="">Todas as Categorias</option>
             <option value="artesanal">Artesanato</option>
             <option value="natural">Beleza Natural</option>
             <option value="moda">Moda Consciente</option>
-            <option value="higiene">Higiene Pessoal Sustentável</option>
-            <option value="decoracao">Decoração Sustentável</option>
-            <option value="kit">Presentes Sustentáveis</option>
-            <option value="outro">Outro</option>
+            <option value="higiene">Higiene Pessoal</option>
+            <option value="decoracao">Decoração</option>
+            <option value="kit">Kits e Presentes</option>
+            <option value="outro">Outros</option>
           </select>
         </div>
+      </section>
+      
+      <!-- GRADE DE PRODUTOS -->
+      <div class="produtos-grid" id="produtos-lista">
+        <!-- Produtos serão renderizados aqui pelo produtos.js -->
       </div>
-      <!-- OS PRODUTOS APARECERAM AQUI -->
-      <div class="produtos-grid" id="produtos-lista"></div>
     </main>
+
     <!-- SCRIPTS -->
-    <script src="../assets/js/vercel-analytics.js"></script>
-    <script type="module" src="../assets/js/modules/config.js"></script>
     <script type="module" src="../assets/js/main.js"></script>
+    <script type="module" src="../assets/js/modules/ui.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // 1. Para os eventos dinâmicos do menu
-        const linkLogin = document.getElementById('link-login');
-
-        // 2. Para conferir se o usuário está logado
-        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-        if ( usuario ) {
-
-        }else {
-          linkLogin.classList.add('visivel');
-        }
-      })
-    </script>
-  </body>
+</body>
 </html>

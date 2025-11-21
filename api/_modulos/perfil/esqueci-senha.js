@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     Você recebeu este email porque alguém solicitou a redefinição de senha para sua conta no EcoMarket Samavi.
 
     Para redefinir sua senha, clique no link abaixo:
-    http://ecomarket-samavi.vercel.app?token=${token}
+    http://ecomarket-samavi.vercel.app/paginas/login.html?token=${token}
 
     Se o link acima não funcionar, copie e cole o token abaixo no campo indicado na página de redefinição de senha:
     Token: ${token}

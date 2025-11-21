@@ -1,7 +1,7 @@
 // assets/js/pages/pedidos.js
 
 // =========================== IMPORTAÇÕES ===============================
-import { mostrarFeedback } from '../modules/ui.js';
+import { mostrarFeedback, criarLoader, criarMensagemErro } from '../modules/ui.js';
 import { pedidosAPI } from '../modules/api.js';
 // =======================================================================
 
@@ -20,14 +20,14 @@ function openModal(orderId) {
   currentOrderId = orderId;
   cancelReason.value = "";
   document.getElementById("cancelPassword").value = "";
-  modal.style.display = "flex";
+  modal.classList.remove("hidden");
 }
 
 /* =============================================
   FUNÇÃO PARA FECHAR MODAL
 ============================================= */
 function closeModal() {
-  modal.style.display = "none";
+  modal.classList.add("hidden")
   currentOrderId = null;
   cancelReason.value = "";
   document.getElementById("cancelPassword").value = "";
@@ -37,46 +37,101 @@ function closeModal() {
   FUNÇÃO PARA RENDERIZAR OS PEDIDOS NA TELA
 ============================================= */
 function renderizarPedidos(pedidos) {
-  if (!pedidos || pedidos.length === 0) {
-    lista.innerHTML = window.criarMensagem(
-      "Você ainda não fez nenhum pedido.",
-      "info",
-      null // sem botão de tentar novamente
-    );
-    return;
-  }
+    const listaPedidos = document.getElementById('lista-pedidos');
+    if (!listaPedidos) return;
 
-  lista.innerHTML = "";
-  pedidos.forEach(pedido => {
-    const card = document.createElement("div");
-    card.classList.add("pedido");
+    if (!pedidos || pedidos.length === 0) {
+        listaPedidos.innerHTML = criarMensagemErro(
+            "Você ainda não fez nenhum pedido.",
+            "info"
+        );
+        return;
+    }
 
-    const produtosHTML = pedido.produtos.map(prod =>
-      `<li>${prod.nome} (x${prod.quantidade}) - R$ ${prod.preco.toFixed(2).replace('.', ',')}</li>`
-    ).join("");
+    listaPedidos.innerHTML = pedidos.map(pedido => {
+        // --- FORMATAÇÃO DE DATA E HORA (À PROVA DE BALAS) ---
+        let dataFormatada = 'Data indisponível';
+        try {
+            const dataObj = new Date(pedido.dataPedido);
+            if (isNaN(dataObj.getTime())) {
+                throw new Error('Data inválida da API');
+            }
+            // Formata para "dd/mm/aaaa, HH:MM:SS"
+            dataFormatada = dataObj.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            }).replace(',', ''); // Remove a vírgula entre data e hora
+        } catch (e) {
+            console.error(`Erro ao formatar data para o pedido ${pedido._id}:`, e.message);
+        }
 
-    const statusVisivel = pedido.status === "pendente" ? "pedido enviado ao vendedor" : pedido.status;
-    const mensagemInfo = pedido.status === "pendente"
-      ? `<p class="aviso">O vendedor foi notificado por e-mail. Aguarde o contato para combinar pagamento e entrega.</p>`
-      : "";
+        // --- DESCRIÇÃO DO STATUS (COMO NO SEU LAYOUT ORIGINAL) ---
+        let statusDesc = '';
+        switch (pedido.status) {
+            case 'pendente':
+                statusDesc = 'O vendedor foi notificado por e-mail. Aguarde o contato para combinar pagamento e entrega.';
+                break;
+            case 'em andamento':
+                statusDesc = 'O vendedor está preparando seu pedido para entrega.';
+                break;
+            case 'enviado':
+                statusDesc = 'Seu pedido foi enviado e está a caminho.';
+                break;
+            case 'entregue':
+                statusDesc = 'Seu pedido foi entregue com sucesso!';
+                break;
+            case 'cancelado':
+                statusDesc = 'Este pedido foi cancelado.';
+                break;
+            default:
+                statusDesc = 'Status do pedido não reconhecido.';
+        }
 
-    card.innerHTML = `
-      <h3>Pedido ${pedido._id}</h3>
-      <p><strong>Data:</strong> ${new Date(pedido.dataPedido).toLocaleString()}</p>
-      <p><strong>Status:</strong> ${statusVisivel}</p>
-      ${mensagemInfo}
-      <ul>${produtosHTML}</ul>
-      <p><strong>Total:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
-      ${pedido.status === "pendente" ? `<button data-id="${pedido._id}">Cancelar</button>` : ""}
-    `;
+        // --- LISTA DE PRODUTOS ---
+        const produtosHTML = pedido.produtos.map(p => 
+            `<li>${p.nome} (x${p.quantidade}) - R$ ${p.preco.toFixed(2).replace('.', ',')}</li>`
+        ).join('');
 
-    lista.appendChild(card);
-  });
+        // --- BOTÃO DE CANCELAR ---
+        const podeCancelar = pedido.status === 'pendente';
+        const botaoCancelarHTML = podeCancelar 
+            ? `<button class="btn-cancelar-pedido" data-id="${pedido._id}">Cancelar</button>`
+            : ''; // Não mostra botão se não puder cancelar
 
-  // Associa evento para abrir modal nos botões cancelar
-  document.querySelectorAll("button[data-id]").forEach(btn => {
-    btn.addEventListener("click", () => openModal(btn.dataset.id));
-  });
+        // --- MONTAGEM DO HTML FINAL (RECRIANDO SEU LAYOUT ORIGINAL) ---
+        return `
+            <div class="pedido-card" data-status="${pedido.status.toLowerCase()}">
+                <div class="pedido-header">
+                    <h3>Pedido ${pedido._id}</h3>
+                </div>
+                <div class="pedido-body">
+                    <p><strong>Data:</strong> ${dataFormatada}</p>
+                    <p><strong>Status:</strong> ${pedido.status}</p>
+                    <p class="status-descricao">${statusDesc}</p>
+                    <ul class="pedido-produtos-lista">
+                        ${produtosHTML}
+                    </ul>
+                </div>
+                <div class="pedido-footer">
+                    <span class="total-pedido">Total: R$ ${pedido.total.toFixed(2).replace('.', ',')}</span>
+                    ${botaoCancelarHTML}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // Adiciona os event listeners para os novos botões de cancelar
+    document.querySelectorAll('.btn-cancelar-pedido').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const pedidoId = e.target.dataset.id;
+            // Certifique-se de que a função para abrir o modal se chama 'openModal'
+            openModal(pedidoId); 
+        });
+    });
 }
 
 /* =============================================
@@ -93,7 +148,7 @@ async function carregarPedidos() {
   }
 
   // Exibe loader
-  lista.innerHTML = window.criarLoader("Carregando seus pedidos...");
+  lista.innerHTML = criarLoader("Carregando seus pedidos...");
 
   try {
     const pedidos = await pedidosAPI.listar(usuarioId);

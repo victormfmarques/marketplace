@@ -187,83 +187,6 @@ td:last-child {
     transform: scale(1.1);
 }
 
-/* =============================================
-  MODAL
-============================================= */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-/* Quando o JS adiciona display:flex, o modal aparece com fade-in */
-.modal[style*="display: flex"] {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.modal-content {
-  background-color: var(--branco-neve);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
-
-.modal-content h2 {
-  color: var(--verde-folha);
-  margin-top: 0;
-}
-
-.modal-botoes {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-/* Nomes das classes corrigidos para bater com o HTML */
-.modal-botoes .btn-confirmar {
-  background-color: var(--vermelho-erro);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.modal-botoes .btn-confirmar:hover {
-  background-color: #a8332a;
-}
-
-.modal-botoes .btn-cancelar {
-  background-color: #ccc;
-  color: #333;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.modal-botoes .btn-cancelar:hover {
-  background-color: #bbb;
-}
-
 #form-edicao .form-group {
     margin-bottom: 1rem;
     text-align: left;
@@ -280,12 +203,4 @@ td:last-child {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
-
-/* =============================================
-  ANIMAÇÃO DO LOADER
-============================================= */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }

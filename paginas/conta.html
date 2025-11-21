@@ -24,97 +24,110 @@
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../assets/css/conta.css" />
   <link rel="stylesheet" href="../assets/css/carrinho.css">
+  <link rel="stylesheet" href="../assets/css/produtos.css">
+  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <link rel="stylesheet" href="../assets/css/modal.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
-  <div id="feedback"></div>
+  <div id="feedback" class="feedback"></div>
+
   <header>
-    <h1>Perfil</h1>
-    <h2 id="saudacao"></h2>
-    <img class="logo" src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
-    <!-- NAVEGAÇÃO -->
-    <ul>
-      <li><a href="/index.html"><ion-icon name="home-outline"></ion-icon></a></li>
-      <li>
+    <div class="header-info">
+      <h1>Minha Conta</h1>
+      <h2 id="saudacao">Carregando...</h2>
+    </div>
+    <nav class="header-nav">
+      <a href="/index.html" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a>
       <!-- CARRINHO DE COMPRAS -->
-        <div class="carrinho-icone">
-            <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30">
-            <span id="contador-carrinho">0</span>
-            <div class="carrinho-dropdown" id="carrinho-dropdown">
-                <div id="lista-carrinho"></div>
-                <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
-                <div class="carrinho-botoes">
-                    <button class="btn-limpar">Limpar Carrinho</button>
-                    <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
-                </div>
+      <div id="icone-carrinho" class="carrinho-icone">
+        <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30">
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+            <div id="lista-carrinho"></div>
+            <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
+            <div class="carrinho-botoes">
+                <button class="btn-limpar">Limpar Carrinho</button>
+                <a href="/paginas/finalizar-pedido.html" id="finalizar-compra" class="btn-finalizar">Finalizar Compra</a>
             </div>
         </div>
-      </li>
-    </ul>
-    
-  </header>
-  <main>
-    <div class="profile-pic">
-      <ion-icon name="person-outline"></ion-icon>
-    </div>
-
-    <form class="content" id="form-perfil" action="../api?rota=perfil/cadastro.js" method="post">
-      <p>
-        <label for="inome">Nome</label>
-        <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
-      </p>
-
-      <p>
-        <span>Sexo:</span>
-        <input type="radio" name="sexo" id="imas" value="masculino">
-        <label for="imas">Masculino</label>
-
-        <input type="radio" name="sexo" id="ifem" value="feminino">
-        <label for="ifem">Feminino</label>
-      </p>
-
-      <p>
-        <label for="idat">Data de Nascimento</label>
-        <input type="date" name="dat" id="idat">
-      </p>
-
-      <p>
-        <label for="itel">Telefone</label>
-        <input type="tel" name="tel" id="itel" required autocomplete="tel" pattern="^\(\d{2}\)\s?\d{4,5}-\d{4}$" placeholder="(XX)XXXXX-XXXX">
-      </p>
-
-      <p>
-        <label for="iemail">Email</label>
-        <input type="email" name="email" id="iemail" required autocomplete="email" placeholder="seuemail@gmail.com">
-      </p>
-
-      <p>
-        <label for="isenha">Senha</label>
-        <input type="password" name="senha" id="isenha" required minlength="8" placeholder="Senha Atual">
-      </p>
-
-      <p>
-        <label for="insenha">Nova Senha (opcional)</label>
-        <input type="password" name="nsenha" id="insenha" minlength="8" placeholder="Nova senha">
-      </p>
-
-      <div id="botoes-container">
-        <input id="enviar" type="submit" value="Atualizar Perfil">
-        <button type="button" id="btn-logout">Sair</button>
-        <button type="button" id="btn-excluir-conta">Excluir Conta</button>
-        <a href="../paginas/pedidos.html"><button type="button" class="pedidos">Meus Pedidos</button></a>
-        <a href="../paginas/admin.html"><button type="button" class="adm" id="link-adm">Administrar</button></a>
       </div>
-    </form>
+    </nav>
+  </header>
 
-    <section id="secao-meus-produtos" class="meus-produtos">
+  <main>
+    <!-- CARD 1: DADOS PESSOAIS -->
+    <section class="card-perfil">
+      <h2>Meus Dados</h2>
+      <form id="form-perfil">
+        <div class="form-group">
+          <label for="inome">Nome</label>
+          <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <span>Sexo:</span>
+          <input type="radio" name="sexo" id="imas" value="masculino"> <label for="imas">Masculino</label>
+          <input type="radio" name="sexo" id="ifem" value="feminino"> <label for="ifem">Feminino</label>
+        </div>
+        <div class="form-group">
+          <label for="idat">Data de Nascimento</label>
+          <input type="date" name="dat" id="idat">
+        </div>
+        <div class="form-group">
+          <label for="itel">Telefone</label>
+          <input type="tel" name="tel" id="itel" required autocomplete="tel" placeholder="(XX ) XXXXX-XXXX">
+        </div>
+        <div class="form-group">
+          <label for="iemail">Email</label>
+          <input type="email" name="email" id="iemail" required autocomplete="email" placeholder="seuemail@gmail.com">
+        </div>
+        <div class="form-group">
+          <label for="isenha">Senha Atual (obrigatória para salvar)</label>
+          <input type="password" name="senha" id="isenha" required minlength="8" placeholder="Senha Atual">
+        </div>
+        <div class="form-group">
+          <label for="insenha">Nova Senha (opcional)</label>
+          <input type="password" name="nsenha" id="insenha" minlength="8" placeholder="Deixe em branco para não alterar">
+        </div>
+        <div class="botoes-container">
+          <button type="submit" id="enviar" class="btn btn-primario">Atualizar Dados</button>
+          <a href="/paginas/pedidos.html" class="btn btn-secundario">Meus Pedidos</a>
+          <button type="button" id="btn-logout" class="btn btn-secundario">Sair</button>
+          <button type="button" id="btn-excluir-conta" class="btn btn-perigo">Excluir Conta</button>
+          <a href="/paginas/admin.html" class="btn btn-secundario" id="link-adm" style="display: none;">Administrar</a>
+        </div>
+      </form>
+    </section>
+
+    <!-- CARD 2: PERFIL DE VENDEDOR (controlado por JS) -->
+    <section id="editor-perfil-vendedor" class="card-perfil" style="display: none;">
+      <h2>Meu Perfil de Vendedor</h2>
+      <form id="form-perfil-vendedor">
+          <div class="form-group">
+              <label for="foto-perfil-input">Foto de Perfil</label>
+              <div class="foto-perfil-preview-container">
+                  <img id="foto-perfil-preview" src="/assets/img/placeholder.png" alt="Pré-visualização da foto de perfil">
+              </div>
+              <input type="file" id="foto-perfil-input" accept="image/png, image/jpeg">
+              <small>Use uma imagem quadrada para melhores resultados.</small>
+          </div>
+          <div class="form-group">
+              <label for="sobre-mim-textarea">Sobre Mim</label>
+              <textarea id="sobre-mim-textarea" rows="6" placeholder="Conte um pouco sobre você, sua história e seu trabalho..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primario">Salvar Perfil de Vendedor</button>
+      </form>
+    </section>
+
+    <!-- CARD 3: MEUS PRODUTOS (controlado por JS) -->
+    <section id="secao-meus-produtos" class="card-perfil" style="display: none;">
       <h2>Meus Produtos</h2>
       <div id="produtos-usuario">Carregando seus produtos...</div>
     </section>
   </main>
 
-  <!-- MODAL(MENU) DE EXCLUSÃO -->
+  <!-- MODAL DE EXCLUSÃO -->
   <div id="modal-excluir-conta" class="modal hidden">
     <div class="modal-content">
       <h2>Confirmação de Exclusão</h2>
@@ -127,30 +140,14 @@
     </div>
   </div>
 
-  <!-- SCRIPTS -->
+  <!-- SCRIPTS (organizados) -->
   <script src="../assets/js/vercel-analytics.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+  <script type="module" src="../assets/js/modules/ui.js"></script>
   <script type="module" src="../assets/js/pages/perfil.js"></script>
+  <script type="module" src="../assets/js/modules/config.js"></script>
+  <script type="module" src="../assets/js/pages/produtos.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script type="module" src="../assets/js/modules/ui.js"></script>
-  <script type="module" src="../assets/js/modules/config.js"></script>
-  <script type="module" src="../assets/js/main.js"></script>
-  <script type="module" src="../assets/js/pages/produtos.js"></script>
-  <script type="module" src="../assets/js/pages/perfil.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // 1. Para os eventos dinâmicos do menu
-        const linkAdm = document.getElementById('link-adm');
-
-        // 2. Para conferir se o usuário está logado
-        const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-        if ( usuario && usuario.cargo == 'administrador' ) {
-          linkAdm.classList.add('visivel');
-        }else {
-
-        }
-      })
-  </script>
 </body>
 </html>

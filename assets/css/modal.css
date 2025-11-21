@@ -1,0 +1,159 @@
+/* =======================================================================
+   ARQUIVO: assets/css/modal.css (ou feedback.css)
+   CSS UNIVERSAL PARA TODOS OS MODAIS DO PROJETO
+======================================================================= */
+
+/* =============================================
+  ESTRUTURA GERAL DO MODAL
+============================================= */
+
+/* O fundo preto translúcido */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  
+  /* Transição suave para aparecer e desaparecer */
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Por padrão, é clicável */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* A classe .hidden ESCONDE o modal e o torna um FANTASMA */
+.modal.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* <<< A MÁGICA ACONTECE AQUI */
+}
+
+/* A caixa branca genérica do modal */
+.modal-content {
+  background-color: var(--branco-neve, #FFFFFF);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  
+  /* Animação de "zoom in" */
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.modal.hidden .modal-content {
+    transform: scale(0.95);
+}
+
+/* =============================================
+  ESTILOS GENÉRICOS PARA O CONTEÚDO DO MODAL
+============================================= */
+
+.modal-content h2, .modal-content h3 {
+  color: var(--verde-folha, #3A6351);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  margin-bottom: 1.5rem;
+  color: var(--cinza-pedra, #4F4F4F);
+  line-height: 1.6;
+}
+
+/* Inputs e Textareas dentro de qualquer modal */
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.modal-content input:focus,
+.modal-content textarea:focus {
+    outline: none;
+    border-color: var(--verde-folha, #3A6351);
+    box-shadow: 0 0 0 3px rgba(58, 99, 81, 0.2);
+}
+
+/* Contêiner de botões */
+.modal-botoes {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Botões genéricos do modal */
+.modal-botoes button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* =============================================
+  ESTILOS ESPECÍFICOS (Exemplo para o modal de exclusão)
+============================================= */
+
+/* Título vermelho para o modal de exclusão */
+#modal-excluir-conta .modal-content h2 {
+    color: var(--vermelho-erro, #8e2519);
+}
+
+/* Botão de confirmação de exclusão */
+#confirmar-exclusao {
+    background-color: var(--vermelho-erro, #8e2519);
+    color: var(--branco-neve, #FFFFFF);
+}
+#confirmar-exclusao:hover { background-color: #a13428; }
+
+/* Botão de cancelar (pode ser usado em vários modais) */
+.btn-cancelar,.btn-secundario, #cancelar-exclusao, #btn-cancelar-edicao {
+    background-color: #e0e0e0;
+    color: var(--cinza-pedra, #4F4F4F);
+}
+.btn-cancelar:hover, .btn-secundario:hover, #cancelar-exclusao:hover, #btn-cancelar-edicao:hover { background-color: #d0d0d0; }
+
+/* Botão de confirmação primário (verde) */
+#confirmar-pedido,.btn-primario, #btn-confirmar-edicao {
+    background-color: var(--verde-folha, #3A6351);
+    color: var(--branco-neve, #FFFFFF);
+}
+#confirmar-pedido:hover, .btn-primario:hover, #btn-confirmar-edicao:hover { background-color: #2d4f3f; }
+
+/* =============================================
+  ANIMAÇÃO FADEIN PARA MODAL
+============================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

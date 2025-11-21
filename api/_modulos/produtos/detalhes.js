@@ -58,6 +58,7 @@ export default async function handler(req, res) {
       usuarioId: produto.usuarioId || null,
       categoria: produto.categoria || 'geral',
       vendedor: {
+        _id: produto.usuario?._id,
         nome: produto.usuario?.nome || 'Vendedor',
         email: produto.usuario?.email || 'Email não informado',
         telefone: produto.usuario?.telefone || 'Telefone não informado'

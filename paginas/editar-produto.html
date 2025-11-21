@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="../assets/css/editprod.css" />
+  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <link rel="stylesheet" href="../assets/css/modal.css">
   <title>Editar Produto</title>
 </head>
 <body>
@@ -53,10 +55,10 @@
   </main>
 
 <!-- MODAL(MENU) DE CONFIRMAÇÃO DE ATUALIZAÇÃO -->
-<div id="modal-confirmar-edicao" class="modal" aria-hidden="true">
+<div id="modal-confirmar-edicao" class="modal hidden" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-edicao">
     <p id="titulo-modal-edicao">Deseja realmente salvar as alterações deste produto?</p>
-    <div class="botoes-modal">
+    <div class="modal-botoes">
       <button id="btn-confirmar-edicao" class="btn-confirmar">Sim</button>
       <button id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
     </div>
@@ -71,174 +73,17 @@
     <p>Digite sua senha para confirmar a exclusão:</p>
     <input type="password" id="senha-confirmacao" placeholder="Digite sua senha">
     <div style="margin-top: 1rem;">
-      <button id="confirmar-exclusao">Confirmar</button>
-      <button id="cancelar-exclusao">Cancelar</button>
+      <div class="modal-botoes">
+        <button id="confirmar-exclusao">Confirmar</button>
+        <button id="cancelar-exclusao">Cancelar</button>
+      </div>
     </div>
   </div>
 </div>
   <!-- SCRIPTS -->
   <script src="../assets/js/vercel-analytics.js"></script>
+  <script type="module" src="../assets/js/pages/editar-produto.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script type="module">
-    import { mostrarFeedback } from '../assets/js/modules/ui.js';
-
-    const produtoId = new URLSearchParams(window.location.search).get('id');
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-    if (!usuarioLogado) {
-      window.location.href = '/index.html';
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('btn-excluir').addEventListener('click', () => {
-  const modal = document.getElementById('modal-excluir-produto');
-  modal.classList.remove('hidden');
-
-  document.getElementById('cancelar-exclusao').onclick = () => {
-    modal.classList.add('hidden');
-    mostrarFeedback('Exclusão de produto cancelada', 'aviso');
-  };
-
-  document.getElementById('confirmar-exclusao').onclick = async () => {
-    const senha = document.getElementById('senha-confirmacao').value.trim();
-
-    if (!senha) {
-      mostrarFeedback('Por favor, digite sua senha para confirmar', 'aviso');
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api?rota=produtos/editar&id=${produtoId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-usuario': JSON.stringify(usuarioLogado)
-        },
-        body: JSON.stringify({ senha })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erro ao excluir produto');
-      }
-
-      mostrarFeedback('Produto excluído com sucesso!', 'sucesso');
-      modal.classList.add('hidden');
-
-      setTimeout(() => {
-        window.location.href = '/paginas/produtos.html';
-      }, 2000);
-
-    } catch (error) {
-      console.error('Erro ao excluir produto:', error);
-      mostrarFeedback('Erro ao excluir produto: ' + error.message, 'erro');
-    }
-  };
-});
-      
-            try {
-        const params = new URLSearchParams({ rota: 'produtos/detalhes', id: produtoId });
-        const response = await fetch(`/api?${params.toString()}`);
-
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
-
-        const produto = await response.json();
-
-        if (produto.usuarioId !== usuarioLogado._id) {
-          mostrarFeedback('Você não tem permissão para editar este produto');
-          setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
-          return;
-        }
-
-        preencherFormulario(produto);
-      } catch (error) {
-        console.error('Erro ao carregar produto:', error);
-        mostrarFeedback('Falha ao carregar produto: ' + error.message);
-        setTimeout(() => window.location.href = '/paginas/produtos.html', 3000);
-      }
-    });
-
-    function preencherFormulario(produto) {
-      document.getElementById('nome').value = produto.nome;
-      document.getElementById('descricao').value = produto.descricao;
-      document.getElementById('preco').value = produto.preco.toFixed(2);
-      document.getElementById('categoria').value = produto.categoria;
-
-      const preview = document.getElementById('preview-fotos');
-      preview.innerHTML = '';
-
-      if (produto.fotos && Array.isArray(produto.fotos)) {
-        produto.fotos.forEach(foto => {
-          const img = document.createElement('img');
-          img.src = foto;
-          img.onerror = () => img.src = '../assets/img/placeholder.png';
-          img.style.maxWidth = '120px';
-          img.style.margin = '5px';
-          preview.appendChild(img);
-        });
-      }
-    }
-
-    document.getElementById('form-editar-produto').addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const formData = {
-    nome: document.getElementById('nome').value,
-    descricao: document.getElementById('descricao').value,
-    preco: parseFloat(document.getElementById('preco').value),
-    categoria: document.getElementById('categoria').value
-  };
-
-  const modal = document.getElementById('modal-confirmar-edicao');
-  const btnConfirmar = document.getElementById('btn-confirmar-edicao');
-  const btnCancelar = document.getElementById('btn-cancelar-edicao');
-
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden', 'false');
-
-  btnCancelar.onclick = () => {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-    mostrarFeedback('Edição cancelada.', 'aviso');
-  };
-
-  btnConfirmar.onclick = async () => {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-
-    try {
-      await editarProduto(produtoId, formData, usuarioLogado);
-      mostrarFeedback('Produto atualizado com sucesso!', 'sucesso');
-      setTimeout(() => window.location.href = `/paginas/detalhes-produto.html?id=${produtoId}`, 2500);
-    } catch (error) {
-      console.error('Erro ao editar produto:', error);
-      mostrarFeedback('Erro ao atualizar produto: ' + error.message, 'erro');
-    }
-  };
-});
-
-
-    async function editarProduto(id, dados, usuario) {
-      if (!id || !usuario) throw new Error('ID ou usuário ausente');
-
-      const response = await fetch(`/api?rota=produtos/editar&id=${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-usuario': JSON.stringify(usuario)
-        },
-        body: JSON.stringify(dados)
-      });
-
-      if (!response.ok) {
-        const erro = await response.json().catch(() => ({}));
-        throw new Error(erro.error || 'Erro ao editar produto');
-      }
-
-      return await response.json();
-    }
-  </script>
 </body>
 </html>
