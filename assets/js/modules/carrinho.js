@@ -139,14 +139,6 @@ function updateListaItens() {
     </div>
   `).join('');
 
-  // Evento de remover uma unidade
-  document.querySelectorAll('.btn-remover').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const id = e.target.dataset.id;
-      removerUmaUnidade(id);
-    });
-  });
-
   // ✅ Evento de redirecionar pelo nome
   document.querySelectorAll('.link-detalhes').forEach(el => {
     el.addEventListener('click', (e) => {

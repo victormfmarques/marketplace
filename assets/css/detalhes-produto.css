@@ -224,12 +224,6 @@ body {
 .loader-container {
   margin: auto;
 }
-
-@media (max-width: 480px) {
-  .carrinho-botoes {
-    flex-direction: column;
-  }
-}
 /* ==================================
   CARRINHO DE COMPRAS
 ================================== */

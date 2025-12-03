@@ -414,47 +414,6 @@ nav ul li a:hover {
   right: 0;
   top: 40px !important;
 }
-
-/* ==================================
-  FEEDBACK
-================================== */
-.feedback {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(100%);
-  color: var(--branco-neve);
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-  z-index: 1100;
-  font-weight: 500;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feedback.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-}
-
-.feedback.sucesso {
-  background: var(--verde-folha);
-  border-left: 5px solid var(--verde-claro);
-}
-
-.feedback.erro {
-  background: #8B2E2E;
-  /* Vermelho terroso */
-  border-left: 5px solid #C44D4D;
-}
-
-.feedback.aviso {
-  background: var(--marrom-terra);
-  border-left: 5px solid var(--bege-areia);
-  color: var(--branco-neve);
-}
-
 /* =============================================
   CARREGAMENTO E NOTIFICAÇÃO DE ERRO
 ============================================= */
@@ -472,11 +431,6 @@ nav ul li a:hover {
 
 .btn-tentar-novamente:hover {
   background-color: var(--marrom-terra);
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 
 /* =============================================
