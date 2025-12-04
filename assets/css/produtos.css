@@ -34,6 +34,8 @@ header {
   background-color: var(--verde-folha);
   color: var(--branco-neve);
   padding: 1rem 2rem;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
