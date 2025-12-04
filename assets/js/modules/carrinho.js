@@ -98,6 +98,7 @@ export function adicionarAoCarrinho(produto, event) {
             imagem: produto.foto || produto.fotos?.[0] || config.placeholderImage,
             quantidade: 1,
             vendedor: {
+                id: produto.vendedor?.id || produto.usuarioId || 'Desconhecido',
                 nome: produto.vendedor?.nome || 'Vendedor',
                 email: produto.vendedor?.email || 'Email não informado',
                 telefone: produto.vendedor?.telefone || 'Telefone não informado'

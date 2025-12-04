@@ -127,13 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("hidden");
         setTimeout(() => {
           window.location.href = "/paginas/pedidos.html";
-        }, 2000);
+        }, 1000);
       } else {
         mostrarFeedback('Erro ao registrar o pedido', 'erro');
       }
     } catch (error) {
       console.error("Erro:", error);
-      mostrarFeedback('Erro ao confirmar o pedido', 'erro');
+      mostrarFeedback('Erro ao confirmar o pedido, confira a senha!', 'erro');
     }
   });
 });

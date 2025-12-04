@@ -1,3 +1,4 @@
+// EM: assets/js/pages/perfil.js
 
 // --- 1. IMPORTAÇÕES ---
 // Todas as dependências que o arquivo precisa.
@@ -5,13 +6,21 @@ import { formatarTelefone } from '../modules/utils.js';
 import { criarMensagemErro, mostrarFeedback, criarLoader, mostrarErro } from '../modules/ui.js';
 import { perfilAPI, produtosAPI, vendedorAPI } from '../modules/api.js';
 
-// --- 2. FUNÇÕES AUXILIARES ---
-// Todas as funções que fazem o "trabalho sujo" ficam aqui fora, no escopo do módulo.
-// Elas são como ferramentas em uma caixa, prontas para serem usadas pelo "maestro".
+// =======================================================================
+// --- 2. ESTADO GLOBAL DA PÁGINA ---
+// =======================================================================
+let todosOsPedidosDoVendedor = [];
+let paginaAtualVendedor = 1;
+let filtroAtualVendedor = 'todos';
+let totalPedidosNoBanco = 0;
+let carregandoPedidos = false;
+let abortController = new AbortController();
 
-/**
- * Carrega e exibe os produtos do usuário logado na seção correspondente.
- */
+// =======================================================================
+// --- 3. FUNÇÕES AUXILIARES ---
+// =======================================================================
+
+/* Carrega e exibe os produtos do usuário logado na seção correspondente.*/
 async function carregarProdutosUsuario() {
     const container = document.getElementById('produtos-usuario');
     if (!container) return;
@@ -53,7 +62,7 @@ async function carregarProdutosUsuario() {
 }
 
 /**
- * Preenche o formulário de dados pessoais com as informações do usuário.
+  Preenche o formulário de dados pessoais com as informações do usuário.
  */
 function preencherFormulario(usuario) {
     if (!usuario) return;
@@ -94,44 +103,224 @@ function carregarDadosVendedor(usuario) {
     }
 }
 
-// --- 3. PONTO DE ENTRADA PRINCIPAL (O "MAESTRO") ---
+// =======================================================================
+// --- SEÇÃO DE GESTÃO DE PEDIDOS
+// =======================================================================
+/**
+ * 1. CRIA O HTML DE UM CARD
+ * Recebe um objeto de pedido e retorna a string de HTML para o card.
+ * ÚNICA fonte da verdade para a aparência de um card.
+ */
+function criarCardPedidoHTML(pedido) {
+    const dataFormatada = new Date(pedido.dataPedido).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const comprador = pedido.compradorInfo;
+    return `
+        <div class="pedido-vendedor-card" data-status="${pedido.status}">
+            <div class="pedido-vendedor-header">
+                <h4>Pedido #${pedido._id.slice(-6)}</h4>
+                <span class="pedido-status">${pedido.status}</span>
+            </div>
+            <div class="pedido-vendedor-body">
+                <p><strong>Data:</strong> ${dataFormatada}</p>
+                <p><strong>Comprador:</strong> ${comprador?.nome || 'N/A'}</p>
+                <p><strong>Contato:</strong> ${comprador?.telefone ? formatarTelefone(comprador.telefone) : 'N/A'}</p>
+                <strong>Itens neste pedido:</strong>
+                <ul>${pedido.produtos.map(p => `<li>${p.quantidade}x ${p.nome}</li>`).join('')}</ul>
+                <p class="total-parcial"><strong>Seu total neste pedido: R$ ${pedido.total.toFixed(2).replace('.', ',')}</strong></p>
+            </div>
+            <div class="pedido-vendedor-acoes">
+                <select class="select-status" data-pedido-id="${pedido._id}">
+                    <option value="pendente" ${pedido.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                    <option value="em andamento" ${pedido.status === 'em andamento' ? 'selected' : ''}>Em Andamento</option>
+                    <option value="enviado" ${pedido.status === 'enviado' ? 'selected' : ''}>Enviado</option>
+                    <option value="entregue" ${pedido.status === 'entregue' ? 'selected' : ''}>Entregue</option>
+                    <option value="cancelado" ${pedido.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                </select>
+                <button class="btn-salvar-status" data-pedido-id="${pedido._id}">Salvar Status</button>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * 2. APLICA FILTRO E RENDERIZA A LISTA COMPLETA
+ * Pega o array 'todosOsPedidosDoVendedor', filtra e redesenha a tela inteira.
+ * Usado após salvar status ou mudar de filtro.
+ */
+function aplicarFiltroEVenderizarVendedor() {
+    const container = document.getElementById('pedidos-vendedor-container');
+    if (!container) return;
+
+    const pedidosFiltrados = filtroAtualVendedor === 'todos'
+        ? todosOsPedidosDoVendedor
+        : todosOsPedidosDoVendedor.filter(p => p.status === filtroAtualVendedor);
+
+    if (pedidosFiltrados.length > 0) {
+        container.innerHTML = pedidosFiltrados.map(criarCardPedidoHTML).join('');
+    } else {
+        if (todosOsPedidosDoVendedor.length > 0) {
+            container.innerHTML = criarMensagemErro(`Nenhum pedido com o status "${filtroAtualVendedor}".`, 'info');
+        } else {
+            container.innerHTML = criarMensagemErro('Você ainda não recebeu nenhum pedido.', 'info');
+        }
+    }
+    configurarAcoesVendedor();
+}
+
+/**
+ * 3. BUSCA PEDIDOS DA API
+ * Gerencia a chamada da API, paginação e a renderização inicial ou de "Carregar Mais".
+ */
+async function carregarPedidosParaVendedor(vendedorId, ehCarregarMais = false) {
+    if (carregandoPedidos && ehCarregarMais) return;
+
+    const container = document.getElementById('pedidos-vendedor-container');
+    const btnCarregarMais = document.getElementById('btn-carregar-mais-pedidos');
+    if (!container || !btnCarregarMais) return;
+
+    abortController.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
+    carregandoPedidos = true;
+    btnCarregarMais.textContent = 'Carregando...';
+    btnCarregarMais.disabled = true;
+
+    if (!ehCarregarMais) {
+        container.innerHTML = criarLoader("Buscando pedidos...");
+    }
+
+    try {
+        const data = await vendedorAPI.listarPedidos(vendedorId, paginaAtualVendedor, filtroAtualVendedor, signal);
+        if (!data) return;
+
+        if (!ehCarregarMais && data.pedidos.length === 0) {
+            // Se o filtro for 'todos', significa que o vendedor REALMENTE não tem nenhum pedido.
+            if (filtroAtualVendedor === 'todos') {
+                container.innerHTML = criarMensagemErro('Você ainda não recebeu nenhum pedido.', 'info');
+            } 
+            // Para qualquer outro filtro, a mensagem é específica.
+            else {
+                container.innerHTML = criarMensagemErro(`Nenhum pedido com o status "${filtroAtualVendedor}".`, 'info');
+            }
+        }
+        // Se há pedidos para renderizar...
+        else if (data.pedidos.length > 0) {
+            const novosPedidosHtml = data.pedidos.map(criarCardPedidoHTML).join('');
+            if (!ehCarregarMais) {
+                container.innerHTML = novosPedidosHtml;
+            } else {
+                container.innerHTML += novosPedidosHtml;
+            }
+        }
+
+        todosOsPedidosDoVendedor.push(...data.pedidos);
+        totalPedidosNoBanco = data.totalPedidos;
+        paginaAtualVendedor++;
+
+        configurarAcoesVendedor();
+
+        if (todosOsPedidosDoVendedor.length < totalPedidosNoBanco) {
+            btnCarregarMais.classList.remove('hidden');
+        } else {
+            btnCarregarMais.classList.add('hidden');
+        }
+
+    } catch (error) {
+        if (error.name !== 'AbortError') {
+            mostrarErro(container, 'Não foi possível carregar seus pedidos', 'Ocorreu um erro no servidor.', () => resetarECarregarPedidos(vendedorId));
+        }
+    } finally {
+        carregandoPedidos = false;
+        btnCarregarMais.textContent = 'Carregar Mais';
+        btnCarregarMais.disabled = false;
+    }
+}
+
+/**
+ * 4. RESETA E RECARREGA
+ * Limpa o estado da paginação e inicia uma nova busca. Usado ao mudar de filtro.
+ */
+function resetarECarregarPedidos(vendedorId) {
+    paginaAtualVendedor = 1;
+    todosOsPedidosDoVendedor = [];
+    filtroAtualVendedor = 'todos'; // Garante que o reset sempre volte para 'todos' ou o filtro desejado
+    const filtroAtivo = document.querySelector('.filtro-btn.active');
+    if (filtroAtivo) {
+        filtroAtualVendedor = filtroAtivo.dataset.status;
+    }
+    carregarPedidosParaVendedor(vendedorId, false);
+}
+
+/**
+ * 5. CONFIGURA AS AÇÕES DOS CARDS
+ * Adiciona os listeners aos botões de "Salvar Status".
+ */
+function configurarAcoesVendedor() {
+    document.querySelectorAll('.btn-salvar-status').forEach(button => {
+        if (button.dataset.listenerAttached) return;
+        button.dataset.listenerAttached = 'true';
+
+        button.addEventListener('click', async (e) => {
+            const pedidoId = e.target.dataset.pedidoId;
+            const select = document.querySelector(`.select-status[data-pedido-id="${pedidoId}"]`);
+            if (!select) return;
+            
+            const novoStatus = select.value;
+            
+            try {
+                button.disabled = true;
+                button.textContent = 'Salvando...';
+                await vendedorAPI.atualizarStatusPedido(pedidoId, novoStatus);
+                mostrarFeedback('Status do pedido atualizado com sucesso!', 'sucesso');
+
+                const pedidoParaAtualizar = todosOsPedidosDoVendedor.find(p => p._id === pedidoId);
+                if (pedidoParaAtualizar) {
+                    pedidoParaAtualizar.status = novoStatus;
+                }
+                
+                aplicarFiltroEVenderizarVendedor();
+
+            } catch (error) {
+                mostrarFeedback(`Erro ao atualizar status: ${error.message}`, 'erro');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Salvar Status';
+            }
+        });
+    });
+}
+
+// =======================================================================
+// --- 4. PONTO DE ENTRADA PRINCIPAL (O "MAESTRO") ---
+// =======================================================================
 // Este evento espera o HTML estar 100% pronto para rodar o código.
 
 document.addEventListener('DOMContentLoaded', () => {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-    // 1. Validação de Segurança: Se não há usuário, expulsa da página.
     if (!usuarioLogado) {
         mostrarFeedback('Por favor, faça login para acessar esta página', 'erro');
         setTimeout(() => window.location.href = '/index.html', 2000);
         return;
     }
 
-    // 2. Lógica de UI (mostrar/esconder elementos com base no cargo)
-    const linkAdm = document.getElementById('link-adm');
-    if (linkAdm) {
-        linkAdm.style.display = usuarioLogado.cargo === 'administrador' ? 'inline-block' : 'none';
-    }
-
-    const editorPerfilVendedor = document.getElementById('editor-perfil-vendedor');
-    const secaoMeusProdutos = document.getElementById('secao-meus-produtos');
+    // --- Lógica de UI (mostrar/esconder seções) ---
     const isVendedorOuAdmin = usuarioLogado.cargo === 'vendedor' || usuarioLogado.cargo === 'administrador';
+    document.getElementById('link-adm').style.display = usuarioLogado.cargo === 'administrador' ? 'inline-block' : 'none';
+    document.getElementById('editor-perfil-vendedor').style.display = isVendedorOuAdmin ? 'block' : 'none';
+    document.getElementById('secao-meus-produtos').style.display = isVendedorOuAdmin ? 'block' : 'none';
+    document.getElementById('secao-gestao-pedidos').style.display = isVendedorOuAdmin ? 'block' : 'none';
 
-    if (editorPerfilVendedor) {
-        editorPerfilVendedor.style.display = isVendedorOuAdmin ? 'block' : 'none';
-    }
-    if (secaoMeusProdutos) {
-        secaoMeusProdutos.style.display = isVendedorOuAdmin ? 'block' : 'none';
-    }
-
-    // 3. Preenchimento de Dados
+    // --- Preenchimento de Dados e Carregamento Inicial ---
     preencherFormulario(usuarioLogado);
     if (isVendedorOuAdmin) {
         carregarDadosVendedor(usuarioLogado);
-        carregarProdutosUsuario();
+        carregarProdutosUsuario(usuarioLogado._id);
+        carregarPedidosParaVendedor(usuarioLogado._id); // Carga inicial dos pedidos
     }
 
-    // 4. Configuração de TODOS os Eventos da Página
+    // Configuração de TODOS os Eventos da Página
 
     // --- SUBMIT DO FORMULÁRIO DE DADOS PESSOAIS ---
     document.getElementById('form-perfil').addEventListener('submit', async (e) => {
@@ -263,5 +452,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 mostrarFeedback(error.message || 'Falha ao excluir conta.', 'erro');
             }
         });
+    }
+
+    // Filtros e Paginação da Gestão de Pedidos
+    if (isVendedorOuAdmin) {
+        carregarPedidosParaVendedor(usuarioLogado._id); // Carga inicial
+
+        document.getElementById('btn-carregar-mais-pedidos').addEventListener('click', () => {
+            carregarPedidosParaVendedor(usuarioLogado._id, true);
+        });
+
+        document.querySelectorAll('.filtro-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                document.querySelectorAll('.filtro-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                filtroAtualVendedor = e.target.dataset.status;
+                resetarECarregarPedidos(usuarioLogado._id); 
+            });
+        });
+        function resetarECarregarPedidos(vendedorId) {
+            paginaAtualVendedor = 1;
+            todosOsPedidosDoVendedor = []; 
+            carregarPedidosParaVendedor(vendedorId, false);
+        }
     }
 });

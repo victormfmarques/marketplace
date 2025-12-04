@@ -96,111 +96,168 @@ header .header-nav a:hover {
 
 /* --- LAYOUT PRINCIPAL --- */
 main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.fundo {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 10px;
 }
 
 #lista-pedidos {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: grid;
+  gap: 1.5rem;
 }
 
-/* --- CARD DE PEDIDO --- */
-.pedido-card {
-    background-color: var(--branco-neve);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden; /* Garante que a borda colorida não vaze */
-    border-left: 8px solid var(--verde-folha); /* Status Padrão: Processando */
+.fundo h2 {
+  font-size: 1.5rem;
+  color: var(--verde-folha);
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--verde-claro);
 }
 
-/* Cores de Status */
-.pedido-card[data-status="Entregue"] { border-left-color: var(--verde-claro); }
-.pedido-card[data-status="Cancelado"] { border-left-color: var(--vermelho-erro); }
-.pedido-card[data-status="Pendente"] { border-left-color: var(--amarelo-aviso); }
+/* =============================================
+   CSS PARA O CARD DE PEDIDOS DO COMPRADOR
+   EM: assets/css/pedidos.css
+============================================= */
 
-.pedido-header {
-    padding: 1rem 1.5rem;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-.pedido-header h3 {
-    font-size: 1.1rem;
-    color: var(--verde-folha);
-}
-.pedido-header .pedido-status {
-    font-weight: 600;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: var(--branco-neve);
-    background-color: var(--verde-folha); /* Cor padrão */
-}
-/* Cores de Status para o Badge */
-.pedido-card[data-status="Entregue"] .pedido-status { background-color: var(--verde-claro); color: var(--verde-folha); }
-.pedido-card[data-status="Cancelado"] .pedido-status { background-color: var(--vermelho-erro); }
-.pedido-card[data-status="Pendente"] .pedido-status { background-color: var(--amarelo-aviso); }
-
-.pedido-body {
-    padding: .5rem;
-}
-.pedido-detalhes {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-}
-.pedido-produtos-lista {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1rem;
-}
-.pedido-produtos-lista li {
-    padding: 0.5rem 0;
-    border-bottom: 1px dashed #eee;
-}
-.pedido-footer {
-    text-align: right;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--marrom-terra);
-    padding: 10px;
+/* O contêiner que segura todos os cards */
+#lista-pedidos {
+  display: grid;
+  flex-direction: column;
+  gap: 1.5rem; /* Espaço entre os cards de pedido */
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  width: 100%;
 }
 
-.total-pedido {
-    padding: 20px 10px;
+.pedido-comprador-card {
+  background-color: var(--branco-neve);
+  border: 1px solid #e0e0e0;
+  border-left: 5px solid var(--verde-folha);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  overflow: hidden; /* Garante que os cantos arredondados funcionem */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.pedido-actions {
-    margin-top: 1.5rem;
-    text-align: right;
-}
-.btn-cancelar-pedido {
-    background-color: var(--vermelho-erro);
-    color: var(--branco-neve);
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s;
-    margin: 10px
-}
-.btn-cancelar-pedido:hover {
-    background-color: #a93226;
-}
-.btn-cancelar-pedido:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+/* --- CABEÇALHO DO CARD --- */
+.pedido-comprador-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa; /* Um cinza bem claro para destacar o header */
+  border-bottom: 1px solid #e0e0e0;
 }
 
+.pedido-comprador-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--cinza-pedra);
+}
+
+/* Badge de Status (reutilizando o estilo do vendedor) */
+.pedido-comprador-header .pedido-status {
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+/* Cores dinâmicas para o status */
+.pedido-comprador-card[data-status="pendente"] .pedido-status {
+  background-color: #fef3c7; color: #92400e;
+}
+.pedido-comprador-card[data-status="em andamento"] .pedido-status {
+  background-color: #dbeafe; color: #1e40af;
+}
+.pedido-comprador-card[data-status="enviado"] .pedido-status {
+  background-color: #cce5ff; color: #004085;
+}
+.pedido-comprador-card[data-status="entregue"] .pedido-status {
+  background-color: #d4edda; color: #155724;
+}
+.pedido-comprador-card[data-status="cancelado"] .pedido-status {
+  background-color: #f8d7da; color: #721c24;
+}
+
+
+/* --- CORPO DO CARD --- */
+.pedido-comprador-body {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.pedido-comprador-body p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.pedido-comprador-body .status-descricao {
+  font-style: italic;
+  color: #6c757d; /* Um cinza mais suave para a descrição */
+  margin-bottom: 1rem;
+}
+
+.pedido-comprador-body strong {
+  color: var(--cinza-pedra);
+}
+
+.pedido-comprador-body ul {
+  list-style-position: inside;
+  padding-left: 5px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--verde-claro);
+  padding-left: 10px;
+}
+
+/* --- RODAPÉ DO CARD --- */
+.pedido-comprador-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pedido-comprador-footer .total-pedido {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--verde-folha);
+}
+
+/* Botão de Cancelar */
+.pedido-comprador-footer .btn-cancelar-pedido {
+  background-color: var(--vermelho-erro);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pedido-comprador-footer .btn-cancelar-pedido:hover {
+  background-color: #a13428;
+}
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 600px) {

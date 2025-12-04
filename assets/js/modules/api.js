@@ -21,8 +21,12 @@ async function request(endpoint, options = {}) {
 
         return data; // Retorna os dados de sucesso
     } catch (error) {
+        // MUDANÇA 2: Se o erro for de cancelamento, a gente trata ele de forma silenciosa.
+        if (error.name === 'AbortError') {
+            console.log('Requisição cancelada:', endpoint);
+            return new Promise(() => {}); // Para a execução do código que chamou.
+        }
         console.error(`Erro na requisição para ${url}:`, error);
-        // Re-lança o erro para que o código que chamou a função possa tratá-lo.
         throw error;
     }
 }
@@ -107,5 +111,13 @@ export const vendedorAPI = {
     atualizarVendedor: (formData) => request('vendedor/atualizarVendedor', {
         method: 'POST',
         body: formData // Não definimos Content-Type, o navegador faz isso por nós
+    }),
+    listarPedidos: (vendedorId, pagina, status, signal) => 
+        request(`vendedor/listarPedidos&id=${vendedorId}&pagina=${pagina}&status=${status}`, { signal }),
+    
+    atualizarStatusPedido: (pedidoId, novoStatus) => request('vendedor/atualizarStatus', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pedidoId, novoStatus })
     }),
 };

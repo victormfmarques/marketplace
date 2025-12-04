@@ -178,7 +178,7 @@ td:last-child {
     border-radius: 30%;
     color: var(--branco-neve);
     font-size: 30px;
-    padding: 1px 5px;
+    padding: 5px 10px;
     transition: background 0.5s ease-in-out, transform 0.2s ease;
 }
 

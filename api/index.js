@@ -19,6 +19,8 @@
   import vendedorPerfil from './_modulos/vendedor/perfil.js';
   import vendedorAtualizarVendedor from './_modulos/vendedor/atualizarVendedor.js';
   import perfilVerificarSessao from './_modulos/perfil/verificarSessao.js';
+  import listarPedidosVendedor from './_modulos/vendedor/listarPedidos.js';
+  import atualizarStatusPedido from './_modulos/vendedor/atualizarStatus.js';
 
   export default async function handler(req, res) {
     const rota = req.query.rota;
@@ -57,6 +59,8 @@
     // Vendedor
     if (rota === "vendedor/perfil") return vendedorPerfil(req, res);
     if (rota === "vendedor/atualizarVendedor") return vendedorAtualizarVendedor(req, res);
+    if (rota === "vendedor/listarPedidos") return listarPedidosVendedor(req, res);
+    if (rota === "vendedor/atualizarStatus") return atualizarStatusPedido(req, res);
     
     // Caso não encontre rota
     res.status(404).json({ error: "Rota não encontrada" });

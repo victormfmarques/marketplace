@@ -125,6 +125,30 @@
       <h2>Meus Produtos</h2>
       <div id="produtos-usuario">Carregando seus produtos...</div>
     </section>
+
+    <!-- CARD 4: PAINEL DE GESTÃO DE PEDIDOS -->
+    <section id="secao-gestao-pedidos" class="card-perfil" style="display: none;">
+      <h2>Gestão de Pedidos Recebidos</h2>
+      <p>Aqui estão os pedidos que contêm produtos seus. Você é responsável por entrar em contato com o comprador para combinar o pagamento e a entrega.</p>
+
+      <div id="filtros-pedidos-vendedor" class="filtros-container">
+        <button class="filtro-btn active" data-status="todos">Todos</button>
+        <button class="filtro-btn" data-status="pendente">Pendentes</button>
+        <button class="filtro-btn" data-status="em andamento">Em Andamento</button>
+        <button class="filtro-btn" data-status="enviado">Enviados</button>
+        <button class="filtro-btn" data-status="entregue">Entregues</button>
+        <button class="filtro-btn" data-status="cancelado">Cancelados</button>
+      </div>
+
+       <!-- O contêiner onde os cards de pedido serão renderizados -->
+      <div id="pedidos-vendedor-container">
+        <!-- O JavaScript vai renderizar os pedidos aqui -->
+      </div>
+
+      <div id="loader-pedidos-vendedor" class="loader-container-mais">
+        <button id="btn-carregar-mais-pedidos" class="btn-carregar-mais">Carregar Mais</button>
+      </div>
+    </section>
   </main>
 
   <!-- MODAL DE EXCLUSÃO -->

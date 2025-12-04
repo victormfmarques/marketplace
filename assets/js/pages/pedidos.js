@@ -97,26 +97,28 @@ function renderizarPedidos(pedidos) {
         ).join('');
 
         // --- BOTÃO DE CANCELAR ---
-        const podeCancelar = pedido.status === 'pendente';
+        const podeCancelar = pedido.status === 'pendente' || pedido.status === 'em andamento' || pedido.status === 'enviado';
         const botaoCancelarHTML = podeCancelar 
             ? `<button class="btn-cancelar-pedido" data-id="${pedido._id}">Cancelar</button>`
             : ''; // Não mostra botão se não puder cancelar
 
         // --- MONTAGEM DO HTML FINAL (RECRIANDO SEU LAYOUT ORIGINAL) ---
         return `
-            <div class="pedido-card" data-status="${pedido.status.toLowerCase()}">
-                <div class="pedido-header">
-                    <h3>Pedido ${pedido._id}</h3>
+            <div class="pedido-comprador-card" data-status="${pedido.status.toLowerCase()}">
+                <div class="pedido-comprador-header">
+                    <h4>Pedido #${pedido._id.slice(-6)}</h4>
+                    <span class="pedido-status">${pedido.status}</span>
                 </div>
-                <div class="pedido-body">
-                    <p><strong>Data:</strong> ${dataFormatada}</p>
-                    <p><strong>Status:</strong> ${pedido.status}</p>
-                    <p class="status-descricao">${statusDesc}</p>
+                <div class="pedido-comprador-body">
+                    <p><strong>Data do Pedido:</strong> ${dataFormatada}</p>
+                    <p class="status-descricao"><em>${statusDesc}</em></p>
+                    
+                    <strong>Itens do seu pedido:</strong>
                     <ul class="pedido-produtos-lista">
                         ${produtosHTML}
                     </ul>
                 </div>
-                <div class="pedido-footer">
+                <div class="pedido-comprador-footer">
                     <span class="total-pedido">Total: R$ ${pedido.total.toFixed(2).replace('.', ',')}</span>
                     ${botaoCancelarHTML}
                 </div>

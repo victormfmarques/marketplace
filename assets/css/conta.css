@@ -84,7 +84,7 @@ main {
     align-items: center;
     gap: 2rem;
     padding: 2rem 1rem;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -308,4 +308,207 @@ main {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* =============================================
+   CSS PARA O CARD DE GESTÃO DE PEDIDOS DO VENDEDOR
+   EM: assets/css/conta.css
+============================================= */
+#secao-gestao-pedidos p{
+  padding-bottom: 15px;
+}
+
+/* O contêiner que segura todos os cards */
+#pedidos-vendedor-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem; /* Espaço entre os cards de pedido */
+}
+
+.pedido-vendedor-card {
+  background-color: #fcfaf5; /* Um branco levemente amarelado, combina com o bege */
+  border: 1px solid var(--verde-claro);
+  border-left: 5px solid var(--verde-folha);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* --- CABEÇALHO DO CARD --- */
+.pedido-vendedor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.pedido-vendedor-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--cinza-pedra);
+}
+
+.pedido-vendedor-header .pedido-status {
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+/* Cores dinâmicas para o status */
+.pedido-vendedor-card[data-status="pendente"] .pedido-status {
+  background-color: #fef3c7; /* Amarelo claro */
+  color: #92400e;
+}
+.pedido-vendedor-card[data-status="em andamento"] .pedido-status {
+  background-color: #dbeafe; /* Azul claro */
+  color: #1e40af;
+}
+.pedido-vendedor-card[data-status="enviado"] .pedido-status {
+  background-color: #cce5ff; /* Outro tom de azul */
+  color: #004085;
+}
+.pedido-vendedor-card[data-status="entregue"] .pedido-status {
+  background-color: #d4edda; /* Verde sucesso */
+  color: #155724;
+}
+.pedido-vendedor-card[data-status="cancelado"] .pedido-status {
+  background-color: #edddd4; /* Verde sucesso */
+  color: #571915;
+}
+
+/* --- CORPO DO CARD --- */
+.pedido-vendedor-body {
+  display: grid;
+  flex-grow: 1;
+}
+
+.pedido-vendedor-body p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.pedido-vendedor-body strong {
+  color: var(--cinza-pedra);
+}
+
+.pedido-vendedor-body ul {
+  list-style-position: inside;
+  padding-left: 5px;
+  margin-top: 0.5rem;
+}
+
+.pedido-vendedor-body .total-parcial {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--verde-folha);
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* --- AÇÕES DO CARD --- */
+.pedido-vendedor-acoes {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  /* margin-top: 1rem; */
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.pedido-vendedor-acoes .select-status {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-weight: 500;
+}
+
+.pedido-vendedor-acoes .btn-salvar-status {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pedido-vendedor-acoes .btn-salvar-status:hover {
+  background-color: var(--marrom-terra);
+}
+
+/* =============================================
+   CSS PARA FILTROS E PAGINAÇÃO DO VENDEDOR
+   EM: assets/css/conta.css
+============================================= */
+
+.card-descricao {
+  margin-bottom: 1.5rem;
+  color: var(--cinza-pedra);
+  line-height: 1.6;
+}
+
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.filtro-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background-color: var(--branco-neve);
+  color: var(--cinza-pedra);
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.filtro-btn.active {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border-color: var(--verde-folha);
+  font-weight: 600;
+}
+
+.loader-container-mais {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-carregar-mais {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-carregar-mais:hover {
+  background-color: var(--marrom-terra);
+}
+
+.btn-carregar-mais.hidden {
+    display: none;
 }
