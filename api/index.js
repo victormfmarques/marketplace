@@ -25,6 +25,8 @@
   export default async function handler(req, res) {
     const rota = req.query.rota;
 
+    console.log(`🔍 API Chamada: rota=${rota}, método=${req.method}, url=${req.url}`);
+
     if (!rota) {
       return res.status(400).json({ error: "Rota não especificada" });
     }
