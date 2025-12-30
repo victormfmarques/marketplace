@@ -59,6 +59,24 @@ function configurarEventosProdutos() {
 
 // -------------------- FUNÇÕES PRINCIPAIS --------------------
 
+// ---------- FUNÇÃO PARA CADASTRAR PRODUTO ----------
+export async function cadastrarProduto(dadosProduto) {
+  try {
+    console.log("Enviando produto para API:", dadosProduto);
+    
+    const response = await produtosAPI.criar(dadosProduto);
+    
+    if (response.success) {
+      return response.data;
+    } else {
+      throw new Error(response.message || 'Erro ao cadastrar produto');
+    }
+  } catch (error) {
+    console.error('Erro no cadastro de produto:', error);
+    throw error;
+  }
+}
+
 export async function carregarProdutos(containerId, params = {}) {
   const container = document.getElementById(containerId);
   if (!container) return;

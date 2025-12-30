@@ -67,24 +67,35 @@
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <!-- SCRIPT PRINCIPAL -->
   <script type="module">
-    import { cadastrarProduto } from '../assets/js/modules/produtos.js';
+    import { cadastrarProduto } from 'assets/js/pages/produtos.js';
     import { mostrarFeedback } from '../assets/js/modules/ui.js';
 
     document.addEventListener('DOMContentLoaded', () => {
       
       const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (!usuario) {
-            mostrarFeedback('Você precisa estar logado para cadastrar produtos');
-            window.location.href = '/login.html'; // Redireciona para o login
-        }
+      
+      if (!usuario) {
+        mostrarFeedback('Você precisa estar logado para cadastrar produtos');
+        setTimeout(() => {
+          window.location.href = '/paginas/login.html';
+        }, 2000);
+        return;
+      }
 
       const form = document.getElementById('form-produto');
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Verifica novamente se o usuário está logado
+        const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioAtual) {
+          mostrarFeedback('Sessão expirada. Faça login novamente.', 'erro');
+          return;
+        }
 
         const dados = {
-          usuarioId: usuarioLogado._id,
+          usuarioId: usuarioAtual._id, // Correto!
           nome: form.nome.value.trim(),
           descricao: form.descricao.value.trim(),
           preco: parseFloat(form.preco.value),
@@ -107,9 +118,11 @@
           console.log("Enviando dados para cadastro:", dados);
           await cadastrarProduto(dados);
           mostrarFeedback('Produto cadastrado com sucesso!', 'sucesso');
-          setTimeout(() => window.location.href = '../paginas/produtos.html', 2500);
+          setTimeout(() => {
+            window.location.href = '../paginas/produtos.html';
+          }, 2500);
         } catch (err) {
-          mostrarFeedback('Erro: ' + err.message);
+          mostrarFeedback('Erro: ' + err.message, 'erro');
         }
       });
 

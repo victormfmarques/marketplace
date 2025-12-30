@@ -53,6 +53,12 @@ export const produtosAPI = {
     detalhes: (id) => request(`produtos/detalhes&id=${id}`),
     listarPorUsuario: (usuarioId) => request(`perfil/produtos-usuario&usuarioId=${usuarioId}`),
     // Adicionar aqui 'cadastrar', 'editar', 'excluir' no futuro...
+
+    criar: (dados) => request('produtos/cadastro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    })
 };
 
 // --- MÓDULO DE PEDIDOS ---
