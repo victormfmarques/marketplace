@@ -73,15 +73,26 @@
     document.addEventListener('DOMContentLoaded', () => {
       
       const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (!usuario) {
-            mostrarFeedback('Você precisa estar logado para cadastrar produtos');
-            window.location.href = '/login.html'; // Redireciona para o login
-        }
+      
+      if (!usuario) {
+        mostrarFeedback('Você precisa estar logado para cadastrar produtos');
+        setTimeout(() => {
+          window.location.href = '/paginas/login.html';
+        }, 2000);
+        return;
+      }
 
       const form = document.getElementById('form-produto');
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Verifica novamente se o usuário está logado
+        const usuarioAtual = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (!usuarioAtual) {
+          mostrarFeedback('Sessão expirada. Faça login novamente.', 'erro');
+          return;
+        }
 
         const dados = {
           usuarioId: usuario._id,
@@ -107,9 +118,11 @@
           console.log("Enviando dados para cadastro:", dados);
           await cadastrarProduto(dados);
           mostrarFeedback('Produto cadastrado com sucesso!', 'sucesso');
-          setTimeout(() => window.location.href = '../paginas/produtos.html', 2500);
+          setTimeout(() => {
+            window.location.href = '../paginas/produtos.html';
+          }, 2500);
         } catch (err) {
-          mostrarFeedback('Erro: ' + err.message);
+          mostrarFeedback('Erro: ' + err.message, 'erro');
         }
       });
 

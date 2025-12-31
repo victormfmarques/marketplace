@@ -22,26 +22,33 @@
     <nav class="header-nav">
         <a href="/paginas/conta.html" title="Minha Conta"><ion-icon name="person-outline"></ion-icon></a>
         <a href="/index.html" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a>
-        <!-- CARRINHO DE COMPRAS -->
-        <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-          <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30" />
-          <span id="contador-carrinho">0</span>
-          <div class="carrinho-dropdown" id="carrinho-dropdown">
-            <div id="lista-carrinho"></div>
-            <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
-            <div class="carrinho-botoes">
-              <button class="btn-limpar">Limpar Carrinho</button>
-              <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
-            </div>
+        <!-- CARRINHO -->
+          <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+              <ion-icon class="fas fa-shopping-cart md hydrated" role="img"><template shadowrootmode="open"><div class="icon-inner"></div></template></ion-icon>
+              <span id="contador-carrinho">0</span>
+
+              <div class="carrinho-dropdown" id="carrinho-dropdown">
+                  <p class="carrinho-resumo">
+                      <strong id="resumo-itens">0</strong> itens no carrinho
+                  </p>
+
+                  <p class="carrinho-total" id="total-carrinho">
+                      Total: R$ 0,00
+                  </p>
+
+                  <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+                  Ver carrinho
+                  </a>
+              </div>
           </div>
-        </div>
+        <!-- FIM DO CARRINHO -->
     </nav>
   </header>
 
   <main>
     <section class="fundo">
       <h2>Pedidos Enviados</h2>
-      <p>Aqui estão os pedidos que você registrou, aguarde a resposta do vendedor para combinar o pagamento e entrega do(s) produto(s).</p>
+      <p style="text-align: justify;">Aqui estão os pedidos que você registrou, aguarde a resposta do vendedor para combinar o pagamento e entrega do(s) produto(s).</p>
         <div id="lista-pedidos">
       <!-- Pedidos serão renderizados aqui pelo pedidos.js -->
         </div>

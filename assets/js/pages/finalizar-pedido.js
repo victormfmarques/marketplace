@@ -39,11 +39,14 @@ function renderizarResumo(carrinho) {
                     <i class="fas fa-envelope"></i> ${item.vendedor.email}
                 </a>
             </p>
+            ${item.vendedor?.telefone ? `
             <p><strong>Telefone:</strong> 
-                <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '' )}" class="whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> ${formatarTelefone(item.vendedor.telefone)}
-                </a>
+              <a href="https://wa.me/55${item.vendedor.telefone.replace(/\D/g, '')}" 
+                class="whatsapp" target="_blank">
+                ${formatarTelefone(item.vendedor.telefone)}
+              </a>
             </p>
+          ` : '<p><strong>Telefone:</strong> Não informado</p>'}
             <hr>
         </div>
     `).join('');

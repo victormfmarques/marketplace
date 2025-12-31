@@ -50,19 +50,27 @@
                     </ul>
                 </nav>
 
-                <!-- CARRINHO DE COMPRAS -->
-                <div id="icone-carrinho" class="carrinho-icone">
-                    <img src="../assets/img/carrinho.png" alt="Carrinho de Compras" width="30" height="30">
+                <!-- CARRINHO -->
+                <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+                    <i class="fas fa-shopping-cart"></i>
                     <span id="contador-carrinho">0</span>
+
                     <div class="carrinho-dropdown" id="carrinho-dropdown">
-                        <div id="lista-carrinho"></div>
-                        <div class="carrinho-total" id="total-carrinho">Total: R$ 0,00</div>
-                        <div class="carrinho-botoes">
-                            <button class="btn-limpar">Limpar Carrinho</button>
-                            <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
-                        </div>
+                        <p class="carrinho-resumo">
+                            <strong id="resumo-itens">0</strong> itens no carrinho
+                        </p>
+
+                        <p class="carrinho-total" id="total-carrinho">
+                            Total: R$ 0,00
+                        </p>
+
+                        <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+                        Ver carrinho
+                        </a>
                     </div>
                 </div>
+                <!-- FIM DO CARRINHO -->
+
             </nav>
 
             <!-- BANNER -->

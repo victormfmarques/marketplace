@@ -13,10 +13,24 @@ function carregarCarrinhoDoStorage() {
     );
 }
 
+function updateResumo() {
+  const resumo = document.getElementById('resumo-itens');
+  if (!resumo) return;
+
+  const quantidade = carrinho.reduce(
+    (sum, item) => sum + item.quantidade,
+    0
+  );
+
+  resumo.textContent = quantidade;
+}
+
+
 // Inicialização do carrinho
 export function setupCarrinho() {
     carregarCarrinhoDoStorage();
     atualizarCarrinhoUI();
+    validarCarrinhoAntesDeContinuar();
 
     const iconeCarrinho = document.querySelector('.carrinho-icone');
     const dropdown = document.getElementById('carrinho-dropdown');
@@ -31,28 +45,8 @@ export function setupCarrinho() {
             dropdown.classList.remove('show');
         }
     });
-
-    // --- DELEGAÇÃO DE EVENTOS ---
-    // Adiciona UM único ouvinte de clique no dropdown do carrinho
-    if (dropdown) {
-        dropdown.addEventListener('click', (e) => {
-            // Verifica se o elemento clicado (e.target) tem a classe 'btn-limpar'
-            if (e.target.classList.contains('btn-limpar')) {
-                limparCarrinho();
-            }
-
-            // Verifica se o elemento clicado tem o ID 'finalizar-compra'
-            if (e.target.id === 'finalizar-compra') {
-                window.location.href = '/paginas/finalizar-compra.html'; // Corrigi o caminho para ser absoluto
-            }
-
-            // Verifica se o elemento clicado tem a classe 'btn-remover'
-            if (e.target.classList.contains('btn-remover')) {
-                const produtoId = e.target.dataset.id;
-                removerUmaUnidade(produtoId);
-            }
-        });
-    }
+    const btnLimpar = document.getElementById('limpar-carrinho');
+    btnLimpar?.addEventListener('click', limparCarrinho);
 }
 
 // Adicionar produto ao carrinho
@@ -123,36 +117,80 @@ function atualizarCarrinhoUI() {
   updateListaItens();
   updateTotal();
   updateContador();
+  updateResumo();
 }
 
 function updateListaItens() {
   const lista = document.getElementById('lista-carrinho');
   if (!lista) return;
 
-  lista.innerHTML = carrinho.map((item) => `
+  lista.innerHTML = carrinho.map(item => `
     <div class="item-carrinho">
+
       <img src="${item.imagem}" alt="${item.nome}" class="img-detalhes" data-id="${item.id}">
-      <div class="produto-info-carrinho">
-        <h4 class="link-detalhes" data-id="${item.id}">${item.nome}</h4>
-        <p class="produto-preco-carrinho">${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
-        <button class="btn-remover" title="Remover produto" data-id="${item.id}">Remover</button>
+
+      <div class="item-info">
+        <h3 class="link-detalhes" data-id="${item.id}">
+          ${item.nome}
+        </h3>
+
+        <p>Preço unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+
+        <div class="controle-quantidade">
+          <button class="btn-menos" data-id="${item.id}">−</button>
+          <span class="quantidade">${item.quantidade}</span>
+          <button class="btn-mais" data-id="${item.id}">+</button>
+        </div>
       </div>
+
+      <div class="item-acoes">
+        <button class="btn-remover" data-id="${item.id}">
+          Remover
+        </button>
+      </div>
+
     </div>
   `).join('');
 
-  // ✅ Evento de redirecionar pelo nome
-  document.querySelectorAll('.link-detalhes').forEach(el => {
-    el.addEventListener('click', (e) => {
-      const id = e.target.dataset.id;
-      if (id) {
-        window.location.href = `../paginas/detalhes-produto.html?id=${id}`;
+  adicionarEventosCarrinho();
+}
+
+function adicionarEventosCarrinho() {
+
+  // Aumentar quantidade
+  document.querySelectorAll('.btn-mais').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const item = carrinho.find(p => p.id === id);
+      if (item) {
+        item.quantidade++;
+        mostrarFeedback(`1 unidade de ${item.nome} adicionada ao carrinho.`, 'sucesso');
+        persistirCarrinho();
       }
     });
   });
 
-  // ✅ Evento de redirecionar pela imagem
-  document.querySelectorAll('.img-detalhes').forEach(img => {
-    img.addEventListener('click', (e) => {
+  // Diminuir quantidade
+  document.querySelectorAll('.btn-menos').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      removerUmaUnidade(id);
+    });
+  });
+
+  // Remover produto inteiro
+  document.querySelectorAll('.btn-remover').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      carrinho = carrinho.filter(item => item.id !== id);
+      persistirCarrinho();
+      mostrarFeedback('Produto removido do carrinho.', 'aviso');
+    });
+  });
+
+  // Redirecionar pelos detalhes
+  document.querySelectorAll('.link-detalhes, .img-detalhes').forEach(el => {
+    el.addEventListener('click', e => {
       const id = e.target.dataset.id;
       if (id) {
         window.location.href = `../paginas/detalhes-produto.html?id=${id}`;
@@ -160,6 +198,7 @@ function updateListaItens() {
     });
   });
 }
+
 
 function updateTotal() {
   const totalElement = document.getElementById('total-carrinho');
@@ -186,7 +225,7 @@ export function removerUmaUnidade(produtoId) {
 
     if (produto.quantidade > 1) {
       produto.quantidade -= 1;
-      mostrarFeedback(`1 unidade de ${produto.nome} removida do carrinho.`);
+      mostrarFeedback(`1 unidade de ${produto.nome} removida do carrinho.`, 'aviso');
     } else {
       carrinho.splice(index, 1);
       mostrarFeedback(`${produto.nome} removido do carrinho.`, 'aviso');
@@ -206,15 +245,17 @@ export function limparCarrinho() {
 // Funções de UI
 function toggleCarrinho(e) {
   e.stopPropagation();
-  document.getElementById('carrinho-dropdown')?.classList.toggle('show');
-}
 
-function fecharCarrinho(e) {
-  const dropdown = document.getElementById('carrinho-dropdown');
-  const clicouNoCarrinho = e.target.closest('.carrinho-dropdown, .carrinho-icone');
-  if (dropdown && !clicouNoCarrinho) {
-    dropdown.classList.remove('show');
+  // Se for mobile, vai direto para a página
+  if (window.innerWidth <= 768) {
+    window.location.href = '/paginas/carrinho.html';
+    return;
   }
+
+  // Desktop: abre dropdown
+  document
+    .getElementById('carrinho-dropdown')
+    ?.classList.toggle('show');
 }
 
 function getChaveCarrinho() {
@@ -223,4 +264,20 @@ function getChaveCarrinho() {
     return `carrinho_${usuario.email}`;
   }
   return 'carrinho_anonimo';
+}
+
+function validarCarrinhoAntesDeContinuar() {
+  const btnContinuar = document.querySelector('.btn-finalizar');
+
+  if (!btnContinuar) return;
+
+  btnContinuar.addEventListener('click', (e) => {
+    if (carrinho.length === 0) {
+      e.preventDefault();
+      mostrarFeedback('Seu carrinho está vazio.', 'aviso');
+      setTimeout(() => {
+        window.location.href = '/index.html';
+      }, 3000);
+    }
+  });
 }

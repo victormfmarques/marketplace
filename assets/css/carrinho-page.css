@@ -1,0 +1,262 @@
+/* =============================================
+  IMPORTAÇÕES
+============================================= */
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* =============================================
+  VARIÁVEIS DE CORES (IGUAL FINALIZAR-PEDIDO)
+============================================= */
+:root {
+  --verde-folha: #3A6351;
+  --verde-claro: #A8C686;
+  --marrom-terra: #7B5E42;
+  --bege-areia: #F2E8CF;
+  --branco-neve: #FFFFFF;
+  --cinza-pedra: #4F4F4F;
+}
+
+/* =============================================
+  RESET GLOBAL
+============================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* =============================================
+  BODY
+============================================= */
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+/* =============================================
+  CONTAINER PRINCIPAL
+============================================= */
+.carrinho-container {
+  max-width: 1100px;
+  margin: auto;
+  background-color: var(--branco-neve);
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* =============================================
+  CABEÇALHO
+============================================= */
+.carrinho-header {
+  grid-column: 1 / -1;
+  margin-bottom: 1rem;
+}
+
+.carrinho-header h1 {
+  color: var(--verde-folha);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.carrinho-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: var(--verde-claro);
+  border-radius: 4px;
+}
+
+.carrinho-info {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--cinza-pedra);
+}
+
+/* =============================================
+  LISTA DE ITENS
+============================================= */
+.lista-carrinho {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ITEM */
+.item-carrinho {
+  background-color: var(--bege-areia);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  border-left: 5px solid var(--verde-folha);
+}
+
+/* IMAGEM */
+.item-carrinho img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* INFO */
+.item-info {
+  flex: 1;
+}
+
+.item-info h3 {
+  color: var(--marrom-terra);
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+
+.item-info p {
+  font-size: 0.9rem;
+  margin: 0.2rem 0;
+}
+
+/* =============================================
+  RESUMO
+============================================= */
+.resumo-carrinho {
+  background-color: var(--bege-areia);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: fit-content;
+  border-left: 5px solid var(--verde-folha);
+}
+
+.resumo-carrinho h2 {
+  color: var(--verde-folha);
+  margin-bottom: 1rem;
+}
+
+/* TOTAL */
+.total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* =============================================
+  AÇÕES
+============================================= */
+.acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.btn-limpar {
+  background: var(--marrom-terra);
+  border: 1px solid var(--cinza-pedra);
+  color: var(
+  --branco-neve);
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+
+.btn-limpar:hover {
+  background-color: var(--cinza-pedra);
+  color: var(--branco-neve);
+}
+
+.btn-finalizar {
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  padding: 0.7rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+
+.btn-finalizar:hover {
+  background-color: var(--cinza-pedra);
+}
+
+.controle-quantidade {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.controle-quantidade button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.controle-quantidade button:hover {
+  background-color: var(--marrom-terra);
+}
+
+.controle-quantidade .quantidade {
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.item-acoes button {
+  background: var(--branco-neve);
+  border: 1px solid var(--borda-erro);
+  color: var(--borda-erro);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.3s;
+  padding: 4px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.item-acoes button:hover {
+  color: var(--branco-neve);
+  background-color: var(--borda-erro);
+}
+
+/* =============================================
+  MOBILE
+============================================= */
+@media (max-width: 900px) {
+  .carrinho-container {
+    grid-template-columns: 1fr;
+  }
+  .controle-quantidade {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .item-carrinho {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .item-acoes {
+    align-items: center;
+  }
+}

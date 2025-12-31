@@ -18,8 +18,8 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
+    position: static;
+    border-radius: 0px 0px 10px 10px;
 }
 
 .vendedor-foto {
@@ -58,10 +58,13 @@ body {
     border-radius: 8px;
     margin-bottom: 2rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    
     /* Força as seções a ocuparem toda a largura do .perfil-main */
     width: 100%;
     box-sizing: border-box;
+}
+
+.vendedor-sobre-texto {
+    text-align: justify;
 }
 
 h2 {
@@ -123,6 +126,12 @@ h2 {
     font-size: 1rem;
     opacity: 0.9;
 }
+
+.vendedor-contato a {
+    color: var(--branco-neve);
+    text-decoration: none;
+}
+
 .vendedor-contato span {
     display: flex;
     align-items: center;

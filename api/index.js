@@ -25,6 +25,7 @@
   export default async function handler(req, res) {
     const rota = req.query.rota;
 
+    // api/index.js - adicione no início da função handler:
     console.log(`🔍 API Chamada: rota=${rota}, método=${req.method}, url=${req.url}`);
 
     if (!rota) {
