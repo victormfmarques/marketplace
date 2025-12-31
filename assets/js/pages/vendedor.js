@@ -18,8 +18,8 @@ function renderizarHeader(vendedor) {
         const telefoneFormatado = vendedor.telefone ? formatarTelefone(vendedor.telefone) : '';
         contatoHTML = `
             <div class="vendedor-contato">
-                ${vendedor.email ? `<span><i class="fas fa-envelope"></i> ${vendedor.email}</span>` : ''}
-                ${telefoneFormatado ? `<span><i class="fas fa-phone"></i> ${telefoneFormatado}</span>` : ''}
+                <a href="mailto:${vendedor.email}" target="_blank">${vendedor.email ? `<span><i class="fas fa-envelope"></i> ${vendedor.email}</span>` : ''}</a>
+                <a href="http://wa.me/${vendedor.telefone}" target="_blank" rel="noopener">${telefoneFormatado ? `<span><i class="fas fa-phone"></i> ${telefoneFormatado}</span>` : ''}</a>
             </div>
         `;
     }
