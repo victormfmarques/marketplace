@@ -56,7 +56,7 @@ header .header-nav {
 }
 header .header-nav a {
   color: var(--branco-neve);
-  font-size: 1.8rem;
+  font-size: 2rem;
   padding: 0.5rem;
   border-radius: 50%;
   display: flex;
@@ -112,11 +112,7 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   border-radius: 10px;
-}
-
-#lista-pedidos {
-  display: grid;
-  gap: 1.5rem;
+  overflow-x: hidden;
 }
 
 .fundo h2 {
@@ -136,8 +132,29 @@ main {
   display: grid;
   flex-direction: column;
   gap: 1.5rem; /* Espaço entre os cards de pedido */
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   width: 100%;
+}
+
+/* Telas grandes */
+@media (min-width: 1024px) {
+  #lista-pedidos {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  }
+}
+
+@media (min-width: 1440px) {
+  #lista-pedidos {
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  }
+}
+
+.pedido-comprador-body,
+.pedido-comprador-body p,
+.pedido-comprador-body li,
+.pedido-comprador-header h4 {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .pedido-comprador-card {
