@@ -112,17 +112,16 @@
 ============================================= */
 
 /* Título vermelho para o modal de exclusão */
-#modal-excluir-conta .modal-content h2 {
+#modal-excluir-conta .modal-content h2, #cancelModal .modal-content h2 {
     color: var(--vermelho-erro, #8e2519);
 }
 
 /* Botão de confirmação de exclusão */
-#confirmar-exclusao {
+#confirmar-exclusao, #confirmCancel {
     background-color: var(--vermelho-erro, #8e2519);
     color: var(--branco-neve, #FFFFFF);
 }
-#confirmar-exclusao:hover { background-color: #a13428; }
-
+#confirmar-exclusao:hover, #confirmCancel:hover { background-color: #a13428; }
 /* Botão de cancelar (pode ser usado em vários modais) */
 .btn-cancelar,.btn-secundario, #cancelar-exclusao, #btn-cancelar-edicao {
     background-color: #e0e0e0;

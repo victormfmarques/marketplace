@@ -66,8 +66,8 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.5rem;
+  border-radius: 50%;
   text-decoration: none;
   color: var(--branco-neve);
   transition: background-color 0.3s ease;
