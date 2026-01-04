@@ -1,13 +1,14 @@
-
 /* ============================
-  CARRINHO DE COMPRAS
+  CARRINHO DE COMPRAS - DROPDOWN
 ============================ */
+
+/* --- Ícone do carrinho --- */
 .carrinho-icone {
   position: relative;
   color: var(--branco-neve);
-  cursor: pointer;
   font-size: 1.5rem;
   height: 30px;
+  cursor: pointer;
 }
 
 #contador-carrinho {
@@ -21,31 +22,33 @@
   padding: 2px 6px;
   border-radius: 50%;
 }
+
 /* --- Ícone Principal --- */
 #icone-carrinho {
-    display: none; /* Começa escondido, JS controla a visibilidade */
+  display: none; /* JS controla visibilidade */
 }
 
 #icone-carrinho.visivel {
-    display: block;
+  display: block;
 }
 
 /* --- Dropdown Container --- */
 .carrinho-dropdown {
-  display: none; /* Escondido até o JS adicionar a classe .show */
+  display: none; /* Escondido até a classe .show */
   position: absolute;
   right: 0;
-  top: 55px; /* Distância do ícone pai */
+  top: 35px;
   color: var(--cinza-pedra);
   background: var(--branco-neve);
-  border: 2px solid var(--verde-claro); /* Estilo correto da sua home */
-  border-radius: 8px; /* Estilo correto da sua home */
+  border: 2px solid var(--verde-claro);
+  border-radius: 8px;
   padding: 15px;
-  width: 320px; /* Largura consistente */
+  width: 340px; /* ligeiro aumento para acomodar subtotal */
   font-size: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   touch-action: manipulation;
+  cursor: default; /* evita herdar cursor do ícone */
 }
 
 .carrinho-dropdown.show {
@@ -53,49 +56,111 @@
   box-sizing: content-box;
 }
 
-/* --- Conteúdo Interno do Dropdown --- */
+/* --- Lista de itens --- */
 #lista-carrinho {
   max-height: 300px;
   overflow-y: auto;
-  padding-right: 5px; /* Espaço para a barra de rolagem */
+  padding-right: 5px;
   scroll-behavior: smooth;
 }
 
-.item-carrinho {
+/* --- Item do dropdown --- */
+.item-carrinho.preview {
   display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  gap: 0.5rem;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+  align-items: flex-start; /* topo da imagem e info */
+  animation: carrinhoItemIn 0.25s ease-out;
 }
 
-.item-carrinho:last-child {
-    border-bottom: none;
+.item-carrinho.preview:last-child {
+  border-bottom: none;
 }
 
-.item-carrinho img {
-  width: 80px; /* Reduzido para caber melhor */
+/* --- Imagem do produto --- */
+.item-carrinho.preview img {
+  width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
-.produto-info-carrinho {
-  text-align: left;
+/* --- Informação do produto --- */
+.item-carrinho.preview .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.link-detalhes {
-  margin:0px;
+.item-carrinho.preview .link-detalhes {
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  margin: 0;
 }
 
-.produto-preco-carrinho {
-  margin:0px;
+.item-carrinho.preview .preco,
+.item-carrinho.preview .subtotal {
+  font-size: 0.85rem;
+  color: var(--cinza-pedra);
 }
 
-.item-info {
-    flex-grow: 1;
+.item-carrinho.preview .subtotal {
+  font-weight: 600;
+  color: #222;
 }
 
+/* Alinha preço e subtotal lado a lado */
+.item-carrinho.preview .preco-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* --- Botões do item --- */
+.acoes-mini {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.btn-mini {
+  border: none;
+  background: var(--verde-folha);
+  color: #fff;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.btn-mini.mais,
+.btn-mini.menos {
+  background: var(--verde-folha);
+}
+
+.btn-mini.remover {
+  background: #8e2519;
+}
+
+.btn-mini:hover {
+  opacity: 0.85;
+}
+
+/* --- Resumo do carrinho --- */
+.carrinho-resumo {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: var(--cinza-pedra);
+}
 
 .carrinho-total {
   font-weight: bold;
@@ -105,16 +170,19 @@
   border-top: 2px solid var(--verde-claro);
 }
 
+/* --- Botões principais do dropdown --- */
 .carrinho-botoes {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-top: 15px;
 }
 
 .btn-finalizar,
-.btn-limpar {
+.btn-limpar,
+.btn-ver-carrinho {
   width: 100%;
-  padding: 12px;
+  padding: 12px !important;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -129,6 +197,7 @@
   background: var(--verde-folha);
   color: var(--branco-neve);
 }
+
 .btn-finalizar:hover {
   background: var(--marrom-terra);
 }
@@ -137,55 +206,51 @@
   background: #ddd;
   color: var(--cinza-pedra);
 }
+
 .btn-limpar:hover {
   background: #c0392b;
   color: var(--branco-neve);
 }
 
-.btn-remover {
-  cursor: pointer;
-  color: var(--branco-neve);
-  border: none;
-  padding: 5px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  transition: color 0.3s;
-  background-color: var(--marrom-terra);
-  border-radius: 10px;
-  transition: all 0.3s;
-}
-.btn-remover:hover {
-  background-color: #c0392b;
-}
-
-@media (max-width: 768px) {
-  .carrinho-dropdown {
-    display: none !important;
-  }
-}
-
-/* --- Resumo do Carrinho --- */
-.carrinho-resumo {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 0.95rem;
-  color: var(--cinza-pedra);
-}
-
 .btn-ver-carrinho {
-  display: block !important;
-  width: 100%;
-  padding: 12px !important;
   background: var(--verde-folha);
-  color: var(--branco-neve);
-  text-align: center;
-  font-weight: bold;
-  font-size:16px !important;
-  border-radius: 6px !important;
+  color: var(--branco-neve) !important;
   text-decoration: none;
-  transition: background 0.3s;
+  font-size: 0.95rem !important;
+  font-weight: bold;
+  border-radius: 6px !important;
 }
 
 .btn-ver-carrinho:hover {
   background: var(--marrom-terra) !important;
+}
+
+/* --- Preview individual do item --- */
+.preview-carrinho {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+/* --- Animação de entrada --- */
+@keyframes carrinhoItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.item-carrinho.preview {
+  animation: carrinhoItemIn 0.25s ease-out;
+}
+
+/* --- Mobile: esconde dropdown --- */
+@media (max-width: 768px) {
+  .carrinho-dropdown {
+    display: none !important;
+  }
 }

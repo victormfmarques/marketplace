@@ -16,8 +16,7 @@ async function request(endpoint, options = {}) {
 
         // Se a resposta não for 'ok' (status 2xx), lança um erro com a mensagem do backend.
         if (!response.ok) {
-            throw new Error(data.message || `Erro na API: ${endpoint}`);
-        }
+    throw new Error(data.message ||data.error ||data.erro ||`Erro na API: ${endpoint}`);}
 
         return data; // Retorna os dados de sucesso
     } catch (error) {

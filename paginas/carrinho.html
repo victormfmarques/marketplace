@@ -9,34 +9,41 @@
   <link rel="shortcut icon" href="../assets/img/favicon.ico">
 </head>
 <body>
-
 <div id="feedback" class="feedback"></div>
+
+<!-- CABEÇALHO FIXO -->
+<header>
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+        <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+        <h1>EcoMarket SAMAVI</h1>
+    </a>
+</header>
 
 <main class="carrinho-container">
 
-  <header class="carrinho-header">
+  <!-- Título da página (opcional, abaixo do header) -->
+  <section class="carrinho-header">
     <h1>Meu Carrinho</h1>
     <p class="carrinho-info">
       O EcoMarket-SAMAVI atua como intermediador. O contato com os vendedores será exibido após a confirmação.
     </p>
-  </header>
-
-  <section id="lista-carrinho" class="lista-carrinho">
-    <!-- Itens renderizados pelo JS -->
   </section>
 
+  <!-- Lista de itens -->
+  <section id="lista-carrinho" class="lista-carrinho">
+    <!-- Itens renderizados pelo módulo carrinho.js -->
+  </section>
+
+  <!-- Resumo do carrinho -->
   <aside class="resumo-carrinho">
     <h2>Resumo</h2>
-
     <p id="total-carrinho" class="total">
       Total: R$ 0,00
     </p>
-
     <div class="acoes">
       <button class="btn-limpar" id="limpar-carrinho">
         Limpar carrinho
       </button>
-
       <a href="/paginas/finalizar-compra.html" class="btn-finalizar">
         Continuar
       </a>

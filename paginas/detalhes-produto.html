@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,43 +12,55 @@
   <link rel="stylesheet" href="../assets/css/feedback.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Metadados para SEO -->
-  <meta name="description" content="Detalhes completos do produto no EcoMarket. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
-  <meta name="author" content="EcoMarket"/>
+  <meta name="description"
+    content="Detalhes completos do produto no EcoMarket. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
+  <meta name="author" content="EcoMarket" />
 </head>
+
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
 
   <main id="produto-container" role="main" aria-labelledby="produto-nome">
     <section id="produto-imagens" aria-label="Imagens do produto">
-        <!-- JS vai preencher aqui -->
+      <!-- JS vai preencher aqui -->
     </section>
     <section id="produto-info">
       <h1 id="produto-nome">Carregando...</h1>
       <p id="produto-descricao"></p>
       <span id="produto-preco"></span>
       <div class="vendedor-info-link">
-          <span>Vendido e entregue por:</span>
-          <a href="#" id="link-vendedor">Carregando...</a>
+        <span class="vendedor-label">
+          Vendido e entregue por:
+        </span>
+        <a href="#" id="link-vendedor" class="vendedor-link">
+          <i class="fas fa-store"></i>
+          <span class="vendedor-nome">Carregando...</span>
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <small class="vendedor-hint">
+            Clique para ver todos os produtos deste vendedor
+          </small>
       </div>
       <button id="btn-comprar">Comprar</button>
 
       <!-- CARRINHO -->
-        <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="contador-carrinho">0</span>
-            <div class="carrinho-dropdown" id="carrinho-dropdown">
-                <p class="carrinho-resumo">
-                    <strong id="resumo-itens">0</strong> itens no carrinho
-                </p>
-                <p class="carrinho-total" id="total-carrinho">
-                    Total: R$ 0,00
-                </p>
-                <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                Ver carrinho
-                </a>
-            </div>
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <div id="preview-carrinho" class="preview-carrinho"></div>
+          <p class="carrinho-resumo">
+            <strong id="resumo-itens">0</strong> itens no carrinho
+          </p>
+          <p class="carrinho-total" id="total-carrinho">
+            Total: R$ 0,00
+          </p>
+          <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+            Ver carrinho
+          </a>
         </div>
+      </div>
       <!-- FIM DO CARRINHO -->
 
       <!-- Botão para edição do produto, visível apenas para o dono -->
@@ -62,17 +75,19 @@
         <a href="/index.html" class="btn-home" aria-label="Página inicial">
           <ion-icon name="home-outline"></ion-icon>
         </a>
-        <a href="/paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
+        <a href="/paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos"
+          aria-label="Voltar à página de produtos">
           <ion-icon name="storefront-outline"></ion-icon>
         </a>
       </nav>
     </section>
   </main>
-  
+
   <!-- SCRIPTS -->
   <script type="module" src="../assets/js/pages/detalhes-produto.js"></script>
   <script src="../assets/js/vercel-analytics.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>
