@@ -39,8 +39,8 @@
           <i class="fas fa-arrow-left"></i>
         </a>
         <small class="vendedor-hint">
-            Clique para ver todos os produtos deste vendedor
-          </small>
+          Clique para ver todos os produtos deste vendedor
+        </small>
       </div>
       <button id="btn-comprar">Comprar</button>
 
@@ -49,15 +49,28 @@
         <i class="fas fa-shopping-cart"></i>
         <span id="contador-carrinho">0</span>
         <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <!-- HEADER DA PRÉVIA -->
+          <div class="carrinho-preview-header">
+            <strong>Prévia do carrinho</strong>
+            <span>Últimos itens adicionados</span>
+          </div>
+          <!-- ITENS -->
           <div id="preview-carrinho" class="preview-carrinho"></div>
+          <!-- INFO UX -->
+          <p class="carrinho-info">
+            Mostrando até <strong>3 itens</strong>.
+            Clique em um produto para <strong>ver a página do produto</strong>.
+          </p>
+          <!-- RESUMO -->
           <p class="carrinho-resumo">
             <strong id="resumo-itens">0</strong> itens no carrinho
           </p>
           <p class="carrinho-total" id="total-carrinho">
             Total: R$ 0,00
           </p>
+          <!-- CTA -->
           <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-            Ver carrinho
+            Ver carrinho completo
           </a>
         </div>
       </div>

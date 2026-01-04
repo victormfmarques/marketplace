@@ -34,7 +34,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 1.5rem 1rem;
+  padding: .9rem 1rem;
 }
 
 /* =============================================
@@ -47,6 +47,7 @@ body {
   background-color: var(--branco-neve);
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding-bottom: 0rem;
 }
 
 /* =============================================
@@ -108,7 +109,7 @@ form#form-produto {
 
   .form-campos { grid-area: campos; display: flex; flex-direction: column; gap: 0.9rem; }
   .form-imagem { grid-area: imagem; display: flex; flex-direction: column; gap: 0.9rem; position: sticky; top: 1.5rem; }
-  .form-acoes { grid-area: acoes; display: flex; justify-content: flex-end; gap: 1rem; }
+  .form-acoes { grid-area: imagem; display: flex; justify-content: flex-end; gap: 1rem; align-self: end;}
 }
 
 /* =============================================
@@ -150,7 +151,7 @@ input[type="file"]:focus {
 
 textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 370px;
 }
 
 /* =============================================
@@ -168,6 +169,7 @@ textarea {
   max-width: 420px;
   width: 100%;
   height: auto;
+  max-height: 488px;
   border-radius: 10px;
   border: 2px solid var(--verde-claro);
   object-fit: cover;

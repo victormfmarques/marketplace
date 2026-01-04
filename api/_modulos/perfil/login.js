@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 const uri = process.env.MONGODB_URI;
@@ -39,12 +40,22 @@ export default async function handler(req, res) {
 
     // Remove a senha antes de enviar a resposta
     const { senha: _, ...usuarioSemSenha } = usuario;
+    
+    const token = jwt.sign(
+      {
+        id: usuario._id,
+        email: usuario.email,
+        cargo: usuario.cargo || 'usuario'
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
     // Login bem-sucedido
     res.status(200).json({ 
       success: true,
       message: 'Login realizado com sucesso!',
-      usuario: usuarioSemSenha,
+      usuario: usuarioSemSenha,token,
       redirect: '/index.html'
     });
 

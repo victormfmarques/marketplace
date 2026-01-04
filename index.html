@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EcoMarket - Produtos ecológicos e sustentáveis</title>
-    <meta name="description" content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
-    <meta name="keywords" content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
+    <meta name="description"
+        content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
+    <meta name="keywords"
+        content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
     <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi" />
     <meta name="robots" content="index, follow" />
     <!-- Open Graph -->
     <meta property="og:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
-    <meta property="og:description" content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
+    <meta property="og:description"
+        content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
     <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
     <meta property="og:url" content="https://ecomarket-samavi.vercel.app/index.html" />
     <meta property="og:type" content="website" />
@@ -26,6 +30,7 @@
     <link rel="stylesheet" href="./assets/css/carrinho.css">
     <link rel="stylesheet" href="./assets/css/feedback.css">
 </head>
+
 <body>
     <!-- CABEÇALHO -->
     <header class="banner">
@@ -40,7 +45,9 @@
                 <!-- MENU PRINCIPAL -->
                 <nav>
                     <ul>
-                        <li><p id="saudacao"></p></li>
+                        <li>
+                            <p id="saudacao"></p>
+                        </li>
                         <li><a href="../paginas/produtos.html">Produtos</a></li>
                         <li><a href="../paginas/contatos.html">Fale Conosco</a></li>
                         <!-- Itens que mudam -->
@@ -55,15 +62,28 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span id="contador-carrinho">0</span>
                     <div class="carrinho-dropdown" id="carrinho-dropdown">
-                    <div id="preview-carrinho" class="preview-carrinho"></div>
+                        <!-- HEADER DA PRÉVIA -->
+                        <div class="carrinho-preview-header">
+                            <strong>Prévia do carrinho</strong>
+                            <span>Últimos itens adicionados</span>
+                        </div>
+                        <!-- ITENS -->
+                        <div id="preview-carrinho" class="preview-carrinho"></div>
+                        <!-- INFO UX -->
+                        <p class="carrinho-info">
+                        Mostrando até <strong>3 itens</strong>.  
+                        Clique em um produto para <strong>ver a página do produto</strong>.
+                        </p>
+                        <!-- RESUMO -->
                         <p class="carrinho-resumo">
                             <strong id="resumo-itens">0</strong> itens no carrinho
                         </p>
                         <p class="carrinho-total" id="total-carrinho">
                             Total: R$ 0,00
                         </p>
+                        <!-- CTA -->
                         <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                        Ver carrinho
+                            Ver carrinho completo
                         </a>
                     </div>
                 </div>
@@ -138,4 +158,5 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

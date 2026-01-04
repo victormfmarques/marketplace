@@ -113,7 +113,7 @@ select:focus {
 
 textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 370px;
 }
 
 /* =============================================
@@ -124,7 +124,6 @@ textarea {
   justify-content: center;
   margin-top: 0.5rem;
   flex-direction: column;
-  align-items: center;
 }
 
 #preview-fotos img {
@@ -219,32 +218,36 @@ button[type="submit"]:hover {
 
   .form-imagem {
     grid-area: imagem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
     position: sticky;
     top: 1.5rem;
   }
 
   .form-acoes {
-    grid-area: acoes;
+    grid-area: imagem;
     flex-direction: row;
     justify-content: flex-end;
+    align-self: end;
   }
 
   #preview-fotos img {
     max-width: 420px;
+    max-height: 480px;
   }
 }
 
 .preview-titulo {
   font-weight: 600;
   color: var(--cinza-pedra);
-  margin-bottom: 0.5rem;
 }
 
 .preview-img {
   max-width: 100%;
   max-height: 420px;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 12px;
   border: 2px solid var(--verde-claro);
 }

@@ -7,27 +7,31 @@
  * @returns {Promise<any>} Os dados da resposta em JSON.
  */
 async function request(endpoint, options = {}) {
-    // Monta a URL completa da API
-    const url = `/api?rota=${endpoint}`;
-    
-    try {
-        const response = await fetch(url, options);
-        const data = await response.json();
+  const url = `/api?rota=${endpoint}`;
+  const token = localStorage.getItem('token');
 
-        // Se a resposta não for 'ok' (status 2xx), lança um erro com a mensagem do backend.
-        if (!response.ok) {
-    throw new Error(data.message ||data.error ||data.erro ||`Erro na API: ${endpoint}`);}
+  const headers = {
+    ...(options.headers || {}),
+    ...(token && { Authorization: `Bearer ${token}` })
+  };
 
-        return data; // Retorna os dados de sucesso
-    } catch (error) {
-        // MUDANÇA 2: Se o erro for de cancelamento, a gente trata ele de forma silenciosa.
-        if (error.name === 'AbortError') {
-            console.log('Requisição cancelada:', endpoint);
-            return new Promise(() => {}); // Para a execução do código que chamou.
-        }
-        console.error(`Erro na requisição para ${url}:`, error);
-        throw error;
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || data.error || 'Erro na API');
     }
+
+    return data;
+  } catch (error) {
+    console.error(`Erro na requisição para ${url}:`, error);
+    throw error;
+  }
 }
 
 // --- MÓDULO DE AUTENTICAÇÃO ---

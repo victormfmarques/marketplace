@@ -20,7 +20,7 @@ function displayProduto(produto) {
     // Preenche os elementos
     document.title = `${produto.nome} - EcoMarket-SAMAVI`; // Atualiza o título da aba
     nomeEl.textContent = produto.nome;
-    descEl.innerHTML = produto.descricao.replace(/\n/g, '  ');
+    descEl.textContent = produto.descricao;
     precoEl.textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
 
     // Preenche o link do vendedor (A FUNCIONALIDADE NOVA!)
@@ -34,23 +34,34 @@ function displayProduto(produto) {
     imagensEl.innerHTML = "";
 
     const fotosValidas =
-    Array.isArray(produto.fotos)
-        ? produto.fotos.filter(f => typeof f === 'string' && f.trim() !== '')
-        : [];
+        Array.isArray(produto.fotos)
+            ? produto.fotos.filter(f => typeof f === 'string' && f.trim() !== '')
+            : [];
 
     const fotosParaExibir =
-    fotosValidas.length > 0
-        ? fotosValidas
-        : ["../assets/img/placeholder.png"];
+        fotosValidas.length > 0
+            ? fotosValidas
+            : ["../assets/img/placeholder.png"];
 
     fotosParaExibir.forEach(foto => {
-    const img = document.createElement("img");
-    img.src = foto;
-    img.alt = `Imagem do produto: ${produto.nome}`;
-    img.onerror = () => {
-        img.src = "../assets/img/placeholder.png";
-    };
-    imagensEl.appendChild(img);
+        const wrapper = document.createElement("div");
+        wrapper.className = "produto-imagem-wrapper";
+
+        const img = document.createElement("img");
+        img.src = foto;
+        img.alt = `Imagem do produto: ${produto.nome}`;
+        img.onerror = () => {
+            img.src = "../assets/img/placeholder.png";
+        };
+
+        wrapper.appendChild(img);
+        imagensEl.appendChild(wrapper);
+        img.onload = () => {
+            if (img.naturalHeight < 300) {
+                wrapper.classList.add('imagem-baixa');
+            }
+        };
+
     });
 }
 
@@ -87,13 +98,13 @@ async function inicializarPagina() {
     try {
         // NÃO APAGUE O CONTAINER. Apenas mostre um efeito de carregamento.
         container.style.opacity = '0.5';
-        
+
         const nomeEl = document.getElementById("produto-nome");
         // substitui o texto "Carregando..." pelo loader
         nomeEl.innerHTML = criarLoader('');
-        
+
         const produto = await produtosAPI.detalhes(produtoId);
-        
+
         // AGORA SIM, preenchemos os elementos que JÁ EXISTEM no HTML.
         displayProduto(produto);
 

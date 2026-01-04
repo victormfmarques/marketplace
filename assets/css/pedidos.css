@@ -67,7 +67,6 @@ header .header-nav a:hover {
 }
 .carrinho-icone {
   flex: 1;
-  text-align: right;
   position: relative;
   color: var(--branco-neve);
   cursor: pointer;
@@ -284,5 +283,5 @@ main {
 }
 
 .btn-ver-carrinho {
-  width: 121.3px !important;
+  display: inline !important;
 }

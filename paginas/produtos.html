@@ -1,103 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoMarket - Produtos</title>
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/produtos.css">
-    <link rel="stylesheet" href="../assets/css/carrinho.css">
-    <link rel="stylesheet" href="../assets/css/feedback.css">
-    <!-- Metadados para SEO e acessibilidade -->
-    <meta name="description" content="Confira todos os produtos disponíveis no EcoMarket SAMAVI, um marketplace sustentável para produtores locais.">
-    <meta name="author" content="Equipe EcoMarket SAMAVI">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="EcoMarket - Produtos">
-    <meta property="og:description" content="Navegue por produtos sustentáveis de produtores locais de Santa Maria da Vitória.">
-    <meta property="og:image" content="https://ecomarket-samavi.vercel.app">
-    <meta property="og:type" content="website">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoMarket - Produtos</title>
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/produtos.css">
+  <link rel="stylesheet" href="../assets/css/carrinho.css">
+  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <!-- Metadados para SEO e acessibilidade -->
+  <meta name="description"
+    content="Confira todos os produtos disponíveis no EcoMarket SAMAVI, um marketplace sustentável para produtores locais.">
+  <meta name="author" content="Equipe EcoMarket SAMAVI">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="EcoMarket - Produtos">
+  <meta property="og:description"
+    content="Navegue por produtos sustentáveis de produtores locais de Santa Maria da Vitória.">
+  <meta property="og:image" content="https://ecomarket-samavi.vercel.app">
+  <meta property="og:type" content="website">
 </head>
+
 <body>
-    <!-- NOTIFICAÇÃO DE FEEDBACK -->
-    <div id="feedback" class="feedback" aria-live="polite"></div>
+  <!-- NOTIFICAÇÃO DE FEEDBACK -->
+  <div id="feedback" class="feedback" aria-live="polite"></div>
 
-    <header>
-        <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-            <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
-            <h1>EcoMarket SAMAVI</h1>
-        </a>
-        
-        <nav class="header-nav">
-            <a href="/paginas/login.html" id="link-login" class="nav-link" title="Login ou Cadastro">
-                <ion-icon name="log-in-outline"></ion-icon>
-                <span>Login</span>
-            </a>
-            <a href="/paginas/conta.html" id="link-conta" class="nav-link" title="Minha Conta" style="display: none;">
-                <ion-icon name="person-circle-outline"></ion-icon>
-            </a>
-            <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto" style="display: none;">
-              <ion-icon name="add-circle-outline"></ion-icon>
-            </a>
-            <!-- CARRINHO -->
-              <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-                  <i class="fas fa-shopping-cart"></i>
-                  <span id="contador-carrinho">0</span>
-                  <div class="carrinho-dropdown" id="carrinho-dropdown">
-                    <div id="preview-carrinho" class="preview-carrinho"></div>
-                      <p class="carrinho-resumo">
-                          <strong id="resumo-itens">0</strong> itens no carrinho
-                      </p>
-                      <p class="carrinho-total" id="total-carrinho">
-                          Total: R$ 0,00
-                      </p>
-                      <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                      Ver carrinho
-                      </a>
-                  </div>
-              </div>
-            <!-- FIM DO CARRINHO -->
-        </nav>
-    </header>
+  <header>
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+      <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+      <h1>EcoMarket SAMAVI</h1>
+    </a>
 
-    <main class="produtos-page">
-      <div class="page-header">
-        <h2>Nossos Produtos</h2>
-        <p>Descubra o melhor do artesanato e produtos sustentáveis da nossa região.</p>
-      </div>
-
-      <!-- FILTROS -->
-      <section class="filtros-card">
-        <div class="barra-pesquisa">
-          <i class="fas fa-search"></i>
-          <input type="text" id="input-pesquisa" placeholder="Buscar pelo nome..." aria-label="Buscar produtos" />
+    <nav class="header-nav">
+      <a href="/paginas/login.html" id="link-login" class="nav-link" title="Login ou Cadastro">
+        <ion-icon name="log-in-outline"></ion-icon>
+        <span>Login</span>
+      </a>
+      <a href="/paginas/conta.html" id="link-conta" class="nav-link" title="Minha Conta" style="display: none;">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </a>
+      <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto"
+        style="display: none;">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </a>
+      <!-- CARRINHO -->
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <!-- HEADER DA PRÉVIA -->
+          <div class="carrinho-preview-header">
+            <strong>Prévia do carrinho</strong>
+            <span>Últimos itens adicionados</span>
+          </div>
+          <!-- ITENS -->
+          <div id="preview-carrinho" class="preview-carrinho"></div>
+          <!-- INFO UX -->
+          <p class="carrinho-info">
+            Mostrando até <strong>3 itens</strong>.
+            Clique em um produto para <strong>ver a página do produto</strong>.
+          </p>
+          <!-- RESUMO -->
+          <p class="carrinho-resumo">
+            <strong id="resumo-itens">0</strong> itens no carrinho
+          </p>
+          <p class="carrinho-total" id="total-carrinho">
+            Total: R$ 0,00
+          </p>
+          <!-- CTA -->
+          <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+            Ver carrinho completo
+          </a>
         </div>
-        <div class="filtro-categoria">
-          <i class="fas fa-tag"></i>
-          <select id="filtro-categoria" aria-label="Filtrar por categoria">
-            <option value="">Todas as Categorias</option>
-            <option value="artesanal">Artesanato</option>
-            <option value="natural">Beleza Natural</option>
-            <option value="moda">Moda Consciente</option>
-            <option value="higiene">Higiene Pessoal</option>
-            <option value="decoracao">Decoração</option>
-            <option value="kit">Kits e Presentes</option>
-            <option value="outro">Outros</option>
-          </select>
-        </div>
-      </section>
-      
-      <!-- GRADE DE PRODUTOS -->
-      <div class="produtos-grid" id="produtos-lista">
-        <!-- Produtos serão renderizados aqui pelo produtos.js -->
       </div>
-    </main>
+      <!-- FIM DO CARRINHO -->
+    </nav>
+  </header>
 
-    <!-- SCRIPTS -->
-    <script src="../assets/js/vercel-analytics.js"></script>
-    <script type="module" src="../assets/js/main.js"></script>
-    <script type="module" src="../assets/js/modules/ui.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <main class="produtos-page">
+    <div class="page-header">
+      <h2>Nossos Produtos</h2>
+      <p>Descubra o melhor do artesanato e produtos sustentáveis da nossa região.</p>
+    </div>
+
+    <!-- FILTROS -->
+    <section class="filtros-card">
+      <div class="barra-pesquisa">
+        <i class="fas fa-search"></i>
+        <input type="text" id="input-pesquisa" placeholder="Buscar pelo nome..." aria-label="Buscar produtos" />
+      </div>
+      <div class="filtro-categoria">
+        <i class="fas fa-tag"></i>
+        <select id="filtro-categoria" aria-label="Filtrar por categoria">
+          <option value="">Todas as Categorias</option>
+          <option value="artesanal">Artesanato</option>
+          <option value="natural">Beleza Natural</option>
+          <option value="moda">Moda Consciente</option>
+          <option value="higiene">Higiene Pessoal</option>
+          <option value="decoracao">Decoração</option>
+          <option value="kit">Kits e Presentes</option>
+          <option value="outro">Outros</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- GRADE DE PRODUTOS -->
+    <div class="produtos-grid" id="produtos-lista">
+      <!-- Produtos serão renderizados aqui pelo produtos.js -->
+    </div>
+  </main>
+
+  <!-- SCRIPTS -->
+  <script src="../assets/js/vercel-analytics.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+  <script type="module" src="../assets/js/modules/ui.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

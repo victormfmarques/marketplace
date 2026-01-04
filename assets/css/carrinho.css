@@ -49,11 +49,12 @@
   z-index: 1000;
   touch-action: manipulation;
   cursor: default; /* evita herdar cursor do ícone */
+  text-align: end;
 }
 
 .carrinho-dropdown.show {
   display: block;
-  box-sizing: content-box;
+  box-sizing: content-box !important;
 }
 
 /* --- Lista de itens --- */
@@ -64,6 +65,30 @@
   scroll-behavior: smooth;
 }
 
+/* --- Header da prévia do carrinho --- */
+.carrinho-preview-header {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.carrinho-preview-header strong {
+  font-size: 0.95rem;
+  color: #222;
+  display: block;
+}
+
+.carrinho-preview-header span {
+  font-size: 0.9rem;
+  color: var(--cinza-pedra);
+}
+.carrinho-info {
+  font-size: 0.8rem;
+  color: var(--cinza-pedra);
+  text-align: center;
+  margin: 0.4rem 0 0.6rem;
+}
+
 /* --- Item do dropdown --- */
 .item-carrinho.preview {
   display: flex;
@@ -72,6 +97,10 @@
   border-bottom: 1px solid #ddd;
   align-items: flex-start; /* topo da imagem e info */
   animation: carrinhoItemIn 0.25s ease-out;
+}
+
+.item-carrinho.preview:hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .item-carrinho.preview:last-child {
@@ -101,6 +130,7 @@
   cursor: pointer;
   color: #333;
   margin: 0;
+  text-align: left;
 }
 
 .item-carrinho.preview .preco,

@@ -139,6 +139,7 @@ nav ul li a:hover {
   color: var(--branco-neve);
   padding: 10px;
   border-radius: 20px;
+  cursor: pointer;
 }
 /* --- CSS PARA O MENU DINÂMICO --- */
 
@@ -156,7 +157,6 @@ nav ul li a:hover {
 #link-logout.visivel, 
 #icone-carrinho.visivel {
     display: inline-block;
-    cursor: pointer;
 }
 
 #saudacao {
