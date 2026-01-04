@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,13 +11,14 @@
   <link rel="stylesheet" href="../assets/css/modal.css">
   <title>Editar Produto</title>
 </head>
+
 <body>
-  <!-- NOTIFICAÇÃO DE FEEDBACK -->
+  <!-- Feedback -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
+
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
-      <!-- NAVEGAÇÃO -->
       <a href="../index.html" class="btn-home" title="Voltar para a página inicial">
         <ion-icon name="home-outline"></ion-icon>
       </a>
@@ -24,66 +26,92 @@
         <ion-icon name="storefront-outline"></ion-icon>
       </a>
     </div>
-    <!-- FORMULÁRIO DE EDIÇAÕ -->
-    <form id="form-editar-produto">
-      <label>Nome:</label>
-      <input type="text" id="nome" required />
-      <label>Descrição:</label>
-      <textarea id="descricao" required></textarea>
-      <label>Preço:</label>
-      <input type="number" id="preco" step="0.01" min="0" required />
-      <label>Categoria:</label>
-      <select id="categoria" name="categoria" required>
-        <option value="selecione">Selecione...</option>
-        <option value="artesanal">Artesanato</option>
-        <option value="natural">Beleza Natural</option>
-        <option value="moda">Moda Consciente</option>
-        <option value="higiene">Higiene Pessoal</option>
-        <option value="decoracao">Decoração</option>
-        <option value="kit">Kits e Presentes</option>
-        <option value="outro">Outro</option>
-      </select>
-      </div>
-      <label>Foto:</label>
-      <input type="file" id="fotos" multiple accept="image/*" />
-      <div id="preview-fotos"></div>
-      <button type="submit">Salvar Alterações</button>
-      <button type="button" id="btn-excluir" class="btn-excluir">
-        <i class="fas fa-trash-alt"></i> Excluir Produto
-      </button>
+
+    <!-- Formulário -->
+    <form id="form-editar-produto" enctype="multipart/form-data">
+
+      <section class="form-campos">
+        <div class="campo">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required />
+        </div>
+
+        <div class="campo">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" name="descricao" required></textarea>
+        </div>
+
+        <div class="campo">
+          <label for="preco">Preço</label>
+          <input type="number" id="preco" name="preco" step="0.01" min="0" required />
+        </div>
+
+        <div class="campo">
+          <label for="categoria">Categoria</label>
+          <select id="categoria" name="categoria" required>
+            <option value="">Selecione...</option>
+            <option value="artesanal">Artesanato</option>
+            <option value="natural">Beleza Natural</option>
+            <option value="moda">Moda Consciente</option>
+            <option value="higiene">Higiene Sustentável</option>
+            <option value="decoracao">Decoração</option>
+            <option value="kit">Presentes</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="form-imagem">
+        <label for="foto">Imagem do produto</label>
+        <input type="file" id="foto" accept="image/*" />
+
+        <div id="preview-fotos"></div>
+
+        <button type="button" id="btn-remover-nova-foto" class="btn-remover hidden">
+          Remover nova foto
+        </button>
+      </section>
+
+      <section class="form-acoes">
+        <button type="submit">Salvar Alterações</button>
+        <button type="button" id="btn-excluir" class="btn-excluir">
+          <i class="fas fa-trash-alt"></i> Excluir Produto
+        </button>
+      </section>
+
     </form>
   </main>
 
-<!-- MODAL(MENU) DE CONFIRMAÇÃO DE ATUALIZAÇÃO -->
-<div id="modal-confirmar-edicao" class="modal hidden" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-edicao">
-    <p id="titulo-modal-edicao">Deseja realmente salvar as alterações deste produto?</p>
-    <div class="modal-botoes">
-      <button id="btn-confirmar-edicao" class="btn-confirmar">Sim</button>
-      <button id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-
-  <!-- Modal de confirmação para excluir produto -->
-<div id="modal-excluir-produto" class="modal hidden">
-  <div class="modal-content">
-    <h2>Excluir Produto</h2>
-    <p>Digite sua senha para confirmar a exclusão:</p>
-    <input type="password" id="senha-confirmacao" placeholder="Digite sua senha">
-    <div style="margin-top: 1rem;">
+  <!-- Modal confirmação edição -->
+  <div id="modal-confirmar-edicao" class="modal hidden" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-edicao">
+      <p id="titulo-modal-edicao">Deseja realmente salvar as alterações deste produto?</p>
       <div class="modal-botoes">
-        <button id="confirmar-exclusao">Confirmar</button>
-        <button id="cancelar-exclusao">Cancelar</button>
+        <button id="btn-confirmar-edicao" class="btn-confirmar">Sim</button>
+        <button id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
       </div>
     </div>
   </div>
-</div>
-  <!-- SCRIPTS -->
+
+  <!-- Modal exclusão produto -->
+  <div id="modal-excluir-produto" class="modal hidden">
+    <div class="modal-content">
+      <h2>Excluir Produto</h2>
+      <p>Digite sua senha para confirmar a exclusão:</p>
+      <input type="password" id="senha-confirmacao" placeholder="Digite sua senha">
+      <div style="margin-top: 1rem;">
+        <div class="modal-botoes">
+          <button id="confirmar-exclusao">Confirmar</button>
+          <button id="cancelar-exclusao">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scripts -->
   <script src="../assets/js/vercel-analytics.js"></script>
   <script type="module" src="../assets/js/pages/editar-produto.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

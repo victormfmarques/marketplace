@@ -13,7 +13,6 @@ export function setProdutos(novosProdutos) {
 }
 
 /** Encontra um único produto pelo seu ID. */
-export function encontrarProdutoPorId(produtoId) {
-    if (!produtoId) return undefined;
-    return produtos.find(p => (p.id || p._id) === produtoId);
+export function encontrarProdutoPorId(id) {
+  return produtos.find(p => String(p._id || p.id) === String(id));
 }

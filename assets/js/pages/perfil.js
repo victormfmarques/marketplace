@@ -2,7 +2,7 @@
 
 // --- 1. IMPORTAÇÕES ---
 // Todas as dependências que o arquivo precisa.
-import { formatarTelefone } from '../modules/utils.js';
+import { formatarTelefone, pegarFotoProduto } from '../modules/utils.js';
 import { criarMensagemErro, mostrarFeedback, criarLoader, mostrarErro } from '../modules/ui.js';
 import { perfilAPI, produtosAPI, vendedorAPI } from '../modules/api.js';
 
@@ -37,22 +37,20 @@ async function carregarProdutosUsuario() {
         }
 
         container.innerHTML = result.data.map(prod => {
-            const foto = prod.fotos?.length
-                ? (prod.fotos[0].startsWith('http' ) ? prod.fotos[0] : `https://res.cloudinary.com/ddfacpcm5/image/upload/${prod.fotos[0]}` )
-                : '/assets/img/placeholder.png';
+            const foto = pegarFotoProduto(prod);
 
             return `
-              <div class="produto-card">
-                <a href="detalhes-produto.html?id=${prod._id}">
-                  <img src="${foto}" alt="${prod.nome}" />
-                </a>
-                <div class="produto-info">
-                  <h4>${prod.nome}</h4>
-                  <p class="produto-preco">R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
-                  <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
+                <div class="produto-card">
+                    <a href="detalhes-produto.html?id=${prod._id}">
+                    <img src="${foto}" alt="${prod.nome}" onerror="this.src='/assets/img/placeholder.png'">
+                    </a>
+                    <div class="produto-info">
+                    <h4>${prod.nome}</h4>
+                    <p class="produto-preco">R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}</p>
+                    <button class="btn-editar" onclick="window.location.href='editar-produto.html?id=${prod._id}'">Editar</button>
+                    </div>
                 </div>
-              </div>
-            `;
+                `;
         }).join('');
 
     } catch (error) {
@@ -198,7 +196,7 @@ async function carregarPedidosParaVendedor(vendedorId, ehCarregarMais = false) {
             // Se o filtro for 'todos', significa que o vendedor REALMENTE não tem nenhum pedido.
             if (filtroAtualVendedor === 'todos') {
                 container.innerHTML = criarMensagemErro('Você ainda não recebeu nenhum pedido.', 'info');
-            } 
+            }
             // Para qualquer outro filtro, a mensagem é específica.
             else {
                 container.innerHTML = criarMensagemErro(`Nenhum pedido com o status "${filtroAtualVendedor}".`, 'info');
@@ -265,9 +263,9 @@ function configurarAcoesVendedor() {
             const pedidoId = e.target.dataset.pedidoId;
             const select = document.querySelector(`.select-status[data-pedido-id="${pedidoId}"]`);
             if (!select) return;
-            
+
             const novoStatus = select.value;
-            
+
             try {
                 button.disabled = true;
                 button.textContent = 'Salvando...';
@@ -278,7 +276,7 @@ function configurarAcoesVendedor() {
                 if (pedidoParaAtualizar) {
                     pedidoParaAtualizar.status = novoStatus;
                 }
-                
+
                 aplicarFiltroEVenderizarVendedor();
 
             } catch (error) {
@@ -387,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.data?.fotoPerfil) usuarioLogado.fotoPerfil = data.data.fotoPerfil;
             if (data.data?.sobre) usuarioLogado.sobre = data.data.sobre;
             localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
-            
+
             mostrarFeedback('Perfil de vendedor atualizado com sucesso!', 'sucesso');
         } catch (error) {
             mostrarFeedback(`Erro ao atualizar: ${error.message}`, 'erro');
@@ -466,14 +464,14 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (e) => {
                 document.querySelectorAll('.filtro-btn').forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
-                
+
                 filtroAtualVendedor = e.target.dataset.status;
-                resetarECarregarPedidos(usuarioLogado._id); 
+                resetarECarregarPedidos(usuarioLogado._id);
             });
         });
         function resetarECarregarPedidos(vendedorId) {
             paginaAtualVendedor = 1;
-            todosOsPedidosDoVendedor = []; 
+            todosOsPedidosDoVendedor = [];
             carregarPedidosParaVendedor(vendedorId, false);
         }
     }

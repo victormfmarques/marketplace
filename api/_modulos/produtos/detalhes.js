@@ -27,7 +27,17 @@ export default async function handler(req, res) {
 
     const pipeline = [
       { $match: { _id: new ObjectId(id) } },
-      { $addFields: { usuarioObjectId: { $toObjectId: "$usuarioId" } } },
+      {
+        $addFields: {
+          usuarioObjectId: {
+            $cond: [
+              { $eq: [{ $type: "$usuarioId" }, "objectId"] },
+              "$usuarioId",
+              { $toObjectId: "$usuarioId" }
+            ]
+          }
+        }
+      },
       { $lookup: { from: 'usuarios', localField: 'usuarioObjectId', foreignField: '_id', as: 'usuario' } },
       { $unwind: { path: '$usuario', preserveNullAndEmptyArrays: true } }
     ];
@@ -42,12 +52,30 @@ export default async function handler(req, res) {
     );
 
     const fotos = Array.isArray(produto.fotos)
-      ? produto.fotos.map(foto =>
-          foto.startsWith('http')
-            ? foto
-            : `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${foto}`
-        )
-      : ['/assets/img/placeholder.png'];
+    ? produto.fotos
+        .map(foto => {
+          if (!foto) return null;
+
+          // Caso antigo: string
+          if (typeof foto === 'string') {
+            return foto.startsWith('http')
+              ? foto
+              : `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${foto}`;
+          }
+
+          // Caso novo: objeto { url, public_id }
+          if (typeof foto === 'object' && foto.url) {
+            return foto.url;
+          }
+
+          return null;
+        })
+        .filter(Boolean)
+    : ['/assets/img/placeholder.png'];
+
+    if (!fotos.length) {
+      fotos.push('/assets/img/placeholder.png');
+    }
 
     const produtoFormatado = {
       _id: produto._id.toString(),

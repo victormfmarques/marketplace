@@ -45,7 +45,26 @@
   color: var(--branco-neve);
 }
 
+/*=============================================
+            LOADER (CARREGAMENTO)
+=============================================*/
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.loader-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loader-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem auto;
+  border: 6px solid var(--branco-neve);
+  border-top: 6px solid var(--verde-folha);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }

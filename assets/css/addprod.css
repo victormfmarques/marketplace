@@ -1,12 +1,12 @@
-/* ============================
-  IMPORTAÇÕES
-============================ */
+/* =============================================
+   IMPORTAÇÕES
+============================================= */
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* ============================
-  VARIÁVEIS DE CORES
-============================ */
+/* =============================================
+   VARIÁVEIS DE CORES
+============================================= */
 :root {
   --verde-folha: #3A6351;
   --verde-claro: #A8C686;
@@ -14,11 +14,12 @@
   --bege-areia: #F2E8CF;
   --branco-neve: #FFFFFF;
   --cinza-pedra: #4F4F4F;
+  --vermelho: #b32020;
 }
 
-/* ============================
-  RESET E CORPO
-============================ */
+/* =============================================
+   RESET E BODY
+============================================= */
 * {
   margin: 0;
   padding: 0;
@@ -36,17 +37,21 @@ body {
   padding: 1.5rem 1rem;
 }
 
-/* Container principal */
+/* =============================================
+   CONTAINER PRINCIPAL
+============================================= */
 .container {
-  background-color: var(--branco-neve);
-  padding: 2rem 3rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 500px;
+  max-width: 1100px;
+  padding: 2rem;
+  background-color: var(--branco-neve);
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Título principal */
+/* =============================================
+   TÍTULO
+============================================= */
 h1 {
   color: var(--verde-folha);
   text-align: center;
@@ -55,79 +60,9 @@ h1 {
   font-size: 2rem;
 }
 
-/* Formulário */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-/* Grupos de inputs e labels */
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Labels dos campos */
-label {
-  margin-bottom: 0.4rem;
-  font-weight: 600;
-  color: var(--cinza-pedra);
-}
-
-/* Campos de texto, número, textarea, select e arquivo */
-input[type="text"],
-input[type="number"],
-textarea,
-select,
-input[type="file"] {
-  padding: 0.5rem 0.75rem;
-  border: 2px solid var(--verde-claro);
-  border-radius: 6px;
-  font-size: 1rem;
-  color: var(--cinza-pedra);
-  transition: border-color 0.3s ease;
-  background-color: var(--bege-areia);
-  font-family: inherit;
-  resize: vertical;
-}
-
-/* Foco nos campos */
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus,
-select:focus,
-input[type="file"]:focus {
-  outline: none;
-  border-color: var(--verde-folha);
-  background-color: var(--branco-neve);
-}
-
-/* Ajuste específico para textarea */
-textarea {
-  min-height: 80px;
-}
-
-/* Botão de envio */
-button[type="submit"] {
-  background-color: var(--verde-folha);
-  color: var(--branco-neve);
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Efeito hover e foco do botão */
-button[type="submit"]:hover,
-button[type="submit"]:focus {
-  background-color: var(--marrom-terra);
-}
-
-/* Botão voltar */
+/* =============================================
+   BOTÃO VOLTAR
+============================================= */
 .btn-voltar {
   display: inline-flex;
   align-items: center;
@@ -139,8 +74,8 @@ button[type="submit"]:focus {
   height: 45px;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
   margin-bottom: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-voltar:hover,
@@ -150,12 +85,118 @@ button[type="submit"]:focus {
   transform: scale(1.05);
 }
 
-/* ============================
-  RESPONSIVIDADE
-============================ */
-@media (max-width: 520px) {
-  .container {
-    padding: 1.5rem 1.5rem;
-    width: 100%;
+/* =============================================
+   FORMULÁRIO
+============================================= */
+form#form-produto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Grid para desktop */
+@media (min-width: 900px) {
+  form#form-produto {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-areas:
+      "campos imagem"
+      "acoes acoes";
+    gap: 2.5rem;
+    align-items: start;
   }
+
+  .form-campos { grid-area: campos; display: flex; flex-direction: column; gap: 0.9rem; }
+  .form-imagem { grid-area: imagem; display: flex; flex-direction: column; gap: 0.9rem; position: sticky; top: 1.5rem; }
+  .form-acoes { grid-area: acoes; display: flex; justify-content: flex-end; gap: 1rem; }
+}
+
+/* =============================================
+   CAMPOS
+============================================= */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+label {
+  font-weight: 600;
+  color: var(--cinza-pedra);
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select,
+input[type="file"] {
+  padding: 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--verde-claro);
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: var(--bege-areia);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+input[type="file"]:focus {
+  outline: none;
+  border-color: var(--verde-folha);
+  background-color: var(--branco-neve);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* =============================================
+   PREVIEW DE IMAGEM
+============================================= */
+#preview-fotos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+#preview-fotos img {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid var(--verde-claro);
+  object-fit: cover;
+}
+
+/* =============================================
+   BOTÃO DE SUBMIT
+============================================= */
+button[type="submit"] {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+  background-color: var(--marrom-terra);
+}
+
+/* =============================================
+   RESPONSIVIDADE
+============================================= */
+@media(max-width: 520px) {
+  #preview-fotos img { width: 250px; height: 200px; }
+  .container { padding: 1.5rem 1rem; width: 100%; }
 }

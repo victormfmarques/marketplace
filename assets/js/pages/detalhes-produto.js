@@ -5,6 +5,7 @@
 import { produtosAPI } from '../modules/api.js';
 import { adicionarAoCarrinho, setupCarrinho } from '../modules/carrinho.js';
 import { criarLoader, mostrarErro } from '../modules/ui.js';
+import { pegarDoisPrimeirosNomes } from '../modules/utils.js';
 
 // --- 2. FUNÇÕES DE RENDERIZAÇÃO E LÓGICA ---
 
@@ -24,19 +25,32 @@ function displayProduto(produto) {
 
     // Preenche o link do vendedor (A FUNCIONALIDADE NOVA!)
     if (linkVendedor && produto.vendedor) {
-        linkVendedor.textContent = produto.vendedor.nome;
+        const nomeCurto = pegarDoisPrimeirosNomes(produto.vendedor.nome);
         linkVendedor.href = `/paginas/vendedor.html?id=${produto.vendedor._id}`;
+        linkVendedor.querySelector('.vendedor-nome').textContent = nomeCurto
     }
 
     // Renderiza as imagens
     imagensEl.innerHTML = "";
-    const fotos = (produto.fotos && produto.fotos.length > 0) ? produto.fotos : ["../assets/img/placeholder.png"];
-    fotos.forEach(foto => {
-        const img = document.createElement("img");
-        img.src = foto;
-        img.alt = `Imagem do produto: ${produto.nome}`;
-        img.onerror = () => (img.src = "../assets/img/placeholder.png");
-        imagensEl.appendChild(img);
+
+    const fotosValidas =
+    Array.isArray(produto.fotos)
+        ? produto.fotos.filter(f => typeof f === 'string' && f.trim() !== '')
+        : [];
+
+    const fotosParaExibir =
+    fotosValidas.length > 0
+        ? fotosValidas
+        : ["../assets/img/placeholder.png"];
+
+    fotosParaExibir.forEach(foto => {
+    const img = document.createElement("img");
+    img.src = foto;
+    img.alt = `Imagem do produto: ${produto.nome}`;
+    img.onerror = () => {
+        img.src = "../assets/img/placeholder.png";
+    };
+    imagensEl.appendChild(img);
     });
 }
 
@@ -73,6 +87,10 @@ async function inicializarPagina() {
     try {
         // NÃO APAGUE O CONTAINER. Apenas mostre um efeito de carregamento.
         container.style.opacity = '0.5';
+        
+        const nomeEl = document.getElementById("produto-nome");
+        // substitui o texto "Carregando..." pelo loader
+        nomeEl.innerHTML = criarLoader('');
         
         const produto = await produtosAPI.detalhes(produtoId);
         

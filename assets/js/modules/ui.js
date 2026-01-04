@@ -13,12 +13,12 @@ export function mostrarFeedback(mensagem, tipo = 'sucesso', tempo = 3000) {
   feedback.textContent = mensagem;
   feedback.className = 'feedback'; // Reseta as classes
   feedback.classList.add(tipo);
-  
+
   // Força o navegador a reconhecer a mudança para a animação funcionar
   void feedback.offsetWidth;
 
   feedback.classList.add('show');
-  
+
   clearTimeout(feedback._hideTimeout);
   feedback._hideTimeout = setTimeout(() => {
     feedback.classList.remove('show');
@@ -81,4 +81,70 @@ export function mostrarErro(container, mensagemPrincipal, mensagemSecundaria, re
       setTimeout(retryCallback, 300);
     });
   }
+}
+
+export function previewImagens(input, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  Array.from(input.files).forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.maxWidth = '500px';
+      img.style.marginRight = '8px';
+      container.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+export function renderizarPreviewFotos(containerId, fotos, opcoes = {}) {
+  const {
+    titulo = '',
+    icone = 'fa-image',
+    classeImagem = 'preview-img'
+  } = opcoes;
+
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (titulo) {
+    const tituloEl = document.createElement('div');
+    tituloEl.classList.add('preview-titulo');
+    tituloEl.innerHTML = `<i class="fa-solid ${icone}"></i> ${titulo}`;
+    container.appendChild(tituloEl);
+  }
+
+  fotos.forEach((foto) => {
+    const img = document.createElement('img');
+    img.src = foto;
+    img.classList.add(classeImagem, 'preview-animada');
+    container.appendChild(img);
+  });
+}
+
+export function previewImagensInput(inputFile, containerId, options = {}) {
+  if (!inputFile) return;
+
+  inputFile.addEventListener('change', () => {
+    if (!inputFile.files.length) return;
+
+    const file = inputFile.files[0];
+    if (!file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      renderizarPreviewFotos(containerId, [e.target.result], options);
+    };
+
+    reader.readAsDataURL(file);
+  });
 }

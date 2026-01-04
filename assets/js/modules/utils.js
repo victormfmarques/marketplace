@@ -53,3 +53,55 @@ export async function verificarEAtualizarSessao() {
         return usuarioLocal;
     }
 }
+
+export function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+}
+
+// Retorna apenas os dois primeiros nomes
+export function pegarDoisPrimeirosNomes(nomeCompleto = '') {
+    return nomeCompleto
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .join(' ');
+}
+
+
+/**
+ * Retorna a URL da primeira foto válida de um produto,
+ * ou placeholder caso não haja foto.
+ * @param {Object} prod - Produto
+ * @returns {string} URL da foto
+ */
+export function pegarFotoProduto(prod) {
+    if (!prod || !prod.fotos) return '/assets/img/placeholder.png';
+
+    if (Array.isArray(prod.fotos)) {
+        const primeiraFoto = prod.fotos.find(f => {
+            if (!f) return false;
+            if (typeof f === 'string') return f.trim() !== '';
+            if (typeof f === 'object' && f.url) return f.url.trim() !== '';
+            return false;
+        });
+
+        if (primeiraFoto) {
+            if (typeof primeiraFoto === 'string') {
+                return primeiraFoto.startsWith('http')
+                    ? primeiraFoto
+                    : `https://res.cloudinary.com/ddfacpcm5/image/upload/${primeiraFoto}`;
+            } else if (typeof primeiraFoto === 'object' && primeiraFoto.url) {
+                return primeiraFoto.url.startsWith('http')
+                    ? primeiraFoto.url
+                    : `https://res.cloudinary.com/ddfacpcm5/image/upload/${primeiraFoto.url}`;
+            }
+        }
+    }
+
+    return '/assets/img/placeholder.png';
+}

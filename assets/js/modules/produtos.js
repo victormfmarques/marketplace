@@ -1,10 +1,10 @@
 // assets/js/pages/produtos.js
 
 // =========================== IMPORTAÇÕES ===============================
-import { setProdutos, encontrarProdutoPorId } from '../modules/store.js';
-import { adicionarAoCarrinho } from '../modules/carrinho.js';
-import { produtosAPI } from '../modules/api.js';
-import { criarMensagemErro } from '../modules/ui.js';
+import { setProdutos, encontrarProdutoPorId } from './store.js';
+import { adicionarAoCarrinho } from './carrinho.js';
+import { produtosAPI } from './api.js';
+import { criarMensagemErro } from './ui.js';
 // =======================================================================
 
 if (!window.mostrarErro) {
@@ -21,22 +21,51 @@ const produtoConfig = {
 // -------------------- FUNÇÕES AUXILIARES --------------------
 
 function renderizarProdutos(produtos, basePath = '') {
-  return produtos.map(produto => `
-    <div class="produto-card" data-id="${produto.id || produto._id}">
-      <a href="${basePath}detalhes-produto.html?id=${produto.id || produto._id}" class="produto-link" tabindex="0" aria-label="Detalhes do produto ${produto.nome}">
-        <img src="${produto.foto || produto.fotos?.[0] || produtoConfig.placeholderImage}" 
-             alt="${produto.nome}"
-             onerror="this.src='${produtoConfig.placeholderImage}'">
-      </a>
-      <div class="produto-info">
-        <h3>${produto.nome}</h3>
-        <p class="produto-preco">R$ ${(produto.preco || 0).toFixed(2).replace('.', ',')}</p>
-        <button class="produto-btn-comprar" data-id="${produto.id || produto._id}" aria-label="Comprar ${produto.nome}">
-          Comprar
-        </button>
+  return produtos.map(produto => {
+    const id = produto.id || produto._id;
+
+    let imagem = produtoConfig.placeholderImage;
+
+    if (typeof produto.foto === 'string' && produto.foto.trim() !== '') {
+      imagem = produto.foto;
+    } else if (Array.isArray(produto.fotos) && produto.fotos.length > 0) {
+      const primeira = produto.fotos[0];
+
+      if (typeof primeira === 'string') {
+        imagem = primeira;
+      } else if (primeira && typeof primeira.url === 'string') {
+        imagem = primeira.url;
+      }
+    }
+
+    return `
+      <div class="produto-card" data-id="${id}">
+        <a href="${basePath}detalhes-produto.html?id=${id}"
+           class="produto-link"
+           tabindex="0"
+           aria-label="Detalhes do produto ${produto.nome}">
+          <img
+            src="${imagem}"
+            alt="${produto.nome}"
+            onerror="this.src='${produtoConfig.placeholderImage}'"
+          >
+        </a>
+
+        <div class="produto-info">
+          <h3>${produto.nome}</h3>
+          <p class="produto-preco">
+            R$ ${(produto.preco || 0).toFixed(2).replace('.', ',')}
+          </p>
+          <button
+            class="produto-btn-comprar"
+            data-id="${id}"
+            aria-label="Comprar ${produto.nome}">
+            Comprar
+          </button>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function configurarEventosProdutos() {

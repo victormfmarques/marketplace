@@ -54,16 +54,14 @@
                 <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="contador-carrinho">0</span>
-
                     <div class="carrinho-dropdown" id="carrinho-dropdown">
+                    <div id="preview-carrinho" class="preview-carrinho"></div>
                         <p class="carrinho-resumo">
                             <strong id="resumo-itens">0</strong> itens no carrinho
                         </p>
-
                         <p class="carrinho-total" id="total-carrinho">
                             Total: R$ 0,00
                         </p>
-
                         <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
                         Ver carrinho
                         </a>
@@ -133,58 +131,8 @@
     </footer>
 
     <!-- SCRIPTS -->
-    <script src="../assets/js/vercel-analytics.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Pega os elementos do menu que vamos manipular
-            const saudacaoEl = document.getElementById('saudacao');
-            const linkMinhaConta = document.getElementById('link-minha-conta');
-            const linkLogin = document.getElementById('link-login');
-            const linkLogout = document.getElementById('link-logout');
-            const btnLogoutMenu = document.getElementById('btn-logout-menu');
-            const iconeCarrinho = document.getElementById('icone-carrinho');
-
-            // 2. Verifica se o usuário está logado
-            const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-            if (usuario && usuario.nome) {
-                // --- CENÁRIO: USUÁRIO LOGADO ---
-
-                // Pega o primeiro nome para a saudação
-                const nomeFinal = usuario.nome.split(' ')[0];
-                saudacaoEl.textContent = `Olá, ${nomeFinal}!`;
-
-                // Mostra os links de "Minha Conta" e "Sair"
-                linkMinhaConta.classList.add('visivel');
-                linkLogout.classList.add('visivel');
-                iconeCarrinho.classList.add('visivel');
-
-                // Adiciona a função ao botão de Sair
-                btnLogoutMenu.addEventListener('click', (e) => {
-                    e.preventDefault(); // Previne que o link '<a>' tente navegar
-                    localStorage.removeItem('usuarioLogado');
-                    
-                    // VERIFICA se a função existe antes de usar
-                    if (typeof window.mostrarFeedback === 'function') {
-                        window.mostrarFeedback('Saindo da sua conta...', 'aviso');
-                        setTimeout(() => {
-                            window.location.href = '/paginas/login.html';
-                        }, 3000);
-                    } else {
-                        // Fallback: redireciona diretamente se a função não estiver disponível
-                        console.warn('Função mostrarFeedback não disponível, redirecionando...');
-                        window.location.href = '/paginas/login.html';
-                    }
-                });
-
-            } else {
-                // --- CENÁRIO: VISITANTE (NÃO LOGADO) ---
-
-                saudacaoEl.textContent = 'Bem-vindo(a)!';
-                linkLogin.classList.add('visivel');
-            }
-        });
-    </script>
+    <script type="module" src="./assets/js/modules/menu.js"></script>
+    <script src="./assets/js/vercel-analytics.js"></script>
     <script type="module" src="./assets/js/modules/config.js"></script>
     <script type="module" src="./assets/js/main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

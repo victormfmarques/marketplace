@@ -1,7 +1,7 @@
 // js/main.js
 
 // --- 1. IMPORTAÇÕES ---
-import { inicializarProdutos, renderizarProdutos, configurarEventosProdutos } from './pages/produtos.js';
+import { inicializarProdutos, renderizarProdutos, configurarEventosProdutos } from './modules/produtos.js';
 import { setupCarrinho } from './modules/carrinho.js';
 import { mostrarFeedback, criarLoader, criarMensagemErro, mostrarErro } from './modules/ui.js';
 import { getProdutos } from './modules/store.js';
