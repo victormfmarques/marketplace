@@ -7,73 +7,70 @@
   <meta name="author" content="EcoMarket Samavi">
   <meta name="keywords" content="contato, EcoMarket, Samavi, feedback, ecomercado, ecológico, sustentável">
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/contatos.css" />
-  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="../assets/css/base/base.css">
+  <link rel="stylesheet" href="../assets/css/paginas/contatos.css" />
   <title>EcoMarket - Contatos</title>
 </head>
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <header>
-    <a href="/index.html" title="Voltar para Home">
-      <ion-icon name="home-outline"></ion-icon>
-    </a>
+    <div class="header-nav">
+      <a href="/index.html" title="Voltar para Home">
+        <ion-icon name="home-outline"></ion-icon>
+      </a>
+    </div>
   </header>
 
-  <main>
-    <img src="../assets/img/logo.png" alt="Logo EcoMarket" />
-    <h1>Contatos</h1>
-    <h2><strong>Telefone:</strong> 
-      <a href="https://wa.me/5577988758331" target="_blank" rel="noopener">(77) 98875-8331</a>
-    </h2>
-    <h2><strong>Email:</strong> 
-      <a href="mailto:contato.ecomarketsamavi@gmail.com">contato.ecomarketsamavi@gmail.com</a>
-    </h2>
+  <main class="contatos-page">
+    <img src="../assets/img/logo.png" alt="Logo EcoMarket" class="logo-contato" />
 
-    <h1>Envie seu Feedback</h1>
-    <form id="form-feedback">
-      <label for="mensagem">Sugestões ou Reclamações:</label>
-      <textarea id="mensagem" name="mensagem" rows="5" required placeholder="Digite sua mensagem..."></textarea>
+    <section class="contato-info">
+      <h1>Contatos</h1>
+      <p>
+        <strong>Telefone:</strong>
+        <a href="https://wa.me/5577988758331" target="_blank" rel="noopener">
+          (77) 98875-8331
+        </a>
+      </p>
+      <p>
+        <strong>Email:</strong>
+        <a href="mailto:contato.ecomarketsamavi@gmail.com">
+          contato.ecomarketsamavi@gmail.com
+        </a>
+      </p>
+    </section>
 
-      <label for="email">Seu Email (opcional):</label>
-      <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" />
+    <section class="feedback-section">
+      <h2>Envie seu feedback</h2>
 
-      <button type="submit">Enviar</button>
-    </form>
+      <form id="form-feedback">
+        <div class="form-group">
+          <label for="mensagem">Sugestões ou reclamações</label>
+          <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+        </div>
 
-    <div id="mensagem-enviada"></div>
+        <div class="form-group">
+          <label for="email">Seu email (opcional)</label>
+          <input type="email" id="email" name="email" />
+        </div>
+
+        <button type="submit" class="btn-enviar" id="btn-enviar">Enviar feedback</button>
+      </form>
+
+      <div id="mensagem-enviada"></div>
+    </section>
   </main>
+
   <!-- SCRIPTS -->
   <script src="../assets/js/vercel-analytics.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/modules/feedback.js"></script>
+  <script type="module" src="../assets/js/pages/contatos.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script>
-    document.getElementById('form-feedback').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const mensagem = document.getElementById('mensagem').value.trim();
-      const email = document.getElementById('email').value.trim();
-
-      try {
-        const res = await fetch('/api?rota=feedback/registrar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mensagem, email })
-        });
-
-        const resultado = await res.json();
-
-        if (res.ok) {
-          document.getElementById('mensagem-enviada').textContent = resultado.message;
-          this.reset();
-        } else {
-          mostrarFeedback('Erro ao enviar feedback','erro');
-        }
-      } catch (err) {
-        mostrarFeedback('Erro de conexão','erro');
-      }
-    });
-  </script>
 </body>
 </html>

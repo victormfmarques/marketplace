@@ -6,30 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/editprod.css" />
-  <link rel="stylesheet" href="../assets/css/feedback.css">
-  <link rel="stylesheet" href="../assets/css/modal.css">
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="../assets/css/base/base.css">
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/paginas/editprod.css"/>
   <title>Editar Produto</title>
 </head>
 
 <body>
   <!-- Feedback -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
-
+  <header>
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+        <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+        <h1>EcoMarket SAMAVI</h1>
+    </a>
+    <div class="header-nav">
+      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
+          <ion-icon name="storefront-outline"></ion-icon>
+      </a>
+      <a href="/paginas/conta.html" id="link-conta" class="nav-link visivel" title="Minha Conta">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </a>
+    </div>
+</header>
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
-      <a href="../index.html" class="btn-home" title="Voltar para a página inicial">
-        <ion-icon name="home-outline"></ion-icon>
-      </a>
-      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
-        <ion-icon name="storefront-outline"></ion-icon>
-      </a>
     </div>
-
     <!-- Formulário -->
     <form id="form-editar-produto" enctype="multipart/form-data">
-
       <section class="form-campos">
         <div class="campo">
           <label for="nome">Nome</label>

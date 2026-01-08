@@ -17,15 +17,18 @@
   <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/lata.jpg" />
   <!-- LINKS CSS E ICON -->
   <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/informacoes.css" />
+  <link rel="stylesheet" href="../assets/css/base/base.css">
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/paginas/informacoes.css"/>
   <title>EcoMarket - Informações</title>
 </head>
 <body>
     <header>
-        <img src="../assets/img/logo.png" alt="Logo EcoMarket">
-        <ul>
-            <li><a href="/index.html"><ion-icon name="home-outline"></ion-icon></a></li>
-        </ul>
+        <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+            <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+            <h1>EcoMarket SAMAVI</h1>
+        </a>
     </header>
     <main>
         <h1>Lata de lixo reciclável: Significado das cores</h1>
@@ -38,7 +41,7 @@
             <img src="../assets/img/lata.jpg" alt="Latas de lixo coloridas para reciclagem">
         </div>
 
-        <h2 style="color: black; box-shadow:none">A Importância da Reciclagem</h2>
+        <h2>A Importância da Reciclagem</h2>
 
         <p>
             Reciclar não é apenas um ato de consciência ambiental; é uma necessidade urgente para a preservação dos recursos naturais e a redução da poluição. Através da reciclagem, materiais que poderiam se tornar resíduos prejudiciais são reaproveitados, reduzindo a necessidade de extração de matérias-primas e economizando energia.
@@ -48,7 +51,7 @@
             Reciclar ajuda a diminuir a quantidade de lixo enviado para aterros sanitários, o que, por sua vez, reduz a emissão de gases de efeito estufa. Além disso, a reciclagem cria empregos e impulsiona economias locais
         </p>
 
-        <h2 style="background-image: linear-gradient( to right, green, white);">Cor Verde: Vidro</h2>
+        <h2 class="verde">Cor Verde: Vidro</h2>
 
         <p>
             A cor verde nas lixeiras recicláveis é destinada ao vidro. Vidros de garrafas, potes, frascos e copos devem ser depositados nessa lixeira. É importante que os itens sejam limpos antes de serem descartados, evitando a contaminação de outros materiais.    
@@ -66,7 +69,7 @@
             <li>Vidros de janela (sem contaminação)</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, blue, white);">Cor Azul: Papel e Papelão
+        <h2 class="azul">Cor Azul: Papel e Papelão
         </h2>
 
         <p>
@@ -86,7 +89,7 @@
             <li>Cartolinas</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, rgb(189, 189, 6), white);">Cor Amarela: Metal</h2>
+        <h2 class="amarela">Cor Amarela: Metal</h2>
 
         <p>
             O metal é um material valioso que pode ser reciclado muitas vezes. A lixeira amarela é dedicada ao descarte de metais, como latas de alumínio, pregos, parafusos, e tampas de garrafas. Assim como os outros materiais, é essencial que os metais estejam limpos para evitar a contaminação.
@@ -105,7 +108,7 @@
             <li>Fios de cobre</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, red, white);">Cor Vermelha: Plástico</h2>
+        <h2 class="vermelha">Cor Vermelha: Plástico</h2>
 
         <p>
             O plástico, um dos materiais mais utilizados no mundo, é também um dos que mais causam danos ao meio ambiente se não for descartado corretamente. A lixeira vermelha é destinada ao plástico, como garrafas PET, sacolas plásticas, e potes de iogurte.
@@ -125,7 +128,7 @@
             <li>Embalagens de produtos de limpeza</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, saddlebrown, white);">Cor Marrom: Orgânicos</h2>
+        <h2 class="marrom">Cor Marrom: Orgânicos</h2>
 
         <p>
             A lixeira marrom é destinada aos resíduos orgânicos, como restos de comida, cascas de frutas e legumes, folhas secas, e borra de café. Esses materiais são biodegradáveis e podem ser transformados em adubo através do processo de compostagem.
@@ -144,7 +147,7 @@
             <li>Borra de café</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, orange, white);">Cor Laranja: Resíduos Perigosos</h2>
+        <h2 class="laranja">Cor Laranja: Resíduos Perigosos</h2>
 
         <p>
             Resíduos perigosos, como pilhas, baterias, lâmpadas fluorescentes e produtos químicos, devem ser descartados na lixeira laranja. Esses materiais contêm substâncias tóxicas que podem contaminar o solo e a água, se não forem tratados adequadamente.
@@ -163,7 +166,7 @@
             <li>Termômetros</li>
         </ul>
 
-        <h2 style="background-image: linear-gradient(to right, black, white);">Cor Preta: Resíduos Não Recicláveis</h2>
+        <h2 class="preta">Cor Preta: Resíduos Não Recicláveis</h2>
 
         <p>
             A lixeira preta é utilizada para resíduos não recicláveis, ou seja, materiais que não podem ser reaproveitados. Isso inclui itens como fraldas descartáveis, esponjas, papel higiênico, e outros materiais que não se enquadram nas categorias de recicláveis.
@@ -182,7 +185,7 @@
             <li>Embalagens metalizadas</li>
         </ul>
 
-        <h2 style="color: black; box-shadow: none ">Como Praticar a Reciclagem em Casa</h2>
+        <h2>Como Praticar a Reciclagem em Casa</h2>
 
         <p>
             Agora que você já conhece o significado das cores das lixeiras, o próximo passo é implementar a reciclagem na sua rotina diária. Uma das formas mais eficazes de começar é separar os resíduos em casa, utilizando lixeiras diferentes para cada tipo de material. Também é importante lavar e secar os materiais recicláveis antes de descartá-los, garantindo que estejam limpos e prontos para a reciclagem.

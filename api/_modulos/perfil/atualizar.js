@@ -9,8 +9,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Método não permitido' });
   }
 
-  // Verifica se o usuário está autenticado via token ou session
-  const { userId, nome, sexo, dataNascimento, telefone, email, senha, nsenha } = req.body;
+  const { userId, nome, telefone, email, senha, nsenha } = req.body;
 
   if (!userId) {
     return res.status(401).json({ message: 'Não autorizado' });
@@ -27,41 +26,31 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    // Verifica se a senha atual está correta (se for alteração de senha)
+    // Se for trocar senha, valida a senha atual
     if (nsenha) {
+      if (!senha) {
+        return res.status(400).json({ message: 'Informe a senha atual' });
+      }
+
       const senhaValida = await bcrypt.compare(senha, usuario.senha);
       if (!senhaValida) {
         return res.status(401).json({ message: 'Senha atual incorreta' });
       }
     }
 
-    let sexoNormalizado = sexo;
-
-      if (sexo === 'on') {
-        // Corrige o valor "on" incorreto
-        sexoNormalizado = 'masculino'; // ou feminino, conforme padrão desejado
-      } else if (!['masculino', 'feminino', 'm', 'f'].includes(sexo.toLowerCase())) {
-        sexoNormalizado = 'masculino'; // valor padrão
-      }
-
-    console.log('Sexo recebido:', sexo, 'Normalizado:', sexoNormalizado);
-    
-    // Prepara os dados para atualização
+    // Dados permitidos para atualização
     const updateData = {
       nome: nome || usuario.nome,
-      sexo: sexoNormalizado,
-      dataNascimento: dataNascimento || usuario.dataNascimento,
       telefone: telefone || usuario.telefone,
       email: email || usuario.email,
       ultimaAtualizacao: new Date()
     };
 
-    // Se houver nova senha, criptografa e adiciona
+    // Nova senha
     if (nsenha) {
       updateData.senha = await bcrypt.hash(nsenha, 10);
     }
 
-    // Atualiza no banco de dados
     const result = await usuarios.updateOne(
       { _id: new ObjectId(userId) },
       { $set: updateData }
@@ -71,13 +60,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Nenhum dado foi alterado' });
     }
 
-    // Busca o usuário atualizado (sem a senha)
+    // Retorna usuário atualizado (sem senha)
     const usuarioAtualizado = await usuarios.findOne(
       { _id: new ObjectId(userId) },
       { projection: { senha: 0 } }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Perfil atualizado com sucesso!',
       usuario: usuarioAtualizado
@@ -85,7 +74,7 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Erro na atualização:', error);
-    res.status(500).json({ 
+    return res.status(500).json({
       message: 'Erro interno no servidor',
       error: error.message
     });

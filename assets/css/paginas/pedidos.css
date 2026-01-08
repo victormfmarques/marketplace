@@ -1,0 +1,218 @@
+/* =============================================
+   ARQUIVO: assets/css/paginas/pedidos.css
+   PÁGINA: PEDIDOS DO COMPRADOR
+============================================= */
+
+/* =============================================
+   ESTILOS GERAIS DA PÁGINA
+============================================= */
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+/* Ajuste pontual do carrinho dentro do header
+   (complementa carrinho.css, não duplica) */
+.header-nav .carrinho-icone {
+  height: 32px;
+}
+
+/* =============================================
+   LAYOUT PRINCIPAL
+============================================= */
+main {
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.fundo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  background-color: var(--branco-neve);
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+.fundo h2 {
+  font-size: 1.5rem;
+  color: var(--verde-folha);
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--verde-claro);
+}
+
+/* =============================================
+   LISTA DE PEDIDOS
+============================================= */
+#lista-pedidos {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Telas médias */
+@media (min-width: 1024px) {
+  #lista-pedidos {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  }
+}
+
+/* Telas grandes */
+@media (min-width: 1440px) {
+  #lista-pedidos {
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  }
+}
+
+/* =============================================
+   CARD DE PEDIDO – BASE
+============================================= */
+.pedido-comprador-card {
+  background-color: var(--branco-neve);
+  border: 1px solid #e0e0e0;
+  border-left: 5px solid var(--verde-folha);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow: hidden;
+}
+
+/* Garantia de quebra de texto */
+.pedido-comprador-body,
+.pedido-comprador-body p,
+.pedido-comprador-body li,
+.pedido-comprador-header h4 {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* =============================================
+   CABEÇALHO DO CARD
+============================================= */
+.pedido-comprador-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.pedido-comprador-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--cinza-pedra);
+}
+
+/* Status do pedido */
+.pedido-comprador-header .pedido-status {
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+/* =============================================
+   CORPO DO CARD
+============================================= */
+.pedido-comprador-body {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.pedido-comprador-body p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.pedido-comprador-body strong {
+  color: var(--cinza-pedra);
+}
+
+.pedido-comprador-body .status-descricao {
+  font-style: italic;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.pedido-comprador-body ul {
+  list-style-position: inside;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+
+  border-left: 3px solid var(--verde-claro);
+  padding-left: 10px;
+}
+
+/* =============================================
+   RODAPÉ DO CARD
+============================================= */
+.pedido-comprador-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pedido-comprador-footer .total-pedido {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--verde-folha);
+}
+
+/* Botão cancelar pedido */
+.pedido-comprador-footer .btn-cancelar-pedido {
+  background-color: var(--vermelho-erro);
+  color: var(--branco-neve);
+  border: none;
+
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pedido-comprador-footer .btn-cancelar-pedido:hover {
+  background-color: #a13428;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+============================================= */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .pedido-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

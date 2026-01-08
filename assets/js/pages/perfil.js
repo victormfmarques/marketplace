@@ -66,24 +66,15 @@ function preencherFormulario(usuario) {
     if (!usuario) return;
 
     const nomeInput = document.getElementById('inome');
-    const dataInput = document.getElementById('idat');
     const telInput = document.getElementById('itel');
     const emailInput = document.getElementById('iemail');
     const saudacaoEl = document.getElementById('saudacao');
 
     if (nomeInput) nomeInput.value = usuario.nome || '';
-    if (dataInput) dataInput.value = usuario.dataNascimento?.split('T')[0] || '';
     if (telInput) telInput.value = formatarTelefone(usuario.telefone || '');
     if (emailInput) emailInput.value = usuario.email || '';
     if (saudacaoEl) saudacaoEl.textContent = `Olá, ${usuario.nome || 'Visitante'}`;
 
-    const sexoDoUsuario = usuario.sexo || '';
-    const generoNormalizado = sexoDoUsuario.toLowerCase().trim();
-    const masRadio = document.getElementById('imas');
-    const femRadio = document.getElementById('ifem');
-
-    if (masRadio) masRadio.checked = generoNormalizado === 'masculino';
-    if (femRadio) femRadio.checked = generoNormalizado === 'feminino';
 }
 
 /**
@@ -305,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de UI (mostrar/esconder seções) ---
     const isVendedorOuAdmin = usuarioLogado.cargo === 'vendedor' || usuarioLogado.cargo === 'administrador';
-    document.getElementById('link-adm').style.display = usuarioLogado.cargo === 'administrador' ? 'inline-block' : 'none';
+    document.getElementById('link-adm').style.display = usuarioLogado.cargo === 'administrador' ? '' : 'none';
     document.getElementById('editor-perfil-vendedor').style.display = isVendedorOuAdmin ? 'block' : 'none';
     document.getElementById('secao-meus-produtos').style.display = isVendedorOuAdmin ? 'block' : 'none';
     document.getElementById('secao-gestao-pedidos').style.display = isVendedorOuAdmin ? 'block' : 'none';
@@ -328,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btnSubmit.disabled = true;
             btnSubmit.textContent = 'Atualizando...';
 
-            const sexoSelecionado = document.querySelector('input[name="sexo"]:checked')?.value;
             const telefoneFormatado = formatarTelefone(document.getElementById('itel').value);
 
             if (!/^\(\d{2}\)\s?\d{4,5}-\d{4}$/.test(telefoneFormatado)) {
@@ -338,8 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = {
                 userId: usuarioLogado._id,
                 nome: document.getElementById('inome').value.trim(),
-                sexo: sexoSelecionado,
-                dataNascimento: document.getElementById('idat').value,
                 telefone: telefoneFormatado.replace(/\D/g, ''),
                 email: document.getElementById('iemail').value.trim(),
                 senha: document.getElementById('isenha').value,
@@ -441,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await perfilAPI.excluir({ userId: usuarioLogado._id, senha: senha });
                 if (modalExcluir) modalExcluir.classList.add('hidden');
-                mostrarFeedback('Conta excluída com sucesso. Redirecionando...', 'sucesso');
+                mostrarFeedback('Conta excluída com sucesso.', 'sucesso');
                 setTimeout(() => {
                     localStorage.clear();
                     window.location.href = '/index.html';

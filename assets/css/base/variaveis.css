@@ -1,0 +1,14 @@
+:root {
+    --verde-folha: #3A6351;
+    --verde-claro: #A8C686;
+    --marrom-terra: #7B5E42;
+    --bege-areia: #F2E8CF;
+    --branco-neve: #FFFFFF;
+    --cinza-pedra: #4F4F4F;
+    --cinza-fundo: #f4f5f7;
+    --vermelho: #b32020;
+    --vermelho-erro: #8e2519;
+    --borda-erro: #C44D4D;
+    --amarelo-aviso: #f39c12;
+    --azul-info: #3498db;
+}

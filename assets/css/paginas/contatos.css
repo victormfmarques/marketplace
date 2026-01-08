@@ -1,0 +1,148 @@
+/* =============================================
+   PÁGINA: CONTATOS
+   ARQUIVO: contatos.css
+   PADRÃO: MOBILE FIRST
+============================================= */
+
+/* =============================================
+   BASE
+============================================= */
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+/* =============================================
+   LAYOUT PRINCIPAL
+============================================= */
+.contatos-page {
+  max-width: 640px;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  background-color: var(--branco-neve);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* =============================================
+   LOGO
+============================================= */
+.logo-contato {
+  display: block;
+  margin: 0 auto 1.5rem;
+  width: 140px;
+}
+
+/* =============================================
+   INFORMAÇÕES DE CONTATO
+============================================= */
+.contato-info {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.contato-info h1 {
+  font-size: 1.7rem;
+  color: var(--verde-folha);
+  margin-bottom: 1rem;
+}
+
+.contato-info p {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+}
+
+.contato-info a {
+  color: var(--verde-folha);
+  text-decoration: none;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.contato-info a:hover {
+  text-decoration: underline;
+}
+
+/* =============================================
+   FEEDBACK
+============================================= */
+.feedback-section h2 {
+  font-size: 1.3rem;
+  color: var(--marrom-terra);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* =============================================
+   FORMULÁRIO
+============================================= */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.form-group textarea,
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.form-group textarea:focus,
+.form-group input:focus {
+  outline: none;
+  border-color: var(--verde-folha);
+  box-shadow: 0 0 0 3px rgba(58, 99, 81, 0.2);
+}
+
+/* =============================================
+   BOTÃO
+============================================= */
+.btn-enviar {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-enviar:hover {
+  background-color: var(--marrom-terra);
+}
+
+/* =============================================
+   MENSAGEM DE SUCESSO
+============================================= */
+#mensagem-enviada {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--verde-folha);
+}
+
+/* =============================================
+   TELAS MAIORES
+============================================= */
+@media (min-width: 768px) {
+  .contatos-page {
+    padding: 1.5rem;
+  }
+
+  .btn-enviar {
+    width: auto;
+    margin: 0 auto;
+    display: block;
+  }
+}
