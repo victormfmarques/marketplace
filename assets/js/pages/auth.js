@@ -95,8 +95,6 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     // Validação dos dados
     const usuario = {
       nome: document.getElementById('inome')?.value.trim(),
-      sexo: document.querySelector('input[name="sexo"]:checked')?.value || '',
-      dataNascimento: document.getElementById('idat')?.value,
       telefone: document.getElementById('itel')?.value.replace(/\D/g, ''),
       email: document.getElementById('iemail')?.value.trim(),
       senha: senhaInput?.value
@@ -106,10 +104,6 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     if (!usuario.nome) {
       throw new Error('O nome completo é obrigatório');
     }
-
-    // if (!usuario.sexo) {
-    //   throw new Error('Selecione seu sexo');
-    // }
 
     if (!usuario.email) {
       throw new Error('O email é obrigatório');

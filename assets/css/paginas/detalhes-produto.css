@@ -1,61 +1,38 @@
 /* ==================================
-  ESTILOS DA PÁGINA DE DETALHES DO PRODUTO
-  Versão Refatorada
+   ARQUIVO: assets/css/paginas/detalhes-produto.css
+   PÁGINA: DETALHES DO PRODUTO
 ================================== */
 
-/* --- Variáveis e Imports (se necessário, mas já estão no seu global) --- */
-:root {
-  --verde-folha: #3A6351;
-  --verde-claro: #A8C686;
-  --marrom-terra: #7B5E42;
-  --bege-areia: #F2E8CF;
-  --branco-neve: #FFFFFF;
-  --cinza-pedra: #4F4F4F;
-}
-
-* {
-  font-family: 'Poppins', sans-serif;
-}
-
+/* ==================================
+   ESTILO GLOBAL DA PÁGINA
+================================== */
 body {
-  font-family: 'Poppins', sans-serif;
   background-color: var(--bege-areia);
   color: var(--cinza-pedra);
 }
 
 /* ==================================
-  LAYOUT PRINCIPAL DO CONTAINER
+   CONTAINER PRINCIPAL
 ================================== */
 #produto-container {
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1rem;
-  margin: 2rem auto;
+  margin: 1.7rem auto;
   max-width: 1200px;
-  /* Espaçamento entre a imagem e as informações */
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   background-color: var(--branco-neve);
   border-radius: 16px;
-  /* Bordas mais suaves */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   opacity: 1;
   transition: opacity 0.5s ease;
 }
 
-#produto-info {
-  padding: 1rem 0;
-}
-
-#produto-nome {
-  font-size: 2rem;
-}
-
 /* ==================================
-  SEÇÃO DE IMAGENS
+   SEÇÃO DE IMAGENS DO PRODUTO
 ================================== */
 #produto-imagens {
   flex: 1 1 100px;
-  /* Flex-grow, flex-shrink, flex-basis */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -63,7 +40,7 @@ body {
 
 #produto-imagens img {
   width: 100%;
-  height: auto;
+  max-height: 790px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid #eee;
@@ -71,12 +48,13 @@ body {
 }
 
 /* ==================================
-  SEÇÃO DE INFORMAÇÕES
+   INFORMAÇÕES DO PRODUTO
 ================================== */
 #produto-info {
   flex: 1 1 500px;
   display: flex;
   flex-direction: column;
+  padding: 1rem 0;
   position: relative;
 }
 
@@ -95,44 +73,43 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* --- Descrição do produto --- */
 #produto-descricao {
   font-size: 1rem;
   line-height: 1.7;
   margin-bottom: 2rem;
-  white-space: pre-wrap;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  white-space: pre-line;
 }
 
-/* --- Botão Principal de Compra --- */
-#btn-comprar {
-  background-color: var(--verde-folha);
-  color: var(--branco-neve);
-  border: none;
-  padding: 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 400px;
-  /* Limita a largura em telas muito grandes */
+/* Scroll da descrição */
+#produto-descricao::-webkit-scrollbar {
+  width: 6px;
 }
 
-#btn-comprar:hover {
-  background-color: var(--marrom-terra);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+#produto-descricao::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
-/* =============================================
+/* ==================================
    INFORMAÇÕES DO VENDEDOR
-============================================= */
+================================== */
+.vendedor-info-link {
+  order: -1;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f5f0;
+  border-left: 4px solid var(--verde-claro);
+  border-radius: 0 8px 8px 0;
+  font-size: 1rem;
+}
+
 .vendedor-label {
   display: block;
   color: #555;
-  margin-bottom: 0.3rem;
 }
 
 .vendedor-link {
@@ -160,43 +137,37 @@ body {
   width: 200px;
 }
 
-.vendedor-info-link {
-  order: -1;
-  /* Joga o vendedor para cima, logo abaixo do preço */
-  margin: 0 0 1.5rem 0;
+/* ==================================
+   BOTÃO PRINCIPAL
+================================== */
+#btn-comprar {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
   padding: 1rem;
-  background-color: #f8f5f0;
-  border-left: 4px solid var(--verde-claro);
-  border-radius: 0 8px 8px 0;
-  font-size: 1rem;
-}
-
-.vendedor-info-link span {
-  color: var(--cinza-pedra);
-  display: block;
-  font-size: 1rem;
-}
-
-.vendedor-info-link a {
-  color: var(--verde-folha);
+  font-size: 1.1rem;
   font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 400px;
 }
 
-.vendedor-info-link a:hover {
-  color: var(--marrom-terra);
+#btn-comprar:hover {
+  background-color: var(--marrom-terra);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* ==================================
-  AÇÕES SECUNDÁRIAS
+   AÇÕES SECUNDÁRIAS
 ================================== */
-
-/* --- Ações Secundárias (Editar, Navegação) --- */
 #editar-container,
 #produto-info nav {
   margin-top: auto;
-  /* Empurra para o final da coluna */
   padding-top: 2rem;
   display: flex;
   gap: 1rem;
@@ -212,7 +183,6 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
-  text-decoration: none;
   border: 2px solid transparent;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -235,7 +205,6 @@ body {
   border-color: var(--verde-folha);
   color: var(--verde-folha);
   font-size: 1.5rem;
-  /* Apenas para o ícone */
   padding: 0.5rem;
 }
 
@@ -246,54 +215,7 @@ body {
 }
 
 /* ==================================
-  RESPONSIVIDADE
-================================== */
-@media (min-width: 900px) {
-  .vendedor-info-link span {
-    color: var(--cinza-pedra);
-    display: block;
-  }
-
-  #produto-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-
-  #produto-imagens {
-  flex: 1 1 400px;
-  /* Flex-grow, flex-shrink, flex-basis */
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.carrinho-icone {
-    top: 2rem;
-    right: 2rem;
-  }
-.vendedor-hint {
-    width: auto;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.loader-container {
-  margin: auto;
-}
-
-/* ==================================
-  CARRINHO DE COMPRAS
+   CARRINHO DE COMPRAS
 ================================== */
 .carrinho-icone {
   position: absolute !important;
@@ -301,17 +223,12 @@ body {
   right: 0.4rem;
   cursor: pointer;
   z-index: 10;
-  width: 30px;
-  height: 35px;
+  width: 45px;
+  height: 45px !important;
   background-color: var(--verde-folha);
   border: 2px solid var(--verde-claro);
-  padding: 8px;
+  padding: 5px 5px 5px 7px;
   border-radius: 30%;
-  padding-left: 11px;
-}
-
-.btn-ver-carrinho {
-  width: 93% !important;
 }
 
 #contador-carrinho {
@@ -324,6 +241,13 @@ body {
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 50%;
+}
+
+/* ==================================
+   LOADER E ERROS
+================================== */
+.loader-container {
+  margin: auto;
 }
 
 .btn-tentar-novamente {
@@ -340,4 +264,57 @@ body {
 
 .btn-tentar-novamente:hover {
   background-color: var(--marrom-terra);
+}
+
+/* ==================================
+   RESPONSIVIDADE
+================================== */
+@media (min-width: 900px) {
+  #produto-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  #produto-imagens {
+    flex: 1 1 400px;
+  }
+
+  .vendedor-hint {
+    width: auto;
+  }
+
+  .carrinho-icone {
+    top: 2rem;
+    right: 2rem;
+  }
+
+  /* Wrapper da imagem */
+  .produto-imagem-wrapper {
+    width: 100%;
+    min-height: 420px;
+    max-height: 790px;
+    background-color: #f6f6f6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+
+  .produto-imagem-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .produto-imagem-wrapper.imagem-baixa {
+    background: linear-gradient(180deg, #f4f4f4, #ececec);
+  }
+
+  .produto-imagem-wrapper.imagem-baixa img {
+    height: 100%;
+    width: auto;
+  }
 }

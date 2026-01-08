@@ -22,11 +22,15 @@
   <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app.com/assets/img/logo-300.png" />
   <!-- Ícone e CSS -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/conta.css" />
-  <link rel="stylesheet" href="../assets/css/carrinho.css">
-  <link rel="stylesheet" href="../assets/css/produtos.css">
-  <link rel="stylesheet" href="../assets/css/feedback.css">
-  <link rel="stylesheet" href="../assets/css/modal.css">
+  <link rel="stylesheet" href="../assets/css/componentes/carrinho.css">
+  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/base/base.css" />
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <link rel="stylesheet" href="../assets/css/paginas/produtos.css">
+  <link rel="stylesheet" href="../assets/css/paginas/conta.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
@@ -71,24 +75,15 @@
           <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
         </div>
         <div class="form-group">
-          <span>Sexo:</span>
-          <input type="radio" name="sexo" id="imas" value="masculino"> <label for="imas">Masculino</label>
-          <input type="radio" name="sexo" id="ifem" value="feminino"> <label for="ifem">Feminino</label>
-        </div>
-        <div class="form-group">
-          <label for="idat">Data de Nascimento</label>
-          <input type="date" name="dat" id="idat">
+          <label for="iemail">Email</label>
+          <input type="email" name="email" id="iemail" required autocomplete="email" placeholder="seuemail@gmail.com">
         </div>
         <div class="form-group">
           <label for="itel">Telefone</label>
           <input type="tel" name="tel" id="itel" required autocomplete="tel" placeholder="(XX ) XXXXX-XXXX">
         </div>
         <div class="form-group">
-          <label for="iemail">Email</label>
-          <input type="email" name="email" id="iemail" required autocomplete="email" placeholder="seuemail@gmail.com">
-        </div>
-        <div class="form-group">
-          <label for="isenha">Senha Atual (obrigatória para salvar)</label>
+          <label for="isenha">Senha Atual (obrigatória para atualizar dados)</label>
           <input type="password" name="senha" id="isenha" required minlength="8" placeholder="Senha Atual">
         </div>
         <div class="form-group">

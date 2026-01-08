@@ -1,0 +1,216 @@
+/* ==================================================
+   ARQUIVO: assets/css/componentes/botoes.css
+   COMPONENTE: BOTÕES PADRÃO DO SISTEMA
+================================================== */
+
+/* ==================================================
+   BASE DO BOTÃO
+================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.9rem 1.5rem;
+  width: auto;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+/* ==================================================
+   VARIANTES
+================================================== */
+
+.btn-primario {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+}
+
+.btn-primario:hover,
+.btn-primario:focus-visible {
+  background-color: var(--marrom-terra);
+}
+
+.btn-secundario {
+  background-color: #f0f0f0;
+  color: var(--cinza-pedra);
+  border: 1px solid #ddd;
+}
+
+.btn-secundario:hover,
+.btn-secundario:focus-visible {
+  background-color: #e0e0e0;
+}
+
+/* ==================================================
+   ESTADOS
+================================================== */
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==================================================
+   BOTÕES COM ÍCONE
+================================================== */
+
+.btn i,
+.btn svg {
+  margin-right: 0.5rem;
+  font-size: 1.1em;
+}
+
+/* ==================================================
+   ACESSIBILIDADE
+================================================== */
+
+.btn:focus-visible {
+  outline: 3px solid rgba(58, 99, 81, 0.4);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
+
+/* ==================================================
+   VARIAÇÕES SEMÂNTICAS ADICIONAIS
+================================================== */
+
+/* BOTÃO DE PERIGO (ações destrutivas) */
+.btn-perigo {
+  background-color: var(--vermelho-erro);
+  color: var(--branco-neve);
+}
+
+.btn-perigo:hover,
+.btn-perigo:focus-visible {
+  background-color: #962d22;
+}
+
+/* BOTÃO PEQUENO (ações em cards e listas) */
+.btn-sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  width: auto;
+}
+
+/* ==================================================
+   BOTÕES ESPECÍFICOS DE AÇÃO
+================================================== */
+
+/* Editar produto */
+.btn-editar {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+}
+
+.btn-editar:hover,
+.btn-editar:focus-visible {
+  background-color: var(--marrom-terra);
+}
+
+/* Salvar status do pedido */
+.btn-salvar-status {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-salvar-status:hover,
+.btn-salvar-status:focus-visible {
+  background-color: var(--marrom-terra);
+}
+
+.btn-carregar-mais {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ==================================================
+   BOTÃO: EDITAR (produtos do vendedor)
+================================================== */
+
+.btn-editar, .btn-tentar-novamente {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: auto;
+  cursor: pointer;
+  transition: background-color 0.3s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover / foco */
+.btn-editar:hover,
+.btn-editar:focus-visible,
+.btn-tentar-novamente:hover,
+.btn-tentar-novamente:focus-visible {
+  background-color: var(--marrom-terra);
+  transform: translateY(-1px);
+}
+
+/* Clique */
+.btn-editar:active,
+.btn-tentar-novamente:active {
+  transform: scale(0.97);
+}
+
+/* Acessibilidade */
+.btn-editar:focus-visible,
+.btn-tentar-novamente:focus-visible {
+  outline: 3px solid rgba(58, 99, 81, 0.4);
+  outline-offset: 2px;
+}
+
+.botoes-container .btn {
+  width: 100%;
+}
+
+@media (min-width: 700px) {
+  .botoes-container .btn {
+    width: auto;
+  }
+}

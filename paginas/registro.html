@@ -20,8 +20,12 @@
   <meta name="twitter:description" content="Faça parte do marketplace que conecta você aos produtores locais.">
   <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png">
   <!-- Ícone e fontes -->
-  <link rel="stylesheet" href="../assets/css/registro.css">
-  <link rel="stylesheet" href="../assets/css/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/base/base.css">
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <link rel="stylesheet" href="../assets/css/paginas/registro.css">
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
@@ -30,59 +34,47 @@
   <div id="feedback" class="feedback" aria-live="polite"></div>
 
   <header class="registro-header">
-    <a href="/index.html" class="logo-link" title="Voltar para a página inicial">
-      <img src="../assets/img/logo-300.png" alt="Logo do EcoMarket Samavi">
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+      <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+      <h1>EcoMarket SAMAVI</h1>
     </a>
-    <h1>Crie sua Conta</h1>
   </header>
 
   <main>
     <section class="card-registro">
+      <h1>Crie sua Conta</h1>
+      <p>Junte-se ao EcoMarket Samavi e apoie os pequenos produtores locais!</p>
       <form id="form-cadastro" method="post">
         <div class="form-group">
           <label for="inome">Nome Completo</label>
-          <input type="text" name="nome" id="inome" required minlength="5" maxlength="40" autocomplete="name">
+          <input type="text" name="nome" id="inome" required placeholder="Seu nome completo" minlength="5" maxlength="40" autocomplete="name">
         </div>
-
+        
         <div class="form-group">
-          <span>Sexo:</span>
-          <div class="radio-group">
-            <input type="radio" name="sexo" id="imas" value="masculino">
-            <label for="imas">Masculino</label>
-            <input type="radio" name="sexo" id="ifem" value="feminino">
-            <label for="ifem">Feminino</label>
-          </div>
+          <label for="iemail">Email</label>
+          <input type="email" name="email" id="iemail" required placeholder="seuemail@gmail.com" autocomplete="email">
         </div>
-
-        <div class="form-group">
-          <label for="idat">Data de Nascimento</label>
-          <input type="date" name="dat" id="idat">
-        </div>
-
+        
         <div class="form-group">
           <label for="itel">Telefone</label>
           <input type="tel" name="tel" id="itel" required autocomplete="tel" placeholder="(XX ) XXXXX-XXXX">
         </div>
 
         <div class="form-group">
-          <label for="iemail">Email</label>
-          <input type="email" name="email" id="iemail" required placeholder="seuemail@gmail.com" autocomplete="email">
-        </div>
-
-        <div class="form-group">
           <label for="isenha">Senha</label>
-          <input type="password" name="senha" id="isenha" required minlength="8" autocomplete="new-password">
+          <input type="password" name="senha" id="isenha" required placeholder="Mínimo 8 caracteres" minlength="8" autocomplete="new-password">
         </div>
 
         <div class="form-group">
           <label for="iconfirmasenha">Confirme a Senha</label>
-          <input type="password" id="iconfirmasenha" required minlength="8" autocomplete="new-password">
+          <input type="password" id="iconfirmasenha" required placeholder="Repita sua senha" minlength="8" autocomplete="new-password">
         </div>
 
         <div class="botoes-container">
           <button id="enviar" type="submit" class="btn btn-primario">Registrar</button>
           <button id="limpar" type="reset" class="btn btn-secundario">Limpar</button>
         </div>
+        <small class="form-info">Já tem uma conta? <a href="/paginas/login.html">Faça login</a></small>
       </form>
     </section>
   </main>

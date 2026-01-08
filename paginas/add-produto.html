@@ -5,11 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EcoMarket - Adicionar Produto</title>
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/addprod.css" />
-  <link rel="stylesheet" href="../assets/css/feedback.css">
-  <link rel="stylesheet" href="../assets/css/modal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/base/base.css">
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="../assets/css/paginas/addprod.css" />
 </head>
 <body>
+  <header>
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+      <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
+      <h1>EcoMarket SAMAVI</h1>
+    </a>
+    <nav class="header-nav">
+      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos"
+        aria-label="Voltar à página de produtos">
+        <ion-icon name="storefront-outline" aria-hidden="true"></ion-icon>
+      </a>
+    </nav>
+  </header>
   <div class="container">
     <!-- NOTIFICAÇÃO DE FEEDBACK -->
     <div id="feedback" class="feedback" aria-live="polite" role="alert" tabindex="0"></div>
@@ -17,9 +33,6 @@
     <!-- TÍTULO -->
     <div class="titulo">
       <h1>Adicionar Produto</h1>
-      <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos" aria-label="Voltar à página de produtos">
-        <ion-icon name="storefront-outline" aria-hidden="true"></ion-icon>
-      </a>
     </div>
 
     <!-- FORMULÁRIO -->
@@ -33,12 +46,14 @@
 
         <div class="form-group">
           <label for="descricao">Descrição <span class="obrigatorio">*</span></label>
-          <textarea id="descricao" name="descricao" rows="4" required aria-required="true" autocomplete="off"></textarea>
+          <textarea id="descricao" name="descricao" rows="4" required aria-required="true"
+            autocomplete="off"></textarea>
         </div>
 
         <div class="form-group">
           <label for="preco">Preço (R$) <span class="obrigatorio">*</span></label>
-          <input type="number" id="preco" name="preco" step="0.01" min="0.01" required aria-required="true" autocomplete="off">
+          <input type="number" id="preco" name="preco" step="0.01" min="0.01" required aria-required="true"
+            autocomplete="off">
         </div>
 
         <div class="form-group">
@@ -60,7 +75,8 @@
       <div class="form-imagem">
         <div class="form-group">
           <label for="imagem-produto">Imagem do Produto <span class="obrigatorio">*</span></label>
-          <input type="file" id="imagem-produto" name="imagem" accept="image/*" required aria-required="true" aria-describedby="imagemHelp">
+          <input type="file" id="imagem-produto" name="imagem" accept="image/*" required aria-required="true"
+            aria-describedby="imagemHelp">
           <small id="imagemHelp">Aceitamos imagens nos formatos JPG, PNG ou GIF.</small>
         </div>
         <div id="preview-fotos" class="preview-fotos"></div>

@@ -1,14 +1,3 @@
-:root {
-  --verde-folha: #3A6351;
-  --verde-claro: #A8C686;
-  --marrom-terra: #7B5E42;
-  --bege-areia: #F2E8CF;
-  --branco-neve: #FFFFFF;
-  --cinza-pedra: #4F4F4F;
-  --vermelho-erro: #8e2519;
-  --borda-erro: #C44D4D;
-}
-
 .feedback {
   position: fixed;
   bottom: 1.5rem;
@@ -68,3 +57,30 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
+/* STATUS */
+.pedido-vendedor-card[data-status="pendente"] .pedido-status, .pedido-comprador-card[data-status="pendente"] .pedido-status {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.pedido-vendedor-card[data-status="em andamento"] .pedido-status, .pedido-comprador-card[data-status="em andamento"] .pedido-status {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.pedido-vendedor-card[data-status="enviado"] .pedido-status, .pedido-comprador-card[data-status="enviado"] .pedido-status {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.pedido-vendedor-card[data-status="entregue"] .pedido-status, .pedido-comprador-card[data-status="entregue"] .pedido-status {
+  background: #d4edda;
+  color: #155724;
+}
+
+.pedido-vendedor-card[data-status="cancelado"] .pedido-status, .pedido-comprador-card[data-status="cancelado"] .pedido-status {
+  background: #edddd4;
+  color: #571915;
+}
+

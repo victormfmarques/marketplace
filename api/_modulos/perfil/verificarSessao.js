@@ -25,8 +25,6 @@ export default async function handler(req, res) {
                     nome: 1,
                     email: 1,
                     telefone: 1,
-                    sexo: 1,
-                    dataNascimento: 1,
                     cargo: 1,
                     fotoPerfil: 1,
                     sobre: 1

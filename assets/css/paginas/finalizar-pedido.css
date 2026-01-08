@@ -1,0 +1,206 @@
+/* =============================================
+  ARQUIVO: finalizar-pedido.css
+  PÁGINA: FINALIZAR COMPRA
+============================================= */
+
+/* =============================================
+   BASE
+============================================= */
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+/* =============================================
+   CONTAINER PRINCIPAL
+============================================= */
+.container {
+  max-width: 100%;
+  margin: 1.5rem 10px;
+  padding: 1.5rem;
+  background-color: var(--branco-neve);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* =============================================
+   TOPO DA PÁGINA
+============================================= */
+.topo-pagina {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-direction: column;
+}
+
+.topo-pagina h1 {
+  font-size: 1.6rem;
+  color: var(--verde-folha);
+  position: relative;
+}
+
+.topo-pagina h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 240px;
+  height: 4px;
+  background-color: var(--verde-claro);
+  border-radius: 4px;
+}
+
+/* =============================================
+   BOTÕES DE NAVEGAÇÃO
+============================================= */
+.botoes-navegacao {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.btn-voltar,
+#registrar-pedido {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 0.9rem;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border-radius: 8px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  gap: 5px;
+}
+
+.btn-voltar:hover,
+#registrar-pedido:hover {
+  background-color: var(--marrom-terra);
+}
+
+.btn-voltar ion-icon,
+#registrar-pedido ion-icon {
+  font-size: 1.5rem;
+}
+
+/* =============================================
+   PRODUTOS DO RESUMO
+============================================= */
+.produto {
+  background-color: var(--bege-areia);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid var(--verde-folha);
+}
+
+.produto h2 {
+  font-size: 1.1rem;
+  color: var(--marrom-terra);
+  margin-bottom: 0.4rem;
+}
+
+.produto p {
+  font-size: 0.95rem;
+  margin: 0.2rem 0;
+}
+
+/* =============================================
+   LINKS DE CONTATO
+============================================= */
+.produto a {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.produto a.email {
+  color: var(--marrom-terra);
+}
+
+.produto a.email:hover {
+  text-decoration: underline;
+}
+
+.produto a.whatsapp {
+  color: var(--verde-folha);
+}
+
+.produto a.whatsapp:hover {
+  text-decoration: underline;
+}
+
+/* =============================================
+   DIVISÓRIA
+============================================= */
+hr {
+  margin-top: 1rem;
+  border: none;
+  border-top: 1px solid var(--verde-claro);
+}
+
+/* =============================================
+   BOTÃO PRINCIPAL (CONFIRMAR)
+============================================= */
+button {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button:hover {
+  background-color: var(--marrom-terra);
+}
+
+.btn-acao-pedido {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* =============================================
+   MODAL (AJUSTES FINOS)
+============================================= */
+#modal-confirmar-pedido input {
+  width: 100%;
+  margin-top: 0.8rem;
+}
+
+/* =============================================
+   TELAS MAIORES
+============================================= */
+@media (min-width: 768px) {
+  .container {
+    max-width: 820px;
+    margin: 1.5rem auto;
+    padding: 2rem;
+  }
+
+  .topo-pagina {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .topo-pagina h1 {
+    font-size: 1.8rem;
+  }
+
+  .topo-pagina h1::after {
+    width: 270px;
+  }
+  .botoes-navegacao {
+  display: flex;
+  padding-bottom: 15px;
+}
+}

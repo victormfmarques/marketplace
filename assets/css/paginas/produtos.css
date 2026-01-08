@@ -1,0 +1,226 @@
+/* =============================================
+   ARQUIVO: assets/css/paginas/produtos.css
+   PÁGINA: PRODUTOS
+============================================= */
+
+/* =============================================
+   ESTILO GLOBAL DA PÁGINA
+============================================= */
+body {
+  background-color: var(--bege-areia);
+  color: var(--cinza-pedra);
+}
+
+/* =============================================
+   CABEÇALHO (HEADER)
+============================================= */
+/* --- Ícone do carrinho --- */
+.header-nav .carrinho-icone {
+  height: 36px;
+}
+
+/* =============================================
+   LAYOUT PRINCIPAL DA PÁGINA
+============================================= */
+.produtos-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* --- Cabeçalho da página --- */
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h2 {
+  font-size: 2.5rem;
+  color: var(--verde-folha);
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  color: var(--cinza-pedra);
+  margin-top: 0.5rem;
+}
+
+/* =============================================
+   FILTROS (PESQUISA E CATEGORIA)
+============================================= */
+.filtros-card {
+  background-color: var(--branco-neve);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* --- Barra de pesquisa e filtro --- */
+.barra-pesquisa,
+.filtro-categoria {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.barra-pesquisa:focus-within,
+.filtro-categoria:focus-within {
+  border-color: var(--verde-folha);
+  box-shadow: 0 0 0 3px rgba(58, 99, 81, 0.2);
+}
+
+.barra-pesquisa i,
+.filtro-categoria i {
+  color: #aaa;
+}
+
+/* --- Inputs --- */
+#input-pesquisa,
+#filtro-categoria {
+  width: 100%;
+  border: none;
+  padding: 0px 10px;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+}
+
+#filtro-categoria {
+  cursor: pointer;
+}
+
+/* =============================================
+   GRADE DE PRODUTOS
+============================================= */
+.produtos-grid,
+#produtos-usuario {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* =============================================
+   CARD DE PRODUTO
+============================================= */
+.produto-card {
+  background-color: var(--branco-neve);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid var(--verde-claro);
+  height: 100%;
+}
+
+.produto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.produto-link {
+  display: block;
+  text-decoration: none;
+}
+
+/* --- Imagem do produto --- */
+.produto-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Informações do produto --- */
+.produto-info {
+  padding: 1.25rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.produto-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cinza-pedra);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+  height: 2.8em;
+  overflow: hidden;
+}
+
+.produto-info h4 {
+  min-height: 2.6em; /* equivalente a 2 linhas */
+  line-height: 1.3em;
+  margin-bottom: 0.4rem;
+}
+
+.produto-preco {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--verde-folha);
+  margin-bottom: 1rem;
+}
+
+/* --- Botão comprar --- */
+.produto-btn-comprar {
+  background-color: var(--verde-folha);
+  color: var(--branco-neve);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: auto;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.produto-btn-comprar:hover {
+  background-color: var(--marrom-terra);
+}
+
+/* =============================================
+   LOADER E MENSAGENS DE ERRO
+============================================= */
+.produtos-grid .loader-container,
+.produtos-grid .erro-ecocommerce {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+============================================= */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .produtos-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .filtros-card {
+    flex-direction: row;
+  }
+}
