@@ -14,7 +14,7 @@ body {
 /* Ajuste pontual do carrinho dentro do header
    (complementa carrinho.css, não duplica) */
 .header-nav .carrinho-icone {
-  height: 32px;
+  height: 35px;
 }
 
 /* =============================================

@@ -54,6 +54,7 @@
 .carrinho-dropdown.show {
   display: block;
   box-sizing: content-box;
+  text-align: center;
 }
 
 /* --- Lista de itens --- */

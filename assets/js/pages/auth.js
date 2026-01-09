@@ -43,6 +43,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
       ...data.usuario,
       authTime: new Date().toISOString()
     }));
+    localStorage.setItem('token', data.token);
 
     mostrarFeedback('Login realizado com sucesso!', 'sucesso');
     

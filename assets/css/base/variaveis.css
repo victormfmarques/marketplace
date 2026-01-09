@@ -1,14 +1,37 @@
 :root {
-    --verde-folha: #3A6351;
-    --verde-claro: #A8C686;
-    --marrom-terra: #7B5E42;
-    --bege-areia: #F2E8CF;
-    --branco-neve: #FFFFFF;
-    --cinza-pedra: #4F4F4F;
-    --cinza-fundo: #f4f5f7;
-    --vermelho: #b32020;
-    --vermelho-erro: #8e2519;
-    --borda-erro: #C44D4D;
-    --amarelo-aviso: #f39c12;
-    --azul-info: #3498db;
+    /* === NOVA IDENTIDADE === */
+    --cor-primaria: #D96C8F;
+    --cor-primaria-clara: #F2B6C6;
+    --cor-secundaria: #F4C430;
+    --cor-destaque: #8E44AD;
+
+    --cor-fundo: #FFF9F6;
+    --cor-card: #FFFFFF;
+    --cor-texto: #4A4A4A;
+    --cor-texto-suave: #7A7A7A;
+    --cor-borda: #E6DCDC;
+
+    --cor-sucesso: #6ABF69;
+    --cor-erro: #C0392B;
+    --cor-aviso: #F1B24A;
+    --cor-info: #5DADE2;
+
+    /* === ALIASES (LEGADO) === */
+    --verde-folha: var(--cor-primaria);
+    --verde-claro: var(--cor-primaria-clara);
+    --verde-limao: var(--cor-secundaria);
+
+    --marrom-terra: var(--cor-texto);
+    --bege-areia: var(--cor-fundo);
+
+    --branco-neve: var(--cor-card);
+    --cinza-pedra: var(--cor-texto);
+    --cinza-fundo: var(--cor-fundo);
+
+    --vermelho: var(--cor-erro);
+    --vermelho-erro: var(--cor-erro);
+    --borda-erro: #E6A8A1;
+
+    --amarelo-aviso: var(--cor-aviso);
+    --azul-info: var(--cor-info);
 }

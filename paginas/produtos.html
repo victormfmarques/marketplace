@@ -1,70 +1,89 @@
-<!DOCTYPE html>
-<html lang="pt-br">
 <head>
+  <!-- Básico -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoMarket - Produtos</title>
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- SEO principal -->
+  <title>Produtos | AssociArte Marketplace</title>
+  <meta name="description"
+        content="Explore os produtos artesanais e sustentáveis disponíveis no AssociArte Marketplace.">
+  <meta name="author" content="AssociArte Marketplace">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Produtos | AssociArte Marketplace">
+  <meta property="og:description"
+        content="Produtos artesanais e sustentáveis da associação AssociArte.">
+  <meta property="og:image" content="https://associarte-marketplace.vercel.app/assets/img/banner.png">
+  <meta property="og:url" content="https://associarte-marketplace.vercel.app/paginas/produtos.html">
+  <meta property="og:type" content="website">
+  <!-- Favicon & ICONS -->
+  <link rel="icon" href="../assets/img/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
   <link rel="stylesheet" href="../assets/css/base/base.css">
+  <!-- Componentes -->
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
   <link rel="stylesheet" href="../assets/css/componentes/carrinho.css">
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
   <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/produtos.css">
-  <!-- Metadados para SEO e acessibilidade -->
-  <meta name="description"
-    content="Confira todos os produtos disponíveis no EcoMarket SAMAVI, um marketplace sustentável para produtores locais.">
-  <meta name="author" content="Equipe EcoMarket SAMAVI">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="EcoMarket - Produtos">
-  <meta property="og:description"
-    content="Navegue por produtos sustentáveis de produtores locais de Santa Maria da Vitória.">
-  <meta property="og:image" content="https://ecomarket-samavi.vercel.app">
-  <meta property="og:type" content="website">
 </head>
+
 <body>
     <!-- NOTIFICAÇÃO DE FEEDBACK -->
     <div id="feedback" class="feedback" aria-live="polite"></div>
 
-    <header>
-        <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-            <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
-            <h1>EcoMarket SAMAVI</h1>
-        </a>
-        
-        <nav class="header-nav">
-            <a href="/paginas/login.html" id="link-login" class="nav-link" title="Login ou Cadastro">
-                <ion-icon name="log-in-outline"></ion-icon>
-                <span>Login</span>
-            </a>
-            <a href="/paginas/conta.html" id="link-conta" class="nav-link" title="Minha Conta" style="display: none;">
-                <ion-icon name="person-circle-outline"></ion-icon>
-            </a>
-            <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto" style="display: none;">
-              <ion-icon name="add-circle-outline"></ion-icon>
-            </a>
-            <!-- CARRINHO -->
-              <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-                  <i class="fas fa-shopping-cart"></i>
-                  <span id="contador-carrinho">0</span>
-                  <div class="carrinho-dropdown" id="carrinho-dropdown">
-                    <div id="preview-carrinho" class="preview-carrinho"></div>
-                      <p class="carrinho-resumo">
-                          <strong id="resumo-itens">0</strong> itens no carrinho
-                      </p>
-                      <p class="carrinho-total" id="total-carrinho">
-                          Total: R$ 0,00
-                      </p>
-                      <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                      Ver carrinho
-                      </a>
-                  </div>
-              </div>
-            <!-- FIM DO CARRINHO -->
-        </nav>
-    </header>
+  <header>
+    <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
+      <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
+    </a>
+
+    <nav class="header-nav">
+      <a href="/paginas/login.html" id="link-login" class="nav-link" title="Login ou Cadastro">
+        <ion-icon name="log-in-outline"></ion-icon>
+        <span>Login/Cadastro</span>
+      </a>
+      <a href="/paginas/conta.html" id="link-conta" class="nav-link" title="Minha Conta" style="display: none;">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </a>
+      <a href="add-produto.html" id="link-add-produto" class="nav-link" title="Adicionar Produto"
+        style="display: none;">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </a>
+      <!-- CARRINHO -->
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <!-- HEADER DA PRÉVIA -->
+          <div class="carrinho-preview-header">
+            <strong>Prévia do carrinho</strong>
+            <span>Últimos itens adicionados</span>
+          </div>
+          <!-- ITENS -->
+          <div id="preview-carrinho" class="preview-carrinho"></div>
+          <!-- INFO UX -->
+          <p class="carrinho-info">
+            Mostrando até <strong>3 itens</strong>.
+            Clique em um produto para <strong>ver a página do produto</strong>.
+          </p>
+          <!-- RESUMO -->
+          <p class="carrinho-resumo">
+            <strong id="resumo-itens">0</strong> itens no carrinho
+          </p>
+          <p class="carrinho-total" id="total-carrinho">
+            Total: R$ 0,00
+          </p>
+          <!-- CTA -->
+          <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+            Ver carrinho completo
+          </a>
+        </div>
+      </div>
+      <!-- FIM DO CARRINHO -->
+    </nav>
+  </header>
 
     <main class="produtos-page">
       <div class="page-header">

@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>EcoMarket - Produtos ecológicos e sustentáveis</title>
-    <meta name="description" content="EcoMarket - marketplace local de produtos ecológicos, sustentáveis e regionais. Conectando consumidores conscientes a pequenos produtores." />
-    <meta name="keywords" content="marketplace, produtos ecológicos, sustentáveis, comércio local, EcoMarket, Santa Maria da Vitória" />
-    <meta name="author" content="Victor Manoel e equipe do projeto EcoMarket Samavi" />
-    <meta name="robots" content="index, follow" />
-    <!-- Open Graph -->
-    <meta property="og:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
-    <meta property="og:description" content="Marketplace local conectando consumidores conscientes a pequenos produtores." />
-    <meta property="og:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
-    <meta property="og:url" content="https://ecomarket-samavi.vercel.app/index.html" />
-    <meta property="og:type" content="website" />
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="EcoMarket - Produtos ecológicos e sustentáveis" />
-    <meta name="twitter:description" content="Marketplace local para produtos sustentáveis e regionais." />
-    <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app/assets/img/banner.png" />
-    <!-- LINKS CSS E ICON -->
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="./assets/css/componentes/carrinho.css">
-    <link rel="stylesheet" href="./assets/css/componentes/feedback.css">
-    <link rel="stylesheet" href="./assets/css/base/variaveis.css"/>
-    <link rel="stylesheet" href="./assets/css/base/base.css"/>
-    <link rel="stylesheet" href="./assets/css/componentes/botoes.css">
-    <link rel="stylesheet" href="./assets/css/paginas/produtos.css">
-    <link rel="stylesheet" href="./assets/css/paginas/home.css"/>
+  <!-- Básico -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- SEO principal -->
+  <title>AssociArte Marketplace</title>
+  <meta name="description"
+        content="AssociArte Marketplace é um mercado digital de produtos artesanais e sustentáveis, conectando a associação a consumidores conscientes.">
+  <meta name="author" content="Victor Manoel">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+  <meta property="og:title" content="AssociArte Marketplace">
+  <meta property="og:description"
+        content="Marketplace de produtos artesanais, sustentáveis e regionais da associação AssociArte.">
+  <meta property="og:image" content="https://associarte-marketplace.vercel.app/assets/img/banner.png">
+  <meta property="og:url" content="https://associarte-marketplace.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AssociArte Marketplace">
+  <meta name="twitter:description"
+        content="Produtos artesanais e sustentáveis vendidos pela associação AssociArte.">
+  <meta name="twitter:image" content="https://associarte-marketplace.vercel.app/assets/img/banner.png">
+  <!-- Favicon -->
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+  <!-- Fontes e ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- CSS base -->
+  <link rel="stylesheet" href="./assets/css/base/variaveis.css">
+  <link rel="stylesheet" href="./assets/css/base/base.css">
+  <!-- Componentes -->
+  <link rel="stylesheet" href="./assets/css/componentes/botoes.css">
+  <link rel="stylesheet" href="./assets/css/componentes/carrinho.css">
+  <link rel="stylesheet" href="./assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="./assets/css/paginas/produtos.css">
+  <!-- Página -->
+  <link rel="stylesheet" href="./assets/css/paginas/home.css">
 </head>
+
 <body>
     <!-- CABEÇALHO -->
     <header class="banner">
@@ -38,13 +51,14 @@
             <!-- BARRA DE NAVEGAÇÃO -->
             <nav class="navbar">
                 <div class="logo">
-                    <img src="../assets/img/logo.png" alt="Logo EcoMarket">
+                    <img src="../assets/img/logo.png" alt="Logo AssociArte">
                 </div>
-
                 <!-- MENU PRINCIPAL -->
                 <nav>
                     <ul>
-                        <li><p id="saudacao"></p></li>
+                        <li>
+                            <p id="saudacao"></p>
+                        </li>
                         <li><a href="../paginas/produtos.html">Produtos</a></li>
                         <li><a href="../paginas/contatos.html">Fale Conosco</a></li>
                         <!-- Itens que mudam -->
@@ -53,26 +67,37 @@
                         <li id="link-logout"><a id="btn-logout-menu">Sair</a></li>
                     </ul>
                 </nav>
-
                 <!-- CARRINHO -->
                 <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="contador-carrinho">0</span>
                     <div class="carrinho-dropdown" id="carrinho-dropdown">
-                    <div id="preview-carrinho" class="preview-carrinho"></div>
+                        <!-- HEADER DA PRÉVIA -->
+                        <div class="carrinho-preview-header">
+                            <strong>Prévia do carrinho</strong>
+                            <span>Últimos itens adicionados</span>
+                        </div>
+                        <!-- ITENS -->
+                        <div id="preview-carrinho" class="preview-carrinho"></div>
+                        <!-- INFO UX -->
+                        <p class="carrinho-info">
+                            Mostrando até <strong>3 itens</strong>.
+                            Clique em um produto para <strong>ver a página do produto</strong>.
+                        </p>
+                        <!-- RESUMO -->
                         <p class="carrinho-resumo">
                             <strong id="resumo-itens">0</strong> itens no carrinho
                         </p>
                         <p class="carrinho-total" id="total-carrinho">
                             Total: R$ 0,00
                         </p>
+                        <!-- CTA -->
                         <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                        Ver carrinho
+                            Ver carrinho completo
                         </a>
                     </div>
                 </div>
                 <!-- FIM DO CARRINHO -->
-
             </nav>
 
             <!-- BANNER -->
@@ -142,4 +167,5 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

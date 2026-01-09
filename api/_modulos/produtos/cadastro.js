@@ -1,3 +1,5 @@
+
+import { verificarAuth } from '../middlewares/auth.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -15,22 +17,27 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' });
   }
 
+  const usuario = verificarAuth(req, res);
+  if (!usuario) {
+    return res.status(403).json({ message: 'Usuário não autorizado' });
+  }
+
+  // ✅ PADRÃO ÚNICO DE CARGO
+  if (usuario.cargo !== 'vendedor' && usuario.cargo !== 'administrador') {
+    return res.status(403).json({ message: 'Permissão insuficiente' });
+  }
+
   let fotosUrls = [];
 
   try {
     await client.connect();
     const db = client.db('marketplace');
 
-    const { usuarioId, nome, descricao, preco, categoria, fotosBase64 } = req.body;
+    const { nome, descricao, preco, categoria, fotosBase64 } = req.body;
+    const usuarioId = usuario.id;
 
-    // ===== Validações básicas =====
-    if (
-      !usuarioId ||
-      !nome?.trim() ||
-      !descricao?.trim() ||
-      !categoria?.trim() ||
-      !preco
-    ) {
+    // ===== Validações =====
+    if (!nome?.trim() || !descricao?.trim() || !categoria?.trim() || !preco) {
       return res.status(400).json({ error: 'Preencha todos os campos obrigatórios' });
     }
 
@@ -47,27 +54,20 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Máximo de 5 imagens por produto' });
     }
 
-    // ===== Buscar vendedor =====
-    const vendedor = await db.collection('usuarios').findOne({
-      _id: new ObjectId(usuarioId)
-    });
-
-    if (!vendedor || vendedor.cargo !== 'vendedor') {
-      return res.status(403).json({ error: 'Usuário não autorizado' });
-    }
-
-    // ===== Verificar limite =====
-    const totalProdutos = await db.collection('produtos').countDocuments({
-      usuarioId: new ObjectId(usuarioId)
-    });
-
-    if (totalProdutos >= 5) {
-      return res.status(403).json({
-        error: 'Limite de 5 produtos atingido'
+    // ===== Limite só para vendedor =====
+    if (usuario.cargo === 'vendedor') {
+      const totalProdutos = await db.collection('produtos').countDocuments({
+        usuarioId: new ObjectId(usuarioId)
       });
+
+      if (totalProdutos >= 5) {
+        return res.status(403).json({
+          error: 'Limite de 5 produtos atingido'
+        });
+      }
     }
 
-    // ===== Upload das imagens =====
+    // ===== Upload =====
     for (const foto of fotosBase64) {
       const result = await cloudinary.uploader.upload(foto, {
         folder: 'eco-marketplace'
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // ===== Salvar produto =====
+    // ===== Produto =====
     const produto = {
       usuarioId: new ObjectId(usuarioId),
       nome,
@@ -89,7 +89,8 @@ export default async function handler(req, res) {
       fotos: fotosUrls,
       status: 'ativo',
       dataCadastro: new Date(),
-      vendedorEmail: vendedor.email
+      vendedorEmail: usuario.email, // ✅ vem do token
+      cargoCriador: usuario.cargo
     };
 
     const insert = await db.collection('produtos').insertOne(produto);
@@ -102,7 +103,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Erro no cadastro:', error);
 
-    // 🔥 ROLLBACK CLOUDINARY
+    // 🔥 Rollback Cloudinary
     for (const foto of fotosUrls) {
       if (foto.public_id) {
         await cloudinary.uploader.destroy(foto.public_id);

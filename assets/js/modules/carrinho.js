@@ -133,6 +133,10 @@ function updateListaItens() {
       </div>
     </div>
   `).join('');
+  // 👇 anima depois de renderizar
+  requestAnimationFrame(() => {
+    animarItensCarrinho(lista);
+  });
 
   // Eventos dos botões da lista
   lista.querySelectorAll('.btn-mais').forEach(btn => {
@@ -153,11 +157,21 @@ function updateListaItens() {
 
   lista.querySelectorAll('.btn-remover').forEach(btn => {
     btn.addEventListener('click', () => {
-      carrinho = carrinho.filter(item => item.id !== btn.dataset.id);
-      persistirCarrinho();
-      mostrarFeedback('Produto removido do carrinho.', 'aviso');
+      const card = btn.closest('.item-carrinho');
+      const id = btn.dataset.id;
+
+      if (card) {
+        card.classList.add('item-removendo');
+
+        setTimeout(() => {
+          carrinho = carrinho.filter(item => item.id !== id);
+          persistirCarrinho();
+          mostrarFeedback('Produto removido do carrinho.', 'aviso');
+        }, 250);
+      }
     });
   });
+
 
   // Clique na imagem ou nome
   lista.querySelectorAll('.img-detalhes, .link-detalhes').forEach(el => {
@@ -321,5 +335,17 @@ function validarCarrinhoAntesDeContinuar() {
         window.location.href = '/index.html';
       }, 3000);
     }
+  });
+}
+
+function animarItensCarrinho(container) {
+  const itens = container.querySelectorAll('.item-carrinho');
+
+  itens.forEach((item, index) => {
+    if (item.classList.contains('item-visivel')) return;
+
+    setTimeout(() => {
+      item.classList.add('item-visivel');
+    }, index * 60);
   });
 }

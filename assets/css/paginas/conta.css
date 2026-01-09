@@ -11,6 +11,22 @@ body {
   color: var(--cinza-pedra);
 }
 
+header .header-nav a {
+  font-size: 2rem;
+}
+
+header .header-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+header .header-info {
+  text-align: center;
+}
+
+.header-nav .carrinho-icone {
+  height: 32px;
+}
+
 /* =============================================
   LAYOUT PRINCIPAL (MOBILE FIRST)
 ============================================= */
@@ -184,6 +200,17 @@ main {
   border-top: 1px solid #eee;
 }
 
+.pedido-vendedor-card {
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.pedido-vendedor-card.pedido-visivel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* =============================================
   FILTROS
 ============================================= */
@@ -228,6 +255,9 @@ main {
   .card-perfil {
     padding: 2.5rem;
     padding-bottom: 1.5rem;
+  }
+  header .header-info {
+    text-align: left;
   }
 }
 

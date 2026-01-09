@@ -1,59 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Meus Pedidos - EcoMarket Samavi</title>
-  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
-  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meus Pedidos | AssociArte Marketplace</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+  <!-- Fontes e ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
   <link rel="stylesheet" href="../assets/css/base/base.css">
+  <!-- Componentes -->
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
   <link rel="stylesheet" href="../assets/css/componentes/carrinho.css">
-  <link rel="stylesheet" href="../assets/css/paginas/pedidos.css"/>
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Página -->
+  <link rel="stylesheet" href="../assets/css/paginas/pedidos.css" />
 </head>
+
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback"></div>
 
   <header>
     <div class="header-info">
-        <h1>Meus Pedidos</h1>
+      <h1>Meus Pedidos</h1>
     </div>
     <nav class="header-nav">
-        <a href="/paginas/conta.html" title="Minha Conta"><ion-icon name="person-circle-outline" role="img" class="md hydrated"></ion-icon></a>
-        <a href="/index.html" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a>
-        <!-- CARRINHO -->
-          <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-              <i class="fas fa-shopping-cart"></i>
-              <span id="contador-carrinho">0</span>
-              <div class="carrinho-dropdown" id="carrinho-dropdown">
-                <div id="preview-carrinho" class="preview-carrinho"></div>
-                  <p class="carrinho-resumo">
-                      <strong id="resumo-itens">0</strong> itens no carrinho
-                  </p>
-                  <p class="carrinho-total" id="total-carrinho">
-                      Total: R$ 0,00
-                  </p>
-                  <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                  Ver carrinho
-                  </a>
-              </div>
+      <a href="/paginas/conta.html" title="Minha Conta"><ion-icon name="person-circle-outline" role="img"
+          class="md hydrated"></ion-icon></a>
+      <a href="/index.html" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a>
+      <!-- CARRINHO -->
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <!-- HEADER DA PRÉVIA -->
+          <div class="carrinho-preview-header">
+            <strong>Prévia do carrinho</strong>
+            <span>Últimos itens adicionados</span>
           </div>
-        <!-- FIM DO CARRINHO -->
+          <!-- ITENS -->
+          <div id="preview-carrinho" class="preview-carrinho"></div>
+          <!-- INFO UX -->
+          <p class="carrinho-info">
+            Mostrando até <strong>3 itens</strong>.
+            Clique em um produto para <strong>ver a página do produto</strong>.
+          </p>
+          <!-- RESUMO -->
+          <p class="carrinho-resumo">
+            <strong id="resumo-itens">0</strong> itens no carrinho
+          </p>
+          <p class="carrinho-total" id="total-carrinho">
+            Total: R$ 0,00
+          </p>
+          <!-- CTA -->
+          <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+            Ver carrinho completo
+          </a>
+        </div>
+      </div>
+      <!-- FIM DO CARRINHO -->
     </nav>
   </header>
 
   <main>
     <section class="fundo">
       <h2>Pedidos Enviados</h2>
-      <p style="text-align: justify;">Aqui estão os pedidos que você registrou, aguarde a resposta do vendedor para combinar o pagamento e entrega do(s) produto(s).</p>
-        <div id="lista-pedidos">
-      <!-- Pedidos serão renderizados aqui pelo pedidos.js -->
-        </div>
+      <p style="text-align: justify;">Aqui estão os pedidos que você registrou, aguarde a resposta do vendedor para
+        combinar o pagamento e entrega do(s) produto(s).</p>
+      <div id="lista-pedidos">
+        <!-- Pedidos serão renderizados aqui pelo pedidos.js -->
+      </div>
     </section>
   </main>
 
@@ -77,4 +100,5 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

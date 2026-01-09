@@ -41,8 +41,8 @@ body {
 }
 
 .btn:hover {
-  background: var(--verde-folha);
-  color: var(--branco-neve);
+  background: var(--cor-borda);
+  color: var(--cor-texto);
 }
 
 .titulo,
@@ -112,6 +112,7 @@ nav ul li a {
   color: var(--branco-neve);
   font-weight: 600;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 nav ul li a:hover {
@@ -136,7 +137,6 @@ nav ul li a:hover {
 #link-logout.visivel, 
 #icone-carrinho.visivel {
     display: inline-block;
-    cursor: pointer;
 }
 
 #saudacao {
@@ -278,6 +278,18 @@ nav ul li a:hover {
 /* =============================================
   RESPONSIVIDADE
 ============================================= */
+  @media (min-width: 570px) and (max-width: 1024px) {
+  .home-page .produtos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-page .produtos-grid > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;     /* ocupa a linha inteira */
+    justify-self: center;   /* centraliza */
+    width: 100%;            /* ativa min/max */
+    max-width: 420px;
+  }
+}
+
   @media (max-width: 840px) {
     #link-minha-conta.visivel,
     #link-login.visivel,
@@ -296,7 +308,7 @@ nav ul li a:hover {
 
   nav ul li{
     display: block;
-    margin: 10px 30px;
+    margin: 10px 20px;
     padding: 2px;
   }
   .rodape img {

@@ -33,7 +33,7 @@ export function mostrarFeedback(mensagem, tipo = 'sucesso', tempo = 3000) {
 export function criarLoader(texto = "Carregando...") {
   return `
     <div class="loader-container" role="status" aria-live="polite" style="text-align:center; padding:2rem;">
-      <div class="loader-spinner" style="border: 6px solid #FFFFFF; border-top: 6px solid #3A6351; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto;"></div>
+      <div class="loader-spinner" style="border: 6px solid #FFFFFF; border-top: 6px solid var(--cor-primaria); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto;"></div>
       <p>${texto}</p>
     </div>
   `;
@@ -49,9 +49,9 @@ export function criarLoader(texto = "Carregando...") {
  */
 export function criarMensagemErro(texto, tipo = 'erro', btnId = null, btnTexto = '<i class="fa-solid fa-rotate"></i> Tentar novamente') {
   return `
-    <div class="erro-ecocommerce" role="alert" style="text-align:center; background-color: #FFFFFF; color: #4F4F4F; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin: 1rem auto; max-width: 500px; border: 2px solid #3A6351;">
-      <i class="fas fa-${tipo === 'erro' ? 'leaf' : 'info-circle'}" style="font-size: 32px; color: #3A6351;" aria-hidden="true"></i>
-      <h3 style="margin-top: 12px; color: #3A6351;">${texto}</h3>
+    <div class="erro-ecocommerce" role="alert" style="text-align:center; background-color: #FFFFFF; color: #4F4F4F; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin: 1rem auto; max-width: 500px; border: 2px solid var(--cor-primaria);">
+      <i class="fas fa-${tipo === 'erro' ? 'leaf' : 'info-circle'}" style="font-size: 32px; color: var(--cor-primaria);" aria-hidden="true"></i>
+      <h3 style="margin-top: 12px; color: var(--cor-primaria);">${texto}</h3>
       ${btnId ? `<button id="${btnId}" class="btn-tentar-novamente">${btnTexto}</button>` : ''}
     </div>
   `;
@@ -67,9 +67,9 @@ export function criarMensagemErro(texto, tipo = 'erro', btnId = null, btnTexto =
  */
 export function mostrarErro(container, mensagemPrincipal, mensagemSecundaria, retryCallback, idBotao = 'tentar-novamente') {
   container.innerHTML = `
-    <div class="erro-ecocommerce" role="alert" style="text-align:center; background-color: #FFFFFF; color: #4F4F4F; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin: 1rem auto; max-width: 500px; border: 2px solid #3A6351;">
-      <i class="fas fa-leaf" style="font-size: 32px; color: #3A6351;" aria-hidden="true"></i>
-      <h3 style="margin-top: 12px; color: #3A6351;">${mensagemPrincipal}</h3>
+    <div class="erro-ecocommerce" role="alert" style="text-align:center; background-color: #FFFFFF; color: #4F4F4F; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin: 1rem auto; max-width: 500px; border: 2px solid var(--cor-primaria);">
+      <i class="fas fa-leaf" style="font-size: 32px; color: var(--cor-primaria);" aria-hidden="true"></i>
+      <h3 style="margin-top: 12px; color: var(--cor-primaria);">${mensagemPrincipal}</h3>
       ${mensagemSecundaria ? `<p style="margin: 10px 0; color: #4F4F4F;">${mensagemSecundaria}</p>` : ''}
       <button id="${idBotao}" class="btn-tentar-novamente"><i class="fa-solid fa-rotate"></i> Tentar novamente</button>
     </div>
@@ -96,9 +96,12 @@ export function previewImagens(input, containerId) {
     reader.onload = e => {
       const img = document.createElement('img');
       img.src = e.target.result;
-      img.style.maxWidth = '500px';
-      img.style.marginRight = '8px';
+      img.classList.add('preview-img');
       container.appendChild(img);
+      // força reflow para garantir animação
+      requestAnimationFrame(() => {
+        img.classList.add('preview-ativa');
+      });
     };
     reader.readAsDataURL(file);
   });
@@ -126,8 +129,13 @@ export function renderizarPreviewFotos(containerId, fotos, opcoes = {}) {
   fotos.forEach((foto) => {
     const img = document.createElement('img');
     img.src = foto;
-    img.classList.add(classeImagem, 'preview-animada');
+    img.classList.add(classeImagem);
     container.appendChild(img);
+    img.getBoundingClientRect();
+    // anima após entrar no DOM
+    requestAnimationFrame(() => {
+      img.classList.add('preview-ativa');
+    });
   });
 }
 
@@ -146,5 +154,35 @@ export function previewImagensInput(inputFile, containerId, options = {}) {
     };
 
     reader.readAsDataURL(file);
+  });
+}
+
+export function animarCardsProdutos(container) {
+  const cards = container.querySelectorAll('.produto-card');
+
+  cards.forEach((card, index) => {
+    // garante estado inicial
+    card.classList.remove('card-ativa');
+
+    // força reflow
+    card.getBoundingClientRect();
+
+    // anima em cascata
+    setTimeout(() => {
+      card.classList.add('card-ativa');
+    }, index * 70);
+  });
+}
+
+export function animarPedidos(container = document) {
+  const cards = container.querySelectorAll('.pedido-vendedor-card');
+
+  cards.forEach((card, index) => {
+    // evita reanimar os que já apareceram
+    if (card.classList.contains('pedido-visivel')) return;
+
+    setTimeout(() => {
+      card.classList.add('pedido-visivel');
+    }, index * 80);
   });
 }

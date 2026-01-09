@@ -2,17 +2,26 @@
 <html lang="pt-br">
 
 <head>
+  <!-- Básico -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
-  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- SEO principal -->
+  <title>Editar Produto | AssociArte Marketplace</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Favicon e Icones-->
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
   <link rel="stylesheet" href="../assets/css/base/base.css">
+  <!-- Componentes -->
+  <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
+  <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <link rel="stylesheet" href="../assets/css/componentes/modal.css">
+  <link rel="stylesheet" href="../assets/css/componentes/preview.css">
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/editprod.css"/>
-  <title>Editar Produto</title>
 </head>
 
 <body>
@@ -20,8 +29,7 @@
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <header>
     <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-        <img src="../assets/img/logo-300.png" alt="Logo EcoMarket" />
-        <h1>EcoMarket SAMAVI</h1>
+        <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
     </a>
     <div class="header-nav">
       <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
@@ -73,7 +81,7 @@
         <label for="foto">Imagem do produto</label>
         <input type="file" id="foto" accept="image/*" />
 
-        <div id="preview-fotos"></div>
+        <div id="preview-fotos" class="preview-fotos"></div>
 
         <button type="button" id="btn-remover-nova-foto" class="btn-remover hidden">
           Remover nova foto

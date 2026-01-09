@@ -22,7 +22,7 @@ body header {
 .container {
   width: 100%;
   max-width: 1100px;
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--branco-neve);
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -90,7 +90,7 @@ form#form-produto {
 
   .form-campos { grid-area: campos; display: flex; flex-direction: column; gap: 0.9rem; }
   .form-imagem { grid-area: imagem; display: flex; flex-direction: column; gap: 0.9rem; position: sticky; top: 1.5rem; }
-  .form-acoes { grid-area: acoes; display: flex; justify-content: flex-end; gap: 1rem; }
+  .form-acoes { grid-area: imagem; display: flex; justify-content: flex-end; gap: 1rem; align-self: end;}
 }
 
 /* =============================================
@@ -132,7 +132,7 @@ input[type="file"]:focus {
 
 textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 370px;
 }
 
 /* =============================================
@@ -147,12 +147,14 @@ textarea {
 }
 
 #preview-fotos img {
-  max-width: 420px;
   width: 100%;
   height: auto;
+  max-height: 488px;
   border-radius: 10px;
   border: 2px solid var(--verde-claro);
   object-fit: cover;
+  max-width: 500px;
+  margin-right: 8px;
 }
 
 /* =============================================

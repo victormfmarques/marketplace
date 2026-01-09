@@ -1,8 +1,14 @@
-/* assets/css/vendedor.css */
+/* =================================
+  ARQUIVO: assets/css/paginas/vendedor.css
+  PÁGINA: PERFIL DO VENDEDOR
+==================================*/
+
+/*==================================
+  BODY
+==================================*/
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #F2E8CF; /* --bege-areia */
+    background-color: var(cor-fundo);
     margin: 0;
 }
 
@@ -10,7 +16,7 @@ body {
   CABEÇALHO DO PERFIL
 ================================== */
 .perfil-header {
-    background: #3A6351;
+    background: var(--verde-folha);
     color: #FFFFFF; /* --branco-neve */
     padding: 1rem 1rem;
     text-align: center;
@@ -68,8 +74,8 @@ body {
 }
 
 h2 {
-    color: #3A6351;
-    border-bottom: 2px solid #A8C686;
+    color: var(--verde-folha);
+    border-bottom: 2px solid var(--cor-primaria-clara);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }

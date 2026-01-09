@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+  <!-- Básico-->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- SEO -->
-  <title>EcoMarket - Perfil do Usuário</title>
-  <meta name="description" content="Atualize seus dados pessoais, visualize seus produtos e gerencie sua conta no EcoMarket Samavi." />
-  <meta name="keywords" content="perfil, conta, usuário, EcoMarket, Samavi, produtos, atualização de dados" />
-  <meta name="author" content="EcoMarket Samavi" />
+  <title>AssociArte - Perfil do Usuário</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Atualize seus dados pessoais, visualize seus produtos e gerencie sua conta no AssociArte Marketplace." />
+  <meta name="keywords" content="perfil, conta, usuário, AssociArte, Marketplace, produtos, atualização de dados" />
+  <meta name="author" content="Victor Manoel" />
   <meta name="robots" content="noindex, nofollow" />
   <!-- Open Graph -->
-  <meta property="og:title" content="EcoMarket - Perfil do Usuário" />
-  <meta property="og:description" content="Gerencie seu perfil e visualize os produtos que você publicou no EcoMarket Samavi." />
-  <meta property="og:image" content="https://ecomarket-samavi.vercel.app.com/assets/img/logo-300.png" />
-  <meta property="og:url" content="https://ecomarket-samavi.vercel.app.com/paginas/conta.html" />
+  <meta property="og:title" content="AssociArte - Perfil do Usuário" />
+  <meta property="og:description"
+    content="Gerencie seu perfil e visualize os produtos que você publicou no AssociArte Marketplace." />
+  <meta property="og:image" content="https://associarte-marketplace.vercel.app.com/assets/img/logo-300.png" />
+  <meta property="og:url" content="https://associarte-marketplace.vercel.app.com/paginas/conta.html" />
   <meta property="og:type" content="website" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="EcoMarket - Perfil do Usuário" />
-  <meta name="twitter:description" content="Gerencie seu perfil e visualize os produtos que você publicou no EcoMarket Samavi." />
-  <meta name="twitter:image" content="https://ecomarket-samavi.vercel.app.com/assets/img/logo-300.png" />
-  <!-- Ícone e CSS -->
+  <meta name="twitter:title" content="AssociArte - Perfil do Usuário" />
+  <meta name="twitter:description"
+    content="Gerencie seu perfil e visualize os produtos que você publicou no AssociArte Samavi." />
+  <meta name="twitter:image" content="https://associarte-marketplace.vercel.app.com/assets/img/logo-300.png" />
+  <!-- Favicon e Icones -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Básico -->
+  <link rel="stylesheet" href="../assets/css/base/variaveis.css"/>
+  <link rel="stylesheet" href="../assets/css/base/base.css"/>
+  <!-- Componentes -->
   <link rel="stylesheet" href="../assets/css/componentes/carrinho.css">
   <link rel="stylesheet" href="../assets/css/componentes/modal.css">
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
-  <link rel="stylesheet" href="../assets/css/base/base.css" />
-  <link rel="stylesheet" href="../assets/css/base/variaveis.css" />
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
   <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/produtos.css">
-  <link rel="stylesheet" href="../assets/css/paginas/conta.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/paginas/conta.css" />
 </head>
+
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback"></div>
@@ -45,22 +54,35 @@
     <nav class="header-nav">
       <a href="/index.html" title="Página Inicial"><ion-icon name="home-outline"></ion-icon></a>
       <!-- CARRINHO -->
-        <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="contador-carrinho">0</span>
-            <div class="carrinho-dropdown" id="carrinho-dropdown">
-              <div id="preview-carrinho" class="preview-carrinho"></div>
-                <p class="carrinho-resumo">
-                    <strong id="resumo-itens">0</strong> itens no carrinho
-                </p>
-                <p class="carrinho-total" id="total-carrinho">
-                    Total: R$ 0,00
-                </p>
-                <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
-                Ver carrinho
-                </a>
-            </div>
+      <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="contador-carrinho">0</span>
+        <div class="carrinho-dropdown" id="carrinho-dropdown">
+          <!-- HEADER DA PRÉVIA -->
+          <div class="carrinho-preview-header">
+            <strong>Prévia do carrinho</strong>
+            <span>Últimos itens adicionados</span>
+          </div>
+          <!-- ITENS -->
+          <div id="preview-carrinho" class="preview-carrinho"></div>
+          <!-- INFO UX -->
+          <p class="carrinho-info">
+            Mostrando até <strong>3 itens</strong>.
+            Clique em um produto para <strong>ver a página do produto</strong>.
+          </p>
+          <!-- RESUMO -->
+          <p class="carrinho-resumo">
+            <strong id="resumo-itens">0</strong> itens no carrinho
+          </p>
+          <p class="carrinho-total" id="total-carrinho">
+            Total: R$ 0,00
+          </p>
+          <!-- CTA -->
+          <a href="/paginas/carrinho.html" class="btn-ver-carrinho">
+            Ver carrinho completo
+          </a>
         </div>
+      </div>
       <!-- FIM DO CARRINHO -->
     </nav>
   </header>
@@ -88,7 +110,8 @@
         </div>
         <div class="form-group">
           <label for="insenha">Nova Senha (opcional)</label>
-          <input type="password" name="nsenha" id="insenha" minlength="8" placeholder="Deixe em branco para não alterar">
+          <input type="password" name="nsenha" id="insenha" minlength="8"
+            placeholder="Deixe em branco para não alterar">
         </div>
         <div class="botoes-container">
           <button type="submit" id="enviar" class="btn btn-primario">Atualizar Dados</button>
@@ -104,19 +127,20 @@
     <section id="editor-perfil-vendedor" class="card-perfil" style="display: none;">
       <h2>Meu Perfil de Vendedor</h2>
       <form id="form-perfil-vendedor">
-          <div class="form-group">
-              <label for="foto-perfil-input">Foto de Perfil</label>
-              <div class="foto-perfil-preview-container">
-                  <img id="foto-perfil-preview" src="/assets/img/placeholder.png" alt="Pré-visualização da foto de perfil">
-              </div>
-              <input type="file" id="foto-perfil-input" accept="image/png, image/jpeg">
-              <small>Use uma imagem quadrada para melhores resultados.</small>
+        <div class="form-group">
+          <label for="foto-perfil-input">Foto de Perfil</label>
+          <div class="foto-perfil-preview-container">
+            <img id="foto-perfil-preview" src="/assets/img/placeholder.png" alt="Pré-visualização da foto de perfil">
           </div>
-          <div class="form-group">
-              <label for="sobre-mim-textarea">Sobre Mim</label>
-              <textarea id="sobre-mim-textarea" rows="6" placeholder="Conte um pouco sobre você, sua história e seu trabalho..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primario">Salvar Perfil de Vendedor</button>
+          <input type="file" id="foto-perfil-input" accept="image/png, image/jpeg">
+          <small>Use uma imagem quadrada para melhores resultados.</small>
+        </div>
+        <div class="form-group">
+          <label for="sobre-mim-textarea">Sobre Mim</label>
+          <textarea id="sobre-mim-textarea" rows="6"
+            placeholder="Conte um pouco sobre você, sua história e seu trabalho..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primario">Salvar Perfil de Vendedor</button>
       </form>
     </section>
 
@@ -129,7 +153,8 @@
     <!-- CARD 4: PAINEL DE GESTÃO DE PEDIDOS -->
     <section id="secao-gestao-pedidos" class="card-perfil" style="display: none;">
       <h2>Gestão de Pedidos Recebidos</h2>
-      <p>Aqui estão os pedidos que contêm produtos seus. Você é responsável por entrar em contato com o comprador para combinar o pagamento e a entrega.</p>
+      <p>Aqui estão os pedidos que contêm produtos seus. Você é responsável por entrar em contato com o comprador para
+        combinar o pagamento e a entrega.</p>
 
       <div id="filtros-pedidos-vendedor" class="filtros-container">
         <button class="filtro-btn active" data-status="todos">Todos</button>
@@ -140,7 +165,7 @@
         <button class="filtro-btn" data-status="cancelado">Cancelados</button>
       </div>
 
-       <!-- O contêiner onde os cards de pedido serão renderizados -->
+      <!-- O contêiner onde os cards de pedido serão renderizados -->
       <div id="pedidos-vendedor-container">
         <!-- O JavaScript vai renderizar os pedidos aqui -->
       </div>
@@ -174,4 +199,5 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

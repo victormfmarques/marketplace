@@ -4,7 +4,7 @@
 import { setProdutos, encontrarProdutoPorId } from './store.js';
 import { adicionarAoCarrinho } from './carrinho.js';
 import { produtosAPI } from './api.js';
-import { criarMensagemErro } from './ui.js';
+import { criarMensagemErro, animarCardsProdutos } from './ui.js';
 // =======================================================================
 
 if (!window.mostrarErro) {
@@ -47,6 +47,8 @@ function renderizarProdutos(produtos, basePath = '') {
           <img
             src="${imagem}"
             alt="${produto.nome}"
+            loading="lazy"
+            onload="this.closest('.produto-card')?.classList.add('card-img-ok')"
             onerror="this.src='${produtoConfig.placeholderImage}'"
           >
         </a>
@@ -134,6 +136,8 @@ export async function carregarProdutos(containerId, params = {}) {
     // PASSA O basePath PARA A FUNÇÃO DE RENDERIZAÇÃO
     container.innerHTML = renderizarProdutos(result.data, basePath); 
     configurarEventosProdutos();
+    // ANIMAÇÃO
+    animarCardsProdutos(container);
 
   } catch (error) {
     console.error('Erro ao carregar produtos:', error);
@@ -153,7 +157,7 @@ export function inicializarProdutos() {
     const larguraTela = window.innerWidth;
     let limite = 8;
 
-    if (larguraTela < 480) limite = 2;
+    if (larguraTela < 480) limite = 3;
     else if (larguraTela < 768) limite = 4;
     else if (larguraTela < 1154) limite = 6;
 
@@ -170,10 +174,3 @@ window.carregarProdutos = carregarProdutos;
 window.inicializarProdutos = inicializarProdutos;
 
 export { renderizarProdutos, configurarEventosProdutos };
-
-window.addEventListener('resize', () => {
-  clearTimeout(window.__resizeTimer);
-  window.__resizeTimer = setTimeout(() => {
-    if (document.getElementById('produtos-destaque')) inicializarProdutos();
-  }, 300);
-});

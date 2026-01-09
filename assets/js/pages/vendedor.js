@@ -39,7 +39,7 @@ function renderizarHeader(vendedor) {
 function renderizarSobre(vendedor) {
     const sobreTexto = document.querySelector('.vendedor-sobre-texto');
     if (!sobreTexto) return;
-    
+
     sobreTexto.textContent = vendedor.sobre || 'Este vendedor ainda não escreveu sobre si mesmo.';
 }
 
@@ -56,7 +56,13 @@ function renderizarProdutos(produtos) {
     grid.innerHTML = produtos.map(produto => `
         <div class="produto-card">
             <a href="/paginas/detalhes-produto.html?id=${produto._id}" class="produto-link">
-                <img src="${produto.fotos?.[0] || '/assets/img/placeholder.png'}" alt="${produto.nome}">
+                <img 
+                src="${typeof produto.fotos?.[0] === 'string'
+                            ? produto.fotos[0]
+                            : produto.fotos?.[0]?.url || '/assets/img/placeholder.png'
+                        }" 
+                alt="${produto.nome}"
+                >
             </a>
             <div class="produto-info">
                 <h3>${produto.nome}</h3>
@@ -79,13 +85,13 @@ async function inicializarPagina() {
     }
 
     const grid = document.getElementById('produtos-grid');
-    if(grid) grid.innerHTML = criarLoader('Carregando perfil...');
+    if (grid) grid.innerHTML = criarLoader('Carregando perfil...');
 
     try {
         const data = await vendedorAPI.getPerfil(vendedorId);
-        
+
         // Define o título da página
-        document.title = `${data.vendedor.nome} - EcoMarket-SAMAVI`;
+        document.title = `${data.vendedor.nome} - AssociArte Marketplace`;
 
         // Renderiza cada parte da página
         renderizarHeader(data.vendedor);
