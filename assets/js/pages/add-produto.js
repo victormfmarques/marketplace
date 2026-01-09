@@ -1,7 +1,7 @@
 import { validarLimiteProdutos } from '../modules/regras-produtos.js';
 import { cadastrarProduto } from '../modules/produtos.js';
 import { mostrarFeedback, previewImagens } from '../modules/ui.js';
-import { toBase64 } from '../modules/utils.js';
+import { imageToCompressedBase64 } from '../modules/utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
