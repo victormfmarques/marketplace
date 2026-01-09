@@ -61,6 +61,8 @@ function renderizarProdutos(produtos) {
                             ? produto.fotos[0]
                             : produto.fotos?.[0]?.url || '/assets/img/placeholder.png'
                         }" 
+                loading="lazy"
+                onload="this.closest('.produto-card')?.classList.add('card-img-ok')"
                 alt="${produto.nome}"
                 >
             </a>
