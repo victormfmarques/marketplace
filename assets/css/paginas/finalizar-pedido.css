@@ -80,11 +80,6 @@ body {
   background-color: var(--marrom-terra);
 }
 
-.btn-voltar ion-icon,
-#registrar-pedido ion-icon {
-  font-size: 1.5rem;
-}
-
 /* =============================================
    PRODUTOS DO RESUMO
 ============================================= */
@@ -124,7 +119,7 @@ body {
 }
 
 .produto a.whatsapp {
-  color: var(--verde-folha);
+  color: var(--cor-sucesso);
 }
 
 .produto a.whatsapp:hover {

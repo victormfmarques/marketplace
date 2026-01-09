@@ -116,7 +116,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #1f5e21;
+  color: var(--cor-primaria);
   font-weight: 600;
   text-decoration: none;
 }

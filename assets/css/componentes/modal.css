@@ -1,5 +1,5 @@
 /* =======================================================================
-   ARQUIVO: assets/css/modal.css (ou feedback.css)
+   ARQUIVO: assets/css/componentes/modal.css
    CSS UNIVERSAL PARA TODOS OS MODAIS DO PROJETO
 ======================================================================= */
 
@@ -58,14 +58,14 @@
 ============================================= */
 
 .modal-content h2, .modal-content h3 {
-  color: var(--verde-folha, #3A6351);
+  color: var(--verde-folha);
   margin-top: 0;
   margin-bottom: 1rem;
 }
 
 .modal-content p {
   margin-bottom: 1.5rem;
-  color: var(--cinza-pedra, #4F4F4F);
+  color: var(--cinza-pedra);
   line-height: 1.6;
 }
 
@@ -85,7 +85,7 @@
 .modal-content input:focus,
 .modal-content textarea:focus {
     outline: none;
-    border-color: var(--verde-folha, #3A6351);
+    border-color: var(--verde-folha);
     box-shadow: 0 0 0 3px rgba(58, 99, 81, 0.2);
 }
 
@@ -94,6 +94,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
+  font-size: 1.2rem;
 }
 
 /* Botões genéricos do modal */
@@ -118,22 +119,22 @@
 /* Botão de confirmação de exclusão */
 #confirmar-exclusao, #confirmCancel {
     background-color: var(--vermelho-erro, #8e2519);
-    color: var(--branco-neve, #FFFFFF);
+    color: var(--branco-neve);
 }
 #confirmar-exclusao:hover, #confirmCancel:hover { background-color: #a13428; }
 /* Botão de cancelar (pode ser usado em vários modais) */
 .btn-cancelar,.btn-secundario, #cancelar-exclusao, #btn-cancelar-edicao {
     background-color: #e0e0e0;
-    color: var(--cinza-pedra, #4F4F4F);
+    color: var(--cinza-pedra);
 }
 .btn-cancelar:hover, .btn-secundario:hover, #cancelar-exclusao:hover, #btn-cancelar-edicao:hover { background-color: #d0d0d0; }
 
 /* Botão de confirmação primário (verde) */
 #confirmar-pedido,.btn-primario, #btn-confirmar-edicao {
-    background-color: var(--verde-folha, #3A6351);
+    background-color: var(--cor-primaria);
     color: var(--branco-neve, #FFFFFF);
 }
-#confirmar-pedido:hover, .btn-primario:hover, #btn-confirmar-edicao:hover { background-color: #2d4f3f; }
+#confirmar-pedido:hover, .btn-primario:hover, #btn-confirmar-edicao:hover { background-color: var(--cor-texto); }
 
 /* =============================================
   ANIMAÇÃO FADEIN PARA MODAL

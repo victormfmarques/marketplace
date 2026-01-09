@@ -3,7 +3,7 @@
 // --- 1. IMPORTAÇÕES ---
 // Todas as dependências que o arquivo precisa.
 import { formatarTelefone, pegarFotoProduto } from '../modules/utils.js';
-import { criarMensagemErro, mostrarFeedback, criarLoader, mostrarErro } from '../modules/ui.js';
+import { criarMensagemErro, mostrarFeedback, criarLoader, mostrarErro, animarCardsProdutos, animarPedidos } from '../modules/ui.js';
 import { perfilAPI, produtosAPI, vendedorAPI } from '../modules/api.js';
 
 // =======================================================================
@@ -42,7 +42,9 @@ async function carregarProdutosUsuario() {
             return `
                 <div class="produto-card">
                     <a href="detalhes-produto.html?id=${prod._id}">
-                    <img src="${foto}" alt="${prod.nome}" onerror="this.src='/assets/img/placeholder.png'">
+                    <img src="${foto}" alt="${prod.nome}"loading="lazy"
+                    onload="this.closest('.produto-card')?.classList.add('card-img-ok')" 
+                    onerror="this.src='/assets/img/placeholder.png'">
                     </a>
                     <div class="produto-info">
                     <h4>${prod.nome}</h4>
@@ -52,6 +54,7 @@ async function carregarProdutosUsuario() {
                 </div>
                 `;
         }).join('');
+    animarCardsProdutos(container);
 
     } catch (error) {
         console.error('Erro ao carregar produtos do usuário:', error);
@@ -154,6 +157,7 @@ function aplicarFiltroEVenderizarVendedor() {
         }
     }
     configurarAcoesVendedor();
+    animarPedidos();
 }
 
 /**
@@ -198,6 +202,7 @@ async function carregarPedidosParaVendedor(vendedorId, ehCarregarMais = false) {
             const novosPedidosHtml = data.pedidos.map(criarCardPedidoHTML).join('');
             if (!ehCarregarMais) {
                 container.innerHTML = novosPedidosHtml;
+                animarPedidos();
             } else {
                 container.innerHTML += novosPedidosHtml;
             }
@@ -269,6 +274,7 @@ function configurarAcoesVendedor() {
                 }
 
                 aplicarFiltroEVenderizarVendedor();
+                animarPedidos(container);
 
             } catch (error) {
                 mostrarFeedback(`Erro ao atualizar status: ${error.message}`, 'erro');

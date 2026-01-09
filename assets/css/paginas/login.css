@@ -1,30 +1,12 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 /* =====================
    VARIÁVEIS DE CORES
 ===================== */
-:root {
-  --cor1: #83c716;       /* Verde limão suave */
-  --cor2: #3A6351;       /* Verde escuro */
-  --cor3: #A8C686;       /* Verde claro */
-  --marrom-terra: #7B5E42;
-  --cor-sucesso: #59880f;
-  --cor-sucesso-hover: #6ba50ea9;
-}
 
 /* =====================
    RESET E BASE
 ===================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
 body, html {
-  background-color: var(--cor2);
+  background-color: var(--verde-folha);
   height: 100vh;
   width: 100vw;
 }
@@ -87,19 +69,20 @@ nav li {
 
 nav li a {
   color: whitesmoke;
-  background-color: var(--cor2);
+  background-color: var(--verde-folha);
   text-decoration: none;
   font-size: 30px;
-  padding: 5px 5px 0px 5px;
-  border-radius: 30%;
-  transition: background 0.8s ease, padding 0.3s ease, transform 0.2s ease;
+  padding: 7px 8px 0px 8px;
+  border-radius: 50%;
+  border:2px solid var(--branco-neve);
+  transition: background 0.5s ease, border 0.5s ease;
 }
 
-nav li a:hover,
-nav li a:focus {
+nav li a:hover {
   padding: 7px 8px 0px 8px;
-  background-color: var(--marrom-terra);
-  transform: scale(1.1);
+  color: var(--verde-folha);
+  background-color: var(--cinza-fundo);
+  border:2px solid var(--verde-folha);
 }
 
 #alinhamento h1 {
@@ -112,8 +95,8 @@ div#formulario p {
 }
 
 form > div.campo {
-  background-color: var(--cor2);
-  border: 2px solid var(--cor2);
+  background-color: var(--verde-folha);
+  border: 2px solid var(--verde-folha);
   border-radius: 8px;
   height: 40px;
   margin: 5px 0;
@@ -129,7 +112,7 @@ div.campo input {
   height: 100%;
   padding: 4px;
   font-size: 1em;
-  background-color: var(--cor3);
+  background-color: var(--verde-claro);
   border: none;
   border-radius: 8px;
   transform: translateY(-11px);
@@ -157,14 +140,15 @@ form > input[type=submit] {
   margin-top: 35px;
   font-size: 1em;
   color: white;
-  background-color: var(--cor-sucesso);
+  background-color: var(--verde-folha);
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 form > input[type=submit]:hover {
-  background-color: var(--cor-sucesso-hover);
+  background-color: var(--marrom-terra);
 }
 
 form > a.botao {
@@ -176,15 +160,16 @@ form > a.botao {
   font-size: 1em;
   text-align: center;
   text-decoration: none;
-  color: #597729;
+  color: var(--marrom-terra);
   background-color: white;
-  border: 1px solid var(--cor1);
+  border: 1px solid var(--verde-claro);
   border-radius: 5px;
   margin-bottom: 3px;
+  transition: background-color 0.3s ease;
 }
 
 form > a.botao:hover {
-  background-color: #bcdb9e;
+  background-color: var(--bege-areia);
 }
 
 form > a.botao > span {
@@ -244,7 +229,7 @@ form > a.botao > span {
 /* Títulos dos modais */
 #modal-esqueci-senha h2,
 #modal-redefinir-senha h2 {
-  color: var(--verde-folha, #3A6351);
+  color: var(--verde-folha);
   margin-bottom: 1rem;
   font-size: 1.6rem;
 }
@@ -254,13 +239,13 @@ form > a.botao > span {
 #modal-redefinir-senha p {
   font-size: 1rem;
   margin-bottom: 1.5rem;
-  color: var(--cinza-pedra, #4F4F4F);
+  color: var(--cinza-pedra);
 }
 
 /* Estilo dos campos de input (a sua regra original, adaptada) */
 .modal-content .campo {
-  background-color: var(--cor2);
-  border: 2px solid var(--cor2);
+  background-color: var(--verde-folha);
+  border: 2px solid var(--verde-folha);
   border-radius: 8px;
   height: 40px;
   margin: 5px 0;
@@ -273,9 +258,9 @@ form > a.botao > span {
   height: 100%;
   padding: 0 15px;
   font-size: 1em;
-  background-color: var(--cor3);
+  background-color: var(--verde-claro);
   border: none;
-  color: var(--cinza-pedra, #4F4F4F);
+  color: var(--cinza-pedra);
 }
 .modal-content .campo input:focus {
   background-color: white;
@@ -298,8 +283,8 @@ form > a.botao > span {
   margin-top: 1.5rem;
   font-size: 1.1em;
   font-weight: 600;
-  color: var(--branco-neve, #FFFFFF);
-  background-color: var(--verde-folha, #3A6351);
+  color: var(--branco-neve);
+  background-color: var(--verde-folha);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -307,5 +292,5 @@ form > a.botao > span {
 }
 
 .botao-enviar:hover {
-  background-color: var(--marrom-terra, #7B5E42);
+  background-color: var(--marrom-terra);
 }

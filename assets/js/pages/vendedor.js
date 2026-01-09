@@ -91,7 +91,7 @@ async function inicializarPagina() {
         const data = await vendedorAPI.getPerfil(vendedorId);
 
         // Define o título da página
-        document.title = `${data.vendedor.nome} - EcoMarket-SAMAVI`;
+        document.title = `${data.vendedor.nome} - AssociArte Marketplace`;
 
         // Renderiza cada parte da página
         renderizarHeader(data.vendedor);

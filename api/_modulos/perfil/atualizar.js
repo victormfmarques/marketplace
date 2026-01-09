@@ -26,16 +26,23 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    // Se for trocar senha, valida a senha atual
-    if (nsenha) {
-      if (!senha) {
-        return res.status(400).json({ message: 'Informe a senha atual' });
-      }
+    // 🔐 VALIDA SENHA SEMPRE
+    if (!senha) {
+      return res.status(400).json({ message: 'Senha atual é obrigatória' });
+    }
 
-      const senhaValida = await bcrypt.compare(senha, usuario.senha);
-      if (!senhaValida) {
-        return res.status(401).json({ message: 'Senha atual incorreta' });
-      }
+    const senhaValida = await bcrypt.compare(senha, usuario.senha);
+    if (!senhaValida) {
+      return res.status(401).json({ message: 'Senha atual incorreta' });
+    }
+
+    if (
+      nome === usuario.nome &&
+      telefone === usuario.telefone &&
+      email === usuario.email &&
+      !nsenha
+    ) {
+      return res.status(400).json({ message: 'Nenhuma alteração detectada' });
     }
 
     // Dados permitidos para atualização

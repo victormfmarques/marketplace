@@ -139,6 +139,7 @@ button {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button[type="submit"] {
@@ -159,10 +160,6 @@ button[type="submit"]:hover {
 .btn-remover:hover,
 .btn-excluir:hover {
   background-color: #8b1a1a;
-}
-
-.hidden {
-  display: none;
 }
 
 /* =============================================
@@ -202,7 +199,7 @@ button[type="submit"]:hover {
 
   #preview-fotos img {
     max-width: 420px;
-    max-height: 420px;
+    max-height: 410px;
   }
 }
 
