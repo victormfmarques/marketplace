@@ -186,3 +186,35 @@ export function animarPedidos(container = document) {
     }, index * 80);
   });
 }
+
+export function imageToCompressedBase64(file, maxSize = 800, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    const img = new Image();
+
+    reader.onload = () => (img.src = reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const scale = Math.min(
+        maxSize / img.width,
+        maxSize / img.height,
+        1
+      );
+
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const base64 = canvas.toDataURL('image/jpeg', quality);
+      resolve(base64);
+    };
+
+    img.onerror = reject;
+  });
+}
