@@ -6,6 +6,7 @@ import { imageToCompressedBase64 } from '../modules/utils.js';
 document.addEventListener('DOMContentLoaded', () => {
   const inputImagem = document.getElementById('imagem-produto');
   const form = document.getElementById('form-produto');
+  const btnCadastro = document.getElementById('btn-cadastrar');
 
   const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
+      btnCadastro.textContent = 'Cadastrando...'
       const imagem = inputImagem.files[0];
       const base64 = await imageToCompressedBase64(imagem, 800, 0.7);
 

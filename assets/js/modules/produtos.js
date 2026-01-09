@@ -84,6 +84,12 @@ function configurarEventosProdutos() {
       } else {
         console.error(`Produto com ID ${produtoId} não encontrado no store.`);
       }
+      let TextoOriginal = btn.textContent;
+      
+      btn.textContent = 'Adicionado!'
+      setTimeout (() => {
+        btn.textContent = TextoOriginal;
+      }, 2000 )
     });
   });
 }

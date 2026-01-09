@@ -9,6 +9,7 @@ const lista = document.getElementById("lista-pedidos");
 const modal = document.getElementById("cancelModal");
 const cancelReason = document.getElementById("cancelReason");
 const confirmCancelBtn = document.getElementById("confirmCancel");
+const senhaInput = document.getElementById("cancelPassword");
 const closeModalBtn = document.getElementById("closeModal");
 
 let currentOrderId = null;
@@ -22,6 +23,13 @@ function openModal(orderId) {
   document.getElementById("cancelPassword").value = "";
   modal.classList.remove("hidden");
 }
+
+senhaInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+      e.preventDefault();
+      confirmCancelBtn.click();
+  }
+});
 
 /* =============================================
   FUNÇÃO PARA FECHAR MODAL
@@ -187,7 +195,7 @@ async function cancelarPedido() {
 
   const password = document.getElementById("cancelPassword").value.trim();
   if (!password) {
-    mostrarFeedback("Digite sua senha para confirmar.", "erro");
+    mostrarFeedback("Digite sua senha para confirmar.", "aviso");
     return;
   }
 

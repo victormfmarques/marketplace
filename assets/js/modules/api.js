@@ -15,23 +15,33 @@ async function request(endpoint, options = {}) {
     ...(token && { Authorization: `Bearer ${token}` })
   };
 
-  try {
-    const response = await fetch(url, {
-      ...options,
-      headers
-    });
+  const response = await fetch(url, {
+    ...options,
+    headers
+  });
 
-    const data = await response.json();
+  let data = null;
 
-    if (!response.ok) {
-      throw new Error(data.message || data.error || 'Erro na API');
+  // 🔒 Blindagem contra respostas não-JSON
+  const contentType = response.headers.get('content-type');
+
+  if (contentType && contentType.includes('application/json')) {
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error('Resposta inválida do servidor');
     }
-
-    return data;
-  } catch (error) {
-    console.error(`Erro na requisição para ${url}:`, error);
-    throw error;
   }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.message ||
+      data?.error ||
+      `Erro HTTP ${response.status}`
+    );
+  }
+
+  return data;
 }
 
 // --- MÓDULO DE AUTENTICAÇÃO ---

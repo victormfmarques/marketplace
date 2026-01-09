@@ -82,17 +82,11 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 document.getElementById('form-cadastro')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const btnCadastro = document.querySelector('#form-cadastro input[type="submit"]');
+  const btnCadastro = document.querySelector('#form-cadastro button[type="submit"]');
   const senhaInput = document.getElementById('isenha');
   const confirmacaoSenhaInput = document.getElementById('iconfirmasenha');
 
   try {
-    // Estado de loading
-    if (btnCadastro) {
-      btnCadastro.disabled = true;
-      btnCadastro.value = 'Registrando...';
-    }
-
     // Validação dos dados
     const usuario = {
       nome: document.getElementById('inome')?.value.trim(),
@@ -124,6 +118,11 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
       senhaInput.classList.add('error-border');
       confirmacaoSenhaInput.classList.add('error-border');
       throw new Error('As senhas não coincidem');
+    }
+    // Estado de loading
+    if (btnCadastro) {
+      btnCadastro.disabled = true;
+      btnCadastro.textContent = 'Registrando...';
     }
 
     senhaInput.classList.remove('error-border');

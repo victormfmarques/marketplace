@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import { templateEmailAssociarte } from '../utils/emailTemplates.js';
 
 dotenv.config();
 const client = new MongoClient(process.env.MONGODB_URI);
@@ -75,23 +76,19 @@ export default async function handler(req, res) {
 
           try {
             await transporter.sendMail({
-              from: `"EcoMarket Samavi" <${process.env.EMAIL_SENDER}>`,
+              from: `"ASSOCIARTE Marketplace" <${process.env.EMAIL_SENDER}>`,
               to: produto.vendedorEmail,
-              subject: 'Novo pedido no EcoMarket Samavi',
-              html: `
-                <p>Você recebeu um novo pedido!</p>
-                <p><strong>Nº do Pedido:</strong> ${pedidoId}</p>
-                <p><strong>Comprador:</strong> ${usuario.nome}</p>
-                <p><strong>Email:</strong> ${usuario.email}</p>
-                <p><strong>Telefone:</strong> ${usuario.telefone}</p>
-                <p><strong>Produtos vendidos por você:</strong></p>
-                <ul>
-                  ${produtosCorrigidos
-                    .filter(p => p.vendedorEmail === produto.vendedorEmail)
-                    .map(p => `<li>${p.nome} - Quantidade: ${p.quantidade}</li>`)
-                    .join('')}
-                </ul>
-              `,
+              subject: 'Novo pedido recebido - ASSOCIARTE Marketplace',
+              html: templateEmailAssociarte({
+                tipo: 'pedido',
+                titulo: 'Novo pedido recebido',
+                mensagemPrincipal: 'Você recebeu um novo pedido em ASSOCIARTE Marketplace.',
+                pedidoId,
+                usuario,
+                produtos: produtosCorrigidos.filter(
+                  p => p.vendedorEmail === produto.vendedorEmail
+                )
+              })
             });
 
             console.log(`📨 E-mail enviado para ${produto.vendedorEmail}`);

@@ -247,7 +247,6 @@ header .header-nav a:hover {
 
 .produto-card.card-ativa {
   opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 .produto-card:not(.card-img-ok) {

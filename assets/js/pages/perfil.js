@@ -23,6 +23,7 @@ let abortController = new AbortController();
 /* Carrega e exibe os produtos do usuário logado na seção correspondente.*/
 async function carregarProdutosUsuario() {
     const container = document.getElementById('produtos-usuario');
+    animarPedidos(container);
     if (!container) return;
 
     try {
@@ -128,7 +129,7 @@ function criarCardPedidoHTML(pedido) {
                     <option value="entregue" ${pedido.status === 'entregue' ? 'selected' : ''}>Entregue</option>
                     <option value="cancelado" ${pedido.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
                 </select>
-                <button class="btn-salvar-status" data-pedido-id="${pedido._id}">Salvar Status</button>
+                <button class="btn-salvar-status" data-pedido-id="${pedido._id}">Atualizar Status</button>
             </div>
         </div>
     `;
@@ -274,7 +275,7 @@ function configurarAcoesVendedor() {
                 }
 
                 aplicarFiltroEVenderizarVendedor();
-                animarPedidos(container);
+                animarPedidos();
 
             } catch (error) {
                 mostrarFeedback(`Erro ao atualizar status: ${error.message}`, 'erro');

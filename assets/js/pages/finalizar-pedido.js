@@ -83,6 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
     senhaInput.value = "";
     modal.classList.remove("hidden");
   });
+
+    senhaInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      btnConfirmar.click();
+    }
+  });
   
   // FECHAR O MODAL
   btnCancelar.addEventListener("click", () => {
@@ -94,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
     const carrinho = JSON.parse(localStorage.getItem(`carrinho_${usuario?.email}`)) || [];
     const senha = senhaInput.value.trim();
-
     if (!usuario || !usuario._id) {
       mostrarFeedback('Por favor, faça login para acessar esta página', 'erro');
       setTimeout(() => window.location.href = '/index.html', 2000);
@@ -125,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (data.success) {
+        btnConfirmar.textContent = 'Registrando...';
         localStorage.removeItem(`carrinho_${usuario.email}`);
         mostrarFeedback('Pedido registrado com sucesso!', 'sucesso');
         modal.classList.add("hidden");

@@ -146,17 +146,24 @@ function configurarModalExclusao(produtoId, usuario) {
 
     const btnConfirmar = document.getElementById('confirmar-exclusao');
     const btnCancelar = document.getElementById('cancelar-exclusao');
-    const inputSenha = document.getElementById('senha-confirmacao');
+    const senhaInput = document.getElementById('senha-confirmacao');
 
     btnAbrir.addEventListener('click', () => {
-        inputSenha.value = '';
+        senhaInput.value = '';
         modal.classList.remove('hidden');
+    });
+
+    senhaInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        btnConfirmar.click();
+    }
     });
 
     btnCancelar.onclick = () => modal.classList.add('hidden');
 
     btnConfirmar.onclick = async () => {
-        const senha = inputSenha.value.trim();
+        const senha = senhaInput.value.trim();
         if (!senha) return mostrarFeedback('Digite sua senha para confirmar.', 'aviso');
 
         try {
@@ -175,7 +182,7 @@ function configurarModalExclusao(produtoId, usuario) {
             modal.classList.add('hidden');
             setTimeout(() => window.location.href = '/paginas/produtos.html', 2000);
         } catch (error) {
-            mostrarFeedback(`Erro: ${error.message}`, 'erro');
+            mostrarFeedback(`${error.message}`, 'erro');
             console.error(error);
         }
     };

@@ -1,7 +1,8 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
-import bcrypt from 'bcrypt'; 
+import bcrypt from 'bcrypt';
+import { templateEmailAssociarte } from '../utils/emailTemplates.js';
 
 dotenv.config();
 const client = new MongoClient(process.env.MONGODB_URI);
@@ -80,25 +81,23 @@ export default async function handler(req, res) {
 
         try {
           await transporter.sendMail({
-            from: `"EcoMarket Samavi" <${process.env.EMAIL_SENDER}>`,
+            from: `"ASSOCIARTE Marketplace" <${process.env.EMAIL_SENDER}>`,
             to: produto.vendedorEmail,
-            subject: 'Pedido cancelado - EcoMarket Samavi',
-            html: `
-              <p>Um pedido foi cancelado:</p>
-              <p><strong>Nº do Pedido:</strong> ${pedidoId}</p>
-              <p><strong>Comprador:</strong> ${usuario.nome}</p>
-              <p><strong>Email:</strong> ${usuario.email}</p>
-              <p><strong>Telefone:</strong> ${usuario.telefone}</p>
-              <p><strong>Motivo:</strong> ${motivo || "Não informado"}</p>
-              <p><strong>Produtos afetados:</strong></p>
-              <ul>
-                ${pedido.produtos
-                  .filter(p => p.vendedorEmail === produto.vendedorEmail)
-                  .map(p => `<li>${p.nome} (x${p.quantidade})</li>`)
-                  .join('')}
-              </ul>
-              <p>Entre em contato com o cliente para mais detalhes.</p>
-            `,
+            subject: 'Pedido cancelado - ASSOCIARTE Marketplace',
+            html: templateEmailAssociarte({
+              tipo: 'cancelamento',
+              titulo: 'Pedido cancelado',
+              mensagemPrincipal: 'Um pedido realizado em ASSOCIARTE Marketplace foi cancelado pelo cliente.',
+              pedidoId,
+              usuario,
+              destaque: {
+                titulo: 'Motivo do cancelamento',
+                texto: motivo || 'Motivo não informado'
+              },
+              produtos: pedido.produtos.filter(
+                p => p.vendedorEmail === produto.vendedorEmail
+              )
+            })
           });
           console.log(`📨 E-mail de cancelamento enviado para ${produto.vendedorEmail}`);
         } catch (erroEnvio) {
