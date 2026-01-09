@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const dados = {
+      usuarioId: usuarioAtual._id,
       nome: form.nome.value.trim(),
       descricao: form.descricao.value.trim(),
       preco: parseFloat(form.preco.value),
