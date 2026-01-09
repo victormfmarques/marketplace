@@ -39,6 +39,37 @@ header .header-info {
   height: 32px;
 }
 
+header .header-nav a {
+  font-size: 2rem;
+}
+
+header .header-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+header .header-info {
+  text-align: center;
+}
+
+<<<<<<< Updated upstream
+header .header-nav a {
+  font-size: 2rem;
+}
+
+header .header-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+header .header-info {
+  text-align: center;
+}
+
+.header-nav .carrinho-icone {
+  height: 32px;
+}
+
+=======
+>>>>>>> Stashed changes
 /* =============================================
   LAYOUT PRINCIPAL (MOBILE FIRST)
 ============================================= */
