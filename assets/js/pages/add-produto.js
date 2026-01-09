@@ -4,7 +4,6 @@ import { mostrarFeedback, previewImagens } from '../modules/ui.js';
 import { imageToCompressedBase64 } from '../modules/utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const inputImagem = document.getElementById('imagem-produto');
   const form = document.getElementById('form-produto');
 
@@ -31,7 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const validacao = validarLimiteProdutos(usuarioAtual,usuarioAtual.totalProdutos || 0);
+    const validacao = validarLimiteProdutos(
+      usuarioAtual,
+      usuarioAtual.totalProdutos || 0
+    );
 
     if (!validacao.ok) {
       mostrarFeedback(validacao.motivo, 'aviso');
@@ -39,30 +41,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (
-        !form.nome.value.trim() ||
-        !form.descricao.value.trim() ||
-        !form.preco.value ||
-        isNaN(parseFloat(form.preco.value)) ||
-        parseFloat(form.preco.value) <= 0 ||
-        !form.categoria.value
-        ) {
-        mostrarFeedback(
-            'Preencha todos os campos obrigatórios corretamente.',
-            'aviso'
-        );
-    return;
+      !form.nome.value.trim() ||
+      !form.descricao.value.trim() ||
+      !form.preco.value ||
+      isNaN(parseFloat(form.preco.value)) ||
+      parseFloat(form.preco.value) <= 0 ||
+      !form.categoria.value
+    ) {
+      mostrarFeedback(
+        'Preencha todos os campos obrigatórios corretamente.',
+        'aviso'
+      );
+      return;
     }
 
-    if (!form['imagem-produto'].files.length) {
-    mostrarFeedback(
-        'Adicione uma imagem para o produto.',
-        'aviso'
-    );
-    return;
+    if (!inputImagem.files.length) {
+      mostrarFeedback('Adicione uma imagem para o produto.', 'aviso');
+      return;
     }
 
     const dados = {
-      usuarioId: usuarioAtual._id,
       nome: form.nome.value.trim(),
       descricao: form.descricao.value.trim(),
       preco: parseFloat(form.preco.value),
@@ -70,32 +68,39 @@ document.addEventListener('DOMContentLoaded', () => {
       fotosBase64: []
     };
 
-    const imagem = inputImagem.files[0];
-    if (imagem) {
-      try {
-        const base64 = await imageToCompressedBase64(imagem, 800, 0.7);
+    try {
+      const imagem = inputImagem.files[0];
+      const base64 = await imageToCompressedBase64(imagem, 800, 0.7);
 
-console.log(
-  'Imagem final:',
-  (base64.length / 1024 / 1024).toFixed(2),
-  'MB'
-);
+      console.log(
+        'Imagem final:',
+        (base64.length / 1024 / 1024).toFixed(2),
+        'MB'
+      );
 
-dados.fotosBase64.push(base64);
-      } catch {
-        mostrarFeedback('Erro ao processar imagem', 'erro');
+      if (base64.length > 4_000_000) {
+        mostrarFeedback(
+          'Imagem muito grande. Use uma imagem menor.',
+          'aviso'
+        );
         return;
       }
-    }
 
-    try {
+      dados.fotosBase64.push(base64);
+
       await cadastrarProduto(dados);
+
       mostrarFeedback('Produto cadastrado com sucesso!', 'sucesso');
       setTimeout(() => {
         window.location.href = '../paginas/produtos.html';
       }, 2000);
+
     } catch (err) {
-      mostrarFeedback(err.message || 'Erro ao cadastrar produto', 'erro');
+      console.error(err);
+      mostrarFeedback(
+        err.message || 'Erro ao cadastrar produto',
+        'erro'
+      );
     }
   });
 });
