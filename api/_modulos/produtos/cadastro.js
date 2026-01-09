@@ -6,6 +6,14 @@ dotenv.config();
 import { MongoClient, ObjectId } from 'mongodb';
 import { v2 as cloudinary } from 'cloudinary';
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '15mb',
+    },
+  },
+};
+
 const client = new MongoClient(process.env.MONGODB_URI);
 
 cloudinary.config({
