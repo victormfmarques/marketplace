@@ -1,3 +1,4 @@
+
 import { verificarAuth } from '../middlewares/auth.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -26,16 +27,6 @@ export default async function handler(req, res) {
     return res.status(403).json({ message: 'Permissão insuficiente' });
   }
 
-  const usuario = verificarAuth(req, res);
-  if (!usuario) {
-    return res.status(403).json({ message: 'Usuário não autorizado' });
-  }
-
-  // ✅ PADRÃO ÚNICO DE CARGO
-  if (usuario.cargo !== 'vendedor' && usuario.cargo !== 'administrador') {
-    return res.status(403).json({ message: 'Permissão insuficiente' });
-  }
-
   let fotosUrls = [];
 
   try {
@@ -44,11 +35,7 @@ export default async function handler(req, res) {
 
     const { nome, descricao, preco, categoria, fotosBase64 } = req.body;
     const usuarioId = usuario.id;
-    const { nome, descricao, preco, categoria, fotosBase64 } = req.body;
-    const usuarioId = usuario.id;
 
-    // ===== Validações =====
-    if (!nome?.trim() || !descricao?.trim() || !categoria?.trim() || !preco) {
     // ===== Validações =====
     if (!nome?.trim() || !descricao?.trim() || !categoria?.trim() || !preco) {
       return res.status(400).json({ error: 'Preencha todos os campos obrigatórios' });
@@ -72,17 +59,7 @@ export default async function handler(req, res) {
       const totalProdutos = await db.collection('produtos').countDocuments({
         usuarioId: new ObjectId(usuarioId)
       });
-    // ===== Limite só para vendedor =====
-    if (usuario.cargo === 'vendedor') {
-      const totalProdutos = await db.collection('produtos').countDocuments({
-        usuarioId: new ObjectId(usuarioId)
-      });
 
-      if (totalProdutos >= 5) {
-        return res.status(403).json({
-          error: 'Limite de 5 produtos atingido'
-        });
-      }
       if (totalProdutos >= 5) {
         return res.status(403).json({
           error: 'Limite de 5 produtos atingido'
@@ -90,7 +67,6 @@ export default async function handler(req, res) {
       }
     }
 
-    // ===== Upload =====
     // ===== Upload =====
     for (const foto of fotosBase64) {
       const result = await cloudinary.uploader.upload(foto, {
@@ -104,7 +80,6 @@ export default async function handler(req, res) {
     }
 
     // ===== Produto =====
-    // ===== Produto =====
     const produto = {
       usuarioId: new ObjectId(usuarioId),
       nome,
@@ -114,8 +89,6 @@ export default async function handler(req, res) {
       fotos: fotosUrls,
       status: 'ativo',
       dataCadastro: new Date(),
-      vendedorEmail: usuario.email, // ✅ vem do token
-      cargoCriador: usuario.cargo
       vendedorEmail: usuario.email, // ✅ vem do token
       cargoCriador: usuario.cargo
     };
@@ -130,7 +103,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Erro no cadastro:', error);
 
-    // 🔥 Rollback Cloudinary
     // 🔥 Rollback Cloudinary
     for (const foto of fotosUrls) {
       if (foto.public_id) {
