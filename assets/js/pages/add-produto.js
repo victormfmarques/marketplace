@@ -73,7 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagem = inputImagem.files[0];
     if (imagem) {
       try {
-        dados.fotosBase64.push(await toBase64(imagem));
+        const base64 = await imageToCompressedBase64(imagem, 800, 0.7);
+
+console.log(
+  'Imagem final:',
+  (base64.length / 1024 / 1024).toFixed(2),
+  'MB'
+);
+
+dados.fotosBase64.push(base64);
       } catch {
         mostrarFeedback('Erro ao processar imagem', 'erro');
         return;
