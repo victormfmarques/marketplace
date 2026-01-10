@@ -130,10 +130,13 @@
         <div class="form-group">
           <label for="foto-perfil-input">Foto de Perfil</label>
           <div class="foto-perfil-preview-container">
-            <img id="foto-perfil-preview" src="/assets/img/placeholder.png" alt="Pré-visualização da foto de perfil">
+            <img id="foto-perfil-preview" src="/assets/img/placeholder-perfil.png" alt="Pré-visualização da foto de perfil">
           </div>
           <input type="file" id="foto-perfil-input" accept="image/png, image/jpeg">
           <small>Use uma imagem quadrada para melhores resultados.</small>
+          <button type="button" id="btn-remover-foto" class="btn btn-secundario btn-remover-foto">
+            Remover foto
+          </button>
         </div>
         <div class="form-group">
           <label for="sobre-mim-textarea">Sobre Mim</label>
@@ -195,7 +198,6 @@
   <script type="module" src="../assets/js/modules/ui.js"></script>
   <script type="module" src="../assets/js/pages/perfil.js"></script>
   <script type="module" src="../assets/js/modules/config.js"></script>
-  <script type="module" src="../assets/js/pages/produtos.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

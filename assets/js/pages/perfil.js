@@ -55,7 +55,7 @@ async function carregarProdutosUsuario() {
                 </div>
                 `;
         }).join('');
-    animarCardsProdutos(container);
+        animarCardsProdutos(container);
 
     } catch (error) {
         console.error('Erro ao carregar produtos do usuário:', error);
@@ -301,6 +301,60 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // --- BLOCO REMOVER FOTO ---
+    const fotoInput = document.getElementById('foto-perfil-input');
+    const fotoPreview = document.getElementById('foto-perfil-preview');
+    const btnRemoverFoto = document.getElementById('btn-remover-foto');
+
+    let removerFotoSelecionada = false;
+
+    function atualizarVisibilidadeBotaoFoto() {
+        const temArquivoSelecionado = fotoInput && fotoInput.files.length > 0;
+
+        // Verifica se o usuário tem uma foto "real" diferente do placeholder
+        const temFotoReal = usuarioLogado.fotoPerfil &&
+            usuarioLogado.fotoPerfil !== '/assets/img/placeholder-perfil.png';
+
+        // Exibe botão se houver foto real ou arquivo selecionado
+        if (btnRemoverFoto) {
+            btnRemoverFoto.style.display = (temFotoReal || temArquivoSelecionado) ? 'inline-block' : 'none';
+        }
+    }
+
+    // Ao selecionar um arquivo
+    if (fotoInput && fotoPreview) {
+        fotoInput.addEventListener('change', () => {
+            const file = fotoInput.files[0];
+
+            if (file) {
+                removerFotoSelecionada = false;
+                fotoPreview.src = URL.createObjectURL(file);
+            } else {
+                fotoPreview.src = '/assets/img/placeholder-perfil.png';
+            }
+
+            atualizarVisibilidadeBotaoFoto();
+        });
+    }
+
+    // Ao clicar em remover
+    if (btnRemoverFoto && fotoPreview && fotoInput) {
+        btnRemoverFoto.addEventListener('click', () => {
+            removerFotoSelecionada = true;
+
+            // Limpa o input file
+            fotoInput.value = '';
+
+            // Atualiza preview para placeholder
+            fotoPreview.src = '/assets/img/placeholder-perfil.png';
+
+            atualizarVisibilidadeBotaoFoto();
+        });
+    }
+
+    // Inicializa visibilidade ao carregar a página
+    atualizarVisibilidadeBotaoFoto();
+
     // --- Lógica de UI (mostrar/esconder seções) ---
     const isVendedorOuAdmin = usuarioLogado.cargo === 'vendedor' || usuarioLogado.cargo === 'administrador';
     document.getElementById('link-adm').style.display = usuarioLogado.cargo === 'administrador' ? '' : 'none';
@@ -362,28 +416,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SUBMIT DO FORMULÁRIO DE VENDEDOR ---
     document.getElementById('form-perfil-vendedor').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btnSalvar = e.target.querySelector('button[type="submit"]');
-        try {
-            btnSalvar.disabled = true;
-            btnSalvar.textContent = 'Salvando...';
 
+        const btnSalvar = e.target.querySelector('button[type="submit"]');
+        btnSalvar.disabled = true;
+        btnSalvar.textContent = 'Salvando...';
+
+        try {
             const formData = new FormData();
             formData.append('userId', usuarioLogado._id);
-            formData.append('sobre', document.getElementById('sobre-mim-textarea').value);
-            const fotoInput = document.getElementById('foto-perfil-input');
-            if (fotoInput.files[0]) {
+            formData.append('sobre', document.getElementById('sobre-mim-textarea').value || '');
+
+            if (removerFotoSelecionada) {
+                formData.append('removerFoto', 'true');
+            } else if (fotoInput.files[0]) {
                 formData.append('foto', fotoInput.files[0]);
             }
 
-            const data = await vendedorAPI.atualizarVendedor(formData);
+            const response = await vendedorAPI.atualizarVendedor(formData);
 
-            if (data.data?.fotoPerfil) usuarioLogado.fotoPerfil = data.data.fotoPerfil;
-            if (data.data?.sobre) usuarioLogado.sobre = data.data.sobre;
-            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+            if (response.data) {
+                if ('fotoPerfil' in response.data) {
+                    usuarioLogado.fotoPerfil = response.data.fotoPerfil || null;
+                    fotoPreview.src = usuarioLogado.fotoPerfil || '/assets/img/placeholder-perfil.png';
+                    fotoInput.value = '';
+                }
 
-            mostrarFeedback('Perfil de vendedor atualizado com sucesso!', 'sucesso');
+                if ('sobre' in response.data) {
+                    usuarioLogado.sobre = response.data.sobre || '';
+                }
+
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+            }
+
+            removerFotoSelecionada = false;
+            atualizarVisibilidadeBotaoFoto();
+            
+            mostrarFeedback(response.message || 'Perfil atualizado!', 'sucesso');
+
         } catch (error) {
-            mostrarFeedback(`Erro ao atualizar: ${error.message}`, 'erro');
+            mostrarFeedback(error.message || 'Erro ao atualizar perfil', 'erro');
         } finally {
             btnSalvar.disabled = false;
             btnSalvar.textContent = 'Salvar Perfil de Vendedor';
@@ -464,10 +535,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 resetarECarregarPedidos(usuarioLogado._id);
             });
         });
-        function resetarECarregarPedidos(vendedorId) {
-            paginaAtualVendedor = 1;
-            todosOsPedidosDoVendedor = [];
-            carregarPedidosParaVendedor(vendedorId, false);
-        }
     }
 });

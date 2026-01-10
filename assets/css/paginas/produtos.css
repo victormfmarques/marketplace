@@ -201,7 +201,7 @@ header .header-nav a:hover {
 
 /* --- Botão comprar --- */
 .produto-btn-comprar {
-  background-color: var(--verde-folha);
+  background-color: var(--cor-primaria);
   color: var(--branco-neve);
   border: none;
   padding: 0.8rem;

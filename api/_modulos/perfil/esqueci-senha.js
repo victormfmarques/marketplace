@@ -43,13 +43,13 @@ export default async function handler(req, res) {
     const mailOptions = {
     to: email,
     from: 'contato.ecomarketsamavi@gmail.com',
-    subject: 'Redefinição de senha - EcoMarket Samavi',
+    subject: 'Redefinição de senha - ASSOCIARTE Marketplace',
     text: `Olá,
 
-    Você recebeu este email porque alguém solicitou a redefinição de senha para sua conta no EcoMarket Samavi.
+    Você recebeu este email porque alguém solicitou a redefinição de senha para sua conta no ASSOCIARTE Marketplace.
 
     Para redefinir sua senha, clique no link abaixo:
-    http://ecomarket-samavi.vercel.app/paginas/login.html?token=${token}
+    http://associarte-marketplace.vercel.app/paginas/login.html?token=${token}
 
     Se o link acima não funcionar, copie e cole o token abaixo no campo indicado na página de redefinição de senha:
     Token: ${token}
@@ -57,15 +57,15 @@ export default async function handler(req, res) {
     Se você não solicitou essa redefinição, simplesmente ignore este email.
 
     Obrigado,
-    Equipe EcoMarket Samavi`,
+    Equipe ASSOCIARTE Marketplace`,
       html: `
         <p>Olá,</p>
-        <p>Você recebeu este email porque alguém solicitou a redefinição de senha para sua conta no EcoMarket Samavi.</p>
-        <p><a href="http://ecomarket-samavi.vercel.app?token=${token}">Clique aqui para redefinir sua senha</a></p>
+        <p>Você recebeu este email porque alguém solicitou a redefinição de senha para sua conta no ASSOCIARTE Marketplace.</p>
+        <p><a href="http://associarte-marketplace.vercel.app?token=${token}">Clique aqui para redefinir sua senha</a></p>
         <p>Se o link acima não funcionar, copie e cole o token abaixo no campo indicado na página de redefinição de senha:</p>
         <p><strong>Token:</strong> ${token}</p>
         <p>Se você não solicitou essa redefinição, simplesmente ignore este email.</p>
-        <p>Obrigado,<br>Equipe EcoMarket Samavi</p>
+        <p>Obrigado,<br>Equipe ASSOCIARTE Marketplace</p>
       `,
     };
 

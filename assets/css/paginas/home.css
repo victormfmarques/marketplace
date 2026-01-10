@@ -7,8 +7,8 @@
   BODY
 ============================================= */
 body {
-  background-color: var(--bege-areia);
-  color: var(--cinza-pedra);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
 }
 
 /* =============================================
@@ -32,8 +32,8 @@ body {
 ============================================= */
 .btn {
   text-decoration: none;
-  color: var(--branco-neve);
-  background: var(--marrom-terra);
+  color: var(--cor-fundo);
+  background: var(--cor-texto);
   padding: 8px 30px;
   margin: 30px 0;
   border-radius: 20px;

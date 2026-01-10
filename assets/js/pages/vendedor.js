@@ -26,7 +26,7 @@ function renderizarHeader(vendedor) {
 
     // Renderiza tudo de uma vez
     header.innerHTML = `
-        <img src="${vendedor.fotoPerfil || '/assets/img/placeholder.png'}" alt="Foto de ${vendedor.nome}" class="vendedor-foto">
+        <img src="${vendedor.fotoPerfil || '/assets/img/placeholder-perfil.png'}" alt="Foto de ${vendedor.nome}" class="vendedor-foto">
         <h1 class="vendedor-nome">${vendedor.nome}</h1>
         ${contatoHTML}
         <nav class="perfil-nav">
@@ -59,7 +59,7 @@ function renderizarProdutos(produtos) {
                 <img 
                 src="${typeof produto.fotos?.[0] === 'string'
                             ? produto.fotos[0]
-                            : produto.fotos?.[0]?.url || '/assets/img/placeholder.png'
+                            : produto.fotos?.[0]?.url || '/assets/img/placeholder-perfil.png'
                         }" 
                 loading="lazy"
                 onload="this.closest('.produto-card')?.classList.add('card-img-ok')"
