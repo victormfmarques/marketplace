@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await fetch(`/api?rota=perfil/resetar-senha&token=${encodeURIComponent(token)}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ senha }),
+                    body: JSON.stringify({ senha, confirmarSenha }),
                 });
                 const data = await res.json();
                 mostrarFeedback(data.message || 'Senha redefinida!', res.ok ? 'sucesso' : 'erro');

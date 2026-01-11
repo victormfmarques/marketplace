@@ -16,6 +16,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'Senhas não conferem.' });
   }
 
+  if (!senha || !confirmarSenha) {
+    return res.status(400).json({ message: 'Campos obrigatórios não preenchidos.' });
+  }
+
   try {
     await client.connect();
     const db = client.db('marketplace');

@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
                 <!-- HEADER -->
                 <tr>
-                  <td align="center" style="background:#E23E8D; padding:20px;">
+                  <td align="center" style="background:#D96C8F; padding:20px;">
                     <img 
                       src="https://associarte-marketplace.vercel.app/assets/img/logo.png"
                       alt="ASSOCIARTE"
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
                 <tr>
                   <td style="padding:30px; color:#4A4A4A;">
 
-                    <h2 style="margin-top:0; color:#E23E8D;">
+                    <h2 style="margin-top:0; color:#D96C8F;">
                       Redefinição de senha
                     </h2>
 
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
                       <a 
                         href="http://associarte-marketplace.vercel.app/paginas/login.html?token=${token}"
                         style="
-                          background:#E23E8D;
+                          background:#D96C8F;
                           color:#FFFFFF;
                           padding:14px 28px;
                           border-radius:6px;
