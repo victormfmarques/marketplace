@@ -1,27 +1,12 @@
-/* assets/css/admin.css */
-
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap' );
-
 /* =============================================
-  VARIÁVEIS DE CORES
+  ARQUIVO: assets/css/admin.css
+  PÁGINA: Área Administrativa
 ============================================= */
-:root {
-  --verde-folha: #3A6351;
-  --verde-claro: #A8C686;
-  --marrom-terra: #7B5E42;
-  --bege-areia: #F2E8CF;
-  --branco-neve: #FFFFFF;
-  --cinza-pedra: #4F4F4F;
-  --vermelho-erro: #c0392b;
-  --azul-info: #2980b9;
-}
 
 /* =============================================
   ESTILOS GERAIS DA PÁGINA
 ============================================= */
 body {
-  font-family: 'Poppins', sans-serif;
   background-color: var(--bege-areia);
   color: var(--cinza-pedra);
   margin: 0;

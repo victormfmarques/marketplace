@@ -7,41 +7,41 @@
  * @returns {Promise<any>} Os dados da resposta em JSON.
  */
 async function request(endpoint, options = {}) {
-  const url = `/api?rota=${endpoint}`;
-  const token = localStorage.getItem('token');
+    const url = `/api?rota=${endpoint}`;
+    const token = localStorage.getItem('token');
 
-  const headers = {
-    ...(options.headers || {}),
-    ...(token && { Authorization: `Bearer ${token}` })
-  };
+    const headers = {
+        ...(options.headers || {}),
+        ...(token && { Authorization: `Bearer ${token}` })
+    };
 
-  const response = await fetch(url, {
-    ...options,
-    headers
-  });
+    const response = await fetch(url, {
+        ...options,
+        headers
+    });
 
-  let data = null;
+    let data = null;
 
-  // 🔒 Blindagem contra respostas não-JSON
-  const contentType = response.headers.get('content-type');
+    // 🔒 Blindagem contra respostas não-JSON
+    const contentType = response.headers.get('content-type');
 
-  if (contentType && contentType.includes('application/json')) {
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error('Resposta inválida do servidor');
+    if (contentType && contentType.includes('application/json')) {
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error('Resposta inválida do servidor');
+        }
     }
-  }
 
-  if (!response.ok) {
-    throw new Error(
-      data?.message ||
-      data?.error ||
-      `Erro HTTP ${response.status}`
-    );
-  }
+    if (!response.ok) {
+        throw new Error(
+            data?.message ||
+            data?.error ||
+            `Erro HTTP ${response.status}`
+        );
+    }
 
-  return data;
+    return data;
 }
 
 // --- MÓDULO DE AUTENTICAÇÃO ---
@@ -62,7 +62,7 @@ export const authAPI = {
 export const produtosAPI = {
     // Adiciona um parâmetro opcional para filtros (como ?limit=8)
     listar: (queryParams = '') => request(`produtos/listar&${queryParams}`),
-    
+
     detalhes: (id) => request(`produtos/detalhes&id=${id}`),
     listarPorUsuario: (usuarioId) => request(`perfil/produtos-usuario&usuarioId=${usuarioId}`),
     // Adicionar aqui 'cadastrar', 'editar', 'excluir' no futuro...
@@ -131,9 +131,9 @@ export const vendedorAPI = {
         method: 'POST',
         body: formData // Não definimos Content-Type, o navegador faz isso por nós
     }),
-    listarPedidos: (vendedorId, pagina, status, signal) => 
+    listarPedidos: (vendedorId, pagina, status, signal) =>
         request(`vendedor/listarPedidos&id=${vendedorId}&pagina=${pagina}&status=${status}`, { signal }),
-    
+
     atualizarStatusPedido: (pedidoId, novoStatus) => request('vendedor/atualizarStatus', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

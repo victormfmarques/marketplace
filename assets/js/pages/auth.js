@@ -46,7 +46,7 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
     localStorage.setItem('token', data.token);
 
     mostrarFeedback('Login realizado com sucesso!', 'sucesso');
-    
+
     // Redirecionamento seguro após o feedback
     setTimeout(() => {
       window.location.href = data.redirect || '/index.html';
@@ -54,17 +54,18 @@ document.getElementById('form-login')?.addEventListener('submit', async (e) => {
 
   } catch (error) {
     console.error('Erro no login:', error);
-    
-    // Mensagens mais amigáveis para erros específicos
-    if (error.message.includes('Timeout')) {
-      mostrarFeedback('A conexão está lenta. Tente novamente.', 'erro');
-    } else if (error.name === 'TypeError') {
-      mostrarFeedback('Erro de conexão. Verifique sua internet.', 'erro');
-    } else {
-      mostrarFeedback(error.message || 'Falha na autenticação. Tente novamente.', 'erro');
+
+    if (error?.code === 'EMAIL_NAO_CONFIRMADO') {
+      mostrarFeedback(
+        'Confirme seu e-mail antes de fazer login.',
+        'aviso'
+      );
+      emailInput.focus();
+      return;
     }
 
-    // Foca no campo problemático
+    mostrarFeedback(error.message || 'Email ou senha incorretos', 'erro');
+
     if (error.message.toLowerCase().includes('email')) {
       emailInput.focus();
     } else if (error.message.toLowerCase().includes('senha')) {
@@ -128,24 +129,24 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
     senhaInput.classList.remove('error-border');
     confirmacaoSenhaInput.classList.remove('error-border');
 
-    const data = await authAPI.cadastrar(usuario);
+    await authAPI.cadastrar(usuario);
 
-    // Armazenamento e redirecionamento
-    localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-    mostrarFeedback('Cadastro realizado com sucesso!', 'sucesso');
-    
-    // Redirecionamento após o feedback
+    mostrarFeedback(
+      'Cadastro realizado! Verifique seu e-mail para ativar sua conta.',
+      'sucesso'
+    );
+
     setTimeout(() => {
-      window.location.href = data.redirect || '/index.html';
-    }, 2000);
+      window.location.href = '/paginas/login.html';
+    }, 3000);
 
   } catch (error) {
     console.error('Erro no cadastro:', error);
     mostrarFeedback(error.message, 'erro');
   } finally {
     if (btnCadastro) {
+      btnCadastro.textContent = 'Cadastrar';
       btnCadastro.disabled = false;
-      btnCadastro.value = 'Cadastrar';
     }
   }
 });
@@ -153,16 +154,16 @@ document.getElementById('form-cadastro')?.addEventListener('submit', async (e) =
 // Formatação dinâmica do telefone
 const campoTelefone = document.getElementById('itel');
 if (campoTelefone) {
-    campoTelefone.addEventListener('input', (e) => {
-        // Pega o valor atual do campo
-        const valorAtual = e.target.value;
-        
-        // Usa a função importada para formatar o valor
-        const valorFormatado = formatarTelefone(valorAtual);
-        
-        // Atualiza o valor do campo com o resultado formatado
-        e.target.value = valorFormatado;
-    });
+  campoTelefone.addEventListener('input', (e) => {
+    // Pega o valor atual do campo
+    const valorAtual = e.target.value;
+
+    // Usa a função importada para formatar o valor
+    const valorFormatado = formatarTelefone(valorAtual);
+
+    // Atualiza o valor do campo com o resultado formatado
+    e.target.value = valorFormatado;
+  });
 }
 
 // Se já estiver logado, manda pra home direto
@@ -170,5 +171,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const usuario = localStorage.getItem("usuarioLogado");
   if (usuario) {
     window.location.href = "/index.html";
+  }
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get('emailConfirmado') === '1') {
+    mostrarFeedback(
+      'E-mail confirmado com sucesso! Agora você pode fazer login.',
+      'sucesso'
+    );
+
+    // limpa a URL (opcional, mas elegante)
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 });
