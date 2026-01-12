@@ -55,7 +55,7 @@ export default async function handler(req, res) {
         );
 
         // 🔗 LINK DE CONFIRMAÇÃO
-        const link = `${process.env.BASE_URL}/api?rota=auth/confirmar-email&token=${emailToken}`;
+        const link = `${process.env.BASE_URL}/api?rota=perfil/confirmar-email&token=${emailToken}`;
 
         // 📧 CONFIGURA TRANSPORTER
         const transporter = nodemailer.createTransport({
@@ -173,7 +173,7 @@ export default async function handler(req, res) {
     </a>
 
     <div class="footer">
-      EcoMarket • Confirmação segura
+      ASSOCIARTE • Confirmação segura
     </div>
   </div>
 

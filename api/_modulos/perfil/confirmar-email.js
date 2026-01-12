@@ -121,7 +121,7 @@ export default async function handler(req, res) {
     </form>
 
     <div class="footer">
-      EcoMarket • Segurança e confiança
+      ASSOCIARTE • Segurança e confiança
     </div>
   </div>
 
