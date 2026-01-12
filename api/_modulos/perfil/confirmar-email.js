@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     <h2>Link expirado</h2>
     <p>O link de confirmação expirou.</p>
 
-    <form method="POST" action="/api?rota=auth/reenviar-confirmacao">
+    <form method="POST" action="/api?rota=perfil/reenviar-confirmacao">
       <input type="hidden" name="email" value="${usuario.email}">
       <button type="submit">
         Reenviar e-mail de confirmação
