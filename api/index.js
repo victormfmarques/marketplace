@@ -21,9 +21,9 @@ import vendedorAtualizarVendedor from './_modulos/vendedor/atualizarVendedor.js'
 import perfilVerificarSessao from './_modulos/perfil/verificarSessao.js';
 import listarPedidosVendedor from './_modulos/vendedor/listarPedidos.js';
 import atualizarStatusPedido from './_modulos/vendedor/atualizarStatus.js';
-
-// ---- IMPORTAÇÃO CERTA DO EDITAR ----
-import { produtosEditarHandler } from './_modulos/produtos/editar.js'; // <- nomeado, não default
+import { produtosEditarHandler } from './_modulos/produtos/editar.js';
+import perfilConfirmarEmail from './_modulos/perfil/confirmar-email.js';
+import reenviarConfirmacao from './_modulos/perfil/reenviar-confirmacao.js';
 
 export default async function handler(req, res) {
     const rota = req.query.rota;
@@ -48,6 +48,8 @@ export default async function handler(req, res) {
     if (rota === "perfil/produtos-usuario") return perfilProdutosUsuario(req, res);
     if (rota === "perfil/resetar-senha") return perfilResetarSenha(req, res);
     if (rota === "perfil/verificarSessao") return perfilVerificarSessao(req, res);
+    if (rota === "perfil/confirmar-email") return perfilConfirmarEmail(req, res);
+    if (rota === "perfil/reenviar-confirmacao") return reenviarConfirmacao(req, res);
 
     // --- Produtos ---
     if (rota === "produtos/cadastro") return produtosCadastro(req, res);

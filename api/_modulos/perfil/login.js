@@ -29,6 +29,14 @@ export default async function handler(req, res) {
       });
     }
 
+    // 🚫 Bloqueia login se o email não foi confirmado
+    if (!usuario.emailVerificado) {
+      return res.status(403).json({
+        code: 'EMAIL_NAO_CONFIRMADO',
+        message: 'Confirme seu e-mail antes de fazer login.'
+      });
+    }
+
     // Verifica se a senha está correta
     const senhaValida = await bcrypt.compare(senha, usuario.senha);
     if (!senhaValida) {
@@ -55,7 +63,8 @@ export default async function handler(req, res) {
     res.status(200).json({ 
       success: true,
       message: 'Login realizado com sucesso!',
-      usuario: usuarioSemSenha,token,
+      usuario: usuarioSemSenha,
+      token,
       redirect: '/index.html'
     });
 
