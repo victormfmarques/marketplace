@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <!-- Básico -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- SEO principal -->
   <title>Entrar | AssociArte Marketplace</title>
-  <meta name="description"
-        content="Acesse sua conta no AssociArte Marketplace.">
+  <meta name="description" content="Acesse sua conta no AssociArte Marketplace.">
   <meta name="robots" content="noindex, nofollow">
   <!-- Favicon -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
-    <!-- Fontes e ícones -->
+  <!-- Fontes e ícones -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap&icons=mail,autorenew">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap&icons=mail,autorenew">
   <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/base.css">
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
@@ -36,20 +37,22 @@
           <nav>
             <li><a href="/index.html"><ion-icon name="home-outline"></ion-icon></a></li>
           </nav>
-            <h1>Login</h1>
+          <h1>Login</h1>
         </div>
         <p>Seja bem-vindo(a)! Faça login para acessar sua conta e configurar seu ambiente.</p>
 
         <form id="form-login" method="post" autocomplete="on" aria-label="Formulário de login">
           <div class="campo">
             <span class="material-icons" aria-hidden="true">person</span>
-            <input type="email" name="email" id="iemail" placeholder="seu e-mail" autocomplete="email" required maxlength="80" aria-label="E-mail">
+            <input type="email" name="email" id="iemail" placeholder="seu e-mail" autocomplete="email" required
+              maxlength="80" aria-label="E-mail">
             <label for="iemail" class="visually-hidden">E-mail</label>
           </div>
 
           <div class="campo">
             <span class="material-icons" aria-hidden="true">vpn_key</span>
-            <input type="password" name="senha" id="isenha" placeholder="sua senha" autocomplete="current-password" required minlength="8" aria-label="Senha">
+            <input type="password" name="senha" id="isenha" placeholder="sua senha" autocomplete="current-password"
+              required minlength="8" aria-label="Senha">
             <label for="isenha" class="visually-hidden">Senha</label>
             <a href="#" id="link-esqueci-senha">🔐 Esqueceu sua senha?</a>
           </div>
@@ -76,7 +79,8 @@
         </div>
         <!-- Modal Redefinir Senha -->
         <div id="modal-redefinir-senha" class="modal hidden" aria-hidden="true">
-          <div class="modal-content" role="dialog" aria-labelledby="modal-redefinir-title" aria-describedby="modal-redefinir-desc">
+          <div class="modal-content" role="dialog" aria-labelledby="modal-redefinir-title"
+            aria-describedby="modal-redefinir-desc">
             <span class="close-modal" id="fechar-redefinir-senha" aria-label="Fechar">&times;</span>
             <h2 id="modal-redefinir-title">Redefinir senha</h2>
             <p id="modal-redefinir-desc" class="desc">Cole o token que recebeu no e-mail e defina sua nova senha.</p>
@@ -91,7 +95,8 @@
               </div>
               <div class="campo">
                 <span class="material-symbols-outlined">autorenew</span>
-                <input type="password" name="confirmarSenha" id="confirma-nova-senha" placeholder="Confirme a nova senha" required minlength="8">
+                <input type="password" name="confirmarSenha" id="confirma-nova-senha"
+                  placeholder="Confirme a nova senha" required minlength="8">
               </div>
               <button type="submit" class="botao-enviar">Redefinir senha</button>
             </form>
@@ -108,4 +113,5 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

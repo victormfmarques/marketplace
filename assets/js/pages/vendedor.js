@@ -2,7 +2,7 @@
 
 // =========================== IMPORTAÇÕES ===============================
 import { vendedorAPI } from '../modules/api.js';
-import { criarLoader } from '../modules/ui.js';
+import { criarLoader, mostrarFeedback } from '../modules/ui.js';
 import { formatarTelefone } from '../modules/utils.js';
 // =======================================================================
 
@@ -12,35 +12,97 @@ function renderizarHeader(vendedor) {
     const header = document.querySelector('.perfil-header');
     if (!header) return;
 
-    // Monta o HTML do contato apenas se os dados existirem
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get('from');
+    const produtoId = params.get('produto');
+
+    // --- BOTÃO VOLTAR INTELIGENTE ---
+    let voltarHTML = '';
+    if (from === 'produto' && produtoId) {
+        voltarHTML = `
+            <a href="/paginas/detalhes-produto.html?id=${produtoId}" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Voltar ao produto
+            </a>
+        `;
+    } else {
+        voltarHTML = `
+            <a href="/paginas/produtos.html" class="nav-button">
+                <i class="fas fa-store"></i> Voltar à loja
+            </a>
+        `;
+    }
+
+    // --- CONTATO ---
     let contatoHTML = '';
     if (vendedor.email || vendedor.telefone) {
         const telefoneFormatado = vendedor.telefone ? formatarTelefone(vendedor.telefone) : '';
         contatoHTML = `
             <div class="vendedor-contato">
-                <a href="mailto:${vendedor.email}" target="_blank">${vendedor.email ? `<span><i class="fas fa-envelope"></i> ${vendedor.email}</span>` : ''}</a>
-                <a href="http://wa.me/${vendedor.telefone}" target="_blank" rel="noopener">${telefoneFormatado ? `<span><i class="fas fa-phone"></i> ${telefoneFormatado}</span>` : ''}</a>
+                ${vendedor.email ? `
+                    <a href="mailto:${vendedor.email}">
+                        <i class="fas fa-envelope"></i> ${vendedor.email}
+                    </a>` : ''}
+                ${vendedor.telefone ? `
+                    <a href="https://wa.me/${vendedor.telefone}" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp"></i> ${telefoneFormatado}
+                    </a>` : ''}
             </div>
         `;
     }
 
-    // Renderiza tudo de uma vez
+    // --- RENDER ---
     header.innerHTML = `
-        <img src="${vendedor.fotoPerfil || '/assets/img/placeholder-perfil.png'}" alt="Foto de ${vendedor.nome}" class="vendedor-foto">
-        <h1 class="vendedor-nome">${vendedor.nome}</h1>
-        ${contatoHTML}
+        <div class="perfil-topo">
+            <img src="${vendedor.fotoPerfil || '/assets/img/placeholder-perfil.png'}"
+                 alt="Foto de ${vendedor.nome}"
+                 class="vendedor-foto">
+
+            <div class="perfil-info">
+                <h1 class="vendedor-nome">${vendedor.nome}</h1>
+                ${contatoHTML}
+            </div>
+
+            <button id="btn-compartilhar" class="btn-compartilhar" aria-label="Compartilhar perfil">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+
         <nav class="perfil-nav">
-            <a href="/index.html" class="nav-button"><ion-icon name="home-outline"></ion-icon> Início</a>
-            <a href="javascript:history.back()" class="nav-button"><i class="fas fa-arrow-left"></i> Voltar</a>
+            <a href="/index.html" class="nav-button">
+                <ion-icon name="home-outline"></ion-icon> Início
+            </a>
+            ${voltarHTML}
         </nav>
     `;
+
+    ativarCompartilhamento(vendedor._id);
+}
+function ativarCompartilhamento(vendedorId) {
+    const btn = document.getElementById('btn-compartilhar');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+        const url = `${window.location.origin}/paginas/vendedor.html?id=${vendedorId}`;
+
+        if (navigator.share) {
+            await navigator.share({
+                title: 'Perfil de artesão — ASSOCIARTE',
+                text: 'Confira este artesão no marketplace ASSOCIARTE',
+                url
+            });
+        } else {
+            await navigator.clipboard.writeText(url);
+            mostrarFeedback('Link do perfil copiado!', 'sucesso');
+        }
+    });
 }
 
 function renderizarSobre(vendedor) {
     const sobreTexto = document.querySelector('.vendedor-sobre-texto');
     if (!sobreTexto) return;
 
-    sobreTexto.textContent = vendedor.sobre || 'Este vendedor ainda não escreveu sobre si mesmo.';
+    sobreTexto.textContent =
+        vendedor.sobre || 'Este vendedor ainda não escreveu sobre si mesmo.';
 }
 
 function renderizarProdutos(produtos) {
@@ -81,6 +143,11 @@ async function inicializarPagina() {
     const urlParams = new URLSearchParams(window.location.search);
     const vendedorId = urlParams.get('id');
 
+    const sobreTexto = document.querySelector('.vendedor-sobre-texto');
+    if (sobreTexto) {
+        sobreTexto.innerHTML = criarLoader('Carregando descrição do vendedor...');
+    }
+
     if (!vendedorId) {
         document.body.innerHTML = '<h1>Erro: ID do vendedor não fornecido.</h1>';
         return;
@@ -93,7 +160,7 @@ async function inicializarPagina() {
         const data = await vendedorAPI.getPerfil(vendedorId);
 
         // Define o título da página
-        document.title = `${data.vendedor.nome} - AssociArte Marketplace`;
+        document.title = `${data.vendedor.nome} - ASSOCIARTE Marketplace`;
 
         // Renderiza cada parte da página
         renderizarHeader(data.vendedor);

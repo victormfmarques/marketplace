@@ -7,8 +7,15 @@
   BODY
 ==================================*/
 
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: var(cor-fundo);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--cor-fundo);
     margin: 0;
 }
 
@@ -38,7 +45,7 @@ body {
 }
 
 .vendedor-nome {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 600;
     margin: 0;
 }
@@ -47,6 +54,7 @@ body {
   CONTEÚDO PRINCIPAL DO PERFIL
 ================================== */
 .perfil-main {
+    flex: 1;
     /* Define a largura máxima e centraliza o conteúdo na página */
     max-width: 1200px;
     margin: 2rem auto;
@@ -91,7 +99,7 @@ h2 {
 */
 #produtos-do-vendedor .produtos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 20px;
     width: 100%;
 }
@@ -142,4 +150,50 @@ h2 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.perfil-topo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+}
+
+.perfil-info {
+    flex: 1;
+}
+
+.btn-compartilhar {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.btn-compartilhar:hover {
+    background: #fff;
+    color: var(--verde-folha);
+}
+
+
+@media (max-width: 600px) {
+    .perfil-topo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .btn-compartilhar {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 }

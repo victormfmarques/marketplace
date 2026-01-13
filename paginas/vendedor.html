@@ -36,28 +36,22 @@
     <link rel="stylesheet" href="../assets/css/componentes/modal.css">
     <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
     <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+    <link rel="stylesheet" href="../assets/css/componentes/rodape.css">
     <!-- Páginas -->
     <link rel="stylesheet" href="../assets/css/paginas/produtos.css">
     <link rel="stylesheet" href="../assets/css/paginas/vendedor.css">
 </head>
 
 <body>
+    <div id="feedback" role="alert" aria-live="assertive"></div>
     <header class="perfil-header">
-        <nav class="perfil-nav">
-            <a href="/index.html" class="nav-button">
-                <ion-icon name="home-outline"></ion-icon> Início
-            </a>
-            <a href="javascript:history.back()" class="nav-button">
-                <i class="fas fa-arrow-left"></i> Voltar
-            </a>
-        </nav>
         <!-- O cabeçalho será preenchido pelo JS -->
     </header>
 
     <main class="perfil-main">
         <section id="sobre-vendedor">
             <h2>Sobre Mim</h2>
-            <p class="vendedor-sobre-texto">Carregando...</p>
+            <p class="vendedor-sobre-texto"></p>
         </section>
 
         <section id="produtos-do-vendedor">
@@ -67,6 +61,40 @@
             </div>
         </section>
     </main>
+    <footer class="rodape rodape-vendedor">
+        <div class="rodape-container">
+
+            <section class="rodape-col">
+                <img src="/assets/img/logo-oficial.jpeg" alt="Logo ASSOCIARTE">
+                <p class="rodape-institucional">
+                    Plataforma oficial de vendas da <strong>ASSOCIARTE</strong><br>
+                    Associação dos Artesãos e Artistas de Santa Maria da Vitória – BA
+                </p>
+            </section>
+
+            <section class="rodape-col">
+                <h4>Contato</h4>
+                <p>📍 Santa Maria da Vitória – BA</p>
+                <p>
+                    ✉ <a href="mailto:associarte.smv.cultura@gmail.com">
+                        associarte.smv.cultura@gmail.com
+                    </a>
+                </p>
+            </section>
+
+            <section class="rodape-col">
+                <h4>Redes sociais</h4>
+                <a href="https://www.instagram.com/associarte5/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+            </section>
+
+        </div>
+
+        <div class="rodape-copy">
+            © 2026 ASSOCIARTE Marketplace
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="../assets/js/vercel-analytics.js"></script>

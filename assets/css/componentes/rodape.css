@@ -1,0 +1,84 @@
+/* ==============================
+   ARQUIVO: assets/css/componentes/rodape.css
+   RODAPÉ
+============================== */
+
+.rodape {
+    background: linear-gradient(-45deg, var(--cor-primaria-clara), var(--cor-primaria));
+    color: var(--cor-texto);
+    padding: 40px 20px 40px;
+    border-radius: 10px 10px 0 0;
+}
+
+.rodape-minimo {
+    background: var(--cor-primaria);
+    color: var(--cor-card);
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.rodape-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1100px;
+    margin: auto;
+    text-align: justify;
+}
+
+.rodape-institucional {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #272727;
+  line-height: 1.4;
+}
+
+.rodape-col img {
+    max-width: 160px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.rodape-col h4 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.rodape-col a {
+    color: var(--cor-texto);
+    text-decoration: none;
+}
+
+.rodape-copy {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.rodape-vendedor {
+  margin-top: 60px;
+  font-size: 0.9rem;
+}
+
+.rodape-vendedor img {
+  max-width: 140px;
+  margin-bottom: 10px;
+}
+
+.rodape-vendedor .rodape-col p {
+  font-size: 0.85rem;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+    .rodape-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .rodape-col {
+        max-width: 300px;
+    }
+}

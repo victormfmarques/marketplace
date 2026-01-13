@@ -90,6 +90,7 @@ body {
 
 .logo img {
   width: 200px;
+  border-radius: 10px;
 }
 
 nav {
@@ -190,9 +191,8 @@ nav ul li a:hover {
 }
 
 .corpo-categorias {
-  max-width: 1080px;
+  max-width: 1580px;
   margin: auto;
-  padding: 0 25px;
 }
 
 .col-3 {
@@ -202,6 +202,10 @@ nav ul li a:hover {
   transition:.5s transform ease;
 }
 
+.col-3 h3 {
+  text-align: center;
+}
+
 .col-3:hover {
   transform: translateY(-10px);
 }
@@ -209,7 +213,7 @@ nav ul li a:hover {
 .col-3 img {
   width: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10%;
 }
 
 .col-4 {
@@ -244,22 +248,6 @@ nav ul li a:hover {
   font-size: 14px;
   color: var(--verde-folha);
 }
-
-.classificacao {
-  color: gold;
-}
-
-.rodape {
-  background: linear-gradient(-45deg, var(--verde-claro), var(--verde-folha));
-  border-radius: 10px 10px 0px 0px;
-  margin-top: 100px;
-  padding-bottom: 30px;
-}
-
-.rodape img {
-  padding: 50px;
-}
-
 /* =============================================
   PRODUTOS - GRADE E CARDS
 ============================================= */
@@ -267,6 +255,7 @@ nav ul li a:hover {
 .produtos-page {
   padding: 20px;
   background-color: var(--bege-areia);
+  margin-bottom: 20px;
 }
 
 .home-page .produtos-grid {
@@ -301,7 +290,7 @@ nav ul li a:hover {
 
   nav ul {
     position: absolute;
-    top: 60px;
+    top: 50px;
     left: 0;
     width: 100%;
     border-radius: 0 0 10px 10px;
@@ -312,23 +301,16 @@ nav ul li a:hover {
     margin: 10px 20px;
     padding: 2px;
   }
-  .rodape img {
-    margin-left: 0;
-  }
   .col-2-banner img {
     max-width: 100%;
   }
 }
 
 @media (max-width: 600px) {
-  .linha {
-    text-align: center;
-    gap: 10px;
-  }
-
   .col-3, .col-4 {
-    flex-basis: 45%;
-    max-width: 45%;
+    flex-basis: 50%;
+    max-width: 100%;
+    padding: 5px;
   }
 
   .col-3 h3 {
@@ -342,22 +324,12 @@ nav ul li a:hover {
   .col-2 h1 {
     font-size: 28px;
   }
-  .rodape img {
-  padding: 0;
-  margin-left: 0;
-  }
 }
 
 @media (max-width: 480px) {
   .logo img {
-    width: 170px;
+    width: 150px;
   }
-
-  .rodape img {
-  padding: 0;
-  margin-left: 0;
-  }
-
 
   .col-2 h1 {
     line-height: 50px;

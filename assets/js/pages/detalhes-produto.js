@@ -4,7 +4,7 @@
 // Importamos tudo que a página precisa de outros módulos.
 import { produtosAPI } from '../modules/api.js';
 import { adicionarAoCarrinho, setupCarrinho } from '../modules/carrinho.js';
-import { criarLoader, mostrarErro } from '../modules/ui.js';
+import { criarLoader, mostrarErro, mostrarFeedback } from '../modules/ui.js';
 import { pegarDoisPrimeirosNomes } from '../modules/utils.js';
 
 // --- 2. FUNÇÕES DE RENDERIZAÇÃO E LÓGICA ---
@@ -18,7 +18,7 @@ function displayProduto(produto) {
     const linkVendedor = document.getElementById("link-vendedor");
 
     // Preenche os elementos
-    document.title = `${produto.nome} - EcoMarket-SAMAVI`; // Atualiza o título da aba
+    document.title = `${produto.nome} - ASSOCIARTE - Marketplace`; // Atualiza o título da aba
     nomeEl.textContent = produto.nome;
     descEl.textContent = produto.descricao;
     precoEl.textContent = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
@@ -26,7 +26,7 @@ function displayProduto(produto) {
     // Preenche o link do vendedor (A FUNCIONALIDADE NOVA!)
     if (linkVendedor && produto.vendedor) {
         const nomeCurto = pegarDoisPrimeirosNomes(produto.vendedor.nome);
-        linkVendedor.href = `/paginas/vendedor.html?id=${produto.vendedor._id}`;
+        linkVendedor.href = `/paginas/vendedor.html?id=${produto.vendedor._id}&from=produto&produto=${produto._id}`;
         linkVendedor.querySelector('.vendedor-nome').textContent = nomeCurto
     }
 
@@ -63,6 +63,21 @@ function displayProduto(produto) {
         };
 
     });
+}
+// Função para compartilhar o produto
+function compartilharProduto(produto) {
+    const url = `${window.location.origin}/paginas/detalhes-produto.html?id=${produto._id}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: produto.nome,
+            text: `Confira este produto da AssociArte: ${produto.nome}`,
+            url
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(url);
+        mostrarFeedback('Link do produto copiado!','aviso');
+    }
 }
 
 // Função para redirecionar para a página de edição
@@ -107,6 +122,10 @@ async function inicializarPagina() {
 
         // AGORA SIM, preenchemos os elementos que JÁ EXISTEM no HTML.
         displayProduto(produto);
+        const btnCompartilhar = document.getElementById('btn-compartilhar');
+        if (btnCompartilhar) {
+            btnCompartilhar.addEventListener('click', () => compartilharProduto(produto));
+        }
 
         const btnComprar = document.getElementById("btn-comprar");
         btnComprar.addEventListener('click', (event) => {

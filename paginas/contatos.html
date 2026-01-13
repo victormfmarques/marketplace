@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <!-- Básico -->
   <meta charset="UTF-8" />
@@ -17,9 +18,11 @@
   <!-- Componentes -->
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/componentes/rodape.css">
   <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/contatos.css" />
 </head>
+
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
@@ -33,22 +36,6 @@
 
   <main class="contatos-page">
     <img src="../assets/img/logo.png" alt="Logo AssociArte" class="logo-contato" />
-
-    <section class="contato-info">
-      <h1>Contatos</h1>
-      <p>
-        <strong>Telefone:</strong>
-        <a href="https://wa.me/5577988758331" target="_blank" rel="noopener">
-          (77) 98875-8331
-        </a>
-      </p>
-      <p>
-        <strong>Email:</strong>
-        <a href="mailto:contato.ecomarketsamavi@gmail.com">
-          contato.ecomarketsamavi@gmail.com
-        </a>
-      </p>
-    </section>
 
     <section class="feedback-section">
       <h2>Envie seu feedback</h2>
@@ -70,6 +57,44 @@
       <div id="mensagem-enviada"></div>
     </section>
   </main>
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-container">
+      <section class="rodape-col">
+        <img src="/assets/img/logo-oficial.jpeg" alt="Logo oficial da AssociArte">
+        <p>
+          A <strong>ASSOCIARTE</strong> é uma associação de artesãos de Santa Maria da Vitória,
+          dedicada à valorização do artesanato local, fortalecimento da cultura regional
+          e geração de renda.
+        </p>
+        <p class="rodape-institucional">
+          Plataforma oficial de vendas da <strong>ASSOCIARTE</strong><br>
+          Associação dos Artesãos e Artistas de Santa Maria da Vitória – BA
+        </p>
+      </section>
+      <section class="rodape-col">
+        <h4>Contato</h4>
+        <address>
+          <p>📍 Praça Major José Borba, Centro<br>Santa Maria da Vitória – BA</p>
+          <p>
+            ✉ <a href="mailto:associarte.smv.cultura@gmail.com">
+              associarte.smv.cultura@gmail.com
+            </a>
+          </p>
+        </address>
+      </section>
+      <section class="rodape-col">
+        <h4>Redes sociais</h4>
+        <a href="https://www.instagram.com/associarte5/" target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram da Associação AssociArte">
+          <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+        </a>
+      </section>
+    </div>
+    <div class="rodape-copy">
+      © 2026 ASSOCIARTE — Desenvolvido por Victor Manoel
+    </div>
+  </footer>
 
   <!-- SCRIPTS -->
   <script src="../assets/js/vercel-analytics.js"></script>
@@ -79,4 +104,5 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

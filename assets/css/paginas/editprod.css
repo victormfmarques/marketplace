@@ -29,6 +29,7 @@ header {
   border-radius: 14px;
   padding-top: 0.5rem;
   margin-top: 10px;
+  margin-bottom: 10px;
   border: 1px solid var(--verde-claro);
 }
 

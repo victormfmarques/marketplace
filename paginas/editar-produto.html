@@ -4,13 +4,13 @@
 <head>
   <!-- Básico -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- SEO principal -->
   <title>Editar Produto | AssociArte Marketplace</title>
   <meta name="robots" content="noindex, nofollow">
   <!-- Favicon e Icones-->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
   <link rel="stylesheet" href="../assets/css/base/base.css">
@@ -20,8 +20,9 @@
   <link rel="stylesheet" href="../assets/css/componentes/modal.css">
   <link rel="stylesheet" href="../assets/css/componentes/preview.css">
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/componentes/rodape.css">
   <!-- Página -->
-  <link rel="stylesheet" href="../assets/css/paginas/editprod.css"/>
+  <link rel="stylesheet" href="../assets/css/paginas/editprod.css" />
 </head>
 
 <body>
@@ -29,17 +30,17 @@
   <div id="feedback" class="feedback" aria-live="polite"></div>
   <header>
     <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-        <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
+      <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
     </a>
     <div class="header-nav">
       <a href="../paginas/produtos.html" class="btn-voltar" title="Voltar à página de produtos">
-          <ion-icon name="storefront-outline"></ion-icon>
+        <ion-icon name="storefront-outline"></ion-icon>
       </a>
       <a href="/paginas/conta.html" id="link-conta" class="nav-link visivel" title="Minha Conta">
         <ion-icon name="person-circle-outline"></ion-icon>
       </a>
     </div>
-</header>
+  </header>
   <main class="container">
     <div class="titulo">
       <h1>Editar Produto</h1>
@@ -76,27 +77,60 @@
           </select>
         </div>
       </section>
-
       <section class="form-imagem">
         <label for="foto">Imagem do produto</label>
         <input type="file" id="foto" accept="image/*" />
-
         <div id="preview-fotos" class="preview-fotos"></div>
-
         <button type="button" id="btn-remover-nova-foto" class="btn-remover hidden">
           Remover nova foto
         </button>
       </section>
-
       <section class="form-acoes">
         <button type="submit">Salvar Alterações</button>
         <button type="button" id="btn-excluir" class="btn-excluir">
           <i class="fas fa-trash-alt"></i> Excluir Produto
         </button>
       </section>
-
     </form>
   </main>
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-container">
+      <section class="rodape-col">
+        <img src="/assets/img/logo-oficial.jpeg" alt="Logo oficial da AssociArte">
+        <p>
+          A <strong>ASSOCIARTE</strong> é uma associação de artesãos de Santa Maria da Vitória,
+          dedicada à valorização do artesanato local, fortalecimento da cultura regional
+          e geração de renda.
+        </p>
+        <p class="rodape-institucional">
+          Plataforma oficial de vendas da <strong>ASSOCIARTE</strong><br>
+          Associação dos Artesãos e Artistas de Santa Maria da Vitória – BA
+        </p>
+      </section>
+      <section class="rodape-col">
+        <h4>Contato</h4>
+        <address>
+          <p>📍 Praça Major José Borba, Centro<br>Santa Maria da Vitória – BA</p>
+          <p>
+            ✉ <a href="mailto:associarte.smv.cultura@gmail.com">
+              associarte.smv.cultura@gmail.com
+            </a>
+          </p>
+        </address>
+      </section>
+      <section class="rodape-col">
+        <h4>Redes sociais</h4>
+        <a href="https://www.instagram.com/associarte5/" target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram da Associação AssociArte">
+          <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+        </a>
+      </section>
+    </div>
+    <div class="rodape-copy">
+      © 2026 ASSOCIARTE — Desenvolvido por Victor Manoel
+    </div>
+  </footer>
 
   <!-- Modal confirmação edição -->
   <div id="modal-confirmar-edicao" class="modal hidden" aria-hidden="true">

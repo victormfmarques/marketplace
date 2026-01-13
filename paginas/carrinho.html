@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <!-- Básico -->
   <meta charset="UTF-8">
@@ -16,54 +17,94 @@
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
   <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
   <link rel="stylesheet" href="../assets/css/componentes/header.css">
+  <link rel="stylesheet" href="../assets/css/componentes/rodape.css">
   <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/carrinho-page.css">
 </head>
+
 <body>
-<div id="feedback" class="feedback"></div>
+  <div id="feedback" class="feedback"></div>
 
-<!-- CABEÇALHO FIXO -->
-<header>
+  <!-- CABEÇALHO FIXO -->
+  <header>
     <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-        <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
+      <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
     </a>
-</header>
+  </header>
 
-<main class="carrinho-container">
+  <main class="carrinho-container">
 
-  <!-- Título da página (opcional, abaixo do header) -->
-  <section class="carrinho-header">
-    <h1>Meu Carrinho</h1>
-    <p class="carrinho-info">
-      O AssociArte Marketplace atua como intermediador. O contato com os vendedores será exibido após a confirmação.
-    </p>
-  </section>
+    <!-- Título da página (opcional, abaixo do header) -->
+    <section class="carrinho-header">
+      <h1>Meu Carrinho</h1>
+      <p class="carrinho-info">
+        O AssociArte Marketplace atua como intermediador. O contato com os vendedores será exibido após a confirmação.
+      </p>
+    </section>
 
-  <!-- Lista de itens -->
-  <section id="lista-carrinho" class="lista-carrinho">
-    <!-- Itens renderizados pelo módulo carrinho.js -->
-  </section>
+    <!-- Lista de itens -->
+    <section id="lista-carrinho" class="lista-carrinho">
+      <!-- Itens renderizados pelo módulo carrinho.js -->
+    </section>
 
-  <!-- Resumo do carrinho -->
-  <aside class="resumo-carrinho">
-    <h2>Resumo</h2>
-    <p id="total-carrinho" class="total">
-      Total: R$ 0,00
-    </p>
-    <div class="acoes">
-      <button class="btn-limpar" id="limpar-carrinho">
-        Limpar carrinho
-      </button>
-      <a href="/paginas/finalizar-compra.html" class="btn-finalizar">
-        Continuar
-      </a>
+    <!-- Resumo do carrinho -->
+    <aside class="resumo-carrinho">
+      <h2>Resumo</h2>
+      <p id="total-carrinho" class="total">
+        Total: R$ 0,00
+      </p>
+      <div class="acoes">
+        <button class="btn-limpar" id="limpar-carrinho">
+          Limpar carrinho
+        </button>
+        <a href="/paginas/finalizar-compra.html" class="btn-finalizar">
+          Continuar
+        </a>
+      </div>
+    </aside>
+  </main>
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-container">
+      <section class="rodape-col">
+        <img src="/assets/img/logo-oficial.jpeg" alt="Logo oficial da AssociArte">
+        <p>
+          A <strong>ASSOCIARTE</strong> é uma associação de artesãos de Santa Maria da Vitória,
+          dedicada à valorização do artesanato local, fortalecimento da cultura regional
+          e geração de renda.
+        </p>
+        <p class="rodape-institucional">
+          Plataforma oficial de vendas da <strong>ASSOCIARTE</strong><br>
+          Associação dos Artesãos e Artistas de Santa Maria da Vitória – BA
+        </p>
+      </section>
+      <section class="rodape-col">
+        <h4>Contato</h4>
+        <address>
+          <p>📍 Praça Major José Borba, Centro<br>Santa Maria da Vitória – BA</p>
+          <p>
+            ✉ <a href="mailto:associarte.smv.cultura@gmail.com">
+              associarte.smv.cultura@gmail.com
+            </a>
+          </p>
+        </address>
+      </section>
+      <section class="rodape-col">
+        <h4>Redes sociais</h4>
+        <a href="https://www.instagram.com/associarte5/" target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram da Associação AssociArte">
+          <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+        </a>
+      </section>
     </div>
-  </aside>
+    <div class="rodape-copy">
+      © 2026 ASSOCIARTE — Desenvolvido por Victor Manoel
+    </div>
+  </footer>
 
-</main>
-
-<script src="../assets/js/vercel-analytics.js"></script>
-<script type="module" src="../assets/js/main.js"></script>
-<script type="module" src="../assets/js/modules/ui.js"></script>
+  <script src="../assets/js/vercel-analytics.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+  <script type="module" src="../assets/js/modules/ui.js"></script>
 </body>
+
 </html>

@@ -7,8 +7,9 @@
   <!-- SEO principal -->
   <title>Detalhes do Produto | AssociArte Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Detalhes completos do produto no AssociArte Marketplace. Conheça as características, preço e adquira produtos sustentáveis com facilidade."/>
-  <meta name="author" content="Victor Manoel"/>
+  <meta name="description"
+    content="Detalhes completos do produto no AssociArte Marketplace. Conheça as características, preço e adquira produtos sustentáveis com facilidade." />
+  <meta name="author" content="Victor Manoel" />
   <!-- Favicon e Icones -->
   <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -18,6 +19,8 @@
   <!-- Componentes -->
   <link rel="stylesheet" href="../assets/css/componentes/feedback.css">
   <link rel="stylesheet" href="../assets/css/componentes/carrinho.css">
+  <link rel="stylesheet" href="../assets/css/componentes/botoes.css">
+  <link rel="stylesheet" href="../assets/css/componentes/rodape.css">
   <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/detalhes-produto.css" />
 </head>
@@ -48,6 +51,9 @@
         </small>
       </div>
       <button id="btn-comprar">Comprar</button>
+      <button id="btn-compartilhar" class="btn-secundario" aria-label="Compartilhar produto">
+        <i class="fas fa-share-alt"></i> Compartilhar
+      </button>
 
       <!-- CARRINHO -->
       <div id="icone-carrinho" class="carrinho-icone" title="Carrinho de Compras">
@@ -100,6 +106,44 @@
       </nav>
     </section>
   </main>
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-container">
+      <section class="rodape-col">
+        <img src="/assets/img/logo-oficial.jpeg" alt="Logo oficial da AssociArte">
+        <p>
+          A <strong>ASSOCIARTE</strong> é uma associação de artesãos de Santa Maria da Vitória,
+          dedicada à valorização do artesanato local, fortalecimento da cultura regional
+          e geração de renda.
+        </p>
+        <p class="rodape-institucional">
+          Plataforma oficial de vendas da <strong>ASSOCIARTE</strong><br>
+          Associação dos Artesãos e Artistas de Santa Maria da Vitória – BA
+        </p>
+      </section>
+      <section class="rodape-col">
+        <h4>Contato</h4>
+        <address>
+          <p>📍 Praça Major José Borba, Centro<br>Santa Maria da Vitória – BA</p>
+          <p>
+            ✉ <a href="mailto:associarte.smv.cultura@gmail.com">
+              associarte.smv.cultura@gmail.com
+            </a>
+          </p>
+        </address>
+      </section>
+      <section class="rodape-col">
+        <h4>Redes sociais</h4>
+        <a href="https://www.instagram.com/associarte5/" target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram da Associação AssociArte">
+          <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+        </a>
+      </section>
+    </div>
+    <div class="rodape-copy">
+      © 2026 ASSOCIARTE — Desenvolvido por Victor Manoel
+    </div>
+  </footer>
 
   <!-- SCRIPTS -->
   <script type="module" src="../assets/js/pages/detalhes-produto.js"></script>
