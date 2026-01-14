@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <!-- Básico -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- SEO principal -->
-  <title>Criar Conta | AssociArte Marketplace</title>
+  <title>Criar Conta | ASSOCIARTE Marketplace</title>
   <meta name="description"
-        content="Crie sua conta no AssociArte Marketplace e apoie produtores artesanais e sustentáveis.">
-  <meta name="author" content="AssociArte Marketplace">
+    content="Crie sua conta no ASSOCIARTE Marketplace e apoie produtores artesanais e sustentáveis.">
+  <meta name="author" content="ASSOCIARTE Marketplace">
   <meta name="robots" content="index, follow">
   <!-- Open Graph -->
-  <meta property="og:title" content="Cadastro | AssociArte Marketplace">
-  <meta property="og:description"
-        content="Faça parte do marketplace da associação AssociArte.">
+  <meta property="og:title" content="Cadastro | ASSOCIARTE Marketplace">
+  <meta property="og:description" content="Faça parte do marketplace da associação ASSOCIARTE.">
   <meta property="og:image" content="https://associarte-marketplace.vercel.app/assets/img/banner.png">
   <meta property="og:type" content="website">
-  <!-- Favicon & ICONS -->
-  <link rel="icon" href="../assets/img/favicon.ico">
+  <!-- PNGs clássicos -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <!-- Apple (iOS) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <!-- Android / PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/android-chrome-512x512.png">
+  <!-- Favicon Padrão -->
+  <link rel="icon" href="/assets/img/favicon.ico">
   <!-- CSS base -->
   <link rel="stylesheet" href="../assets/css/base/variaveis.css">
   <link rel="stylesheet" href="../assets/css/base/base.css">
@@ -29,13 +37,14 @@
   <!-- Página -->
   <link rel="stylesheet" href="../assets/css/paginas/registro.css">
 </head>
+
 <body>
   <!-- NOTIFICAÇÃO DE FEEDBACK -->
   <div id="feedback" class="feedback" aria-live="polite"></div>
 
   <header class="registro-header">
     <a href="/index.html" class="logo-container" title="Voltar para a página inicial">
-      <img src="../assets/img/logo-300.png" alt="Logo AssociArte" />
+      <img src="../assets/img/logo-300.png" alt="Logo ASSOCIARTE" />
     </a>
   </header>
 
@@ -46,14 +55,15 @@
       <form id="form-cadastro" method="post">
         <div class="form-group">
           <label for="inome">Nome Completo</label>
-          <input type="text" name="nome" id="inome" required placeholder="Seu nome completo" minlength="5" maxlength="40" autocomplete="name">
+          <input type="text" name="nome" id="inome" required placeholder="Seu nome completo" minlength="5"
+            maxlength="40" autocomplete="name">
         </div>
-        
+
         <div class="form-group">
           <label for="iemail">Email</label>
           <input type="email" name="email" id="iemail" required placeholder="seuemail@gmail.com" autocomplete="email">
         </div>
-        
+
         <div class="form-group">
           <label for="itel">Telefone</label>
           <input type="tel" name="tel" id="itel" required autocomplete="tel" placeholder="(XX ) XXXXX-XXXX">
@@ -61,12 +71,14 @@
 
         <div class="form-group">
           <label for="isenha">Senha</label>
-          <input type="password" name="senha" id="isenha" required placeholder="Mínimo 8 caracteres" minlength="8" autocomplete="new-password">
+          <input type="password" name="senha" id="isenha" required placeholder="Mínimo 8 caracteres" minlength="8"
+            autocomplete="new-password">
         </div>
 
         <div class="form-group">
           <label for="iconfirmasenha">Confirme a Senha</label>
-          <input type="password" id="iconfirmasenha" required placeholder="Repita sua senha" minlength="8" autocomplete="new-password">
+          <input type="password" id="iconfirmasenha" required placeholder="Repita sua senha" minlength="8"
+            autocomplete="new-password">
         </div>
 
         <div class="botoes-container">
@@ -87,4 +99,5 @@
   <script src="../assets/js/vercel-analytics.js"></script>
   <script type="module" src="../assets/js/pages/auth.js"></script>
 </body>
+
 </html>

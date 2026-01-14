@@ -41,7 +41,7 @@ export function templateEmailAssociarte({
     <div style="background:${corHeader};padding:20px;text-align:center;">
       <img 
         src="https://associarte-marketplace.vercel.app/assets/img/logo.png"
-        alt="AssociArte Marketplace"
+        alt="ASSOCIARTE Marketplace"
         width="160"
         style="display:block;margin:0 auto 10px;"
       />

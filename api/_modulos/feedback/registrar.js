@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
     // Monta o e-mail de notificação
     const mailOptions = {
-      from: `"EcoMarket Feedback" <${process.env.EMAIL_USER}>`,
+      from: `"ASSOCIARTE Marketplace Feedback" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_RECEIVER,
       subject: 'Novo Feedback Recebido',
       text: `Você recebeu um novo feedback:\n\nMensagem: ${mensagem}\nEmail do usuário: ${email || 'Não informado'}`,
